@@ -1720,23 +1720,42 @@ class App {
     handleDecorationPointerMove(event) {
         if (!this.dragState || event.pointerId !== this.dragState.pointerId) return;
         const { container, element, decoration } = this.dragState;
-        const rect = container.getBoundingClientRect();
+        
+        // Cache rect to avoid repeated getBoundingClientRect calls
+        if (!this.dragState.cachedRect) {
+            this.dragState.cachedRect = container.getBoundingClientRect();
+        }
+        const rect = this.dragState.cachedRect;
+        
         if (!rect.width || !rect.height) return;
 
-        const newX = this.clampNormalized((event.clientX - rect.left) / rect.width);
-        const newY = this.clampNormalized((event.clientY - rect.top) / rect.height);
+        // Use requestAnimationFrame to batch DOM updates
+        if (this.dragState.rafId) {
+            cancelAnimationFrame(this.dragState.rafId);
+        }
+        
+        this.dragState.rafId = requestAnimationFrame(() => {
+            const newX = this.clampNormalized((event.clientX - rect.left) / rect.width);
+            const newY = this.clampNormalized((event.clientY - rect.top) / rect.height);
 
-        decoration.x = newX;
-        decoration.y = newY;
-        decoration.position = 'custom';
+            decoration.x = newX;
+            decoration.y = newY;
+            decoration.position = 'custom';
 
-        element.style.left = `${newX * 100}%`;
-        element.style.top = `${newY * 100}%`;
+            element.style.left = `${newX * 100}%`;
+            element.style.top = `${newY * 100}%`;
+        });
     }
 
     handleDecorationPointerUp(event) {
         if (!this.dragState || event.pointerId !== this.dragState.pointerId) return;
         const { element } = this.dragState;
+
+        // Cancel any pending animation frame
+        if (this.dragState.rafId) {
+            cancelAnimationFrame(this.dragState.rafId);
+            this.dragState.rafId = null;
+        }
 
         element.releasePointerCapture(event.pointerId);
         element.classList.remove('is-dragging');
@@ -1896,7 +1915,25 @@ class App {
 }
 
 // Initialize app when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
+// Detect WebP support and apply WebP images
+function detectWebPSupport() {
+    return new Promise((resolve) => {
+        const webP = new Image();
+        webP.onload = webP.onerror = () => {
+            const isSupported = webP.height === 2;
+            if (isSupported) {
+                document.documentElement.classList.add('webp-supported');
+            }
+            resolve(isSupported);
+        };
+        webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Detect and apply WebP support
+    await detectWebPSupport();
+    
     // Initialize i18n first, then app
     i18n.init();
     new App();

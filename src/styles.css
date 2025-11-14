@@ -376,7 +376,9 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
     justify-content: center;
     position: relative;
-    transition: transform 0.25s ease, border 0.25s ease;
+    transition: transform 0.25s ease;
+    /* Use box-shadow instead of border-color for composited animation */
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
 
 .sidebar-section .toggle-icon::before {
@@ -390,7 +392,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar-section.is-open .toggle-icon {
-    border-color: rgba(143, 214, 143, 0.6);
+    /* Use box-shadow instead of border-color for composited animation */
+    box-shadow: inset 0 0 0 1px rgba(143, 214, 143, 0.6);
 }
 
 .sidebar-section.is-open .toggle-icon::before {
@@ -449,7 +452,7 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(8px);
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
     position: relative;
@@ -482,8 +485,9 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .upload-area p {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.95);
     margin: 0.25rem 0;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .upload-cta {
@@ -510,7 +514,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .upload-hint {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .image-count {
@@ -1651,7 +1656,13 @@ body.is-canvas-expanded .image-panel {
     display: block;
     width: 96px;
     height: 96px;
+    /* Fallback for browsers that don't support WebP */
     background-image: url('/placeholder-icon.png');
+}
+
+/* Use WebP for browsers that support it */
+.webp-supported .placeholder-icon::before {
+    background-image: url('/placeholder-icon.webp');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

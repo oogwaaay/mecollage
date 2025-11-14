@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="x-default">
 <head>
     <meta charset="UTF-8" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
@@ -14,6 +14,14 @@
     <meta property="og:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.mecollage.top/" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="MeCollage - Free Online Image Collage Maker" />
+    <meta name="twitter:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
+    <link rel="canonical" href="https://www.mecollage.top/" />
     <title>MeCollage - Image Collage Maker</title>
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -27,9 +35,9 @@
     <!-- Non-critical CSS - Load with lower priority -->
     <link rel="stylesheet" href="/src/pages.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/src/pages.css"></noscript>
-    <!-- Fonts with display=swap for better performance -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <!-- Fonts - Only load weights actually used (400, 500, 600, 700) to reduce CSS size -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 </head>
 <body>
     <!-- Ghibli Background -->
@@ -116,7 +124,10 @@
                     <div class="sidebar-section-content" id="uploadSectionContent">
                         <div class="upload-area" id="uploadArea">
                             <div class="upload-icon">
-                                <img src="/upload-icon.png" alt="Upload" loading="lazy" width="64" height="64" />
+                                <picture>
+                                    <source srcset="/upload-icon.webp" type="image/webp">
+                                    <img src="/upload-icon.png" alt="Upload" loading="lazy" width="64" height="64" />
+                                </picture>
                             </div>
                             <p data-i18n="sidebar.dragDrop">Drag & drop images here</p>
                             <p class="upload-hint" data-i18n="sidebar.clickBrowse">or click to browse</p>
@@ -150,7 +161,7 @@
                     </button>
                     <div class="sidebar-section-content" id="decorateSectionContent">
                         <div class="decorate-block">
-                            <h3 class="decorate-heading" data-i18n="decorations.textHeading">Text Overlay</h3>
+                            <h2 class="decorate-heading" data-i18n="decorations.textHeading">Text Overlay</h2>
                             <label class="decorate-field">
                                 <span data-i18n="decorations.textLabel">Text</span>
                                 <input type="text" id="decorTextContent" maxlength="80" placeholder="Add your caption" />
@@ -187,7 +198,7 @@
                             <button type="button" class="decorate-action" id="addTextBtn" data-i18n="decorations.addText">Add Text</button>
                         </div>
                         <div class="decorate-block">
-                            <h3 class="decorate-heading" data-i18n="decorations.stickerHeading">Stickers</h3>
+                            <h2 class="decorate-heading" data-i18n="decorations.stickerHeading">Stickers</h2>
                             <div class="sticker-options" id="stickerOptions" role="group" aria-label="Stickers"></div>
                             <div class="decorate-field-row">
                                 <label>
@@ -231,11 +242,11 @@
                             </div>
                         </div>
                         <div class="filter-block">
-                            <h3 class="filter-heading" data-i18n="filters.presetsHeading">Quick Filters</h3>
+                            <h2 class="filter-heading" data-i18n="filters.presetsHeading">Quick Filters</h2>
                             <div class="filter-presets" id="filterPresets"></div>
                         </div>
                         <div class="filter-block">
-                            <h3 class="filter-heading" data-i18n="filters.adjustHeading">Fine Tuning</h3>
+                            <h2 class="filter-heading" data-i18n="filters.adjustHeading">Fine Tuning</h2>
                             <div class="filter-slider">
                                 <label>
                                     <span data-i18n="filters.brightness">Brightness</span>
@@ -406,67 +417,67 @@
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">🖼️</div>
-                        <h3 class="feature-card-title" data-i18n="features.unlimitedImages.title">Unlimited Images</h3>
+                        <h2 class="feature-card-title" data-i18n="features.unlimitedImages.title">Unlimited Images</h2>
                         <p class="feature-card-desc" data-i18n="features.unlimitedImages.description">Support for 20+ images in a single collage. No restrictions on the number of images you can combine.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">📐</div>
-                        <h3 class="feature-card-title" data-i18n="features.multipleLayouts.title">Multiple Layout Templates</h3>
+                        <h2 class="feature-card-title" data-i18n="features.multipleLayouts.title">Multiple Layout Templates</h2>
                         <p class="feature-card-desc" data-i18n="features.multipleLayouts.description">Choose from horizontal, vertical, and various grid layouts including 2x2, 3x3, 4x4, 5x5, and more.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">✨</div>
-                        <h3 class="feature-card-title" data-i18n="features.smartSuggestions.title">Intelligent Layout Suggestions</h3>
+                        <h2 class="feature-card-title" data-i18n="features.smartSuggestions.title">Intelligent Layout Suggestions</h2>
                         <p class="feature-card-desc" data-i18n="features.smartSuggestions.description">Let the AI recommend the best layouts as soon as you upload images.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">🌈</div>
-                        <h3 class="feature-card-title" data-i18n="features.themeCollections.title">Curated Theme Collections</h3>
+                        <h2 class="feature-card-title" data-i18n="features.themeCollections.title">Curated Theme Collections</h2>
                         <p class="feature-card-desc" data-i18n="features.themeCollections.description">Browse themed layout collections for holidays, travel, family memories, social posts, and more—all pre-grouped for faster selection.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">⭐</div>
-                        <h3 class="feature-card-title" data-i18n="features.templateFavorites.title">Starred Template Favorites</h3>
+                        <h2 class="feature-card-title" data-i18n="features.templateFavorites.title">Starred Template Favorites</h2>
                         <p class="feature-card-desc" data-i18n="features.templateFavorites.description">Click the star on any layout to build a personal favorites tray that stays highlighted for quick reuse.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">▦</div>
-                        <h3 class="feature-card-title" data-i18n="features.customGrid.title">Custom Grid Layout</h3>
+                        <h2 class="feature-card-title" data-i18n="features.customGrid.title">Custom Grid Layout</h2>
                         <p class="feature-card-desc" data-i18n="features.customGrid.description">Create your own grid with up to 30 rows and 30 columns. Perfect for large image collections.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">🎨</div>
-                        <h3 class="feature-card-title" data-i18n="features.easyCustomization.title">Easy Customization</h3>
+                        <h2 class="feature-card-title" data-i18n="features.easyCustomization.title">Easy Customization</h2>
                         <p class="feature-card-desc" data-i18n="features.easyCustomization.description">Adjust spacing, borders, colors, and background to match your style. Full control over the final look.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">💾</div>
-                        <h3 class="feature-card-title" data-i18n="features.highQualityExport.title">High Quality Export</h3>
+                        <h2 class="feature-card-title" data-i18n="features.highQualityExport.title">High Quality Export</h2>
                         <p class="feature-card-desc" data-i18n="features.highQualityExport.description">Export your collages in PNG or JPG format with adjustable quality settings. Perfect for sharing or printing.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">📤</div>
-                        <h3 class="feature-card-title" data-i18n="features.dragAndDrop.title">Drag & Drop Upload</h3>
+                        <h2 class="feature-card-title" data-i18n="features.dragAndDrop.title">Drag & Drop Upload</h2>
                         <p class="feature-card-desc" data-i18n="features.dragAndDrop.description">Simply drag and drop images or click to browse. Fast and intuitive image management.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">📱</div>
-                        <h3 class="feature-card-title" data-i18n="features.responsiveDesign.title">Responsive Design</h3>
+                        <h2 class="feature-card-title" data-i18n="features.responsiveDesign.title">Responsive Design</h2>
                         <p class="feature-card-desc" data-i18n="features.responsiveDesign.description">Works seamlessly on desktop, tablet, and mobile devices. Create collages anywhere, anytime.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">🆓</div>
-                        <h3 class="feature-card-title" data-i18n="features.freeToUse.title">100% Free</h3>
+                        <h2 class="feature-card-title" data-i18n="features.freeToUse.title">100% Free</h2>
                         <p class="feature-card-desc" data-i18n="features.freeToUse.description">No registration required. No watermarks. No hidden fees. Use all features completely free.</p>
                     </div>
                 </div>
@@ -483,7 +494,7 @@
                     <div class="tutorial-step">
                         <div class="step-number">1</div>
                         <div class="step-content">
-                            <h3 class="step-title" data-i18n="tutorial.step1.title">Step 1: Upload Images</h3>
+                            <h2 class="step-title" data-i18n="tutorial.step1.title">Step 1: Upload Images</h2>
                             <p class="step-desc" data-i18n="tutorial.step1.description">Click the upload area or drag and drop your images. You can upload multiple images at once. Supported formats include JPG, PNG, GIF, and WebP.</p>
                         </div>
                     </div>
@@ -491,7 +502,7 @@
                     <div class="tutorial-step">
                         <div class="step-number">2</div>
                         <div class="step-content">
-                            <h3 class="step-title" data-i18n="tutorial.step2.title">Step 2: Choose a Layout</h3>
+                            <h2 class="step-title" data-i18n="tutorial.step2.title">Step 2: Choose a Layout</h2>
                             <p class="step-desc" data-i18n="tutorial.step2.description">Select a template from the layout gallery, or create a custom grid by specifying rows and columns. Templates include horizontal, vertical, and various grid sizes.</p>
                         </div>
                     </div>
@@ -499,7 +510,7 @@
                     <div class="tutorial-step">
                         <div class="step-number">3</div>
                         <div class="step-content">
-                            <h3 class="step-title" data-i18n="tutorial.step3.title">Step 3: Customize Settings</h3>
+                            <h2 class="step-title" data-i18n="tutorial.step3.title">Step 3: Customize Settings</h2>
                             <p class="step-desc" data-i18n="tutorial.step3.description">Adjust spacing between images, add borders with custom colors, and set the background color. Fine-tune every detail to match your vision.</p>
                         </div>
                     </div>
@@ -507,7 +518,7 @@
                     <div class="tutorial-step">
                         <div class="step-number">4</div>
                         <div class="step-content">
-                            <h3 class="step-title" data-i18n="tutorial.step4.title">Step 4: Preview & Export</h3>
+                            <h2 class="step-title" data-i18n="tutorial.step4.title">Step 4: Preview & Export</h2>
                             <p class="step-desc" data-i18n="tutorial.step4.description">Preview your collage in real-time. When satisfied, choose your export format (PNG or JPG) and quality, then click Export to download.</p>
                         </div>
                     </div>

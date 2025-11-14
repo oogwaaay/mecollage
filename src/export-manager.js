@@ -66,13 +66,22 @@ export class ExportManager {
         ctx.fillRect(0, 0, rect.width, rect.height);
 
         const containerNodes = Array.from(element.querySelectorAll('.image-container'));
-
-        containerNodes.forEach((containerNode, index) => {
+        
+        // Batch getBoundingClientRect calls to reduce forced reflows
+        const containerBoxes = containerNodes.map(containerNode => {
             const imgEl = containerNode.querySelector('img');
-            const containerBox = containerNode.getBoundingClientRect();
+            return {
+                node: containerNode,
+                box: containerNode.getBoundingClientRect(),
+                img: imgEl,
+                imgBox: imgEl ? imgEl.getBoundingClientRect() : null
+            };
+        });
+
+        containerBoxes.forEach(({ node, box: containerBox, img: imgEl, imgBox }, index) => {
             const borderSize = Math.max(0, Number(settings.border) || 0);
             const borderColor = settings.borderColor || '#ffffff';
-            const containerBg = window.getComputedStyle(containerNode).backgroundColor || backgroundColor;
+            const containerBg = window.getComputedStyle(node).backgroundColor || backgroundColor;
 
             const baseX = containerBox.left - originX;
             const baseY = containerBox.top - originY;
@@ -92,11 +101,9 @@ export class ExportManager {
                 ctx.fillRect(baseX, baseY, containerBox.width, containerBox.height);
             }
 
-            if (!imgEl) {
+            if (!imgEl || !imgBox) {
                 return;
             }
-
-            const imgBox = imgEl.getBoundingClientRect();
             const imageData = images[index];
 
             ctx.save();
