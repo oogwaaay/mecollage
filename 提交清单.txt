@@ -1,0 +1,37 @@
+═══════════════════════════════════════════════════════════
+  需要提交到 GitHub 的文件清单
+═══════════════════════════════════════════════════════════
+
+📝 新增文件（需要添加）：
+─────────────────────────────────────────────────────────
+✅ .github/workflows/deploy.yml          - GitHub Actions 自动部署配置
+✅ public/robots.txt                      - SEO robots.txt 文件
+✅ public/.htaccess                       - Apache 配置（GitHub Pages 不需要但保留无妨）
+✅ GIT_DEPLOYMENT.md                      - Git 部署详细指南
+✅ DEPLOYMENT_GUIDE.md                    - 完整部署指南
+✅ PERFORMANCE_OPTIMIZATION.md            - 性能优化说明
+✅ 更新部署说明.md                        - 中文快速指南
+✅ 快速部署步骤.txt                       - 快速参考
+✅ 提交清单.txt                          - 本文件
+
+📝 已修改文件（需要提交）：
+─────────────────────────────────────────────────────────
+✅ index.html                             - 添加了 SEO meta 标签和优化
+✅ vite.config.js                         - 优化了构建配置
+✅ package.json                           - 更新项目名称，添加 deploy 脚本
+
+═══════════════════════════════════════════════════════════
+  提交命令（在 Git Bash 或命令行中运行）
+═══════════════════════════════════════════════════════════
+
+# 1. 添加所有更改
+git add .
+
+# 2. 提交更改
+git commit -m "Add SEO optimizations, performance improvements, and GitHub Actions auto-deployment"
+
+# 3. 推送到 GitHub
+git push
+
+═══════════════════════════════════════════════════════════
+
