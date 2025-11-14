@@ -52,6 +52,11 @@ Deploy the generated `dist` folder (or your configured output directory) to any 
 - Firefox (latest)
 - Safari (latest)
 
+### 🔗 Live Preview
+The project demo is deployed and available at:
+
+https://www.mecollage.top/
+
 ## License
 
 MIT
