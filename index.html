@@ -38,6 +38,37 @@
     <!-- Fonts - Only load weights actually used (400, 500, 600, 700) to reduce CSS size -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <!-- Early WebP detection to avoid loading PNG images -->
+    <script>
+        (function() {
+            const webP = new Image();
+            webP.onload = webP.onerror = function() {
+                const isSupported = webP.height === 2;
+                if (isSupported) {
+                    document.documentElement.classList.add('webp-supported');
+                    // Set CSS custom property for placeholder icon
+                    document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                } else {
+                    document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                }
+                // Set background image when DOM is ready
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', setBackgroundImage);
+                } else {
+                    setBackgroundImage();
+                }
+            };
+            webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+        })();
+    </script>
 </head>
 <body>
     <!-- Ghibli Background -->

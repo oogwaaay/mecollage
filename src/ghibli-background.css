@@ -7,17 +7,11 @@
     height: 100%;
     z-index: -1;
     overflow: hidden;
-    /* Fallback for browsers that don't support WebP */
-    background-image: url('/wallImage.png');
-}
-
-/* Use WebP for browsers that support it */
-.webp-supported .ghibli-background {
-    background-image: url('/wallImage.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    /* Background image will be set by JavaScript to avoid loading PNG unnecessarily */
 }
 
 /* Clouds - Hidden when using custom background image */

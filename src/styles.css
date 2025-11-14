@@ -1656,13 +1656,7 @@ body.is-canvas-expanded .image-panel {
     display: block;
     width: 96px;
     height: 96px;
-    /* Fallback for browsers that don't support WebP */
-    background-image: url('/placeholder-icon.png');
-}
-
-/* Use WebP for browsers that support it */
-.webp-supported .placeholder-icon::before {
-    background-image: url('/placeholder-icon.webp');
+    background-image: var(--placeholder-icon-url, url(/placeholder-icon.webp));
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

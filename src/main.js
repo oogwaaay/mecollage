@@ -1915,24 +1915,14 @@ class App {
 }
 
 // Initialize app when DOM is ready
-// Detect WebP support and apply WebP images
-function detectWebPSupport() {
-    return new Promise((resolve) => {
-        const webP = new Image();
-        webP.onload = webP.onerror = () => {
-            const isSupported = webP.height === 2;
-            if (isSupported) {
-                document.documentElement.classList.add('webp-supported');
-            }
-            resolve(isSupported);
-        };
-        webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
-    });
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    // Detect and apply WebP support
-    await detectWebPSupport();
+// WebP detection is now done in <head> script to avoid loading PNG images
+document.addEventListener('DOMContentLoaded', () => {
+    // Ensure background image is set (in case head script ran before DOM)
+    const bgElement = document.querySelector('.ghibli-background');
+    if (bgElement && !bgElement.style.backgroundImage) {
+        const isWebP = document.documentElement.classList.contains('webp-supported');
+        bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+    }
     
     // Initialize i18n first, then app
     i18n.init();
