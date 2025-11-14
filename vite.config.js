@@ -11,10 +11,18 @@ export default defineConfig({
         cssCodeSplit: true,
         minify: 'esbuild',
         target: 'es2015',
+        cssMinify: true,
+        sourcemap: false,
         rollupOptions: {
             output: {
-                manualChunks: {
-                    'vendor': ['html2canvas']
+                manualChunks: (id) => {
+                    // Vendor chunk
+                    if (id.includes('node_modules')) {
+                        if (id.includes('html2canvas')) {
+                            return 'vendor-html2canvas';
+                        }
+                        return 'vendor';
+                    }
                 },
                 assetFileNames: (assetInfo) => {
                     const info = assetInfo.name.split('.');

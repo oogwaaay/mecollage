@@ -15,15 +15,21 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.mecollage.top/" />
     <title>MeCollage - Image Collage Maker</title>
-    <link rel="preload" href="/src/ghibli-background.css" as="style" />
-    <link rel="preload" href="/src/styles.css" as="style" />
-    <link rel="preload" href="/src/pages.css" as="style" />
-    <link rel="stylesheet" href="/src/ghibli-background.css">
-    <link rel="stylesheet" href="/src/styles.css">
-    <link rel="stylesheet" href="/src/pages.css">
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Critical CSS - Load immediately -->
+    <link rel="stylesheet" href="/src/ghibli-background.css">
+    <link rel="stylesheet" href="/src/styles.css">
+    <!-- Non-critical CSS - Load with lower priority -->
+    <link rel="stylesheet" href="/src/pages.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/src/pages.css"></noscript>
+    <!-- Fonts with display=swap for better performance -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet"></noscript>
 </head>
 <body>
     <!-- Ghibli Background -->
@@ -110,7 +116,7 @@
                     <div class="sidebar-section-content" id="uploadSectionContent">
                         <div class="upload-area" id="uploadArea">
                             <div class="upload-icon">
-                                <img src="/upload-icon.png" alt="Upload" />
+                                <img src="/upload-icon.png" alt="Upload" loading="lazy" width="64" height="64" />
                             </div>
                             <p data-i18n="sidebar.dragDrop">Drag & drop images here</p>
                             <p class="upload-hint" data-i18n="sidebar.clickBrowse">or click to browse</p>
@@ -553,7 +559,7 @@
 
     </div>
 
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/main.js" defer></script>
 </body>
 </html>
 

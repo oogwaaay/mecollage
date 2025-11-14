@@ -170,6 +170,8 @@ export class CollageMaker {
         if (img) {
             const imgElement = document.createElement('img');
             imgElement.src = img.url;
+            imgElement.loading = 'lazy';
+            imgElement.decoding = 'async';
             imgElement.style.width = '100%';
             imgElement.style.height = '100%';
             const fitMode = settings.imageFit === 'contain' ? 'contain' : 'cover';
