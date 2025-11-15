@@ -72,7 +72,7 @@ export class BlogManager {
                     <h2>Conclusion</h2>
                     <p>Creating a photo collage is easy with MeCollage! Start with a simple template, experiment with customization options, and soon you'll be creating stunning collages in minutes.</p>
                     
-                    <p><strong>Ready to create your first collage?</strong> <a href="#home">Try MeCollage now</a> - it's completely free!</p>
+                    <p><strong>Ready to create your first collage?</strong> <a href="/">Try MeCollage now</a> - it's completely free!</p>
                 `
                     },
                     zh: {
@@ -138,7 +138,7 @@ export class BlogManager {
                     <h2>结论</h2>
                     <p>使用 MeCollage 创建照片拼图很容易！从一个简单的模板开始，尝试自定义选项，很快您就能在几分钟内创建精美的拼图。</p>
                     
-                    <p><strong>准备好创建您的第一个拼图了吗？</strong> <a href="#home">立即尝试 MeCollage</a> - 完全免费！</p>
+                    <p><strong>准备好创建您的第一个拼图了吗？</strong> <a href="/">立即尝试 MeCollage</a> - 完全免费！</p>
                 `
                     },
                     es: {
@@ -204,7 +204,7 @@ export class BlogManager {
                     <h2>Conclusión</h2>
                     <p>¡Crear un collage de fotos es fácil con MeCollage! Comienza con una plantilla simple, experimenta con las opciones de personalización y pronto estarás creando collages impresionantes en minutos.</p>
                     
-                    <p><strong>¿Listo para crear tu primer collage?</strong> <a href="#home">Prueba MeCollage ahora</a> - ¡es completamente gratis!</p>
+                    <p><strong>¿Listo para crear tu primer collage?</strong> <a href="/">Prueba MeCollage ahora</a> - ¡es completamente gratis!</p>
                 `
                     }
                 }
@@ -294,7 +294,7 @@ export class BlogManager {
                     <h2>Bonus: Practice Makes Perfect</h2>
                     <p>The best way to improve is to practice! Try different templates, experiment with filters, and don't be afraid to start over if something doesn't look right. With MeCollage, you can create unlimited collages and refine your skills.</p>
                     
-                    <p><strong>Ready to apply these tips?</strong> <a href="#home">Start creating your collage</a> with MeCollage today!</p>
+                    <p><strong>Ready to apply these tips?</strong> <a href="/">Start creating your collage</a> with MeCollage today!</p>
                 `
                     },
                     zh: {
@@ -375,7 +375,7 @@ export class BlogManager {
                     <h2>奖励：熟能生巧</h2>
                     <p>提高的最佳方法是练习！尝试不同的模板，尝试滤镜，如果某些东西看起来不对，不要害怕重新开始。使用 MeCollage，您可以创建无限拼图并完善您的技能。</p>
                     
-                    <p><strong>准备好应用这些技巧了吗？</strong> <a href="#home">立即开始创建您的拼图</a>！</p>
+                    <p><strong>准备好应用这些技巧了吗？</strong> <a href="/">立即开始创建您的拼图</a>！</p>
                 `
                     },
                     es: {
@@ -456,7 +456,7 @@ export class BlogManager {
                     <h2>Bonus: La Práctica Hace al Maestro</h2>
                     <p>¡La mejor manera de mejorar es practicar! Prueba diferentes plantillas, experimenta con filtros y no tengas miedo de empezar de nuevo si algo no se ve bien. Con MeCollage, puedes crear collages ilimitados y refinar tus habilidades.</p>
                     
-                    <p><strong>¿Listo para aplicar estos consejos?</strong> <a href="#home">¡Comienza a crear tu collage</a> con MeCollage hoy!</p>
+                    <p><strong>¿Listo para aplicar estos consejos?</strong> <a href="/">¡Comienza a crear tu collage</a> con MeCollage hoy!</p>
                 `
                     }
                 }
@@ -566,7 +566,7 @@ export class BlogManager {
                     <h2>Conclusion</h2>
                     <p>Holiday collages are a beautiful way to preserve memories and share joy with others. With MeCollage, you can create stunning holiday collages in minutes, no matter the occasion.</p>
                     
-                    <p><strong>Ready to create your holiday collage?</strong> <a href="#home">Start creating</a> with MeCollage today!</p>
+                    <p><strong>Ready to create your holiday collage?</strong> <a href="/">Start creating</a> with MeCollage today!</p>
                 `
                     },
                     zh: {
@@ -667,7 +667,7 @@ export class BlogManager {
                     <h2>结论</h2>
                     <p>节日拼图是保存记忆和与他人分享快乐的好方法。使用 MeCollage，您可以在几分钟内创建精美的节日拼图，无论是什么场合。</p>
                     
-                    <p><strong>准备好创建您的节日拼图了吗？</strong> <a href="#home">立即开始创建</a>！</p>
+                    <p><strong>准备好创建您的节日拼图了吗？</strong> <a href="/">立即开始创建</a>！</p>
                 `
                     },
                     es: {
@@ -768,7 +768,7 @@ export class BlogManager {
                     <h2>Conclusión</h2>
                     <p>Los collages festivos son una hermosa forma de preservar recuerdos y compartir alegría con otros. Con MeCollage, puedes crear collages festivos impresionantes en minutos, sin importar la ocasión.</p>
                     
-                    <p><strong>¿Listo para crear tu collage festivo?</strong> <a href="#home">¡Comienza a crear</a> con MeCollage hoy!</p>
+                    <p><strong>¿Listo para crear tu collage festivo?</strong> <a href="/">¡Comienza a crear</a> con MeCollage hoy!</p>
                 `
                     }
                 }
@@ -1642,6 +1642,29 @@ export class BlogManager {
             post.tags.forEach(tag => allTags.add(tag));
         });
         return Array.from(allTags).sort();
+    }
+    
+    getRelatedPosts(postId, limit = 3, lang = 'en') {
+        const currentPost = this.getPostById(postId);
+        if (!currentPost) return [];
+        
+        // Find posts with similar tags or same category
+        const related = this.posts
+            .filter(post => post.id !== postId)
+            .map(post => {
+                const commonTags = post.tags.filter(tag => currentPost.tags.includes(tag)).length;
+                const sameCategory = post.category === currentPost.category ? 1 : 0;
+                return {
+                    post,
+                    score: commonTags * 2 + sameCategory
+                };
+            })
+            .filter(item => item.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, limit)
+            .map(item => item.post);
+        
+        return related;
     }
 }
 

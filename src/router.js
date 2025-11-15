@@ -1,5 +1,6 @@
 // Simple Router for page navigation
 import { i18n } from './i18n.js';
+import { seoManager } from './seo-manager.js';
 
 export class Router {
     constructor() {
@@ -16,21 +17,44 @@ export class Router {
     init() {
         // Handle browser back/forward
         window.addEventListener('popstate', (e) => {
-            const page = e.state?.page || window.location.hash.slice(1) || 'home';
-            if (page.startsWith('blog/')) {
-                const postId = page.replace('blog/', '');
-                this.showBlogPost(postId, false);
-            } else {
-                this.showPage(page, false);
-            }
+            const path = this.getPathFromURL();
+            this.navigateToPath(path, false);
         });
         
         // Check initial URL
-        const hash = window.location.hash.slice(1) || 'home';
-        if (hash.startsWith('blog/')) {
-            this.showBlogPost(hash.replace('blog/', ''), false);
+        const path = this.getPathFromURL();
+        this.navigateToPath(path, false);
+    }
+    
+    getPathFromURL() {
+        // Get path from URL (e.g., /blog/how-to-make-photo-collage -> blog/how-to-make-photo-collage)
+        const path = window.location.pathname;
+        if (path === '/' || path === '/index.html') {
+            return 'home';
+        }
+        // Remove leading slash and .html if present
+        let cleanPath = path.replace(/^\//, '').replace(/\.html$/, '');
+        // Handle blog posts (e.g., blog/how-to-make-photo-collage or blog/how-to-make-photo-collage.zh)
+        if (cleanPath.startsWith('blog/')) {
+            // Remove language suffix if present (e.g., blog/post-id.zh -> blog/post-id)
+            const postPath = cleanPath.replace(/\.(en|zh|es)$/, '');
+            return postPath;
+        }
+        // Map common paths
+        const pathMap = {
+            'features': 'features',
+            'tutorial': 'tutorial',
+            'blog': 'blog'
+        };
+        return pathMap[cleanPath] || 'home';
+    }
+    
+    navigateToPath(path, pushState = true) {
+        if (path.startsWith('blog/')) {
+            const postId = path.replace('blog/', '');
+            this.showBlogPost(postId, pushState);
         } else {
-            this.showPage(hash, false);
+            this.showPage(path, pushState);
         }
     }
     
@@ -69,6 +93,9 @@ export class Router {
             targetPage.style.display = 'block';
             this.currentPage = page;
             
+            // Update SEO meta tags
+            seoManager.updateSEO(page);
+            
             // Update active nav link
             document.querySelectorAll('.nav-link').forEach(link => {
                 link.classList.remove('active');
@@ -82,7 +109,8 @@ export class Router {
             
             // Update URL without reload
             if (pushState) {
-                window.history.pushState({ page }, '', `#${page}`);
+                const url = page === 'home' ? '/' : `/${page}`;
+                window.history.pushState({ page }, '', url);
             }
         }
     }
@@ -118,6 +146,8 @@ export class Router {
                 const post = window.blogManager.getPostById(postId);
                 if (post) {
                     this.renderBlogPost(post);
+                    // Update SEO meta tags for blog post
+                    seoManager.updateSEO(`blog/${postId}`, post);
                 }
             }
             
@@ -126,7 +156,7 @@ export class Router {
             
             // Update URL
             if (pushState) {
-                window.history.pushState({ page: `blog/${postId}` }, '', `#blog/${postId}`);
+                window.history.pushState({ page: `blog/${postId}` }, '', `/blog/${postId}`);
             }
         }
     }
@@ -142,6 +172,8 @@ export class Router {
         const backText = i18n.t('blog.backToBlog');
         const byText = i18n.t('blog.by');
         const shareText = i18n.t('blog.shareArticle');
+        const relatedText = i18n.t('blog.relatedArticles');
+        const readMoreText = i18n.t('blog.readMore');
         const categoryMap = {
             'Tutorial': i18n.t('blog.categories.tutorial'),
             'Design Tips': i18n.t('blog.categories.designTips'),
@@ -151,9 +183,34 @@ export class Router {
             'Portfolio': i18n.t('blog.categories.portfolio')
         };
         
+        // Get related posts
+        const relatedPosts = window.blogManager ? window.blogManager.getRelatedPosts(post.id, 3, currentLang) : [];
+        let relatedPostsHTML = '';
+        if (relatedPosts.length > 0) {
+            relatedPostsHTML = `
+                <div class="blog-related-posts">
+                    <h2 class="blog-related-title">${relatedText}</h2>
+                    <div class="blog-related-list">
+                        ${relatedPosts.map(relatedPost => {
+                            const localizedRelated = window.blogManager.getLocalizedPost(relatedPost, currentLang);
+                            return `
+                                <article class="blog-related-item">
+                                    <h3 class="blog-related-item-title">
+                                        <a href="/blog/${relatedPost.id}">${localizedRelated.title}</a>
+                                    </h3>
+                                    <p class="blog-related-item-excerpt">${localizedRelated.excerpt}</p>
+                                    <a href="/blog/${relatedPost.id}" class="blog-related-item-link">${readMoreText} →</a>
+                                </article>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
         container.innerHTML = `
             <div class="blog-post-header">
-                <a href="#blog" class="blog-back-link">← ${backText}</a>
+                <a href="/blog" class="blog-back-link">← ${backText}</a>
                 <h1 class="blog-post-main-title">${localizedPost.title}</h1>
                 <div class="blog-post-meta">
                     <span class="blog-date">${this.formatDate(post.date)}</span>
@@ -167,8 +224,9 @@ export class Router {
             <div class="blog-post-body">
                 ${localizedPost.content}
             </div>
+            ${relatedPostsHTML}
             <div class="blog-post-footer">
-                <a href="#blog" class="blog-back-link">← ${backText}</a>
+                <a href="/blog" class="blog-back-link">← ${backText}</a>
                 <div class="blog-share">
                     <span>${shareText}</span>
                     <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(localizedPost.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Twitter</a>

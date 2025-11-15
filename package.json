@@ -6,8 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:static": "npm run extract-blog-data && vite build && node scripts/generate-static-pages.js",
+    "extract-blog-data": "node scripts/extract-blog-data.js",
+    "generate-static": "node scripts/generate-static-pages.js",
     "preview": "vite preview",
-    "deploy": "npm run build && gh-pages -d dist"
+    "deploy": "npm run build:static && gh-pages -d dist"
   },
   "dependencies": {
     "html2canvas": "^1.4.1"

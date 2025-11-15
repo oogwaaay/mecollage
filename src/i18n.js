@@ -32,6 +32,7 @@ export class I18n {
                     backToBlog: 'Back to Blog',
                     shareArticle: 'Share this article:',
                     by: 'By',
+                    relatedArticles: 'Related Articles',
                     categories: {
                         all: 'All',
                         tutorial: 'Tutorial',
@@ -435,6 +436,7 @@ export class I18n {
                     backToBlog: 'Volver al Blog',
                     shareArticle: 'Compartir este artículo:',
                     by: 'Por',
+                    relatedArticles: 'Artículos Relacionados',
                     categories: {
                         all: 'Todos',
                         tutorial: 'Tutorial',
@@ -822,6 +824,7 @@ export class I18n {
                     backToBlog: '返回博客',
                     shareArticle: '分享这篇文章:',
                     by: '作者',
+                    relatedArticles: '相关文章',
                     categories: {
                         all: '全部',
                         tutorial: '教程',

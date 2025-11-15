@@ -6,6 +6,7 @@ import { ExportManager } from './export-manager.js';
 import { i18n } from './i18n.js';
 import { router } from './router.js';
 import { blogManager } from './blog-manager.js';
+import { seoManager } from './seo-manager.js';
 
 const FILTER_PRESETS = [
     {
@@ -123,6 +124,10 @@ class App {
         this.templateManager.renderTemplates();
         this.updateImageCount();
         
+        // Initialize SEO for current page
+        const initialPage = router.currentPage || 'home';
+        seoManager.updateSEO(initialPage);
+        
         // Listen for language changes
         document.addEventListener('language-changed', () => {
             this.refreshLanguageDependentUI();
@@ -130,13 +135,20 @@ class App {
             if (router.currentPage === 'blog' || router.currentPage.startsWith('blog/')) {
                 if (router.currentPage === 'blog') {
                     this.renderBlogPage();
+                    // Update SEO for blog list page
+                    seoManager.updateSEO('blog');
                 } else {
                     const postId = router.currentPage.replace('blog/', '');
                     const post = blogManager.getPostById(postId);
                     if (post) {
                         router.renderBlogPost(post);
+                        // Update SEO for blog post
+                        seoManager.updateSEO(`blog/${postId}`, post);
                     }
                 }
+            } else {
+                // Update SEO for current page when language changes
+                seoManager.updateSEO(router.currentPage);
             }
         });
     }
@@ -213,19 +225,50 @@ class App {
     }
     
     setupNavigation() {
-        document.querySelectorAll('.nav-link').forEach(link => {
+        // Handle navigation links
+        document.querySelectorAll('.nav-link, .quick-link').forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const page = link.dataset.page;
-                if (page) {
-                    router.navigate(page);
-                    // Render blog page if navigating to blog
-                    if (page === 'blog') {
-                        setTimeout(() => this.renderBlogPage(), 100);
+                const href = link.getAttribute('href');
+                // Only handle internal links
+                if (href && (href.startsWith('/') || href.startsWith('#'))) {
+                    e.preventDefault();
+                    const page = link.dataset.page || this.getPageFromHref(href);
+                    if (page) {
+                        if (page.startsWith('blog/')) {
+                            const postId = page.replace('blog/', '');
+                            router.showBlogPost(postId, true);
+                        } else {
+                            router.navigate(page);
+                            // Render blog page if navigating to blog
+                            if (page === 'blog') {
+                                setTimeout(() => this.renderBlogPage(), 100);
+                            }
+                        }
                     }
                 }
             });
         });
+        
+        // Handle blog post links
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="/blog/"]');
+            if (link) {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                const postId = href.replace('/blog/', '');
+                router.showBlogPost(postId, true);
+            }
+        });
+    }
+    
+    getPageFromHref(href) {
+        if (href === '/' || href === '/index.html' || href === '#home') return 'home';
+        if (href.startsWith('/blog/') || href.startsWith('#blog/')) {
+            const postId = href.replace(/^\/blog\//, '').replace(/^#blog\//, '');
+            return `blog/${postId}`;
+        }
+        const path = href.replace(/^#/, '').replace(/^\//, '').replace(/\.html$/, '');
+        return path || 'home';
     }
 
     setupEventListeners() {
@@ -379,33 +422,14 @@ class App {
         
         // Initialize blog page when navigated to
         const checkBlogPage = () => {
-            const hash = window.location.hash.slice(1);
-            if (hash === 'blog') {
+            const path = window.location.pathname;
+            if (path === '/blog' || path === '/blog/') {
                 this.renderBlogPage();
             }
         };
         
         // Check on load
         checkBlogPage();
-        
-        // Check on hash change
-        window.addEventListener('hashchange', checkBlogPage);
-        
-        // Listen for router navigation
-        document.addEventListener('click', (e) => {
-            const link = e.target.closest('a[href^="#blog"]');
-            if (link) {
-                e.preventDefault();
-                const href = link.getAttribute('href');
-                if (href === '#blog') {
-                    router.navigate('blog');
-                    setTimeout(() => this.renderBlogPage(), 100);
-                } else if (href.startsWith('#blog/')) {
-                    const postId = href.replace('#blog/', '');
-                    router.showBlogPost(postId, true);
-                }
-            }
-        });
         
         // Setup search
         const searchInput = document.getElementById('blogSearchInput');
@@ -530,7 +554,7 @@ class App {
                     return `
                     <article class="blog-post">
                         <h2 class="blog-post-title">
-                            <a href="#blog/${post.id}">${localizedPost.title}</a>
+                            <a href="/blog/${post.id}">${localizedPost.title}</a>
                         </h2>
                         <div class="blog-post-meta">
                             <span class="blog-date">${this.formatBlogDate(post.date)}</span>
@@ -540,7 +564,7 @@ class App {
                         <div class="blog-post-tags">
                             ${post.tags.map(tag => `<span class="blog-tag">#${tag}</span>`).join('')}
                         </div>
-                        <a href="#blog/${post.id}" class="blog-read-more">${i18n.t('blog.readMore')} →</a>
+                        <a href="/blog/${post.id}" class="blog-read-more">${i18n.t('blog.readMore')} →</a>
                     </article>
                 `;
                 }).join('');
