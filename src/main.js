@@ -126,6 +126,18 @@ class App {
         // Listen for language changes
         document.addEventListener('language-changed', () => {
             this.refreshLanguageDependentUI();
+            // Re-render blog page if on blog page
+            if (router.currentPage === 'blog' || router.currentPage.startsWith('blog/')) {
+                if (router.currentPage === 'blog') {
+                    this.renderBlogPage();
+                } else {
+                    const postId = router.currentPage.replace('blog/', '');
+                    const post = blogManager.getPostById(postId);
+                    if (post) {
+                        router.renderBlogPost(post);
+                    }
+                }
+            }
         });
     }
     
@@ -421,13 +433,35 @@ class App {
     }
     
     renderBlogPage() {
-        // Render categories
+        // Update page title and subtitle
+        const pageTitle = document.querySelector('#page-blog .page-title');
+        const pageSubtitle = document.querySelector('#page-blog .page-subtitle');
+        if (pageTitle) pageTitle.textContent = i18n.t('blog.title');
+        if (pageSubtitle) pageSubtitle.textContent = i18n.t('blog.subtitle');
+        
+        // Update search placeholder
+        const searchInput = document.getElementById('blogSearchInput');
+        if (searchInput) {
+            searchInput.placeholder = i18n.t('blog.searchPlaceholder');
+        }
+        
+        // Render categories with translations
         const categoriesContainer = document.getElementById('blogCategories');
         if (categoriesContainer) {
             const categories = blogManager.getCategories();
+            const categoryMap = {
+                'All': i18n.t('blog.categories.all'),
+                'Tutorial': i18n.t('blog.categories.tutorial'),
+                'Design Tips': i18n.t('blog.categories.designTips'),
+                'Holiday': i18n.t('blog.categories.holiday'),
+                'Mobile': i18n.t('blog.categories.mobile'),
+                'Social Media': i18n.t('blog.categories.socialMedia'),
+                'Portfolio': i18n.t('blog.categories.portfolio')
+            };
+            
             categoriesContainer.innerHTML = categories.map(cat => 
                 `<button type="button" class="blog-category-btn ${blogManager.currentCategory === cat ? 'is-active' : ''}" 
-                         data-category="${cat}" role="tab">${cat}</button>`
+                         data-category="${cat}" role="tab">${categoryMap[cat] || cat}</button>`
             ).join('');
             
             // Add click handlers
@@ -445,7 +479,7 @@ class App {
             const allTags = blogManager.getAllTags();
             const popularTags = allTags.slice(0, 8); // Show top 8 tags
             tagsContainer.innerHTML = `
-                <span class="blog-tags-label">Popular tags:</span>
+                <span class="blog-tags-label">${i18n.t('blog.popularTags')}</span>
                 ${popularTags.map(tag => 
                     `<button type="button" class="blog-tag-btn" data-tag="${tag}">#${tag}</button>`
                 ).join('')}
@@ -473,10 +507,22 @@ class App {
             
             if (posts.length === 0) {
                 blogList.style.display = 'none';
-                if (blogEmpty) blogEmpty.style.display = 'block';
+                if (blogEmpty) {
+                    blogEmpty.style.display = 'block';
+                    blogEmpty.querySelector('p').textContent = i18n.t('blog.noArticles');
+                }
             } else {
                 blogList.style.display = 'grid';
                 if (blogEmpty) blogEmpty.style.display = 'none';
+                
+                const categoryMap = {
+                    'Tutorial': i18n.t('blog.categories.tutorial'),
+                    'Design Tips': i18n.t('blog.categories.designTips'),
+                    'Holiday': i18n.t('blog.categories.holiday'),
+                    'Mobile': i18n.t('blog.categories.mobile'),
+                    'Social Media': i18n.t('blog.categories.socialMedia'),
+                    'Portfolio': i18n.t('blog.categories.portfolio')
+                };
                 
                 blogList.innerHTML = posts.map(post => `
                     <article class="blog-post">
@@ -485,13 +531,13 @@ class App {
                         </h2>
                         <div class="blog-post-meta">
                             <span class="blog-date">${this.formatBlogDate(post.date)}</span>
-                            <span class="blog-category">${post.category}</span>
+                            <span class="blog-category">${categoryMap[post.category] || post.category}</span>
                         </div>
                         <p class="blog-post-excerpt">${post.excerpt}</p>
                         <div class="blog-post-tags">
                             ${post.tags.map(tag => `<span class="blog-tag">#${tag}</span>`).join('')}
                         </div>
-                        <a href="#blog/${post.id}" class="blog-read-more">Read more →</a>
+                        <a href="#blog/${post.id}" class="blog-read-more">${i18n.t('blog.readMore')} →</a>
                     </article>
                 `).join('');
             }
@@ -500,7 +546,14 @@ class App {
     
     formatBlogDate(dateString) {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const lang = i18n.currentLang;
+        const localeMap = {
+            'en': 'en-US',
+            'zh': 'zh-CN',
+            'es': 'es-ES'
+        };
+        const locale = localeMap[lang] || 'en-US';
+        return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     updateBackToTopLabel() {

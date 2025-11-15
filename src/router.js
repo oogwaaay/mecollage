@@ -1,4 +1,6 @@
 // Simple Router for page navigation
+import { i18n } from './i18n.js';
+
 export class Router {
     constructor() {
         this.currentPage = 'home';
@@ -133,14 +135,26 @@ export class Router {
         const container = document.getElementById('blog-post-content');
         if (!container) return;
         
+        const backText = i18n.t('blog.backToBlog');
+        const byText = i18n.t('blog.by');
+        const shareText = i18n.t('blog.shareArticle');
+        const categoryMap = {
+            'Tutorial': i18n.t('blog.categories.tutorial'),
+            'Design Tips': i18n.t('blog.categories.designTips'),
+            'Holiday': i18n.t('blog.categories.holiday'),
+            'Mobile': i18n.t('blog.categories.mobile'),
+            'Social Media': i18n.t('blog.categories.socialMedia'),
+            'Portfolio': i18n.t('blog.categories.portfolio')
+        };
+        
         container.innerHTML = `
             <div class="blog-post-header">
-                <a href="#blog" class="blog-back-link">← Back to Blog</a>
+                <a href="#blog" class="blog-back-link">← ${backText}</a>
                 <h1 class="blog-post-main-title">${post.title}</h1>
                 <div class="blog-post-meta">
                     <span class="blog-date">${this.formatDate(post.date)}</span>
-                    <span class="blog-category">${post.category}</span>
-                    <span class="blog-author">By ${post.author}</span>
+                    <span class="blog-category">${categoryMap[post.category] || post.category}</span>
+                    <span class="blog-author">${byText} ${post.author}</span>
                 </div>
                 <div class="blog-post-tags">
                     ${post.tags.map(tag => `<span class="blog-tag">#${tag}</span>`).join('')}
@@ -150,9 +164,9 @@ export class Router {
                 ${post.content}
             </div>
             <div class="blog-post-footer">
-                <a href="#blog" class="blog-back-link">← Back to Blog</a>
+                <a href="#blog" class="blog-back-link">← ${backText}</a>
                 <div class="blog-share">
-                    <span>Share this article:</span>
+                    <span>${shareText}</span>
                     <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Twitter</a>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Facebook</a>
                 </div>
@@ -162,7 +176,14 @@ export class Router {
     
     formatDate(dateString) {
         const date = new Date(dateString);
-        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        const lang = i18n.currentLang;
+        const localeMap = {
+            'en': 'en-US',
+            'zh': 'zh-CN',
+            'es': 'es-ES'
+        };
+        const locale = localeMap[lang] || 'en-US';
+        return date.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
     }
 }
 

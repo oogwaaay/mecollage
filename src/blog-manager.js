@@ -8,7 +8,7 @@ export class BlogManager {
                 excerpt: 'Learn step-by-step how to create beautiful photo collages. Perfect for beginners who want to combine multiple photos into stunning layouts.',
                 category: 'Tutorial',
                 tags: ['beginner', 'tutorial', 'guide', 'how-to'],
-                date: '2024-11-14',
+                date: new Date().toISOString().split('T')[0], // Current date
                 author: 'MeCollage Team',
                 content: `
                     <h2>Introduction</h2>
@@ -79,7 +79,7 @@ export class BlogManager {
                 excerpt: 'Master the art of collage design with these professional tips. Learn about color harmony, image arrangement, spacing techniques, and more.',
                 category: 'Design Tips',
                 tags: ['design', 'tips', 'professional', 'layout'],
-                date: '2024-11-14',
+                date: new Date().toISOString().split('T')[0], // Current date
                 author: 'MeCollage Team',
                 content: `
                     <h2>1. Choose a Focal Point</h2>
@@ -165,7 +165,7 @@ export class BlogManager {
                 excerpt: 'Create beautiful holiday collages for Christmas, Valentine\'s Day, birthdays, and more. Discover themed templates and creative ideas.',
                 category: 'Holiday',
                 tags: ['holiday', 'christmas', 'valentine', 'birthday', 'seasonal'],
-                date: '2024-11-14',
+                date: new Date().toISOString().split('T')[0], // Current date
                 author: 'MeCollage Team',
                 content: `
                     <h2>Introduction</h2>
@@ -271,7 +271,7 @@ export class BlogManager {
                 excerpt: 'Learn how to create professional photo collages directly on your mobile device. Tips for selecting photos and sharing on social media.',
                 category: 'Mobile',
                 tags: ['mobile', 'phone', 'social-media', 'tips'],
-                date: '2024-11-14',
+                date: new Date().toISOString().split('T')[0], // Current date
                 author: 'MeCollage Team',
                 content: `
                     <h2>Introduction</h2>
@@ -408,7 +408,7 @@ export class BlogManager {
                 excerpt: 'Create collages optimized for Instagram, Facebook, Twitter, and other social platforms. Learn the best sizes, formats, and design tips.',
                 category: 'Social Media',
                 tags: ['social-media', 'instagram', 'facebook', 'twitter', 'marketing'],
-                date: '2024-11-13',
+                date: new Date(Date.now() - 86400000).toISOString().split('T')[0], // Yesterday
                 author: 'MeCollage Team',
                 content: `
                     <h2>Introduction</h2>
@@ -483,7 +483,7 @@ export class BlogManager {
                 excerpt: 'Learn how to create professional portfolio collages that showcase your photography, design, or artwork effectively.',
                 category: 'Portfolio',
                 tags: ['portfolio', 'professional', 'showcase', 'photography'],
-                date: '2024-11-12',
+                date: new Date(Date.now() - 172800000).toISOString().split('T')[0], // 2 days ago
                 author: 'MeCollage Team',
                 content: `
                     <h2>Introduction</h2>
@@ -529,6 +529,7 @@ export class BlogManager {
         ];
         
         this.categories = ['All', 'Tutorial', 'Design Tips', 'Holiday', 'Mobile', 'Social Media', 'Portfolio'];
+        // Note: Categories will be translated via i18n in the UI
         this.currentCategory = 'All';
         this.searchQuery = '';
         this.currentPost = null;

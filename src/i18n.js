@@ -22,6 +22,26 @@ export class I18n {
                     tutorial: 'Tutorial',
                     blog: 'Blog'
                 },
+                blog: {
+                    title: 'Blog & Tutorials',
+                    subtitle: 'Learn how to create stunning photo collages with our guides and tips',
+                    searchPlaceholder: 'Search articles...',
+                    popularTags: 'Popular tags:',
+                    noArticles: 'No articles found. Try a different search or category.',
+                    readMore: 'Read more',
+                    backToBlog: 'Back to Blog',
+                    shareArticle: 'Share this article:',
+                    by: 'By',
+                    categories: {
+                        all: 'All',
+                        tutorial: 'Tutorial',
+                        designTips: 'Design Tips',
+                        holiday: 'Holiday',
+                        mobile: 'Mobile',
+                        socialMedia: 'Social Media',
+                        portfolio: 'Portfolio'
+                    }
+                },
                 lang: {
                     name: 'English',
                     selector: 'Language',
@@ -405,6 +425,26 @@ export class I18n {
                     tutorial: 'Tutorial',
                     blog: 'Blog'
                 },
+                blog: {
+                    title: 'Blog y Tutoriales',
+                    subtitle: 'Aprende a crear collages de fotos impresionantes con nuestras guías y consejos',
+                    searchPlaceholder: 'Buscar artículos...',
+                    popularTags: 'Etiquetas populares:',
+                    noArticles: 'No se encontraron artículos. Prueba con otra búsqueda o categoría.',
+                    readMore: 'Leer más',
+                    backToBlog: 'Volver al Blog',
+                    shareArticle: 'Compartir este artículo:',
+                    by: 'Por',
+                    categories: {
+                        all: 'Todos',
+                        tutorial: 'Tutorial',
+                        designTips: 'Consejos de Diseño',
+                        holiday: 'Festivos',
+                        mobile: 'Móvil',
+                        socialMedia: 'Redes Sociales',
+                        portfolio: 'Portafolio'
+                    }
+                },
                 lang: {
                     name: 'Español',
                     selector: 'Idioma',
@@ -771,6 +811,26 @@ export class I18n {
                     features: '功能特性',
                     tutorial: '使用教程',
                     blog: '博客'
+                },
+                blog: {
+                    title: '博客与教程',
+                    subtitle: '学习如何通过我们的指南和技巧创建精美的照片拼图',
+                    searchPlaceholder: '搜索文章...',
+                    popularTags: '热门标签:',
+                    noArticles: '未找到文章。请尝试其他搜索或分类。',
+                    readMore: '阅读更多',
+                    backToBlog: '返回博客',
+                    shareArticle: '分享这篇文章:',
+                    by: '作者',
+                    categories: {
+                        all: '全部',
+                        tutorial: '教程',
+                        designTips: '设计技巧',
+                        holiday: '节日',
+                        mobile: '移动端',
+                        socialMedia: '社交媒体',
+                        portfolio: '作品集'
+                    }
                 },
                 lang: {
                     name: '简体中文',
@@ -1262,6 +1322,12 @@ export class I18n {
                 }
             } else {
                 el.textContent = this.t(key, params);
+            }
+            
+            // Handle placeholder attributes
+            const placeholderKey = el.getAttribute('data-i18n-placeholder');
+            if (placeholderKey && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA')) {
+                el.placeholder = this.t(placeholderKey, params);
             }
         });
         
