@@ -29,6 +29,10 @@
     <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources for LCP optimization -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp">
+    <!-- Preload critical font for LCP element (title uses weight 700) -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/notosanssc/v36/k3kXo84MPvpLmixcA63oeALhLq1mYj.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <!-- Critical CSS - Load immediately -->
     <link rel="stylesheet" href="/src/ghibli-background.css">
     <link rel="stylesheet" href="/src/styles.css">
@@ -64,9 +68,11 @@
                 const bgElement = document.querySelector('.ghibli-background');
                 if (bgElement) {
                     const isWebP = document.documentElement.classList.contains('webp-supported');
+                    // Use preloaded image if WebP is supported
                     bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
                 }
             }
+            
         })();
     </script>
 </head>
