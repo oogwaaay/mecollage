@@ -135,6 +135,10 @@ export class Router {
         const container = document.getElementById('blog-post-content');
         if (!container) return;
         
+        // Get localized post content
+        const currentLang = i18n.currentLang;
+        const localizedPost = window.blogManager ? window.blogManager.getLocalizedPost(post, currentLang) : post;
+        
         const backText = i18n.t('blog.backToBlog');
         const byText = i18n.t('blog.by');
         const shareText = i18n.t('blog.shareArticle');
@@ -150,7 +154,7 @@ export class Router {
         container.innerHTML = `
             <div class="blog-post-header">
                 <a href="#blog" class="blog-back-link">← ${backText}</a>
-                <h1 class="blog-post-main-title">${post.title}</h1>
+                <h1 class="blog-post-main-title">${localizedPost.title}</h1>
                 <div class="blog-post-meta">
                     <span class="blog-date">${this.formatDate(post.date)}</span>
                     <span class="blog-category">${categoryMap[post.category] || post.category}</span>
@@ -161,13 +165,13 @@ export class Router {
                 </div>
             </div>
             <div class="blog-post-body">
-                ${post.content}
+                ${localizedPost.content}
             </div>
             <div class="blog-post-footer">
                 <a href="#blog" class="blog-back-link">← ${backText}</a>
                 <div class="blog-share">
                     <span>${shareText}</span>
-                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Twitter</a>
+                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(localizedPost.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Twitter</a>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Facebook</a>
                 </div>
             </div>

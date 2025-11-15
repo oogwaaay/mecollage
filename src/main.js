@@ -503,7 +503,8 @@ class App {
         const blogEmpty = document.getElementById('blogEmpty');
         
         if (blogList) {
-            const posts = blogManager.getFilteredPosts();
+            const currentLang = i18n.currentLang;
+            const posts = blogManager.getFilteredPosts(currentLang);
             
             if (posts.length === 0) {
                 blogList.style.display = 'none';
@@ -524,22 +525,25 @@ class App {
                     'Portfolio': i18n.t('blog.categories.portfolio')
                 };
                 
-                blogList.innerHTML = posts.map(post => `
+                blogList.innerHTML = posts.map(post => {
+                    const localizedPost = blogManager.getLocalizedPost(post, currentLang);
+                    return `
                     <article class="blog-post">
                         <h2 class="blog-post-title">
-                            <a href="#blog/${post.id}">${post.title}</a>
+                            <a href="#blog/${post.id}">${localizedPost.title}</a>
                         </h2>
                         <div class="blog-post-meta">
                             <span class="blog-date">${this.formatBlogDate(post.date)}</span>
                             <span class="blog-category">${categoryMap[post.category] || post.category}</span>
                         </div>
-                        <p class="blog-post-excerpt">${post.excerpt}</p>
+                        <p class="blog-post-excerpt">${localizedPost.excerpt}</p>
                         <div class="blog-post-tags">
                             ${post.tags.map(tag => `<span class="blog-tag">#${tag}</span>`).join('')}
                         </div>
                         <a href="#blog/${post.id}" class="blog-read-more">${i18n.t('blog.readMore')} →</a>
                     </article>
-                `).join('');
+                `;
+                }).join('');
             }
         }
     }
