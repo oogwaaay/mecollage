@@ -7,8 +7,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Create beautiful image collages with unlimited images. Free online collage maker with 20+ templates, custom grids, filters, and decorations. Support for horizontal, vertical, and grid layouts. Export in PNG or JPG format." />
-    <meta name="keywords" content="collage maker, image collage, photo collage, online collage, free collage, photo grid, image editor" />
+    <meta name="description" content="Create beautiful image collages with unlimited images. Free online collage maker with 20+ templates, custom grids, filters, and decorations. Support for horizontal, vertical, and grid layouts. Export in PNG or JPG format. Learn how to make photo collages with our tutorials and guides." />
+    <meta name="keywords" content="collage maker, photo collage, image collage, online collage maker, free collage maker, photo grid, image editor, how to make a collage, collage tutorial, photo collage tool, 拼图工具, 照片拼图, 拼图制作" />
     <meta name="author" content="MeCollage" />
     <meta property="og:title" content="MeCollage - Free Online Image Collage Maker" />
     <meta property="og:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
@@ -111,6 +111,7 @@
                 <a href="#home" class="nav-link active" data-page="home" data-i18n="nav.home">Home</a>
                 <a href="#features" class="nav-link" data-page="features" data-i18n="nav.features">Features</a>
                 <a href="#tutorial" class="nav-link" data-page="tutorial" data-i18n="nav.tutorial">Tutorial</a>
+                <a href="#blog" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
             </div>
             <div class="nav-right">
                 <div class="lang-selector" title="Switch Language">
@@ -597,6 +598,46 @@
                             <p class="faq-answer" data-i18n="tutorial.faq.a5">Yes! MeCollage is fully responsive and works great on mobile devices, tablets, and desktops.</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Page -->
+        <div id="page-blog" class="page-content" style="display: none;">
+            <div class="page-container">
+                <h1 class="page-title">Blog & Tutorials</h1>
+                <p class="page-subtitle">Learn how to create stunning photo collages with our guides and tips</p>
+                
+                <!-- Blog Search and Filters -->
+                <div class="blog-controls">
+                    <div class="blog-search">
+                        <input type="text" id="blogSearchInput" placeholder="Search articles..." class="blog-search-input" />
+                        <button type="button" class="blog-search-btn" aria-label="Search">🔍</button>
+                    </div>
+                    <div class="blog-categories" id="blogCategories" role="tablist">
+                        <!-- Categories will be generated dynamically -->
+                    </div>
+                    <div class="blog-tags-filter" id="blogTagsFilter">
+                        <!-- Popular tags will be generated dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Blog List -->
+                <div class="blog-list" id="blogList">
+                    <!-- Blog posts will be generated dynamically -->
+                </div>
+                
+                <div class="blog-empty" id="blogEmpty" style="display: none;">
+                    <p>No articles found. Try a different search or category.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post Detail Page -->
+        <div id="page-blog-post" class="page-content" style="display: none;">
+            <div class="page-container">
+                <div id="blog-post-content">
+                    <!-- Blog post content will be loaded dynamically -->
                 </div>
             </div>
         </div>

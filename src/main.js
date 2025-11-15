@@ -5,6 +5,7 @@ import { ImageManager } from './image-manager.js';
 import { ExportManager } from './export-manager.js';
 import { i18n } from './i18n.js';
 import { router } from './router.js';
+import { blogManager } from './blog-manager.js';
 
 const FILTER_PRESETS = [
     {
@@ -115,6 +116,7 @@ class App {
         this.setupResponsiveControls();
         this.setupBackToTop();
         this.setupFilterControls();
+        this.setupBlog();
         this.templateManager.loadFavorites();
         this.templateManager.renderThemeNavigator();
         this.templateManager.renderCategories();
@@ -205,6 +207,10 @@ class App {
                 const page = link.dataset.page;
                 if (page) {
                     router.navigate(page);
+                    // Render blog page if navigating to blog
+                    if (page === 'blog') {
+                        setTimeout(() => this.renderBlogPage(), 100);
+                    }
                 }
             });
         });
@@ -353,6 +359,148 @@ class App {
 
         this.updateBackToTopLabel();
         updateButtonState();
+    }
+    
+    setupBlog() {
+        // Make blogManager globally available for router
+        window.blogManager = blogManager;
+        
+        // Initialize blog page when navigated to
+        const checkBlogPage = () => {
+            const hash = window.location.hash.slice(1);
+            if (hash === 'blog') {
+                this.renderBlogPage();
+            }
+        };
+        
+        // Check on load
+        checkBlogPage();
+        
+        // Check on hash change
+        window.addEventListener('hashchange', checkBlogPage);
+        
+        // Listen for router navigation
+        document.addEventListener('click', (e) => {
+            const link = e.target.closest('a[href^="#blog"]');
+            if (link) {
+                e.preventDefault();
+                const href = link.getAttribute('href');
+                if (href === '#blog') {
+                    router.navigate('blog');
+                    setTimeout(() => this.renderBlogPage(), 100);
+                } else if (href.startsWith('#blog/')) {
+                    const postId = href.replace('#blog/', '');
+                    router.showBlogPost(postId, true);
+                }
+            }
+        });
+        
+        // Setup search
+        const searchInput = document.getElementById('blogSearchInput');
+        const searchBtn = document.querySelector('.blog-search-btn');
+        
+        const performSearch = () => {
+            if (searchInput) {
+                blogManager.searchQuery = searchInput.value.trim();
+                this.renderBlogPage();
+            }
+        };
+        
+        if (searchInput) {
+            searchInput.addEventListener('input', performSearch);
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+        }
+        
+        if (searchBtn) {
+            searchBtn.addEventListener('click', performSearch);
+        }
+    }
+    
+    renderBlogPage() {
+        // Render categories
+        const categoriesContainer = document.getElementById('blogCategories');
+        if (categoriesContainer) {
+            const categories = blogManager.getCategories();
+            categoriesContainer.innerHTML = categories.map(cat => 
+                `<button type="button" class="blog-category-btn ${blogManager.currentCategory === cat ? 'is-active' : ''}" 
+                         data-category="${cat}" role="tab">${cat}</button>`
+            ).join('');
+            
+            // Add click handlers
+            categoriesContainer.querySelectorAll('.blog-category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    blogManager.currentCategory = btn.dataset.category;
+                    this.renderBlogPage();
+                });
+            });
+        }
+        
+        // Render popular tags
+        const tagsContainer = document.getElementById('blogTagsFilter');
+        if (tagsContainer) {
+            const allTags = blogManager.getAllTags();
+            const popularTags = allTags.slice(0, 8); // Show top 8 tags
+            tagsContainer.innerHTML = `
+                <span class="blog-tags-label">Popular tags:</span>
+                ${popularTags.map(tag => 
+                    `<button type="button" class="blog-tag-btn" data-tag="${tag}">#${tag}</button>`
+                ).join('')}
+            `;
+            
+            // Add click handlers
+            tagsContainer.querySelectorAll('.blog-tag-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const searchInput = document.getElementById('blogSearchInput');
+                    if (searchInput) {
+                        searchInput.value = btn.dataset.tag;
+                        blogManager.searchQuery = btn.dataset.tag;
+                        this.renderBlogPage();
+                    }
+                });
+            });
+        }
+        
+        // Render blog posts
+        const blogList = document.getElementById('blogList');
+        const blogEmpty = document.getElementById('blogEmpty');
+        
+        if (blogList) {
+            const posts = blogManager.getFilteredPosts();
+            
+            if (posts.length === 0) {
+                blogList.style.display = 'none';
+                if (blogEmpty) blogEmpty.style.display = 'block';
+            } else {
+                blogList.style.display = 'grid';
+                if (blogEmpty) blogEmpty.style.display = 'none';
+                
+                blogList.innerHTML = posts.map(post => `
+                    <article class="blog-post">
+                        <h2 class="blog-post-title">
+                            <a href="#blog/${post.id}">${post.title}</a>
+                        </h2>
+                        <div class="blog-post-meta">
+                            <span class="blog-date">${this.formatBlogDate(post.date)}</span>
+                            <span class="blog-category">${post.category}</span>
+                        </div>
+                        <p class="blog-post-excerpt">${post.excerpt}</p>
+                        <div class="blog-post-tags">
+                            ${post.tags.map(tag => `<span class="blog-tag">#${tag}</span>`).join('')}
+                        </div>
+                        <a href="#blog/${post.id}" class="blog-read-more">Read more →</a>
+                    </article>
+                `).join('');
+            }
+        }
+    }
+    
+    formatBlogDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     }
 
     updateBackToTopLabel() {

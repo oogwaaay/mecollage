@@ -19,7 +19,8 @@ export class I18n {
                 nav: {
                     home: 'Home',
                     features: 'Features',
-                    tutorial: 'Tutorial'
+                    tutorial: 'Tutorial',
+                    blog: 'Blog'
                 },
                 lang: {
                     name: 'English',
@@ -401,7 +402,8 @@ export class I18n {
                 nav: {
                     home: 'Inicio',
                     features: 'Funciones',
-                    tutorial: 'Tutorial'
+                    tutorial: 'Tutorial',
+                    blog: 'Blog'
                 },
                 lang: {
                     name: 'Español',
@@ -767,7 +769,8 @@ export class I18n {
                 nav: {
                     home: '首页',
                     features: '功能特性',
-                    tutorial: '使用教程'
+                    tutorial: '使用教程',
+                    blog: '博客'
                 },
                 lang: {
                     name: '简体中文',
@@ -1190,6 +1193,7 @@ export class I18n {
             navLinks[0].textContent = this.t('nav.home');
             navLinks[1].textContent = this.t('nav.features');
             navLinks[2].textContent = this.t('nav.tutorial');
+            if (navLinks[3]) navLinks[3].textContent = this.t('nav.blog');
         }
         
         // Update page content if on features or tutorial page

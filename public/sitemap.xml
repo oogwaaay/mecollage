@@ -3,13 +3,55 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.mecollage.top/</loc>
-    <lastmod>2025-01-14</lastmod>
+    <lastmod>2024-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/?lang=en" />
     <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/?lang=zh" />
     <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/?lang=es" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/" />
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/#blog</loc>
+    <lastmod>2024-11-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/#blog/how-to-make-photo-collage</loc>
+    <lastmod>2024-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/#blog/collage-design-tips</loc>
+    <lastmod>2024-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/#blog/holiday-collage-guide</loc>
+    <lastmod>2024-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/#blog/mobile-collage-tips</loc>
+    <lastmod>2024-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/#blog/social-media-collage-guide</loc>
+    <lastmod>2024-11-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/#blog/portfolio-collage-tips</loc>
+    <lastmod>2024-11-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
 
