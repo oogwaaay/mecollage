@@ -699,3 +699,92 @@
     }
 }
 
+/* Header share area */
+.nav-share {
+    display: none;
+    gap: 0.5rem;
+    align-items: center;
+    margin-right: 0.5rem;
+}
+@media (min-width: 768px) {
+    .nav-share {
+        display: flex;
+    }
+}
+.nav-share .blog-share-label {
+    display: none;
+}
+.nav-share .blog-share-link {
+    font-size: 0.85rem;
+    padding: 0.35rem 0.6rem;
+}
+
+/* Global toast */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(17, 24, 39, 0.95);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.2;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    z-index: 9999;
+}
+.toast.is-visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Upload result panel */
+.upload-result {
+    margin-top: 12px;
+    padding: 12px;
+    border: 1px dashed rgba(143, 214, 143, 0.35);
+    border-radius: 8px;
+    background: rgba(143, 214, 143, 0.08);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 14px;
+    line-height: 1.5;
+}
+.upload-result .result-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+.upload-result .result-actions button,
+.upload-result .result-actions a {
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(143, 214, 143, 0.35);
+    color: #8fd68f;
+    background: transparent;
+    cursor: pointer;
+    text-decoration: none;
+}
+.upload-result .result-actions button:hover,
+.upload-result .result-actions a:hover {
+    background: rgba(143, 214, 143, 0.2);
+}
+
+/* Works page */
+#page-works .page-container {
+    padding-top: 2rem;
+}
+#page-works .work-hero {
+    text-align: center;
+}
+#page-works .work-hero img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}

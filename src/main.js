@@ -7,6 +7,8 @@ import { i18n } from './i18n.js';
 import { router } from './router.js';
 import { blogManager } from './blog-manager.js';
 import { seoManager } from './seo-manager.js';
+import { uploadImageBlob, buildCloudinaryPagePublicId } from './cloudinary.js';
+import { renderShareLinks } from './share.js';
 
 const FILTER_PRESETS = [
     {
@@ -110,6 +112,18 @@ class App {
         this.init();
     }
 
+    renderNavShare() {
+        const container = document.getElementById('navShare');
+        if (!container) return;
+        renderShareLinks(container, {
+            title: document.title,
+            campaign: router.currentPage && router.currentPage.startsWith('blog/')
+                ? `blog_${router.currentPage.split('/')[1]}`
+                : router.currentPage || 'home',
+            medium: 'header'
+        });
+    }
+    
     init() {
         this.setupEventListeners();
         this.setupLanguageSwitcher();
@@ -127,6 +141,7 @@ class App {
         // Initialize SEO for current page
         const initialPage = router.currentPage || 'home';
         seoManager.updateSEO(initialPage);
+        this.renderNavShare();
         
         // Listen for language changes
         document.addEventListener('language-changed', () => {
@@ -150,6 +165,8 @@ class App {
                 // Update SEO for current page when language changes
                 seoManager.updateSEO(router.currentPage);
             }
+            // Refresh header share labels/links on language change
+            this.renderNavShare();
         });
     }
     
@@ -244,6 +261,7 @@ class App {
                                 setTimeout(() => this.renderBlogPage(), 100);
                             }
                         }
+                        this.renderNavShare();
                     }
                 }
             });
@@ -257,6 +275,7 @@ class App {
                 const href = link.getAttribute('href');
                 const postId = href.replace('/blog/', '');
                 router.showBlogPost(postId, true);
+                this.renderNavShare();
             }
         });
     }
@@ -368,6 +387,10 @@ class App {
         document.getElementById('exportBtn').addEventListener('click', () => {
             this.exportCollage();
         });
+        const uploadPublicBtn = document.getElementById('uploadPublicBtn');
+        if (uploadPublicBtn) {
+            uploadPublicBtn.addEventListener('click', () => this.uploadPublicWork());
+        }
 
         qualitySlider.addEventListener('input', (e) => {
             const quality = parseFloat(e.target.value);
@@ -877,6 +900,77 @@ class App {
             decorations: this.decorations,
             settings: this.settings
         });
+    }
+
+    async uploadPublicWork() {
+        const resultBox = document.getElementById('publicUploadResult');
+        const btn = document.getElementById('uploadPublicBtn');
+        if (!resultBox || !btn) return;
+        try {
+            btn.disabled = true;
+            btn.textContent = i18n.t('works.uploading');
+            resultBox.style.display = 'none';
+            resultBox.innerHTML = '';
+
+            // Render current collage to canvas at current quality; upload JPG for compatibility
+            const canvas = document.getElementById('collageCanvas');
+            if (!canvas || canvas.style.display === 'none') {
+                // Ensure something to export
+                this.renderCollage();
+            }
+            const exportCanvas = await this.exportManager.renderToCanvas({
+                element: document.getElementById('collageCanvas'),
+                images: this.imageManager.getImages(),
+                decorations: this.decorations,
+                settings: this.settings,
+                quality: 1,
+                format: 'jpg'
+            });
+            const blob = await new Promise((resolve) => exportCanvas.toBlob(resolve, 'image/jpeg', 0.92));
+            if (!blob) throw new Error('Failed to create image blob');
+
+            const uploadRes = await uploadImageBlob(blob, { folder: 'works', fileName: `collage-${Date.now()}.jpg` });
+            const imageUrl = uploadRes.secure_url;
+            const publicId = uploadRes.public_id; // e.g., works/abc123
+            const worksId = buildCloudinaryPagePublicId(publicId);
+            const worksUrl = `/works/${worksId}`;
+
+            // Show result UI
+            const embedCode = `<a href="https://www.mecollage.top${worksUrl}" target="_blank" rel="noopener"><img src="${imageUrl}" alt="MeCollage Public Work" /></a>`;
+            resultBox.innerHTML = `
+                <div>${i18n.t('works.uploadDone')}</div>
+                <div class="result-actions">
+                    <a href="${worksUrl}" class="btn" target="_blank" rel="noopener">${i18n.t('works.viewPublicPage')}</a>
+                    <button type="button" id="copyImageUrlBtn">${i18n.t('works.copyImageUrl')}</button>
+                    <button type="button" id="copyEmbedBtn">${i18n.t('works.copyEmbedCode')}</button>
+                </div>
+                <div style="margin-top:8px;">
+                    <div style="opacity:.8;font-size:12px;margin-bottom:4px;">${i18n.t('works.embedLabel')}:</div>
+                    <textarea id="embedCodeArea" readonly rows="3" style="width:100%;resize:vertical;">${embedCode}</textarea>
+                </div>
+            `;
+            resultBox.style.display = 'block';
+
+            const copyUrlBtn = document.getElementById('copyImageUrlBtn');
+            const copyEmbedBtn = document.getElementById('copyEmbedBtn');
+            const embedArea = document.getElementById('embedCodeArea');
+            copyUrlBtn?.addEventListener('click', async () => {
+                await navigator.clipboard.writeText(imageUrl);
+                const { showToast } = await import('./share.js');
+                showToast?.(i18n.t('share.copied'));
+            });
+            copyEmbedBtn?.addEventListener('click', async () => {
+                await navigator.clipboard.writeText(embedArea.value);
+                const { showToast } = await import('./share.js');
+                showToast?.(i18n.t('share.copied'));
+            });
+        } catch (err) {
+            console.error(err);
+            alert(err?.message || 'Upload failed');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = i18n.t('works.uploadAndLink');
+        }
     }
 
     updateRangeProgress(sliderId, progressId) {

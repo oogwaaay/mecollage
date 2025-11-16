@@ -1,6 +1,7 @@
 // Simple Router for page navigation
 import { i18n } from './i18n.js';
 import { seoManager } from './seo-manager.js';
+import { renderShareLinks } from './share.js';
 
 export class Router {
     constructor() {
@@ -9,7 +10,8 @@ export class Router {
             home: 'home',
             features: 'features',
             tutorial: 'tutorial',
-            blog: 'blog'
+            blog: 'blog',
+            works: 'works'
         };
         this.init();
     }
@@ -40,6 +42,10 @@ export class Router {
             const postPath = cleanPath.replace(/\.(en|zh|es)$/, '');
             return postPath;
         }
+        // Works public page: works/{id}
+        if (cleanPath.startsWith('works/')) {
+            return cleanPath;
+        }
         // Map common paths
         const pathMap = {
             'features': 'features',
@@ -69,6 +75,11 @@ export class Router {
         if (page.startsWith('blog/')) {
             const postId = page.replace('blog/', '');
             this.showBlogPost(postId, pushState);
+            return;
+        }
+        if (page.startsWith('works/')) {
+            const worksId = page.replace('works/', '');
+            this.showWorkPage(worksId, pushState);
             return;
         }
         
@@ -113,6 +124,45 @@ export class Router {
                 window.history.pushState({ page }, '', url);
             }
         }
+    }
+    
+    showWorkPage(worksId, pushState = true) {
+        // Hide all pages
+        document.querySelectorAll('.page-content').forEach(p => {
+            p.style.display = 'none';
+        });
+        const header = document.querySelector('.ghibli-header');
+        if (header) header.style.display = 'none';
+        const worksPage = document.getElementById('page-works');
+        if (worksPage) {
+            worksPage.style.display = 'block';
+            this.currentPage = `works/${worksId}`;
+            this.renderWorkPage(worksId);
+            // Basic SEO
+            seoManager.updateSEO(this.currentPage);
+            if (pushState) {
+                window.history.pushState({ page: `works/${worksId}` }, '', `/works/${worksId}`);
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+    
+    renderWorkPage(worksId) {
+        const container = document.getElementById('works-content');
+        if (!container) return;
+        const { i18n } = window; // already imported at top as well
+        const title = i18n.t('works.pageTitle');
+        const subtitle = i18n.t('works.pageSubtitle');
+        // worksId is Cloudinary public_id (possibly URL-encoded)
+        const decodedId = decodeURIComponent(worksId);
+        const imageUrl = `https://res.cloudinary.com/dztbpf6ke/image/upload/${decodedId}.jpg`.replace(/\.jpg\.jpg$/, '.jpg'); // attempt default extension
+        container.innerHTML = `
+            <h1 class="page-title">${title}</h1>
+            <p class="page-subtitle">${subtitle}</p>
+            <div class="work-hero">
+                <img src="https://res.cloudinary.com/dztbpf6ke/image/upload/${decodedId}" alt="Public Work">
+            </div>
+        `;
     }
     
     showBlogPost(postId, pushState = true) {
@@ -227,13 +277,15 @@ export class Router {
             ${relatedPostsHTML}
             <div class="blog-post-footer">
                 <a href="/blog" class="blog-back-link">← ${backText}</a>
-                <div class="blog-share">
-                    <span>${shareText}</span>
-                    <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(localizedPost.title)}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Twitter</a>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}" target="_blank" class="blog-share-link">Facebook</a>
-                </div>
+                <div class="blog-share" id="blogShare"></div>
             </div>
         `;
+        const shareContainer = document.getElementById('blogShare');
+        renderShareLinks(shareContainer, {
+            title: localizedPost.title,
+            text: localizedPost.excerpt || localizedPost.title,
+            campaign: `blog_${post.id}`
+        });
     }
     
     formatDate(dateString) {

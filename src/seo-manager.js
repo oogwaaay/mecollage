@@ -71,6 +71,12 @@ export class SEOManager {
                     description: 'Learn how to create stunning photo collages with our guides and tips. Tutorials, design tips, holiday guides, and mobile collage tips.',
                     keywords: 'collage tutorial, photo collage guide, collage tips, collage design, collage blog',
                     canonical: `${this.baseUrl}/blog`
+                },
+                works: {
+                    title: 'Public Work - MeCollage',
+                    description: 'A publicly shared collage created with MeCollage.',
+                    keywords: 'collage, public work, embed, MeCollage',
+                    canonical: `${this.baseUrl}/works`
                 }
             },
             'zh': {
@@ -97,6 +103,12 @@ export class SEOManager {
                     description: '通过我们的指南和技巧学习如何创建精美的照片拼图。教程、设计技巧、节日指南和移动端拼图技巧。',
                     keywords: '拼图教程, 照片拼图指南, 拼图技巧, 拼图设计, 拼图博客',
                     canonical: `${this.baseUrl}/blog?lang=zh`
+                },
+                works: {
+                    title: '公开作品 - MeCollage',
+                    description: '一份使用 MeCollage 创建并公开分享的拼图作品。',
+                    keywords: '拼图, 公开作品, 嵌入, MeCollage',
+                    canonical: `${this.baseUrl}/works?lang=zh`
                 }
             },
             'es': {
@@ -123,6 +135,12 @@ export class SEOManager {
                     description: 'Aprende a crear collages de fotos impresionantes con nuestras guías y consejos. Tutoriales, consejos de diseño, guías de vacaciones y consejos de collage móvil.',
                     keywords: 'tutorial collage, guía collage fotos, consejos collage, diseño collage, blog collage',
                     canonical: `${this.baseUrl}/blog?lang=es`
+                },
+                works: {
+                    title: 'Obra pública - MeCollage',
+                    description: 'Un collage público creado con MeCollage.',
+                    keywords: 'collage, obra pública, incrustar, MeCollage',
+                    canonical: `${this.baseUrl}/works?lang=es`
                 }
             }
         };
@@ -141,6 +159,18 @@ export class SEOManager {
                 description: localizedPost.excerpt || config.description,
                 keywords: post.tags.join(', ') + ', collage tutorial, photo collage guide',
                 canonical: postUrl
+            };
+        }
+        // Works with id: works/{id}
+        if (page && page.startsWith('works/')) {
+            const worksId = page.replace('works/', '');
+            const worksUrl = `${this.baseUrl}/works/${worksId}${lang !== 'en' ? `?lang=${lang}` : ''}`;
+            const baseConf = langMap[lang]?.['works'] || langMap['en']['works'];
+            config = {
+                title: `${baseConf.title} | ${worksId}`,
+                description: baseConf.description,
+                keywords: baseConf.keywords,
+                canonical: worksUrl
             };
         }
         

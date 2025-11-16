@@ -31,6 +31,23 @@ export class ExportManager {
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
 
+            // Additionally generate a social preview (1200x630 jpg) for sharing cards
+            try {
+                const socialBlob = await this.renderSocialPreview(canvas);
+                if (socialBlob) {
+                    const socialUrl = URL.createObjectURL(socialBlob);
+                    const socialLink = document.createElement('a');
+                    socialLink.href = socialUrl;
+                    socialLink.download = `collage-social-${Date.now()}.jpg`;
+                    document.body.appendChild(socialLink);
+                    socialLink.click();
+                    document.body.removeChild(socialLink);
+                    URL.revokeObjectURL(socialUrl);
+                }
+            } catch (e) {
+                console.warn('Social preview generation failed:', e);
+            }
+
             // Reset button
             if (exportBtn) {
                 exportBtn.textContent = originalLabel;
@@ -123,6 +140,32 @@ export class ExportManager {
         }
 
         return canvas;
+    }
+
+    async renderSocialPreview(sourceCanvas) {
+        // Create a 1200x630 OpenGraph-sized thumbnail
+        const W = 1200;
+        const H = 630;
+        const out = document.createElement('canvas');
+        out.width = W;
+        out.height = H;
+        const ctx = out.getContext('2d', { willReadFrequently: false });
+        // Background
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, W, H);
+        // Fit source into target with contain
+        const sw = sourceCanvas.width;
+        const sh = sourceCanvas.height;
+        if (!sw || !sh) return null;
+        const scale = Math.min(W / sw, H / sh);
+        const dw = Math.round(sw * scale);
+        const dh = Math.round(sh * scale);
+        const dx = Math.floor((W - dw) / 2);
+        const dy = Math.floor((H - dh) / 2);
+        ctx.drawImage(sourceCanvas, dx, dy, dw, dh);
+        // Convert to JPEG
+        const blob = await new Promise((resolve) => out.toBlob(resolve, 'image/jpeg', 0.9));
+        return blob;
     }
 
     buildFilterString(filters) {

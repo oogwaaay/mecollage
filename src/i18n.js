@@ -43,6 +43,31 @@ export class I18n {
                         portfolio: 'Portfolio'
                     }
                 },
+                share: {
+                    copyLink: 'Copy link',
+                    copied: 'Link copied',
+                    copyPrompt: 'Copy this link:',
+                    systemShare: 'Share…',
+                    notSupported: 'System share not supported',
+                    twitter: 'Twitter/X',
+                    facebook: 'Facebook',
+                    reddit: 'Reddit',
+                    pinterest: 'Pinterest',
+                    whatsapp: 'WhatsApp',
+                    telegram: 'Telegram',
+                    linkedin: 'LinkedIn'
+                },
+                works: {
+                    uploadAndLink: 'Upload & Get Public Link',
+                    uploading: 'Uploading...',
+                    uploadDone: 'Upload completed',
+                    viewPublicPage: 'View public page',
+                    copyImageUrl: 'Copy image URL',
+                    copyEmbedCode: 'Copy embed code',
+                    embedLabel: 'Embed code',
+                    pageTitle: 'Public Work',
+                    pageSubtitle: 'A publicly shared collage created with MeCollage'
+                },
                 lang: {
                     name: 'English',
                     selector: 'Language',
@@ -447,6 +472,31 @@ export class I18n {
                         portfolio: 'Portafolio'
                     }
                 },
+                share: {
+                    copyLink: 'Copiar enlace',
+                    copied: 'Enlace copiado',
+                    copyPrompt: 'Copia este enlace:',
+                    systemShare: 'Compartir…',
+                    notSupported: 'Compartir del sistema no disponible',
+                    twitter: 'Twitter/X',
+                    facebook: 'Facebook',
+                    reddit: 'Reddit',
+                    pinterest: 'Pinterest',
+                    whatsapp: 'WhatsApp',
+                    telegram: 'Telegram',
+                    linkedin: 'LinkedIn'
+                },
+                works: {
+                    uploadAndLink: 'Subir y obtener enlace público',
+                    uploading: 'Subiendo...',
+                    uploadDone: 'Subida completa',
+                    viewPublicPage: 'Ver página pública',
+                    copyImageUrl: 'Copiar URL de imagen',
+                    copyEmbedCode: 'Copiar código de inserción',
+                    embedLabel: 'Código de inserción',
+                    pageTitle: 'Obra pública',
+                    pageSubtitle: 'Un collage público creado con MeCollage'
+                },
                 lang: {
                     name: 'Español',
                     selector: 'Idioma',
@@ -834,6 +884,31 @@ export class I18n {
                         socialMedia: '社交媒体',
                         portfolio: '作品集'
                     }
+                },
+                share: {
+                    copyLink: '复制链接',
+                    copied: '已复制链接',
+                    copyPrompt: '复制此链接：',
+                    systemShare: '系统分享…',
+                    notSupported: '当前浏览器不支持系统分享',
+                    twitter: 'Twitter/X',
+                    facebook: 'Facebook',
+                    reddit: 'Reddit',
+                    pinterest: 'Pinterest',
+                    whatsapp: 'WhatsApp',
+                    telegram: 'Telegram',
+                    linkedin: 'LinkedIn'
+                },
+                works: {
+                    uploadAndLink: '上传并获取公开链接',
+                    uploading: '正在上传...',
+                    uploadDone: '上传完成',
+                    viewPublicPage: '查看公开页面',
+                    copyImageUrl: '复制图片链接',
+                    copyEmbedCode: '复制嵌入代码',
+                    embedLabel: '嵌入代码',
+                    pageTitle: '公开作品',
+                    pageSubtitle: '使用 MeCollage 创建并公开分享的拼图'
                 },
                 lang: {
                     name: '简体中文',

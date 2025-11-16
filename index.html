@@ -114,6 +114,7 @@
                 <a href="/blog" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
             </div>
             <div class="nav-right">
+                <div class="nav-share" id="navShare"></div>
                 <div class="lang-selector" title="Switch Language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
@@ -421,6 +422,8 @@
                                 </select>
                             </label>
                             <button id="exportBtn" class="btn btn-success" data-i18n="sidebar.exportCollage">Export Collage</button>
+                            <button id="uploadPublicBtn" class="btn" data-i18n="works.uploadAndLink">Upload & Get Public Link</button>
+                            <div id="publicUploadResult" class="upload-result" style="display:none;"></div>
                         </div>
                     </div>
                 </div>
@@ -644,6 +647,13 @@
                 <div id="blog-post-content">
                     <!-- Blog post content will be loaded dynamically -->
                 </div>
+            </div>
+        </div>
+
+        <!-- Public Work Page -->
+        <div id="page-works" class="page-content" style="display: none;">
+            <div class="page-container">
+                <div id="works-content"></div>
             </div>
         </div>
 

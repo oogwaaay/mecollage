@@ -27,6 +27,91 @@ function readTemplate() {
     return readFileSync(templatePath, 'utf-8');
 }
 
+// Fetch works list from Cloudinary Search API (by tag)
+async function fetchWorksFromCloudinary(tag = 'mecollage') {
+    const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+    const apiKey = process.env.CLOUDINARY_API_KEY;
+    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+    if (!cloudName || !apiKey || !apiSecret) {
+        console.warn('Cloudinary env not set, skipping works sitemap.');
+        return [];
+    }
+    const auth = Buffer.from(`${apiKey}:${apiSecret}`).toString('base64');
+    const endpoint = `https://api.cloudinary.com/v1_1/${cloudName}/resources/search`;
+    const works = [];
+    let nextCursor = null;
+    do {
+        const body = {
+            expression: `tags=${tag} AND resource_type:image`,
+            max_results: 100,
+            sort_by: [{ public_id: 'desc' }]
+        };
+        if (nextCursor) body.next_cursor = nextCursor;
+        const resp = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Basic ${auth}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        if (!resp.ok) {
+            const text = await resp.text().catch(() => '');
+            throw new Error(`Cloudinary search failed: ${resp.status} ${text}`);
+        }
+        const json = await resp.json();
+        (json.resources || []).forEach(r => {
+            if (r && r.public_id) {
+                works.push(r.public_id); // e.g., works/abcd123
+            }
+        });
+        nextCursor = json.next_cursor;
+    } while (nextCursor);
+    return works;
+}
+
+function formatDateISO(date = new Date()) {
+    return new Date(date).toISOString().slice(0, 10);
+}
+
+function appendWorksToSitemapXml(xml, worksIds) {
+    const today = formatDateISO();
+    const base = 'https://www.mecollage.top';
+    const block = worksIds.map((id) => {
+        const safeId = encodeURI(id);
+        return [
+            '  <url>',
+            `    <loc>${base}/works/${safeId}</loc>`,
+            `    <lastmod>${today}</lastmod>`,
+            '    <changefreq>monthly</changefreq>',
+            '    <priority>0.6</priority>',
+            '  </url>'
+        ].join('\n');
+    }).join('\n');
+    if (!block) return xml;
+    // Insert before closing </urlset>
+    return xml.replace(/\n<\/urlset>\s*$/m, `\n${block}\n</urlset>`);
+}
+
+function updateSitemap({ worksIds = [] } = {}) {
+    // Update public/sitemap.xml (source)
+    const publicSitemap = join(rootDir, 'public', 'sitemap.xml');
+    if (existsSync(publicSitemap) && worksIds.length) {
+        let xml = readFileSync(publicSitemap, 'utf-8');
+        xml = appendWorksToSitemapXml(xml, worksIds);
+        writeFileSync(publicSitemap, xml, 'utf-8');
+        console.log(`Public sitemap updated with ${worksIds.length} works entries.`);
+    }
+    // Update dist/sitemap.xml (artifact)
+    const distSitemap = join(distDir, 'sitemap.xml');
+    if (existsSync(distSitemap) && worksIds.length) {
+        let xml = readFileSync(distSitemap, 'utf-8');
+        xml = appendWorksToSitemapXml(xml, worksIds);
+        writeFileSync(distSitemap, xml, 'utf-8');
+        console.log(`Dist sitemap updated with ${worksIds.length} works entries.`);
+    }
+}
+
 // Generate blog post HTML
 function generateBlogPostHTML(template, post, lang = 'en') {
     const localizedPost = post.translations?.[lang] || post.translations?.en || post;
@@ -178,7 +263,7 @@ function generateBlogPostHTML(template, post, lang = 'en') {
 }
 
 // Generate static pages
-function generateStaticPages() {
+async function generateStaticPages() {
     console.log('Generating static HTML pages...');
     
     if (!existsSync(distDir)) {
@@ -187,6 +272,7 @@ function generateStaticPages() {
     
     const template = readTemplate();
     const posts = extractBlogData();
+    const worksIds = await fetchWorksFromCloudinary('mecollage');
     
     // Create blog directory
     const blogDir = join(distDir, 'blog');
@@ -209,6 +295,7 @@ function generateStaticPages() {
     // Generate features and tutorial pages
     generateFeaturesPage(template);
     generateTutorialPage(template);
+    updateSitemap({ worksIds });
     
     console.log(`Generated ${posts.length * languages.length} blog post pages`);
     console.log('Static page generation complete!');
@@ -281,7 +368,11 @@ const isMainModule = import.meta.url === `file://${process.argv[1]}` ||
                      process.argv[1] && import.meta.url.endsWith(process.argv[1].replace(/\\/g, '/'));
 
 if (isMainModule || process.argv[1]?.includes('generate-static-pages')) {
-    generateStaticPages();
+    // Node 18+ provides global fetch
+    generateStaticPages().catch((e) => {
+        console.error(e);
+        process.exit(1);
+    });
 }
 
 export { generateStaticPages, extractBlogData };
