@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeCollage - Image Collage Maker</title>
+    <script>
+        // GitHub Pages 404 redirect for SPA
+        // This file is served when a route doesn't exist
+        // We redirect to index.html which will handle the routing
+        
+        const path = window.location.pathname;
+        const search = window.location.search;
+        const hash = window.location.hash;
+        
+        // Redirect to index.html, preserving the path
+        // The router will then handle the path from window.location.pathname
+        if (path !== '/index.html' && path !== '/') {
+            // Use replace to avoid adding to history
+            window.location.replace('/index.html' + search + hash);
+        } else {
+            // If already on index.html, just redirect to home
+            window.location.replace('/');
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>
+
