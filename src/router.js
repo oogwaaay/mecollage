@@ -160,7 +160,7 @@ export class Router {
             <h1 class="page-title">${title}</h1>
             <p class="page-subtitle">${subtitle}</p>
             <div class="work-hero">
-                <img src="https://res.cloudinary.com/dztbpf6ke/image/upload/${decodedId}" alt="Public Work">
+                <img src="https://res.cloudinary.com/dztbpf6ke/image/upload/${decodedId}" alt="Public Work" loading="lazy" decoding="async">
             </div>
         `;
     }
@@ -257,6 +257,35 @@ export class Router {
                 </div>
             `;
         }
+
+        const internalLinks = (post.internalLinks || []).map(link => {
+            if (!link) return null;
+            const label = link.labels?.[currentLang] || link.labels?.en || link.href;
+            const href = link.href.startsWith('http')
+                ? link.href
+                : currentLang === 'en'
+                    ? link.href
+                    : `${link.href}${link.href.includes('?') ? '&' : '?'}lang=${currentLang}`;
+            return { label, href };
+        }).filter(Boolean);
+
+        let internalLinksHTML = '';
+        if (internalLinks.length) {
+            const ctaTitle = i18n.t('blog.keepExploring');
+            internalLinksHTML = `
+                <div class="blog-cta-grid">
+                    <h2 class="blog-cta-title">${ctaTitle}</h2>
+                    <div class="blog-cta-cards">
+                        ${internalLinks.map(link => `
+                            <a class="blog-cta-card" href="${link.href}">
+                                <span>${link.label}</span>
+                                <span aria-hidden="true">→</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
         
         container.innerHTML = `
             <div class="blog-post-header">
@@ -273,6 +302,7 @@ export class Router {
             </div>
             <div class="blog-post-body">
                 ${localizedPost.content}
+                ${internalLinksHTML}
             </div>
             ${relatedPostsHTML}
             <div class="blog-post-footer">

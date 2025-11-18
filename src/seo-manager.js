@@ -4,6 +4,38 @@ import { i18n } from './i18n.js';
 export class SEOManager {
     constructor() {
         this.baseUrl = 'https://www.mecollage.top';
+        this.faqContent = {
+            home: [
+                {
+                    question: 'Is MeCollage completely free to use?',
+                    answer: 'Yes. You can upload unlimited images, use every template, and export PNG or JPG files without logging in or paying.'
+                },
+                {
+                    question: 'Do exports include a watermark?',
+                    answer: 'No. Every download is watermark-free so you can share collages on any platform.'
+                }
+            ],
+            features: [
+                {
+                    question: 'How many images can I add to a collage?',
+                    answer: 'You can add 20+ images by default and the custom grid allows expanding even further depending on your layout settings.'
+                },
+                {
+                    question: 'Which layouts and sizes are available?',
+                    answer: 'Choose from horizontal, vertical, story, square, multi-grid, and fully custom layouts with adjustable spacing and borders.'
+                }
+            ],
+            tutorial: [
+                {
+                    question: 'What is the fastest way to create a collage?',
+                    answer: 'Upload all photos, pick a template from the recommendations, adjust spacing or colors, then click Export to download your collage.'
+                },
+                {
+                    question: 'Can I edit collages on mobile?',
+                    answer: 'Yes. The UI is responsive so you can drag, resize, and export collages on phones and tablets.'
+                }
+            ]
+        };
         this.init();
     }
     
@@ -49,97 +81,97 @@ export class SEOManager {
         const langMap = {
             'en': {
                 home: {
-                    title: 'MeCollage - Free Online Photo Collage Maker | Create Stunning Collages',
-                    description: 'Create beautiful photo collages with unlimited images. Free online collage maker with 20+ templates, custom grids, filters, and decorations. Export in PNG or JPG format. Start creating now!',
-                    keywords: 'collage maker, photo collage, image collage, online collage maker, free collage maker, photo grid, image editor, how to make a collage',
+                    title: 'MeCollage | Free Online Photo Collage Maker (No Watermark)',
+                    description: 'Design photo collages with unlimited images, 20+ layouts, custom grids, filters, and instant PNG/JPG export. No login, no watermark, totally free.',
+                    keywords: 'free collage maker, no watermark collage, online photo collage, unlimited images collage, custom grid collage, png jpg export',
                     canonical: `${this.baseUrl}/`
                 },
                 features: {
-                    title: 'Features - Free Collage Maker with 20+ Templates | MeCollage',
-                    description: 'Discover powerful collage making features: unlimited images, 20+ templates, AI recommendations, custom grids, filters, themes, and high-quality export. All completely free!',
-                    keywords: 'collage maker features, photo collage templates, collage maker tools, free collage features, image collage options',
+                    title: 'Collage Maker Features | 20+ Layouts, AI Ideas & Custom Grids',
+                    description: 'Explore every MeCollage feature: AI template suggestions, responsive grids, spacing controls, stickers, filters, story/square exports, and watermark-free downloads.',
+                    keywords: 'collage maker features, ai collage templates, custom grid collage, collage spacing controls, story collage maker',
                     canonical: `${this.baseUrl}/features`
                 },
                 tutorial: {
-                    title: 'How to Make a Photo Collage - Step-by-Step Tutorial | MeCollage',
-                    description: 'Learn how to create beautiful photo collages in minutes. Complete step-by-step guide with tips, tricks, and FAQs. Perfect for beginners and advanced users.',
-                    keywords: 'how to make a collage, photo collage tutorial, collage making guide, how to create collage, collage tutorial',
+                    title: 'How to Use MeCollage | Step-by-Step Free Collage Tutorial',
+                    description: 'Follow this quick start guide to upload photos, pick templates, fine-tune spacing, add text, and export a collage in under five minutes.',
+                    keywords: 'how to use mecollage, free collage tutorial, quick collage guide, photo collage tips',
                     canonical: `${this.baseUrl}/tutorial`
                 },
                 blog: {
-                    title: 'Photo Collage Tutorials & Guides | MeCollage Blog',
-                    description: 'Learn how to create stunning photo collages with our guides and tips. Tutorials, design tips, holiday guides, and mobile collage tips.',
-                    keywords: 'collage tutorial, photo collage guide, collage tips, collage design, collage blog',
+                    title: 'Collage Tips, Layout Ideas & Templates | MeCollage Blog',
+                    description: 'Weekly guides covering layout ideas, social-ready sizes, design trends, and free templates to level up every collage project.',
+                    keywords: 'collage tips, collage ideas, free collage templates, collage design blog, social media collage guide',
                     canonical: `${this.baseUrl}/blog`
                 },
                 works: {
-                    title: 'Public Work - MeCollage',
-                    description: 'A publicly shared collage created with MeCollage.',
-                    keywords: 'collage, public work, embed, MeCollage',
+                    title: 'Public Collage Gallery | MeCollage Inspiration Board',
+                    description: 'Browse shareable collages created by the community. Copy the embed code or share the work to inspire your next layout.',
+                    keywords: 'public collage gallery, collage inspiration, embed collage, mecollage works',
                     canonical: `${this.baseUrl}/works`
                 }
             },
             'zh': {
                 home: {
-                    title: 'MeCollage - 免费在线照片拼图制作工具 | 创建精美拼图',
-                    description: '使用无限图片创建精美照片拼图。免费在线拼图制作工具，提供20+模板、自定义网格、滤镜和装饰。支持PNG或JPG格式导出。立即开始创建！',
-                    keywords: '拼图工具, 照片拼图, 图片拼图, 在线拼图制作, 免费拼图工具, 拼图制作, 如何制作拼图',
+                    title: 'MeCollage｜免费在线照片拼图工具（无水印）',
+                    description: '无限张图片、20+模板、自定义网格与滤镜特效，几分钟即可导出 PNG/JPG 拼图，无需登录、无任何水印。',
+                    keywords: '免费拼图工具, 无水印拼图, 在线照片拼图, 自定义网格拼图, 拼图导出PNG',
                     canonical: `${this.baseUrl}/?lang=zh`
                 },
                 features: {
-                    title: '功能特色 - 20+模板免费拼图制作工具 | MeCollage',
-                    description: '发现强大的拼图制作功能：无限图片、20+模板、AI推荐、自定义网格、滤镜、主题和高质量导出。完全免费！',
-                    keywords: '拼图工具功能, 照片拼图模板, 拼图制作工具, 免费拼图功能, 图片拼图选项',
+                    title: '功能亮点｜20+ 模板、AI 推荐、自定义网格',
+                    description: '了解 MeCollage 的全部功能：AI 模板推荐、响应式网格、边距/边框控制、贴纸滤镜、故事/方形尺寸导出，全程免费。',
+                    keywords: '拼图功能, AI 拼图模板, 自定义拼图网格, 拼图边距设置, 拼图导出',
                     canonical: `${this.baseUrl}/features?lang=zh`
                 },
                 tutorial: {
-                    title: '如何制作照片拼图 - 分步教程 | MeCollage',
-                    description: '学习如何在几分钟内创建精美的照片拼图。完整的分步指南，包含技巧、窍门和常见问题。适合初学者和高级用户。',
-                    keywords: '如何制作拼图, 照片拼图教程, 拼图制作指南, 如何创建拼图, 拼图教程',
+                    title: '新手教程｜5 分钟完成高质量拼图',
+                    description: '按步骤上传照片、选择模板、调节间距颜色、添加文字贴纸，最后一键导出。移动端同样适用。',
+                    keywords: '拼图教程, 拼图步骤, 手机拼图指南, 快速拼图',
                     canonical: `${this.baseUrl}/tutorial?lang=zh`
                 },
                 blog: {
-                    title: '照片拼图教程与指南 | MeCollage 博客',
-                    description: '通过我们的指南和技巧学习如何创建精美的照片拼图。教程、设计技巧、节日指南和移动端拼图技巧。',
-                    keywords: '拼图教程, 照片拼图指南, 拼图技巧, 拼图设计, 拼图博客',
+                    title: '拼图灵感与模板推荐｜MeCollage 博客',
+                    description: '定期更新拼图灵感、社媒尺寸、节日模板、设计技巧与免费素材，帮助你快速出片。',
+                    keywords: '拼图灵感, 拼图模板推荐, 社媒拼图, 拼图设计技巧',
                     canonical: `${this.baseUrl}/blog?lang=zh`
                 },
                 works: {
-                    title: '公开作品 - MeCollage',
-                    description: '一份使用 MeCollage 创建并公开分享的拼图作品。',
-                    keywords: '拼图, 公开作品, 嵌入, MeCollage',
+                    title: '公开拼图画廊｜社区灵感墙',
+                    description: '浏览用户公开分享的拼图作品，获取布局灵感或复制嵌入代码展示在自己网站上。',
+                    keywords: '拼图画廊, 拼图灵感, 拼图嵌入, MeCollage 作品',
                     canonical: `${this.baseUrl}/works?lang=zh`
                 }
             },
             'es': {
                 home: {
-                    title: 'MeCollage - Creador de Collages de Fotos Gratis Online | Crea Collages Impresionantes',
-                    description: 'Crea hermosos collages de fotos con imágenes ilimitadas. Creador de collages online gratis con 20+ plantillas, cuadrículas personalizadas, filtros y decoraciones. Exporta en formato PNG o JPG. ¡Comienza a crear ahora!',
-                    keywords: 'creador de collage, collage de fotos, collage de imágenes, creador de collage online, collage gratis, cómo hacer un collage',
+                    title: 'MeCollage | Creador de collages gratis sin marca de agua',
+                    description: 'Diseña collages con imágenes ilimitadas, 20+ plantillas y cuadrículas personalizadas. Exporta en PNG/JPG sin registrarte ni dejar marca de agua.',
+                    keywords: 'creador de collage gratis, collage sin marca de agua, collage online, plantillas de collage',
                     canonical: `${this.baseUrl}/?lang=es`
                 },
                 features: {
-                    title: 'Características - Creador de Collages Gratis con 20+ Plantillas | MeCollage',
-                    description: 'Descubre potentes funciones para crear collages: imágenes ilimitadas, 20+ plantillas, recomendaciones IA, cuadrículas personalizadas, filtros, temas y exportación de alta calidad. ¡Todo completamente gratis!',
-                    keywords: 'características creador collage, plantillas collage fotos, herramientas collage, funciones collage gratis, opciones collage imágenes',
+                    title: 'Funciones clave | Plantillas, IA y cuadrículas personalizadas',
+                    description: 'Conoce las funciones de MeCollage: sugerencias con IA, cuadrículas responsivas, controles de espaciado, filtros y exportaciones optimizadas para redes.',
+                    keywords: 'funciones creador collage, plantillas collage, IA collage, cuadrículas personalizadas',
                     canonical: `${this.baseUrl}/features?lang=es`
                 },
                 tutorial: {
-                    title: 'Cómo Hacer un Collage de Fotos - Tutorial Paso a Paso | MeCollage',
-                    description: 'Aprende a crear hermosos collages de fotos en minutos. Guía completa paso a paso con consejos, trucos y preguntas frecuentes. Perfecto para principiantes y usuarios avanzados.',
-                    keywords: 'cómo hacer un collage, tutorial collage fotos, guía hacer collage, cómo crear collage, tutorial collage',
+                    title: 'Tutorial rápido | Cómo crear un collage en 5 minutos',
+                    description: 'Guía paso a paso para subir fotos, elegir plantillas, ajustar colores y descargar tu collage gratis en menos de cinco minutos.',
+                    keywords: 'tutorial collage gratis, cómo usar mecollage, guía collage paso a paso',
                     canonical: `${this.baseUrl}/tutorial?lang=es`
                 },
                 blog: {
-                    title: 'Tutoriales y Guías de Collages de Fotos | Blog MeCollage',
-                    description: 'Aprende a crear collages de fotos impresionantes con nuestras guías y consejos. Tutoriales, consejos de diseño, guías de vacaciones y consejos de collage móvil.',
-                    keywords: 'tutorial collage, guía collage fotos, consejos collage, diseño collage, blog collage',
+                    title: 'Ideas, plantillas y consejos de collage | Blog MeCollage',
+                    description: 'Artículos con ideas de diseño, tamaños ideales para redes, guías de temporada y plantillas gratuitas para inspirar tus collages.',
+                    keywords: 'ideas de collage, plantillas gratis collage, consejos de diseño collage, blog collage',
                     canonical: `${this.baseUrl}/blog?lang=es`
                 },
                 works: {
-                    title: 'Obra pública - MeCollage',
-                    description: 'Un collage público creado con MeCollage.',
-                    keywords: 'collage, obra pública, incrustar, MeCollage',
+                    title: 'Galería pública de collages | Inspiración MeCollage',
+                    description: 'Explora collages creados por la comunidad, comparte enlaces públicos o usa el código de inserción para mostrarlos en tu web.',
+                    keywords: 'galería de collages, inspiración collage, incrustar collage, mecollage works',
                     canonical: `${this.baseUrl}/works?lang=es`
                 }
             }
@@ -228,6 +260,9 @@ export class SEOManager {
             'es': 'es-ES'
         };
         document.documentElement.setAttribute('lang', langMap[lang] || 'en');
+
+        this.updateStructuredData(page, post, config);
+        this.updateHrefLangLinks(page, post);
     }
     
     updateOGTag(property, content) {
@@ -248,6 +283,167 @@ export class SEOManager {
             document.head.appendChild(meta);
         }
         meta.setAttribute('content', content);
+    }
+
+    updateStructuredData(page, post, config) {
+        this.updateBreadcrumbSchema(page, post, config);
+        this.updateFAQSchema(page);
+    }
+
+    updateBreadcrumbSchema(page, post, config) {
+        const items = [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'Home',
+                item: `${this.baseUrl}/`
+            }
+        ];
+
+        const addBreadcrumb = (name, url) => {
+            items.push({
+                '@type': 'ListItem',
+                position: items.length + 1,
+                name,
+                item: url
+            });
+        };
+
+        const langSuffix = i18n.currentLang && i18n.currentLang !== 'en' ? `?lang=${i18n.currentLang}` : '';
+
+        if (page === 'features') {
+            addBreadcrumb('Features', `${this.baseUrl}/features${langSuffix}`);
+        } else if (page === 'tutorial') {
+            addBreadcrumb('Tutorial', `${this.baseUrl}/tutorial${langSuffix}`);
+        } else if (page === 'blog') {
+            addBreadcrumb('Blog', `${this.baseUrl}/blog${langSuffix}`);
+        } else if (page === 'works') {
+            addBreadcrumb('Public Works', `${this.baseUrl}/works${langSuffix}`);
+        } else if (page && page.startsWith('blog/')) {
+            const postId = page.replace('blog/', '');
+            addBreadcrumb('Blog', `${this.baseUrl}/blog${langSuffix}`);
+            addBreadcrumb(post?.title || 'Post', config?.canonical || `${this.baseUrl}/blog/${postId}`);
+        } else if (page && page.startsWith('works/')) {
+            const worksId = page.replace('works/', '');
+            addBreadcrumb('Public Works', `${this.baseUrl}/works${langSuffix}`);
+            addBreadcrumb(worksId, config?.canonical || `${this.baseUrl}/works/${worksId}`);
+        }
+
+        const breadcrumbData = {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            itemListElement: items
+        };
+
+        this.setJSONLDScript('structured-breadcrumb', breadcrumbData);
+    }
+
+    updateFAQSchema(page) {
+        const faqEntries = this.faqContent[page];
+        if (!faqEntries) {
+            this.setJSONLDScript('structured-faq', null);
+            return;
+        }
+
+        const faqData = {
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: faqEntries.map(entry => ({
+                '@type': 'Question',
+                name: entry.question,
+                acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: entry.answer
+                }
+            }))
+        };
+
+        this.setJSONLDScript('structured-faq', faqData);
+    }
+
+    setJSONLDScript(id, data) {
+        let script = document.getElementById(id);
+        if (!data) {
+            if (script) {
+                script.remove();
+            }
+            return;
+        }
+
+        if (!script) {
+            script = document.createElement('script');
+            script.type = 'application/ld+json';
+            script.id = id;
+            document.head.appendChild(script);
+        }
+
+        script.textContent = JSON.stringify(data);
+    }
+
+    updateHrefLangLinks(page, post) {
+        const langs = ['en', 'zh', 'es'];
+        const head = document.head;
+        // Remove previous alternate links
+        Array.from(head.querySelectorAll('link[rel="alternate"][hreflang]')).forEach(link => {
+            if (!link.dataset.static) {
+                link.remove();
+            }
+        });
+
+        const base = this.baseUrl;
+        const buildUrl = (lang, path = '') => {
+            if (!path) {
+                return lang === 'en' ? `${base}/` : `${base}/?lang=${lang}`;
+            }
+            if (lang === 'en') {
+                return `${base}${path}`;
+            }
+            const separator = path.includes('?') ? '&' : '?';
+            return `${base}${path}${separator}lang=${lang}`;
+        };
+
+        const targetPaths = {
+            home: '',
+            features: '/features',
+            tutorial: '/tutorial',
+            blog: '/blog'
+        };
+
+        let path = '';
+        if (targetPaths[page] !== undefined) {
+            path = targetPaths[page];
+        } else if (page && page.startsWith('blog/')) {
+            const postId = page.replace('blog/', '');
+            path = `/blog/${postId}`;
+        } else if (page && page.startsWith('works/')) {
+            const worksId = page.replace('works/', '');
+            path = `/works/${worksId}`;
+        } else if (page === 'works') {
+            path = '/works';
+        }
+
+        if (path === null) return;
+
+        const links = [];
+        langs.forEach(langCode => {
+            links.push({
+                hreflang: langCode,
+                href: buildUrl(langCode, path)
+            });
+        });
+        // x-default
+        links.push({
+            hreflang: 'x-default',
+            href: path ? `${base}${path}` : `${base}/`
+        });
+
+        links.forEach(({ hreflang, href }) => {
+            const link = document.createElement('link');
+            link.rel = 'alternate';
+            link.hreflang = hreflang;
+            link.href = href;
+            head.appendChild(link);
+        });
     }
 }
 

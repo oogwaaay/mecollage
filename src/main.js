@@ -717,7 +717,7 @@ class App {
 
         imageList.innerHTML = images.map((img, index) => `
             <div class="image-item${index === this.activeImageIndex ? ' is-selected' : ''}" data-index="${index}" draggable="true">
-                <img src="${img.url}" alt="Image ${index + 1}">
+                <img src="${img.url}" alt="Image ${index + 1}" loading="lazy" decoding="async">
                 <div class="image-item-footer">
                     <button class="image-reorder-handle" type="button" aria-label="${i18n.t('imagePanel.dragHandle')}">
                         <span aria-hidden="true">⋮⋮</span>
@@ -936,7 +936,7 @@ class App {
             const worksUrl = `/works/${worksId}`;
 
             // Show result UI
-            const embedCode = `<a href="https://www.mecollage.top${worksUrl}" target="_blank" rel="noopener"><img src="${imageUrl}" alt="MeCollage Public Work" /></a>`;
+            const embedCode = `<a href="https://www.mecollage.top${worksUrl}" target="_blank" rel="noopener"><img src="${imageUrl}" alt="MeCollage Public Work" loading="lazy" decoding="async" /></a>`;
             resultBox.innerHTML = `
                 <div>${i18n.t('works.uploadDone')}</div>
                 <div class="result-actions">

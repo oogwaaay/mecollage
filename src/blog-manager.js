@@ -1,3 +1,73 @@
+const INTERNAL_LINK_LIBRARY = {
+    features: {
+        href: '/features',
+        labels: {
+            en: 'Explore every MeCollage feature',
+            zh: '查看所有 MeCollage 功能',
+            es: 'Explora todas las funciones de MeCollage'
+                },
+                internalLinks: buildInternalLinks(['socialGuide', 'features', 'holidayGuide'])
+    },
+    tutorial: {
+        href: '/tutorial',
+        labels: {
+            en: 'Follow the step-by-step tutorial',
+            zh: '查看分步教程',
+            es: 'Sigue el tutorial paso a paso'
+        }
+    },
+    mobileTips: {
+        href: '/blog/mobile-collage-tips',
+        labels: {
+            en: 'Create collages on your phone',
+            zh: '学习移动端拼图技巧',
+            es: 'Crea collages desde tu teléfono'
+        }
+    },
+    socialGuide: {
+        href: '/blog/social-media-collage-guide',
+        labels: {
+            en: 'Optimize collages for social media',
+            zh: '优化社交媒体拼图',
+            es: 'Optimiza collages para redes sociales'
+        }
+    },
+    works: {
+        href: '/works',
+        labels: {
+            en: 'Browse the public collage gallery',
+            zh: '浏览公开作品画廊',
+            es: 'Explora la galería pública'
+        }
+    },
+    proTips: {
+        href: '/blog/pro-collage-tips',
+        labels: {
+            en: 'Read 10 pro collage tips',
+            zh: '阅读 10 个专业拼图技巧',
+            es: 'Lee 10 consejos profesionales'
+        }
+    },
+    holidayGuide: {
+        href: '/blog/holiday-collage-guide',
+        labels: {
+            en: 'Plan seasonal & holiday layouts',
+            zh: '规划节日主题拼图',
+            es: 'Planifica collages de temporada'
+        }
+    },
+    portfolio: {
+        href: '/blog/portfolio-collage-tips',
+        labels: {
+            en: 'Present your work like a pro',
+            zh: '像专业人士一样展示作品',
+            es: 'Presenta tu trabajo como profesional'
+        }
+    }
+};
+
+const buildInternalLinks = (keys = []) => keys.map(key => INTERNAL_LINK_LIBRARY[key]).filter(Boolean);
+
 // Blog Manager - Handles blog posts, categories, tags, and search
 export class BlogManager {
     constructor() {
@@ -207,7 +277,12 @@ export class BlogManager {
                     <p><strong>¿Listo para crear tu primer collage?</strong> <a href="/">Prueba MeCollage ahora</a> - ¡es completamente gratis!</p>
                 `
                     }
-                }
+                },
+                relatedLinks: [
+                    { href: '/features', label: { en: 'Explore every MeCollage feature', zh: '查看所有 MeCollage 功能', es: 'Explora todas las funciones de MeCollage' } },
+                    { href: '/tutorial', label: { en: 'Follow the step-by-step tutorial', zh: '查看分步教程', es: 'Sigue el tutorial paso a paso' } },
+                    { href: '/blog/mobile-collage-tips', label: { en: 'Create collages on your phone', zh: '学习移动端拼图技巧', es: 'Crea collages en tu teléfono' } }
+                ]
             },
             {
                 id: 'collage-design-tips',
@@ -459,7 +534,8 @@ export class BlogManager {
                     <p><strong>¿Listo para aplicar estos consejos?</strong> <a href="/">¡Comienza a crear tu collage</a> con MeCollage hoy!</p>
                 `
                     }
-                }
+                },
+                internalLinks: buildInternalLinks(['features', 'tutorial', 'mobileTips'])
             },
             {
                 id: 'holiday-collage-guide',
@@ -771,7 +847,8 @@ export class BlogManager {
                     <p><strong>¿Listo para crear tu collage festivo?</strong> <a href="/">¡Comienza a crear</a> con MeCollage hoy!</p>
                 `
                     }
-                }
+                },
+                internalLinks: buildInternalLinks(['features', 'proTips', 'works'])
             },
             {
                 id: 'mobile-collage-tips',
@@ -1176,7 +1253,8 @@ export class BlogManager {
                     <p><strong>¡Pruébalo en tu teléfono ahora!</strong> Visita <a href="https://www.mecollage.top">www.mecollage.top</a> y comienza a crear hermosos collages sobre la marcha.</p>
                 `
                     }
-                }
+                },
+                internalLinks: buildInternalLinks(['tutorial', 'holidayGuide', 'works'])
             },
             {
                 id: 'social-media-collage-guide',
@@ -1395,7 +1473,8 @@ export class BlogManager {
                     <p>Con MeCollage, puedes crear collages optimizados para plataformas de forma rápida y fácil. ¡Solo selecciona la relación de aspecto correcta, elige una plantilla y exporta!</p>
                 `
                     }
-                }
+                },
+                internalLinks: buildInternalLinks(['mobileTips', 'features', 'socialGuide'])
             },
             {
                 id: 'portfolio-collage-tips',
@@ -1536,7 +1615,8 @@ export class BlogManager {
                     <p>Los collages de portafolio son una forma poderosa de mostrar tu trabajo. Con MeCollage, puedes crear collages de portafolio profesionales en minutos.</p>
                 `
                     }
-                }
+                },
+                internalLinks: buildInternalLinks(['portfolio', 'works', 'proTips'])
             }
         ];
         

@@ -33,6 +33,7 @@ export class I18n {
                     shareArticle: 'Share this article:',
                     by: 'By',
                     relatedArticles: 'Related Articles',
+                    keepExploring: 'Keep exploring:',
                     categories: {
                         all: 'All',
                         tutorial: 'Tutorial',
@@ -462,6 +463,7 @@ export class I18n {
                     shareArticle: 'Compartir este artículo:',
                     by: 'Por',
                     relatedArticles: 'Artículos Relacionados',
+                    keepExploring: 'Sigue explorando:',
                     categories: {
                         all: 'Todos',
                         tutorial: 'Tutorial',
@@ -875,6 +877,7 @@ export class I18n {
                     shareArticle: '分享这篇文章:',
                     by: '作者',
                     relatedArticles: '相关文章',
+                    keepExploring: '继续探索：',
                     categories: {
                         all: '全部',
                         tutorial: '教程',

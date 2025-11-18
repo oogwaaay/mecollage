@@ -23,14 +23,30 @@
     <meta name="twitter:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
     <link rel="canonical" href="https://www.mecollage.top/" />
     <title>MeCollage - Image Collage Maker</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MeCollage",
+        "url": "https://www.mecollage.top",
+        "logo": "https://www.mecollage.top/favicon-192.png",
+        "description": "Free online photo collage maker with unlimited images, templates, and exports.",
+        "foundingDate": "2024",
+        "sameAs": [
+            "https://www.producthunt.com/products/mecollage"
+        ]
+    }
+    </script>
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://res.cloudinary.com">
     <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
     <!-- Preload critical resources for LCP optimization -->
-    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp">
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
     <!-- Preload critical font for LCP element (title uses weight 700) -->
     <link rel="preload" href="https://fonts.gstatic.com/s/notosanssc/v36/k3kXo84MPvpLmixcA63oeALhLq1mYj.woff2" as="font" type="font/woff2" crossorigin="anonymous">
     <!-- Critical CSS - Load immediately -->
@@ -45,34 +61,38 @@
     <!-- Early WebP detection to avoid loading PNG images -->
     <script>
         (function() {
-            const webP = new Image();
-            webP.onload = webP.onerror = function() {
-                const isSupported = webP.height === 2;
-                if (isSupported) {
-                    document.documentElement.classList.add('webp-supported');
-                    // Set CSS custom property for placeholder icon
-                    document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
-                } else {
-                    document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
-                }
-                // Set background image when DOM is ready
-                if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', setBackgroundImage);
-                } else {
-                    setBackgroundImage();
-                }
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
             };
-            webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
-            
+
             function setBackgroundImage() {
                 const bgElement = document.querySelector('.ghibli-background');
                 if (bgElement) {
                     const isWebP = document.documentElement.classList.contains('webp-supported');
-                    // Use preloaded image if WebP is supported
                     bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
                 }
             }
-            
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
         })();
     </script>
 </head>

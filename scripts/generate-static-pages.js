@@ -112,6 +112,35 @@ function updateSitemap({ worksIds = [] } = {}) {
     }
 }
 
+function buildCTABlock(links = [], lang = 'en') {
+    if (!links || !links.length) return '';
+    const cards = links.map(link => {
+        if (!link) return '';
+        const label = link.labels?.[lang] || link.labels?.en || link.href;
+        const isAbsolute = /^https?:\/\//.test(link.href);
+        const href = isAbsolute
+            ? link.href
+            : lang === 'en'
+                ? `https://www.mecollage.top${link.href}`
+                : `https://www.mecollage.top${link.href}${link.href.includes('?') ? '&' : '?'}lang=${lang}`;
+        return `
+            <a class="blog-cta-card" href="${href}">
+                <span>${label}</span>
+                <span aria-hidden="true">→</span>
+            </a>
+        `;
+    }).join('');
+    if (!cards.trim()) return '';
+    return `
+        <div class="blog-cta-grid">
+            <h2 class="blog-cta-title">${lang === 'zh' ? '继续探索：' : lang === 'es' ? 'Sigue explorando:' : 'Keep exploring:'}</h2>
+            <div class="blog-cta-cards">
+                ${cards}
+            </div>
+        </div>
+    `;
+}
+
 // Generate blog post HTML
 function generateBlogPostHTML(template, post, lang = 'en') {
     const localizedPost = post.translations?.[lang] || post.translations?.en || post;
@@ -201,6 +230,8 @@ function generateBlogPostHTML(template, post, lang = 'en') {
     html = html.replace(/<html lang=".*?"/, `<html lang="${langAttr}"`);
     
     // Find and replace the blog post content area
+    const ctaHTML = buildCTABlock(post.internalLinks, lang);
+
     const blogPostContent = `
         <div class="blog-post-header">
             <a href="/blog" class="blog-back-link">← ${backText}</a>
@@ -216,6 +247,7 @@ function generateBlogPostHTML(template, post, lang = 'en') {
         </div>
         <div class="blog-post-body">
             ${localizedPost.content}
+            ${ctaHTML}
         </div>
         ${relatedHTML}
         <div class="blog-post-footer">
