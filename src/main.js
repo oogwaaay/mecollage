@@ -242,6 +242,11 @@ class App {
     }
     
     setupNavigation() {
+        const navMode = document.body?.dataset?.navMode || 'spa';
+        const useStaticNavigation = navMode === 'static';
+        if (useStaticNavigation) {
+            return;
+        }
         // Handle navigation links
         document.querySelectorAll('.nav-link, .quick-link').forEach(link => {
             link.addEventListener('click', (e) => {
