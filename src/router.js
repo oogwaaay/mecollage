@@ -83,11 +83,8 @@ export class Router {
             return;
         }
         
-        // Hide all pages
-        document.querySelectorAll('.page-content').forEach(p => {
-            p.style.display = 'none';
-        });
-        
+        this.setPageVisibility(`page-${page}`);
+
         // Show/hide header based on page
         const header = document.querySelector('.ghibli-header');
         if (header) {
@@ -101,7 +98,6 @@ export class Router {
         // Show target page
         const targetPage = document.getElementById(`page-${page}`);
         if (targetPage) {
-            targetPage.style.display = 'block';
             this.currentPage = page;
             
             // Update SEO meta tags
@@ -127,15 +123,11 @@ export class Router {
     }
     
     showWorkPage(worksId, pushState = true) {
-        // Hide all pages
-        document.querySelectorAll('.page-content').forEach(p => {
-            p.style.display = 'none';
-        });
+        this.setPageVisibility('page-works');
         const header = document.querySelector('.ghibli-header');
         if (header) header.style.display = 'none';
         const worksPage = document.getElementById('page-works');
         if (worksPage) {
-            worksPage.style.display = 'block';
             this.currentPage = `works/${worksId}`;
             this.renderWorkPage(worksId);
             // Basic SEO
@@ -166,10 +158,7 @@ export class Router {
     }
     
     showBlogPost(postId, pushState = true) {
-        // Hide all pages
-        document.querySelectorAll('.page-content').forEach(p => {
-            p.style.display = 'none';
-        });
+        this.setPageVisibility('page-blog-post');
         
         // Hide header
         const header = document.querySelector('.ghibli-header');
@@ -180,7 +169,6 @@ export class Router {
         // Show blog post page
         const blogPostPage = document.getElementById('page-blog-post');
         if (blogPostPage) {
-            blogPostPage.style.display = 'block';
             this.currentPage = `blog/${postId}`;
             
             // Update active nav link
@@ -209,6 +197,18 @@ export class Router {
                 window.history.pushState({ page: `blog/${postId}` }, '', `/blog/${postId}`);
             }
         }
+    }
+
+    setPageVisibility(targetId) {
+        const sections = document.querySelectorAll('.page-content');
+        sections.forEach(section => section.classList.remove('is-visible'));
+        if (targetId) {
+            const target = document.getElementById(targetId);
+            if (target) {
+                target.classList.add('is-visible');
+            }
+        }
+        document.body.classList.add('spa-ready');
     }
     
     renderBlogPost(post) {

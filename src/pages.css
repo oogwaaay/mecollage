@@ -6,6 +6,18 @@
     margin: 0 auto;
 }
 
+body[data-nav-mode='spa'] .page-content {
+    display: block;
+}
+
+body[data-nav-mode='spa'].spa-ready .page-content {
+    display: none;
+}
+
+body[data-nav-mode='spa'].spa-ready .page-content.is-visible {
+    display: block;
+}
+
 .page-container {
     background: var(--card-bg);
     backdrop-filter: blur(18px);

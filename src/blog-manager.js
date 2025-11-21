@@ -5,8 +5,7 @@ const INTERNAL_LINK_LIBRARY = {
             en: 'Explore every MeCollage feature',
             zh: '查看所有 MeCollage 功能',
             es: 'Explora todas las funciones de MeCollage'
-                },
-                internalLinks: buildInternalLinks(['socialGuide', 'features', 'holidayGuide'])
+        }
     },
     tutorial: {
         href: '/tutorial',
