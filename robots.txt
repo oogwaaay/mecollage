@@ -1,0 +1,6 @@
+# robots.txt for mecollage.top
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.mecollage.top/sitemap.xml
