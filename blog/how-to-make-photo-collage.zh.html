@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="学习如何一步步创建精美的照片拼图。非常适合想要将多张照片组合成精美布局的初学者。" />
+    <meta name="keywords" content="collage maker, photo collage, image collage, online collage maker, free collage maker, photo grid, image editor, how to make a collage, collage tutorial, photo collage tool, 拼图工具, 照片拼图, 拼图制作" />
+    <meta name="author" content="MeCollage" />
+    <meta property="og:title" content="如何制作照片拼图：初学者完整指南 | MeCollage Blog" />
+    <meta property="og:description" content="学习如何一步步创建精美的照片拼图。非常适合想要将多张照片组合成精美布局的初学者。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/blog/how-to-make-photo-collage?lang=zh" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="如何制作照片拼图：初学者完整指南 | MeCollage Blog" />
+    <meta name="twitter:description" content="学习如何一步步创建精美的照片拼图。非常适合想要将多张照片组合成精美布局的初学者。" />
+    <link rel="canonical" href="https://www.mecollage.top/blog/how-to-make-photo-collage?lang=zh" />
+    <title>如何制作照片拼图：初学者完整指南 | MeCollage Blog</title>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MeCollage",
+        "url": "https://www.mecollage.top",
+        "logo": "https://www.mecollage.top/favicon-192.png",
+        "description": "Free online photo collage maker with unlimited images, templates, and exports.",
+        "foundingDate": "2024",
+        "sameAs": [
+            "https://www.producthunt.com/products/mecollage"
+        ]
+    }
+    </script>
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://res.cloudinary.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://res.cloudinary.com" crossorigin>
+    <!-- Preload critical resources for LCP optimization -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Preload critical font for LCP element (title uses weight 700) -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/notosanssc/v36/k3kXo84MPvpLmixcA63oeALhLq1mYj.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+    <!-- Critical CSS - Load immediately -->
+    <!-- Non-critical CSS - Load with lower priority -->
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css" media="print" onload="this.media='all'">
+    <noscript></noscript>
+    <!-- Fonts - Only load weights actually used (400, 500, 600, 700) to reduce CSS size -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+    <!-- Early WebP detection to avoid loading PNG images -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+  <script type="module" crossorigin src="/assets/js/index-CurY6_0Y.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-vAuRGWiM.css">
+</head>
+<body data-nav-mode="spa">
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link active" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/features" class="nav-link" data-page="features" data-i18n="nav.features">Features</a>
+                <a href="/tutorial" class="nav-link" data-page="tutorial" data-i18n="nav.tutorial">Tutorial</a>
+                <a href="/blog" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+            </div>
+            <div class="nav-right">
+                <div class="nav-share" id="navShare"></div>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span data-i18n="lang.name">English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.options.en">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.options.zh">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.options.es">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <header class="header ghibli-header" style="display: none;">
+            <h1 class="ghibli-title" data-i18n="header.title">MeCollage</h1>
+            <p class="subtitle ghibli-subtitle" data-i18n="header.subtitle">Create beautiful collages with unlimited images</p>
+            <div class="feature-badges">
+                <span class="badge badge-orange" data-i18n="header.badge1">20+ Images</span>
+                <span class="badge badge-green" data-i18n="header.badge2">Multiple Layouts</span>
+                <span class="badge badge-blue" data-i18n="header.badge3">Custom Grid</span>
+                <span class="badge badge-purple" data-i18n="header.badge4">Free to Use</span>
+            </div>
+            <p class="header-description" data-i18n="header.description">Professional online image collage maker. Support horizontal, vertical, grid layouts and more. Easily create stunning image collages.</p>
+            <nav class="header-quick-links" aria-label="Quick links">
+                <a href="/features" class="quick-link" data-i18n="nav.features">Features</a>
+                <a href="/tutorial" class="quick-link" data-i18n="nav.tutorial">Tutorial</a>
+                <a href="/blog" class="quick-link" data-i18n="nav.blog">Blog</a>
+            </nav>
+        </header>
+
+        <!-- Page Content -->
+        <!-- Home Page -->
+        <div id="page-home" class="page-content" style="display: none;">
+            <div class="mobile-section-nav" id="mobileSectionNav" aria-label="Quick navigation">
+                <button type="button" class="mobile-nav-btn is-active" data-target="uploadSection" data-i18n="sidebar.uploadImages">Upload Images</button>
+                <button type="button" class="mobile-nav-btn" data-target="templatesSection" data-i18n="sidebar.layoutTemplates">Layout Templates</button>
+                <button type="button" class="mobile-nav-btn" data-target="decorateSection" data-i18n="sidebar.decorate">Decorate</button>
+                <button type="button" class="mobile-nav-btn" data-target="filtersSection" data-i18n="sidebar.filters">Filters</button>
+                <button type="button" class="mobile-nav-btn" data-target="canvasArea" data-i18n="common.canvas">Canvas</button>
+                <button type="button" class="mobile-nav-btn" data-target="imagePanel" data-i18n="imagePanel.title">Image List</button>
+            </div>
+            <div class="main-content">
+            <aside class="sidebar" id="sidebarPanel">
+                <div class="sidebar-section is-open" id="uploadSection" data-section="upload">
+                    <button class="sidebar-section-toggle" type="button" aria-expanded="true" aria-controls="uploadSectionContent">
+                        <span class="section-title" data-i18n="sidebar.uploadImages">Upload Images</span>
+                        <span class="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="sidebar-section-content" id="uploadSectionContent">
+                        <div class="upload-area" id="uploadArea">
+                            <div class="upload-icon">
+                                <picture>
+                                    <source srcset="/upload-icon.webp" type="image/webp">
+                                    <img src="/upload-icon.png" alt="Upload" loading="lazy" width="64" height="64" />
+                                </picture>
+                            </div>
+                            <p data-i18n="sidebar.dragDrop">Drag & drop images here</p>
+                            <p class="upload-hint" data-i18n="sidebar.clickBrowse">or click to browse</p>
+                            <button type="button" class="upload-cta" id="uploadCtaBtn" data-i18n="sidebar.selectPhotos">Select Photos</button>
+                            <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                        </div>
+                        <div class="image-count" id="imageCount" data-i18n="sidebar.imagesLoaded" data-i18n-params='{"count": 0}'>0 images loaded</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section is-open" id="templatesSection" data-section="templates">
+                    <button class="sidebar-section-toggle" type="button" aria-expanded="true" aria-controls="templatesSectionContent">
+                        <span class="section-title" data-i18n="sidebar.layoutTemplates">Layout Templates</span>
+                        <span class="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="sidebar-section-content" id="templatesSectionContent">
+                        <div class="template-categories" id="templateCategories"></div>
+                        <div class="template-subheading" data-i18n="sidebar.themeSpotlight">Theme Spotlight</div>
+                        <div class="template-themes" id="templateThemes" aria-label="Theme spotlight"></div>
+                        <div class="recommendation-summary is-hidden" id="recommendationSummary" aria-live="polite"></div>
+                        <div class="template-grid" id="templateGrid">
+                            <!-- Templates will be generated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section is-open" id="decorateSection" data-section="decorate">
+                    <button class="sidebar-section-toggle" type="button" aria-expanded="true" aria-controls="decorateSectionContent">
+                        <span class="section-title" data-i18n="sidebar.decorate">Decorate</span>
+                        <span class="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="sidebar-section-content" id="decorateSectionContent">
+                        <div class="decorate-block">
+                            <h2 class="decorate-heading" data-i18n="decorations.textHeading">Text Overlay</h2>
+                            <label class="decorate-field">
+                                <span data-i18n="decorations.textLabel">Text</span>
+                                <input type="text" id="decorTextContent" maxlength="80" placeholder="Add your caption" />
+                            </label>
+                            <div class="decorate-field-row">
+                                <div class="decorate-color-group">
+                                    <span data-i18n="decorations.textColor">Color</span>
+                                    <div class="color-swatch-row" id="decorTextSwatches"></div>
+                                    <button type="button" class="color-more-btn" id="decorTextMore" data-i18n="decorations.moreColors">More</button>
+                                    <input type="color" id="decorTextColor" value="#ffffff" aria-hidden="true" />
+                                </div>
+                                <label>
+                                    <span data-i18n="decorations.textSize">Size</span>
+                                    <select id="decorTextSize">
+                                        <option value="small" data-i18n="decorations.sizeSmall">Small</option>
+                                        <option value="medium" selected data-i18n="decorations.sizeMedium">Medium</option>
+                                        <option value="large" data-i18n="decorations.sizeLarge">Large</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <span data-i18n="decorations.textPosition">Position</span>
+                                    <select id="decorTextPosition">
+                                        <option value="top-left" data-i18n="decorations.positionTopLeft">Top Left</option>
+                                        <option value="top-center" data-i18n="decorations.positionTopCenter">Top Center</option>
+                                        <option value="top-right" data-i18n="decorations.positionTopRight">Top Right</option>
+                                        <option value="center" data-i18n="decorations.positionCenter">Center</option>
+                                        <option value="bottom-left" data-i18n="decorations.positionBottomLeft">Bottom Left</option>
+                                        <option value="bottom-center" data-i18n="decorations.positionBottomCenter">Bottom Center</option>
+                                        <option value="bottom-right" data-i18n="decorations.positionBottomRight">Bottom Right</option>
+                                        <option value="custom" data-i18n="decorations.positionCustom">Custom</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <button type="button" class="decorate-action" id="addTextBtn" data-i18n="decorations.addText">Add Text</button>
+                        </div>
+                        <div class="decorate-block">
+                            <h2 class="decorate-heading" data-i18n="decorations.stickerHeading">Stickers</h2>
+                            <div class="sticker-options" id="stickerOptions" role="group" aria-label="Stickers"></div>
+                            <div class="decorate-field-row">
+                                <label>
+                                    <span data-i18n="decorations.stickerSize">Size</span>
+                                    <select id="decorStickerSize">
+                                        <option value="small" data-i18n="decorations.sizeSmall">Small</option>
+                                        <option value="medium" selected data-i18n="decorations.sizeMedium">Medium</option>
+                                        <option value="large" data-i18n="decorations.sizeLarge">Large</option>
+                                    </select>
+                                </label>
+                                <label>
+                                    <span data-i18n="decorations.stickerPosition">Position</span>
+                                    <select id="decorStickerPosition">
+                                        <option value="top-left" data-i18n="decorations.positionTopLeft">Top Left</option>
+                                        <option value="top-right" data-i18n="decorations.positionTopRight">Top Right</option>
+                                        <option value="center" data-i18n="decorations.positionCenter">Center</option>
+                                        <option value="bottom-left" data-i18n="decorations.positionBottomLeft">Bottom Left</option>
+                                        <option value="bottom-right" data-i18n="decorations.positionBottomRight">Bottom Right</option>
+                                        <option value="custom" data-i18n="decorations.positionCustom">Custom</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="decorate-active" id="decorationList" data-i18n-empty="decorations.empty"></div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section is-open" id="filtersSection" data-section="filters">
+                    <button class="sidebar-section-toggle" type="button" aria-expanded="true" aria-controls="filtersSectionContent">
+                        <span class="section-title" data-i18n="sidebar.filters">Filters</span>
+                        <span class="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="sidebar-section-content" id="filtersSectionContent">
+                        <p class="filter-empty" id="filterEmptyMessage" data-i18n="filters.noImage" style="display: none;">Upload an image to enable filters</p>
+                        <div class="filter-target" id="filterActiveTarget" data-i18n="filters.targetNone">Select an image to start editing filters</div>
+                        <div class="filter-scope" id="filterScopeGroup" role="group" aria-label="Apply filters to">
+                            <span class="filter-scope-label" data-i18n="filters.scopeLabel">Apply to</span>
+                            <div class="filter-scope-actions">
+                                <button type="button" class="filter-scope-btn is-active" data-scope="single" aria-pressed="true" data-i18n="filters.scopeCurrent">Current Image</button>
+                                <button type="button" class="filter-scope-btn" data-scope="all" aria-pressed="false" data-i18n="filters.scopeAll">All Images</button>
+                            </div>
+                        </div>
+                        <div class="filter-block">
+                            <h2 class="filter-heading" data-i18n="filters.presetsHeading">Quick Filters</h2>
+                            <div class="filter-presets" id="filterPresets"></div>
+                        </div>
+                        <div class="filter-block">
+                            <h2 class="filter-heading" data-i18n="filters.adjustHeading">Fine Tuning</h2>
+                            <div class="filter-slider">
+                                <label>
+                                    <span data-i18n="filters.brightness">Brightness</span>
+                                    <input type="range" id="filterBrightness" min="50" max="150" value="100">
+                                    <span class="filter-slider-value" id="filterBrightnessValue">100%</span>
+                                </label>
+                            </div>
+                            <div class="filter-slider">
+                                <label>
+                                    <span data-i18n="filters.contrast">Contrast</span>
+                                    <input type="range" id="filterContrast" min="50" max="150" value="100">
+                                    <span class="filter-slider-value" id="filterContrastValue">100%</span>
+                                </label>
+                            </div>
+                            <div class="filter-slider">
+                                <label>
+                                    <span data-i18n="filters.saturation">Saturation</span>
+                                    <input type="range" id="filterSaturation" min="0" max="200" value="100">
+                                    <span class="filter-slider-value" id="filterSaturationValue">100%</span>
+                                </label>
+                            </div>
+                            <div class="filter-slider">
+                                <label>
+                                    <span data-i18n="filters.warmth">Warmth</span>
+                                    <input type="range" id="filterWarmth" min="-40" max="40" value="0">
+                                    <span class="filter-slider-value" id="filterWarmthValue">0</span>
+                                </label>
+                            </div>
+                            <div class="filter-slider">
+                                <label>
+                                    <span data-i18n="filters.blur">Blur</span>
+                                    <input type="range" id="filterBlur" min="0" max="10" value="0">
+                                    <span class="filter-slider-value" id="filterBlurValue">0px</span>
+                                </label>
+                            </div>
+                            <button type="button" class="filter-reset" id="filterResetBtn" data-i18n="filters.reset">Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section is-open" id="customSection" data-section="custom">
+                    <button class="sidebar-section-toggle" type="button" aria-expanded="true" aria-controls="customSectionContent">
+                        <span class="section-title" data-i18n="sidebar.customGrid">Custom Grid</span>
+                        <span class="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="sidebar-section-content" id="customSectionContent">
+                        <div class="custom-grid-controls">
+                            <label>
+                                <span data-i18n="sidebar.rows">Rows</span>: <input type="number" id="customRows" min="1" max="30" value="3">
+                            </label>
+                            <label>
+                                <span data-i18n="sidebar.columns">Columns</span>: <input type="number" id="customCols" min="1" max="30" value="3">
+                            </label>
+                            <button id="applyCustomGrid" class="btn btn-success" data-i18n="sidebar.apply">Apply</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section is-open" id="settingsSection" data-section="settings">
+                    <button class="sidebar-section-toggle" type="button" aria-expanded="true" aria-controls="settingsSectionContent">
+                        <span class="section-title" data-i18n="sidebar.settings">Settings</span>
+                        <span class="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="sidebar-section-content" id="settingsSectionContent">
+                        <div class="settings-controls">
+                            <label>
+                                <span data-i18n="sidebar.spacing">Spacing</span>:
+                                <div class="range-wrapper">
+                                    <div class="range-track"><div class="range-progress" id="spacingProgress"></div></div>
+                                    <input type="range" id="spacingSlider" min="0" max="20" value="5">
+                                </div>
+                                <span id="spacingValue">5px</span>
+                            </label>
+                            <label>
+                                <span data-i18n="sidebar.border">Border</span>:
+                                <div class="range-wrapper">
+                                    <div class="range-track"><div class="range-progress" id="borderProgress"></div></div>
+                                    <input type="range" id="borderSlider" min="0" max="10" value="0">
+                                </div>
+                                <span id="borderValue">0px</span>
+                            </label>
+                            <label>
+                                <span data-i18n="sidebar.borderColor">Border Color</span>: <input type="color" id="borderColor" value="#ffffff">
+                            </label>
+                            <label>
+                                <span data-i18n="sidebar.backgroundColor">Background Color</span>: <input type="color" id="backgroundColor" value="#ffffff">
+                            </label>
+                            <div class="image-fit-control" role="group" aria-label="Image fit">
+                                <span class="image-fit-label" data-i18n="sidebar.imageFit">Image Fill</span>
+                                <div class="image-fit-toggle" id="imageFitToggle">
+                                    <button type="button" class="image-fit-option is-active" data-fit="cover" aria-pressed="true" data-i18n="sidebar.imageFitCover">Fill (crop)</button>
+                                    <button type="button" class="image-fit-option" data-fit="contain" aria-pressed="false" data-i18n="sidebar.imageFitContain">Fit (no crop)</button>
+                                </div>
+                                <p class="image-fit-hint" id="imageFitHint" data-i18n="sidebar.imageFitHintCover">Fill keeps layouts tight but may crop the photo edges.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section is-open" id="exportSection" data-section="export">
+                    <button class="sidebar-section-toggle" type="button" aria-expanded="true" aria-controls="exportSectionContent">
+                        <span class="section-title" data-i18n="sidebar.export">Export</span>
+                        <span class="toggle-icon" aria-hidden="true"></span>
+                    </button>
+                    <div class="sidebar-section-content" id="exportSectionContent">
+                        <div class="export-controls">
+                            <label>
+                                <span data-i18n="sidebar.quality">Quality</span>:
+                                <div class="range-wrapper">
+                                    <div class="range-track"><div class="range-progress" id="qualityProgress"></div></div>
+                                    <input type="range" id="qualitySlider" min="0.1" max="1" step="0.1" value="1">
+                                </div>
+                                <span id="qualityValue">100%</span>
+                            </label>
+                            <label>
+                                <span data-i18n="sidebar.format">Format</span>: 
+                                <select id="exportFormat">
+                                    <option value="png">PNG</option>
+                                    <option value="jpg">JPG</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span data-i18n="sidebar.aspectRatio">Preset Size</span>:
+                                <select id="exportSizePreset">
+                                    <option value="auto" data-i18n="decorations.sizeOriginal">Original</option>
+                                    <option value="1 / 1" data-i18n="decorations.sizeSquare">Square (1:1)</option>
+                                    <option value="9 / 16" data-i18n="decorations.sizeStory">Story (9:16)</option>
+                                    <option value="16 / 9" data-i18n="decorations.sizeLandscape">Landscape (16:9)</option>
+                                </select>
+                            </label>
+                            <button id="exportBtn" class="btn btn-success" data-i18n="sidebar.exportCollage">Export Collage</button>
+                            <button id="uploadPublicBtn" class="btn" data-i18n="works.uploadAndLink">Upload & Get Public Link</button>
+                            <div id="publicUploadResult" class="upload-result" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="canvas-area" id="canvasArea">
+                <div class="canvas-toolbar" aria-hidden="true">
+                    <button type="button" class="canvas-expand-btn" id="canvasExpandBtn" data-i18n="canvas.expand">Expand Canvas</button>
+                    <button type="button" class="canvas-close-btn" id="canvasCloseBtn" data-i18n="canvas.collapse">Close</button>
+                </div>
+                <div class="canvas-container" id="canvasContainer">
+                    <div class="canvas-placeholder" id="canvasPlaceholder">
+                        <div class="placeholder-icon"></div>
+                        <p data-i18n="canvas.placeholder">Upload images to start creating your collage</p>
+                    </div>
+                    <div class="collage-canvas" id="collageCanvas" style="display: none;">
+                        <!-- Collage will be rendered here -->
+                    </div>
+                </div>
+            </main>
+
+            <aside class="image-panel" id="imagePanel">
+                <h2 data-i18n="imagePanel.title">Image List</h2>
+                <div class="image-list" id="imageList">
+                    <!-- Images will be listed here -->
+                </div>
+            </aside>
+        </div>
+        </div>
+
+        <!-- Features Page -->
+        <div id="page-features" class="page-content" style="display: none;">
+            <div class="page-container">
+                <h1 class="page-title" data-i18n="features.title">Features</h1>
+                <p class="page-subtitle" data-i18n="features.subtitle">Everything you need to create stunning collages</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🖼️</div>
+                        <h2 class="feature-card-title" data-i18n="features.unlimitedImages.title">Unlimited Images</h2>
+                        <p class="feature-card-desc" data-i18n="features.unlimitedImages.description">Support for 20+ images in a single collage. No restrictions on the number of images you can combine.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📐</div>
+                        <h2 class="feature-card-title" data-i18n="features.multipleLayouts.title">Multiple Layout Templates</h2>
+                        <p class="feature-card-desc" data-i18n="features.multipleLayouts.description">Choose from horizontal, vertical, and various grid layouts including 2x2, 3x3, 4x4, 5x5, and more.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h2 class="feature-card-title" data-i18n="features.smartSuggestions.title">Intelligent Layout Suggestions</h2>
+                        <p class="feature-card-desc" data-i18n="features.smartSuggestions.description">Let the AI recommend the best layouts as soon as you upload images.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🌈</div>
+                        <h2 class="feature-card-title" data-i18n="features.themeCollections.title">Curated Theme Collections</h2>
+                        <p class="feature-card-desc" data-i18n="features.themeCollections.description">Browse themed layout collections for holidays, travel, family memories, social posts, and more—all pre-grouped for faster selection.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">⭐</div>
+                        <h2 class="feature-card-title" data-i18n="features.templateFavorites.title">Starred Template Favorites</h2>
+                        <p class="feature-card-desc" data-i18n="features.templateFavorites.description">Click the star on any layout to build a personal favorites tray that stays highlighted for quick reuse.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">▦</div>
+                        <h2 class="feature-card-title" data-i18n="features.customGrid.title">Custom Grid Layout</h2>
+                        <p class="feature-card-desc" data-i18n="features.customGrid.description">Create your own grid with up to 30 rows and 30 columns. Perfect for large image collections.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h2 class="feature-card-title" data-i18n="features.easyCustomization.title">Easy Customization</h2>
+                        <p class="feature-card-desc" data-i18n="features.easyCustomization.description">Adjust spacing, borders, colors, and background to match your style. Full control over the final look.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">💾</div>
+                        <h2 class="feature-card-title" data-i18n="features.highQualityExport.title">High Quality Export</h2>
+                        <p class="feature-card-desc" data-i18n="features.highQualityExport.description">Export your collages in PNG or JPG format with adjustable quality settings. Perfect for sharing or printing.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📤</div>
+                        <h2 class="feature-card-title" data-i18n="features.dragAndDrop.title">Drag & Drop Upload</h2>
+                        <p class="feature-card-desc" data-i18n="features.dragAndDrop.description">Simply drag and drop images or click to browse. Fast and intuitive image management.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h2 class="feature-card-title" data-i18n="features.responsiveDesign.title">Responsive Design</h2>
+                        <p class="feature-card-desc" data-i18n="features.responsiveDesign.description">Works seamlessly on desktop, tablet, and mobile devices. Create collages anywhere, anytime.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🆓</div>
+                        <h2 class="feature-card-title" data-i18n="features.freeToUse.title">100% Free</h2>
+                        <p class="feature-card-desc" data-i18n="features.freeToUse.description">No registration required. No watermarks. No hidden fees. Use all features completely free.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tutorial Page -->
+        <div id="page-tutorial" class="page-content" style="display: none;">
+            <div class="page-container">
+                <h1 class="page-title" data-i18n="tutorial.title">Tutorial</h1>
+                <p class="page-subtitle" data-i18n="tutorial.subtitle">Learn how to create beautiful collages in minutes</p>
+                
+                <div class="tutorial-steps">
+                    <div class="tutorial-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h2 class="step-title" data-i18n="tutorial.step1.title">Step 1: Upload Images</h2>
+                            <p class="step-desc" data-i18n="tutorial.step1.description">Click the upload area or drag and drop your images. You can upload multiple images at once. Supported formats include JPG, PNG, GIF, and WebP.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h2 class="step-title" data-i18n="tutorial.step2.title">Step 2: Choose a Layout</h2>
+                            <p class="step-desc" data-i18n="tutorial.step2.description">Select a template from the layout gallery, or create a custom grid by specifying rows and columns. Templates include horizontal, vertical, and various grid sizes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h2 class="step-title" data-i18n="tutorial.step3.title">Step 3: Customize Settings</h2>
+                            <p class="step-desc" data-i18n="tutorial.step3.description">Adjust spacing between images, add borders with custom colors, and set the background color. Fine-tune every detail to match your vision.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tutorial-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h2 class="step-title" data-i18n="tutorial.step4.title">Step 4: Preview & Export</h2>
+                            <p class="step-desc" data-i18n="tutorial.step4.description">Preview your collage in real-time. When satisfied, choose your export format (PNG or JPG) and quality, then click Export to download.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tutorial-tips">
+                    <h2 class="tips-title" data-i18n="tutorial.tips.title">Pro Tips</h2>
+                    <ul class="tips-list">
+                        <li class="tip-item" data-i18n="tutorial.tips.tip1">For best results, use images with similar dimensions.</li>
+                        <li class="tip-item" data-i18n="tutorial.tips.tip2">Use custom grid layouts for large collections (20+ images).</li>
+                        <li class="tip-item" data-i18n="tutorial.tips.tip3">Adjust spacing to create breathing room between images.</li>
+                        <li class="tip-item" data-i18n="tutorial.tips.tip4">Export in PNG format for highest quality, JPG for smaller file sizes.</li>
+                        <li class="tip-item" data-i18n="tutorial.tips.tip5">You can remove individual images by hovering over them in the image list.</li>
+                        <li class="tip-item" data-i18n="tutorial.tips.tip6">Star frequently used layouts to keep them highlighted and ready for future collages.</li>
+                    </ul>
+                </div>
+                
+                <div class="tutorial-faq">
+                    <h2 class="faq-title" data-i18n="tutorial.faq.title">Frequently Asked Questions</h2>
+                    <div class="faq-list">
+                        <div class="faq-item">
+                            <h3 class="faq-question" data-i18n="tutorial.faq.q1">How many images can I use?</h3>
+                            <p class="faq-answer" data-i18n="tutorial.faq.a1">There is no hard limit. You can use as many images as you want, though we recommend keeping it under 50 for best performance.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3 class="faq-question" data-i18n="tutorial.faq.q2">What image formats are supported?</h3>
+                            <p class="faq-answer" data-i18n="tutorial.faq.a2">We support all common image formats including JPG, PNG, GIF, and WebP.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3 class="faq-question" data-i18n="tutorial.faq.q3">Can I rearrange images after uploading?</h3>
+                            <p class="faq-answer" data-i18n="tutorial.faq.a3">Currently, images are arranged in the order they were uploaded. You can remove and re-upload to change the order.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3 class="faq-question" data-i18n="tutorial.faq.q4">Is there a file size limit?</h3>
+                            <p class="faq-answer" data-i18n="tutorial.faq.a4">There is no strict limit, but very large images may take longer to process. We recommend images under 10MB each.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h3 class="faq-question" data-i18n="tutorial.faq.q5">Can I use this on mobile devices?</h3>
+                            <p class="faq-answer" data-i18n="tutorial.faq.a5">Yes! MeCollage is fully responsive and works great on mobile devices, tablets, and desktops.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Page -->
+        <div id="page-blog" class="page-content" style="display: none;">
+            <div class="page-container">
+                <h1 class="page-title" data-i18n="blog.title">Blog & Tutorials</h1>
+                <p class="page-subtitle" data-i18n="blog.subtitle">Learn how to create stunning photo collages with our guides and tips</p>
+                
+                <!-- Blog Search and Filters -->
+                <div class="blog-controls">
+                    <div class="blog-search">
+                        <input type="text" id="blogSearchInput" data-i18n-placeholder="blog.searchPlaceholder" placeholder="Search articles..." class="blog-search-input" />
+                        <button type="button" class="blog-search-btn" aria-label="Search">🔍</button>
+                    </div>
+                    <div class="blog-categories" id="blogCategories" role="tablist">
+                        <!-- Categories will be generated dynamically -->
+                    </div>
+                    <div class="blog-tags-filter" id="blogTagsFilter">
+                        <!-- Popular tags will be generated dynamically -->
+                    </div>
+                </div>
+                
+                <!-- Blog List -->
+                <div class="blog-list" id="blogList">
+                    <!-- Blog posts will be generated dynamically -->
+                </div>
+                
+                <div class="blog-empty" id="blogEmpty" style="display: none;">
+                    <p data-i18n="blog.noArticles">No articles found. Try a different search or category.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Blog Post Detail Page -->
+        <div id="page-blog-post" class="page-content" style="display: block;">
+            <div id="blog-post-content">
+        <div class="blog-post-header">
+            <a href="/blog" class="blog-back-link">← 返回博客</a>
+            <h1 class="blog-post-main-title">如何制作照片拼图：初学者完整指南</h1>
+            <div class="blog-post-meta">
+                <span class="blog-date">2025年12月23日</span>
+                <span class="blog-category">教程</span>
+                <span class="blog-author">作者 MeCollage Team</span>
+            </div>
+            <div class="blog-post-tags">
+                <span class="blog-tag">#beginner</span><span class="blog-tag">#tutorial</span><span class="blog-tag">#guide</span><span class="blog-tag">#how-to</span>
+            </div>
+        </div>
+        <div class="blog-post-body">
+            
+                    <h2>介绍</h2>
+                    <p>创建照片拼图是将多张图片组合成一张精美作品的好方法。无论您是在制作记忆册、社交媒体帖子还是作品集布局，本指南都将逐步引导您完成整个过程。</p>
+                    
+                    <h2>步骤 1：选择您的照片</h2>
+                    <p>首先选择 2-20 张讲述故事或共享主题的照片。为了获得最佳效果：</p>
+                    <ul>
+                        <li>选择具有相似光线和色调的照片</li>
+                        <li>选择尺寸相似的图片（或先裁剪它们）</li>
+                        <li>选择在视觉上相互补充的照片</li>
+                    </ul>
+                    
+                    <h2>步骤 2：上传您的图片</h2>
+                    <p>使用 MeCollage，您可以通过两种方式上传图片：</p>
+                    <ol>
+                        <li><strong>拖放：</strong>只需将照片拖放到上传区域</li>
+                        <li><strong>点击浏览：</strong>点击"选择照片"按钮从设备中选择文件</li>
+                    </ol>
+                    <p>您可以一次上传多张图片 - 没有限制！</p>
+                    
+                    <h2>步骤 3：选择模板</h2>
+                    <p>MeCollage 提供 20+ 种预设计模板：</p>
+                    <ul>
+                        <li><strong>横向布局：</strong>非常适合宽幅图片和风景照</li>
+                        <li><strong>纵向布局：</strong>非常适合人像和故事风格的序列</li>
+                        <li><strong>网格布局：</strong>经典的 2x2、3x3、4x4 等</li>
+                        <li><strong>自定义网格：</strong>创建最多 30x30 的自己的布局</li>
+                    </ul>
+                    <p>我们的 AI 会根据您的照片数量推荐最佳模板！</p>
+                    
+                    <h2>步骤 4：自定义您的拼图</h2>
+                    <p>使用这些自定义选项让您的拼图独一无二：</p>
+                    <ul>
+                        <li><strong>间距：</strong>调整图片之间的间隙（0-20px）</li>
+                        <li><strong>边框：</strong>添加自定义颜色的边框（0-10px）</li>
+                        <li><strong>背景：</strong>选择与照片相配的背景颜色</li>
+                        <li><strong>滤镜：</strong>对单张图片或所有图片应用滤镜</li>
+                        <li><strong>文字和贴纸：</strong>添加标题和装饰元素</li>
+                    </ul>
+                    
+                    <h2>步骤 5：导出您的拼图</h2>
+                    <p>当您对拼图满意时：</p>
+                    <ol>
+                        <li>选择导出格式（PNG 质量最高，JPG 文件更小）</li>
+                        <li>调整质量设置（100% 为最佳质量）</li>
+                        <li>选择宽高比（原始、方形、故事或横向）</li>
+                        <li>点击"导出拼图"下载</li>
+                    </ol>
+                    
+                    <h2>专业技巧</h2>
+                    <ul>
+                        <li>使用相似尺寸的图片以获得更整洁的外观</li>
+                        <li>尝试不同的模板以找到您的风格</li>
+                        <li>不要害怕使用滤镜来创建统一的外观</li>
+                        <li>通过点击星形图标保存您喜欢的模板</li>
+                    </ul>
+                    
+                    <h2>结论</h2>
+                    <p>使用 MeCollage 创建照片拼图很容易！从一个简单的模板开始，尝试自定义选项，很快您就能在几分钟内创建精美的拼图。</p>
+                    
+                    <p><strong>准备好创建您的第一个拼图了吗？</strong> <a href="/">立即尝试 MeCollage</a> - 完全免费！</p>
+                
+            
+        </div>
+        
+            <div class="blog-related-posts">
+                <h2 class="blog-related-title">相关文章</h2>
+                <div class="blog-related-list">
+                    
+                        <article class="blog-related-item">
+                            <h3 class="blog-related-item-title">
+                                <a href="/blog/collage-design-tips">创建精美照片拼图的10个专业技巧</a>
+                            </h3>
+                            <p class="blog-related-item-excerpt">通过这些专业技巧掌握拼图设计艺术。学习色彩和谐、图片排列、间距技巧等。</p>
+                            <a href="/blog/collage-design-tips" class="blog-related-item-link">阅读更多 →</a>
+                        </article>
+                    
+                        <article class="blog-related-item">
+                            <h3 class="blog-related-item-title">
+                                <a href="/blog/holiday-collage-guide">节日拼图指南：创建难忘的季节性拼图</a>
+                            </h3>
+                            <p class="blog-related-item-excerpt">为圣诞节、情人节、生日等创建精美的节日拼图。发现主题模板和创意想法。</p>
+                            <a href="/blog/holiday-collage-guide" class="blog-related-item-link">阅读更多 →</a>
+                        </article>
+                    
+                        <article class="blog-related-item">
+                            <h3 class="blog-related-item-title">
+                                <a href="/blog/mobile-collage-tips">移动端拼图技巧：在手机上创建拼图</a>
+                            </h3>
+                            <p class="blog-related-item-excerpt">学习如何在移动设备上直接创建专业的照片拼图。选择照片和在社交媒体上分享的技巧。</p>
+                            <a href="/blog/mobile-collage-tips" class="blog-related-item-link">阅读更多 →</a>
+                        </article>
+                    
+                </div>
+            </div>
+        
+        <div class="blog-post-footer">
+            <a href="/blog" class="blog-back-link">← 返回博客</a>
+            <div class="blog-share">
+                <span>分享这篇文章:</span>
+                <a href="https://twitter.com/intent/tweet?text=%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E7%85%A7%E7%89%87%E6%8B%BC%E5%9B%BE%EF%BC%9A%E5%88%9D%E5%AD%A6%E8%80%85%E5%AE%8C%E6%95%B4%E6%8C%87%E5%8D%97&url=https%3A%2F%2Fwww.mecollage.top%2Fblog%2Fhow-to-make-photo-collage%3Flang%3Dzh" target="_blank" class="blog-share-link">Twitter</a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.mecollage.top%2Fblog%2Fhow-to-make-photo-collage%3Flang%3Dzh" target="_blank" class="blog-share-link">Facebook</a>
+            </div>
+        </div>
+    </div>
+        </div></body>
+</html>
+
