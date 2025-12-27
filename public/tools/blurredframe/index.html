@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="x-default">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blurred Frame - Add Beautiful Blurred Borders to Images Online</title>
+    <meta name="description" content="Add beautiful blurred borders around your images. Perfect for Instagram, stories, and social media posts. Adjust frame width and blur intensity with simple sliders.">
+    <meta name="keywords" content="blurred frame, image border blur, blurred border, photo frame blur, social media frame, Instagram frame, blurred background frame">
+    <link rel="canonical" href="https://www.mecollage.top/public/tools/blurredframe/">
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <!-- Custom CSS for Circle Crop Tool -->
+    <style>
+        /* Blurred Frame Tool Specific Styles */
+        .blurred-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .preview-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 2px dashed #8fd68f;
+            border-radius: 20px;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-area:hover {
+            border-color: #66BB6A;
+            background-color: rgba(143, 214, 143, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #8fd68f;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .canvas-container {
+            position: relative;
+            margin: 20px auto;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #previewCanvas {
+            display: block;
+            cursor: move;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .zoom-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoom-btn {
+            background-color: rgba(143, 214, 143, 0.3);
+            color: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(143, 214, 143, 0.6);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .zoom-btn:hover {
+            background-color: rgba(143, 214, 143, 0.4);
+            transform: scale(1.1);
+        }
+
+        .zoom-slider {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8fd68f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #66BB6A;
+            transform: scale(1.2);
+        }
+
+        .zoom-value {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            min-width: 50px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: #8fd68f;
+            color: #1a1a1a;
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #66BB6A;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .settings-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .settings-section h3 {
+            margin-bottom: 20px;
+            color: #8fd68f;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .setting-group {
+            margin-bottom: 25px;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: rgba(143, 214, 143, 0.6);
+            box-shadow: 0 0 0 3px rgba(143, 214, 143, 0.2);
+        }
+
+        select option {
+            background: #333;
+            color: #fff;
+        }
+
+        .quality-slider {
+            margin: 15px 0;
+        }
+
+        .quick-tip {
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .download-info {
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #8fd68f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #66BB6A;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .settings-section {
+                order: -1;
+            }
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #8fd68f;
+            text-align: center;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .faq-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background-color: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: #8fd68f;
+        }
+
+        .faq-question-text {
+            flex: 1;
+        }
+
+        .faq-icon {
+            font-size: 0.9rem;
+            color: #8fd68f;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+        }
+
+        .faq-answer p {
+            margin: 0;
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .settings-section {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blurred-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .upload-area {
+                padding: 30px 15px;
+            }
+
+            .upload-icon {
+                font-size: 3rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .tool-nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tool-nav-link {
+                width: 100%;
+                max-width: 200px;
+                text-align: center;
+            }
+
+            /* FAQ Responsive Styles */
+            .faq-section {
+                padding: 1.5rem;
+            }
+
+            .faq-title {
+                font-size: 1.6rem;
+            }
+
+            .faq-question {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+
+            .faq-answer {
+                padding: 0 1.2rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation (Inherited from Main Site) -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" data-i18n="nav.square" rel="noopener noreferrer">Square Image</a>
+            </div>
+            <div class="nav-right">
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span data-i18n="lang.name">English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.options.en">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.options.zh">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.options.es">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="blurred-tool-container">
+            <header class="page-header">
+                <h1 class="page-title">Blurred Frame</h1>
+                <p class="page-subtitle">Transform images with stunning blurred frames. Perfect for Instagram, stories, and social media posts.</p>
+            </header>
+
+            <nav class="tool-nav">
+                <div class="tool-nav-container">
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Home</a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
+                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link active"><i class="fas fa-image"></i> Blurred Frame</a>
+                </div>
+            </nav>
+
+            <div class="main-content">
+                <section class="preview-section">
+                    <div id="uploadContainer">
+                        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                            <button class="btn btn-primary" style="margin: 15px auto; display: block;">Choose an image</button>
+                            <div class="upload-hint">or drop images here or paste</div>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*">
+                    </div>
+
+                    <div id="editorContainer" style="display: none;">
+                        <div class="canvas-container" id="canvasContainer">
+                            <canvas id="previewCanvas"></canvas>
+                        </div>
+
+                        <div class="controls">
+                            <div class="action-buttons">
+                                <button class="btn btn-primary" onclick="downloadImage()"><i class="fas fa-download"></i> Download</button>
+                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> Reset</button>
+                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Change Image</button>
+                            </div>
+
+                            <div class="quick-tip">
+                                💡 Quick Tip: You can drag the image within the frame to adjust its position.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="settings-section" id="settingsSection" style="display: none;">
+                    <h3><i class="fas fa-cog"></i> Frame Settings</h3>
+                    
+                    <div class="setting-group">
+                        <label class="setting-label">Aspect Ratio</label>
+                        <select id="aspectRatio">
+                            <option value="original" selected>Original</option>
+                            <option value="1:1">1:1 (Square)</option>
+                            <option value="4:3">4:3</option>
+                            <option value="3:4">3:4</option>
+                            <option value="16:9">16:9</option>
+                            <option value="9:16">9:16</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group" id="customAspectRatioGroup" style="display: none;">
+                        <label class="setting-label">Custom Aspect Ratio</label>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <input type="number" id="aspectRatioWidth" placeholder="Width" min="1" max="100" value="16" style="width: 60px;">
+                            <span style="color: rgba(255, 255, 255, 0.7);">:</span>
+                            <input type="number" id="aspectRatioHeight" placeholder="Height" min="1" max="100" value="9" style="width: 60px;">
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-label">Main Image Scale <span id="mainScaleValue">100%</span></label>
+                        <input type="range" id="mainScaleSlider" min="50" max="200" value="100" class="quality-slider">
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-label">Background Scale <span id="bgScaleValue">150%</span></label>
+                        <input type="range" id="bgScaleSlider" min="100" max="300" value="150" class="quality-slider">
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-label">Blur Intensity <span id="blurIntensityValue">30</span></label>
+                        <input type="range" id="blurIntensitySlider" min="0" max="200" value="30" class="quality-slider">
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-label">Download</label>
+                        <select id="outputSize">
+                            <option value="1200" selected>1200px</option>
+                            <option value="original">Original</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group" id="customSizeGroup" style="display: none;">
+                        <label class="setting-label">Custom Size (px)</label>
+                        <input type="number" id="customSizeInput" placeholder="Enter custom size" min="100" max="4000" value="1200">
+                    </div>
+
+                    <div class="setting-group">
+                        <div style="display: flex; gap: 10px;">
+                            <select id="outputFormat" style="flex: 1;">
+                                <option value="jpg" selected>JPEG</option>
+                                <option value="png">PNG</option>
+                                <option value="webp">WEBP</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <button class="btn btn-primary" onclick="downloadImage()" style="width: 100%; margin-top: 20px;"><i class="fas fa-download"></i> Download Image</button>
+                    </div>
+                </aside>
+            </div>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="faq-container">
+                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <div class="faq-items">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">What is Blurred Frame?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Blurred Frame is a free online tool that adds beautiful blurred borders around your images. Create stunning visual effects perfect for social media posts, Instagram stories, and professional photography presentations.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">How does it work?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Upload your image and adjust the frame width and blur intensity with simple sliders. The tool automatically creates a blurred extension of your image around the edges, maintaining the original aspect ratio while adding an artistic border effect.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">Perfect for social media</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Ideal for Instagram posts, Facebook images, and any platform where you want to preserve your image's full content without cropping. The blurred frame fills the space beautifully while keeping focus on your main subject.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">Customizable settings</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Control both the frame width (5-40% of image) and blur amount (1-100) to achieve your desired look. From subtle soft borders to dramatic blurred edges, create the perfect frame for any image style.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">High-quality output</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Download your framed images in JPEG, PNG, or WEBP format with customizable sizes up to original resolution. All processing happens in your browser - your images never leave your device.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">Free and unlimited</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Completely free with no watermarks, signup requirements, or hidden fees. Process unlimited images with full quality and all customization options available at no cost.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 MeCollage. All rights reserved. | <a href="/">Back to Home</a></p>
+        </footer>
+    </div>
+</div>
+
+<script>
+        // FAQ Toggle Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const isExpanded = question.getAttribute('aria-expanded') === 'true';
+                    const icon = question.querySelector('.faq-icon');
+                    
+                    question.setAttribute('aria-expanded', !isExpanded);
+                    answer.hidden = isExpanded;
+                    
+                    if (isExpanded) {
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        });
+
+        // State management
+        const state = {
+            image: null,
+            canvas: null,
+            ctx: null,
+            mainScale: 100,
+            bgScale: 150,
+            blurIntensity: 30,
+            aspectRatio: 'original',
+            containerSize: 0,
+            isDragging: false,
+            isDrawing: false,
+            lastMousePos: { x: 0, y: 0 },
+            pan: { x: 0, y: 0 },
+            fitScale: 1
+        };
+
+        // Initialize canvas
+        function initCanvas() {
+            state.canvas = document.getElementById('previewCanvas');
+            state.ctx = state.canvas.getContext('2d');
+            
+            // Calculate container size based on viewport
+            const calculateContainerSize = () => {
+                const maxSize = Math.min(window.innerWidth - 40, window.innerHeight - 300, 800);
+                state.containerSize = maxSize;
+                state.canvas.width = state.containerSize;
+                state.canvas.height = state.containerSize;
+                document.getElementById('canvasContainer').style.width = `${state.containerSize}px`;
+                document.getElementById('canvasContainer').style.height = `${state.containerSize}px`;
+            };
+
+            calculateContainerSize();
+            window.addEventListener('resize', calculateContainerSize);
+
+            // Event listeners for canvas
+            state.canvas.addEventListener('mousedown', startDrag);
+            state.canvas.addEventListener('mousemove', drag);
+            state.canvas.addEventListener('mouseup', stopDrag);
+            state.canvas.addEventListener('mouseleave', stopDrag);
+            state.canvas.addEventListener('wheel', handleWheel);
+
+            // Touch events for mobile
+            state.canvas.addEventListener('touchstart', handleTouchStart);
+            state.canvas.addEventListener('touchmove', handleTouchMove);
+            state.canvas.addEventListener('touchend', handleTouchEnd);
+        }
+
+        // Image upload handling
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        });
+
+        // Drag and drop support
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadContainer = document.getElementById('uploadContainer');
+            
+            uploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.add('drag-over');
+            });
+
+            uploadContainer.addEventListener('dragleave', () => {
+                uploadContainer.classList.remove('drag-over');
+            });
+
+            uploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    loadImage(file);
+                }
+            });
+
+            // Paste support
+            document.addEventListener('paste', (e) => {
+                const items = e.clipboardData.items;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.startsWith('image/')) {
+                        const file = items[i].getAsFile();
+                        if (file) {
+                            loadImage(file);
+                        }
+                        break;
+                    }
+                }
+            });
+        });
+
+        // Load image
+        function loadImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    state.image = img;
+                    
+                    // Calculate fitScale to make image fit perfectly at 100% zoom
+                    const imgRatio = img.width / img.height;
+                    state.fitScale = imgRatio > 1 ? state.containerSize / img.width : state.containerSize / img.height;
+                    
+                    state.mainScale = 100;
+                    state.bgScale = 150;
+                    state.blurIntensity = 30;
+                    state.aspectRatio = 'original';
+                    state.pan = { x: 0, y: 0 };
+                    
+                    updateSettingsSliders();
+                    drawBlurredFrame();
+                    showEditor();
+                    showSettings();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Show editor
+        function showEditor() {
+            document.getElementById('uploadContainer').style.display = 'none';
+            document.getElementById('editorContainer').style.display = 'block';
+        }
+
+        // Show settings section
+        function showSettings() {
+            document.getElementById('settingsSection').style.display = 'block';
+        }
+
+        // Hide settings section
+        function hideSettings() {
+            document.getElementById('settingsSection').style.display = 'none';
+        }
+
+        // Reset editor
+        function resetEditor() {
+            state.image = null;
+            state.mainScale = 100;
+            state.bgScale = 150;
+            state.blurIntensity = 30;
+            state.aspectRatio = 'original';
+            updateSettingsSliders();
+            document.getElementById('editorContainer').style.display = 'none';
+            document.getElementById('uploadContainer').style.display = 'block';
+            hideSettings();
+        }
+
+        // Update settings sliders
+        function updateSettingsSliders() {
+            document.getElementById('mainScaleSlider').value = state.mainScale;
+            document.getElementById('mainScaleValue').textContent = `${state.mainScale}%`;
+            document.getElementById('bgScaleSlider').value = state.bgScale;
+            document.getElementById('bgScaleValue').textContent = `${state.bgScale}%`;
+            document.getElementById('blurIntensitySlider').value = state.blurIntensity;
+            document.getElementById('blurIntensityValue').textContent = `${state.blurIntensity}`;
+        }
+
+        // Draw blurred frame image on canvas
+        function drawBlurredFrame() {
+            if (!state.image || !state.ctx) return;
+            
+            // Use requestAnimationFrame to optimize rendering performance
+            if (state.isDrawing) return;
+            
+            state.isDrawing = true;
+            requestAnimationFrame(() => {
+                // Clear canvas
+                state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+
+                // Calculate image dimensions for main image and background
+                const imgRatio = state.image.width / state.image.height;
+                let targetRatio = imgRatio;
+                
+                // Handle custom aspect ratio
+                if (state.aspectRatio === 'custom') {
+                    const width = parseInt(document.getElementById('aspectRatioWidth').value) || 16;
+                    const height = parseInt(document.getElementById('aspectRatioHeight').value) || 9;
+                    targetRatio = width / height;
+                } else if (state.aspectRatio !== 'original') {
+                    // Handle predefined aspect ratios
+                    const [width, height] = state.aspectRatio.split(':').map(Number);
+                    targetRatio = width / height;
+                }
+                
+                let mainWidth, mainHeight, bgWidth, bgHeight;
+
+                // Calculate main image size based on scale and target aspect ratio
+                if (targetRatio > 1) {
+                    // Landscape or square aspect ratio
+                    mainWidth = state.containerSize * (state.mainScale / 100);
+                    mainHeight = mainWidth / targetRatio;
+                } else {
+                    // Portrait aspect ratio
+                    mainHeight = state.containerSize * (state.mainScale / 100);
+                    mainWidth = mainHeight * targetRatio;
+                }
+
+                // Calculate background size based on scale and target aspect ratio
+                if (targetRatio > 1) {
+                    // Landscape or square aspect ratio
+                    bgWidth = state.containerSize * (state.bgScale / 100);
+                    bgHeight = bgWidth / targetRatio;
+                } else {
+                    // Portrait aspect ratio
+                    bgHeight = state.containerSize * (state.bgScale / 100);
+                    bgWidth = bgHeight * targetRatio;
+                }
+
+                // Calculate center positions
+                const mainX = (state.containerSize - mainWidth) / 2 + state.pan.x;
+                const mainY = (state.containerSize - mainHeight) / 2 + state.pan.y;
+                const bgX = (state.containerSize - bgWidth) / 2;
+                const bgY = (state.containerSize - bgHeight) / 2;
+
+                // Draw blurred background
+                drawBlurredBackground(bgX, bgY, bgWidth, bgHeight);
+
+                // Draw main image with the correct aspect ratio
+                state.ctx.drawImage(state.image, mainX, mainY, mainWidth, mainHeight);
+                
+                state.isDrawing = false;
+            });
+        }
+
+        // Draw blurred background
+        function drawBlurredBackground(x, y, width, height) {
+            // Create temporary canvas for blur effect
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = width;
+            tempCanvas.height = height;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Draw image to temporary canvas
+            tempCtx.drawImage(state.image, 0, 0, width, height);
+
+            // Apply blur effect
+            applyBlur(tempCanvas, state.blurIntensity);
+
+            // Draw blurred image to main canvas
+            state.ctx.drawImage(tempCanvas, x, y, width, height);
+        }
+
+        // Apply blur effect to canvas - optimized using CSS filter for better performance
+        function applyBlur(canvas, intensity) {
+            const ctx = canvas.getContext('2d');
+            
+            // For better performance, use a downscale-then-upscale approach for blur
+            const scale = 0.5;
+            const scaledCanvas = document.createElement('canvas');
+            scaledCanvas.width = canvas.width * scale;
+            scaledCanvas.height = canvas.height * scale;
+            const scaledCtx = scaledCanvas.getContext('2d');
+            
+            // Draw the image at reduced size
+            scaledCtx.drawImage(canvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+            
+            // Apply blur to the smaller canvas using CSS filter
+            ctx.filter = `blur(${intensity / 20}px)`;
+            
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw the blurred scaled image back to the original canvas, scaling it up
+            ctx.drawImage(scaledCanvas, 0, 0, canvas.width, canvas.height);
+            
+            // Reset filter
+            ctx.filter = 'none';
+        }
+
+        // Main scale slider event
+        document.getElementById('mainScaleSlider').addEventListener('input', (e) => {
+            state.mainScale = parseInt(e.target.value);
+            document.getElementById('mainScaleValue').textContent = `${state.mainScale}%`;
+            drawBlurredFrame();
+        });
+
+        // Background scale slider event
+        document.getElementById('bgScaleSlider').addEventListener('input', (e) => {
+            state.bgScale = parseInt(e.target.value);
+            document.getElementById('bgScaleValue').textContent = `${state.bgScale}%`;
+            drawBlurredFrame();
+        });
+
+        // Blur intensity slider event
+        document.getElementById('blurIntensitySlider').addEventListener('input', (e) => {
+            state.blurIntensity = parseInt(e.target.value);
+            document.getElementById('blurIntensityValue').textContent = `${state.blurIntensity}`;
+            drawBlurredFrame();
+        });
+
+        // Aspect ratio change event
+        document.getElementById('aspectRatio').addEventListener('change', (e) => {
+            state.aspectRatio = e.target.value;
+            const customAspectRatioGroup = document.getElementById('customAspectRatioGroup');
+            if (e.target.value === 'custom') {
+                customAspectRatioGroup.style.display = 'block';
+            } else {
+                customAspectRatioGroup.style.display = 'none';
+            }
+            drawBlurredFrame();
+        });
+        
+        // Custom aspect ratio input events
+        document.getElementById('aspectRatioWidth').addEventListener('input', () => {
+            drawBlurredFrame();
+        });
+        
+        document.getElementById('aspectRatioHeight').addEventListener('input', () => {
+            drawBlurredFrame();
+        });
+
+        // Drag functions
+        function startDrag(e) {
+            state.isDragging = true;
+            state.lastMousePos = { x: e.offsetX, y: e.offsetY };
+            state.canvas.style.cursor = 'grabbing';
+        }
+
+        function drag(e) {
+            if (!state.isDragging) return;
+            
+            const dx = e.offsetX - state.lastMousePos.x;
+            const dy = e.offsetY - state.lastMousePos.y;
+            
+            state.pan.x += dx;
+            state.pan.y += dy;
+            
+            state.lastMousePos = { x: e.offsetX, y: e.offsetY };
+            
+            drawBlurredFrame();
+        }
+
+        function stopDrag() {
+            state.isDragging = false;
+            state.canvas.style.cursor = 'move';
+        }
+
+        // Touch events
+        function handleTouchStart(e) {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = state.canvas.getBoundingClientRect();
+                state.lastMousePos = {
+                    x: touch.clientX - rect.left,
+                    y: touch.clientY - rect.top
+                };
+                state.isDragging = true;
+            }
+        }
+
+        function handleTouchMove(e) {
+            if (state.isDragging && e.touches.length === 1) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = state.canvas.getBoundingClientRect();
+                const currentX = touch.clientX - rect.left;
+                const currentY = touch.clientY - rect.top;
+                
+                const dx = currentX - state.lastMousePos.x;
+                const dy = currentY - state.lastMousePos.y;
+                
+                state.pan.x += dx;
+                state.pan.y += dy;
+                
+                state.lastMousePos = { x: currentX, y: currentY };
+                
+                drawBlurredFrame();
+            }
+        }
+
+        function handleTouchEnd(e) {
+            state.isDragging = false;
+        }
+
+        // Wheel zoom
+        function handleWheel(e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -5 : 5;
+            state.mainScale = Math.max(50, Math.min(200, state.mainScale + delta));
+            updateSettingsSliders();
+            drawBlurredFrame();
+        }
+
+        // Download image
+        function downloadImage() {
+            if (!state.image) return;
+
+            // Get settings
+            const format = document.getElementById('outputFormat').value;
+            const sizeOption = document.getElementById('outputSize').value;
+            let quality = 0.9; // Default quality
+
+            // Calculate output size
+            let outputSize;
+            if (sizeOption === 'original') {
+                outputSize = Math.min(state.image.width, state.image.height);
+            } else if (sizeOption === 'custom') {
+                outputSize = parseInt(document.getElementById('customSizeInput').value);
+            } else {
+                outputSize = parseInt(sizeOption);
+            }
+
+            // Create temporary canvas for download
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = outputSize;
+            tempCanvas.height = outputSize;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Calculate image dimensions for main image and background
+            const imgRatio = state.image.width / state.image.height;
+            let mainWidth, mainHeight, bgWidth, bgHeight;
+
+            // Calculate main image size based on scale
+            if (imgRatio > 1) {
+                // Landscape image
+                mainWidth = outputSize * (state.mainScale / 100);
+                mainHeight = mainWidth / imgRatio;
+            } else {
+                // Portrait or square image
+                mainHeight = outputSize * (state.mainScale / 100);
+                mainWidth = mainHeight * imgRatio;
+            }
+
+            // Calculate background size
+            if (imgRatio > 1) {
+                bgWidth = outputSize * (state.bgScale / 100);
+                bgHeight = bgWidth / imgRatio;
+            } else {
+                bgHeight = outputSize * (state.bgScale / 100);
+                bgWidth = bgHeight * imgRatio;
+            }
+
+            // Calculate center positions
+            const mainX = (outputSize - mainWidth) / 2;
+            const mainY = (outputSize - mainHeight) / 2;
+            const bgX = (outputSize - bgWidth) / 2;
+            const bgY = (outputSize - bgHeight) / 2;
+
+            // Create a temporary canvas for the blurred background
+            const bgTempCanvas = document.createElement('canvas');
+            bgTempCanvas.width = bgWidth;
+            bgTempCanvas.height = bgHeight;
+            const bgTempCtx = bgTempCanvas.getContext('2d');
+
+            // Draw image to background temp canvas
+            bgTempCtx.drawImage(state.image, 0, 0, bgWidth, bgHeight);
+
+            // Apply blur effect to background
+            // Use CSS filter for better performance
+            bgTempCanvas.style.filter = `blur(${state.blurIntensity / 20}px)`;
+            
+            // Apply blur using the same optimized approach as in drawBlurredBackground
+            const scale = 0.5;
+            const scaledCanvas = document.createElement('canvas');
+            scaledCanvas.width = bgWidth * scale;
+            scaledCanvas.height = bgHeight * scale;
+            const scaledCtx = scaledCanvas.getContext('2d');
+            
+            // Draw the image at reduced size
+            scaledCtx.drawImage(bgTempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
+            
+            // Apply blur to the smaller canvas
+            tempCtx.filter = `blur(${state.blurIntensity / 10}px)`;
+            
+            // Draw the blurred scaled image back to the original canvas, scaling it up
+            tempCtx.drawImage(scaledCanvas, bgX, bgY, bgWidth, bgHeight);
+            
+            // Reset filter
+            tempCtx.filter = 'none';
+
+            // Draw main image
+            tempCtx.drawImage(state.image, mainX, mainY, mainWidth, mainHeight);
+
+            // Download
+            let fileName = `blurred-frame.${format}`;
+            
+            // Determine MIME type based on format
+            let mimeType;
+            switch (format) {
+                case 'png':
+                    mimeType = 'image/png';
+                    break;
+                case 'webp':
+                    mimeType = 'image/webp';
+                    break;
+                case 'jpg':
+                default:
+                    mimeType = 'image/jpeg';
+                    break;
+            }
+
+            // Convert canvas to blob and download
+            tempCanvas.toBlob((blob) => {
+                if (blob) {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }
+            }, mimeType, quality);
+        }
+
+        // Helper function to download blob
+        function downloadBlob(blob, fileName) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Handle output size change event
+        document.getElementById('outputSize').addEventListener('change', (e) => {
+            const customSizeGroup = document.getElementById('customSizeGroup');
+            if (e.target.value === 'custom') {
+                customSizeGroup.style.display = 'block';
+            } else {
+                customSizeGroup.style.display = 'none';
+            }
+        });
+
+        // Initialize editor
+        document.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+        });
+    </script>
+</body>
+</html>

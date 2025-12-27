@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="x-default">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Square Crop Tool - Free Online Image Cropper to 1:1 Ratio</title>
+    <meta name="description" content="Easily crop images to perfect square 1:1 ratio online for free. Adjust crop area with drag and drop, zoom and pan for precise control. Download in high-quality PNG, JPG, WEBP formats. Ideal for social media profiles, Instagram posts, and more.">
+    <meta name="keywords" content="square crop, image cropper, 1:1 ratio, online crop tool, square image maker, social media crop, square photo creator, free image cropper">
+    <link rel="canonical" href="https://www.mecollage.top/public/tools/squarecrop/">
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <!-- Custom CSS for Square Crop Tool -->
+    <style>
+        /* Square Crop Tool Specific Styles */
+        .squarecrop-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Two-column layout when settings are visible */
+        .main-content.settings-visible {
+            grid-template-columns: 1fr 300px;
+        }
+
+        .preview-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 2px dashed #8fd68f;
+            border-radius: 20px;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-area:hover {
+            border-color: #66BB6A;
+            background-color: rgba(143, 214, 143, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #8fd68f;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .canvas-container {
+            position: relative;
+            margin: 20px auto;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #previewCanvas {
+            display: block;
+            margin: 0 auto;
+            cursor: move;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .zoom-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .zoom-btn {
+            background-color: #8fd68f;
+            color: rgba(0, 0, 0, 0.8);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .zoom-btn:hover {
+            background-color: #66BB6A;
+            transform: scale(1.1);
+        }
+
+        .zoom-slider {
+            flex: 1;
+            margin: 0 10px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8fd68f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #66BB6A;
+            transform: scale(1.2);
+        }
+
+        .zoom-value {
+            font-weight: 600;
+            color: #8fd68f;
+            min-width: 50px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: #8fd68f;
+            color: #1a1a1a;
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #66BB6A;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .settings-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .settings-section h3 {
+            margin-bottom: 20px;
+            color: #8fd68f;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .setting-group {
+            margin-bottom: 25px;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: rgba(143, 214, 143, 0.6);
+            box-shadow: 0 0 0 3px rgba(143, 214, 143, 0.2);
+        }
+
+        select option {
+            background: #333;
+            color: #fff;
+        }
+
+        .quality-slider {
+            margin: 15px 0;
+        }
+
+        .quick-tip {
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .download-info {
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #8fd68f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin: 2rem 0;
+        }
+
+        .faq-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .faq-answer {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        footer a:hover {
+            color: #66BB6A;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .settings-section {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .squarecrop-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .upload-area {
+                padding: 30px 15px;
+            }
+
+            .upload-icon {
+                font-size: 3rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .zoom-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .zoom-slider {
+                margin: 10px 0;
+            }
+
+            .zoom-value {
+                text-align: center;
+            }
+
+            .tool-nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tool-nav-link {
+                width: 100%;
+                max-width: 200px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation (Inherited from Main Site) -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" data-i18n="nav.square" rel="noopener noreferrer">Square Image</a>
+            </div>
+            <div class="nav-right">
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span data-i18n="lang.name">English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.options.en">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.options.zh">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.options.es">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="squarecrop-tool-container">
+            <header class="page-header">
+                <h1 class="page-title">Square Crop 1:1</h1>
+                <p class="page-subtitle">Easily transform images into perfect square 1:1 ratio. Perfect for social media profiles, Instagram posts, and any platform requiring square visuals. Adjust zoom and position for precise cropping control.</p>
+            </header>
+
+            <nav class="tool-nav">
+                <div class="tool-nav-container">
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Home</a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link active"><i class="fas fa-crop-square"></i> Square Crop</a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
+                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                </div>
+            </nav>
+
+            <div class="main-content">
+                <section class="preview-section">
+                    <div id="uploadContainer">
+                        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <div class="upload-text">Drag & drop an image here or click to upload</div>
+                            <div class="upload-hint">Works with JPG, PNG, WEBP formats</div>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*">
+                    </div>
+
+                    <div id="editorContainer" style="display: none;">
+                        <div class="canvas-container" id="canvasContainer">
+                            <canvas id="previewCanvas"></canvas>
+                        </div>
+
+                        <div class="controls">
+                            <div class="zoom-controls">
+                                <div style="text-align: center; margin-bottom: 10px;">
+                                    <span style="font-weight: 500; color: rgba(255, 255, 255, 0.8); margin-right: 10px;">Zoom</span>
+                                    <span class="zoom-value" id="zoomValue">100%</span>
+                                </div>
+                                <div class="zoom-slider">
+                                    <input type="range" id="zoomSlider" min="10" max="300" value="100">
+                                </div>
+                            </div>
+
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> Reset</button>
+                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Change Image</button>
+                            </div>
+                        </div>
+
+                        <div class="quick-tip">
+                            💡 Tip: Drag the image within the square frame to adjust the crop position, and use the zoom slider for precise control.
+                        </div>
+                    </div>
+                </section>
+
+                <aside class="settings-section" id="settingsSection" style="display: none;">
+                    <h3>Crop Settings</h3>
+                    
+                    <div class="setting-group">
+                        <select id="outputSize">
+                            <option value="original" selected>Original</option>
+                            <option value="1200">1200px</option>
+                            <option value="custom">Custom</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group">
+                        <select id="outputFormat">
+                            <option value="jpg" selected>JPEG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WEBP</option>
+                        </select>
+                    </div>
+
+                    <div class="setting-group" id="customSizeGroup" style="display: none;">
+                        <label class="setting-label">Custom Size (px)</label>
+                        <input type="number" id="customSize" min="100" max="10000" value="1200">
+                    </div>
+
+                    <button class="btn btn-primary" onclick="downloadImage()">Download Image</button>
+                </aside>
+            </div>
+
+            <!-- FAQ Section -->
+            <section class="faq-section" id="faqSection">
+                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <h3 class="faq-question">What is Square Crop 1:1?</h3>
+                        <p class="faq-answer">Square Crop 1:1 is a free online tool that crops your images to a perfect square (1:1 aspect ratio). Perfect for profile pictures, Instagram posts, and any platform that requires square images.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">How does it work?</h3>
+                        <p class="faq-answer">Upload your image and use the zoom slider to adjust the crop area. Drag the image to reposition it within the square frame. The tool ensures your image is cropped to a perfect 1:1 ratio while giving you full control over what to keep in frame.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">Perfect for social media</h3>
+                        <p class="faq-answer">Ideal for Instagram profile pictures, Facebook avatars, Twitter images, and any platform where square images are required. No more awkward crops or stretched images.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">Easy to use</h3>
+                        <p class="faq-answer">Simply zoom and drag to position your image perfectly. The visual preview shows exactly what your final square crop will look like before you download.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">High-quality output</h3>
+                        <p class="faq-answer">Download your square-cropped images in JPEG, PNG, or WEBP format with customizable sizes. All processing happens in your browser - your images never leave your device.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">Free and unlimited</h3>
+                        <p class="faq-answer">Completely free with no watermarks, signup requirements, or hidden fees. Crop unlimited images with full quality and all customization options available at no cost.</p>
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; 2024 MeCollage. All rights reserved. | <a href="/">Back to Home</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        const state = {
+            image: null,
+            canvas: null,
+            ctx: null,
+            zoom: 100,
+            pan: { x: 0, y: 0 },
+            isDragging: false,
+            lastMousePos: { x: 0, y: 0 },
+            containerSize: 0,
+            fitScale: 1
+        };
+
+        // Initialize canvas
+        function initCanvas() {
+            state.canvas = document.getElementById('previewCanvas');
+            state.ctx = state.canvas.getContext('2d');
+            
+            // Calculate container size based on viewport
+            const calculateContainerSize = () => {
+                const maxSize = Math.min(window.innerWidth - 40, window.innerHeight - 300, 800);
+                state.containerSize = maxSize;
+                state.canvas.width = state.containerSize;
+                state.canvas.height = state.containerSize;
+                document.getElementById('canvasContainer').style.width = `${state.containerSize}px`;
+                document.getElementById('canvasContainer').style.height = `${state.containerSize}px`;
+            };
+
+            calculateContainerSize();
+            window.addEventListener('resize', calculateContainerSize);
+
+            // Event listeners for canvas
+            state.canvas.addEventListener('mousedown', startDrag);
+            state.canvas.addEventListener('mousemove', drag);
+            state.canvas.addEventListener('mouseup', stopDrag);
+            state.canvas.addEventListener('mouseleave', stopDrag);
+            state.canvas.addEventListener('wheel', handleWheel);
+
+            // Touch events for mobile
+            state.canvas.addEventListener('touchstart', handleTouchStart);
+            state.canvas.addEventListener('touchmove', handleTouchMove);
+            state.canvas.addEventListener('touchend', handleTouchEnd);
+        }
+
+        // Drag and drop support
+document.addEventListener('DOMContentLoaded', () => {
+            const uploadContainer = document.getElementById('uploadContainer');
+            
+            // Image upload handling
+            document.getElementById('fileInput').addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    loadImage(file);
+                }
+            });
+            
+            uploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.add('drag-over');
+            });
+
+            uploadContainer.addEventListener('dragleave', () => {
+                uploadContainer.classList.remove('drag-over');
+            });
+
+            uploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    loadImage(file);
+                }
+            });
+        });
+
+        // Load image
+        function loadImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    state.image = img;
+                    
+                    // Calculate fitScale to make image fit perfectly at 100% zoom
+                    const imgRatio = img.width / img.height;
+                    state.fitScale = imgRatio > 1 ? state.containerSize / img.width : state.containerSize / img.height;
+                    
+                    state.zoom = 100;
+                    state.pan = { x: 0, y: 0 };
+                    
+                    updateZoomSlider();
+                    showEditor();
+                    drawImage();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Show editor
+        function showEditor() {
+            document.getElementById('uploadContainer').style.display = 'none';
+            document.getElementById('editorContainer').style.display = 'block';
+            document.getElementById('settingsSection').style.display = 'block';
+            document.querySelector('.main-content').classList.add('settings-visible');
+        }
+
+        // Reset editor
+        function resetEditor() {
+            state.image = null;
+            state.zoom = 100;
+            state.pan = { x: 0, y: 0 };
+            updateZoomSlider();
+            document.getElementById('editorContainer').style.display = 'none';
+            document.getElementById('uploadContainer').style.display = 'block';
+            document.getElementById('settingsSection').style.display = 'none';
+            document.querySelector('.main-content').classList.remove('settings-visible');
+        }
+
+        // Draw image on canvas
+        function drawImage() {
+            if (!state.image || !state.ctx) return;
+
+            // Clear canvas
+            state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
+
+            // Calculate scale and position
+            const scale = (state.zoom / 100) * state.fitScale;
+            const imgWidth = state.image.width * scale;
+            const imgHeight = state.image.height * scale;
+
+            // Calculate center position with pan offset
+            const centerX = (state.canvas.width - imgWidth) / 2 + state.pan.x;
+            const centerY = (state.canvas.height - imgHeight) / 2 + state.pan.y;
+
+            // Draw image
+            state.ctx.drawImage(state.image, centerX, centerY, imgWidth, imgHeight);
+        }
+
+        // Zoom functions
+        function zoomImage(delta) {
+            state.zoom = Math.max(10, Math.min(300, state.zoom + delta));
+            if (state.zoom === 100) {
+                state.pan = { x: 0, y: 0 };
+            }
+            updateZoomSlider();
+            drawImage();
+        }
+
+        function updateZoomSlider() {
+            document.getElementById('zoomSlider').value = state.zoom;
+            document.getElementById('zoomValue').textContent = `${state.zoom}%`;
+        }
+
+        // Drag functions
+        function startDrag(e) {
+            state.isDragging = true;
+            state.lastMousePos = { x: e.offsetX, y: e.offsetY };
+            state.canvas.style.cursor = 'grabbing';
+        }
+
+        function drag(e) {
+            if (!state.isDragging) return;
+            
+            const dx = e.offsetX - state.lastMousePos.x;
+            const dy = e.offsetY - state.lastMousePos.y;
+            
+            state.pan.x += dx;
+            state.pan.y += dy;
+            
+            state.lastMousePos = { x: e.offsetX, y: e.offsetY };
+            
+            drawImage();
+        }
+
+        function stopDrag() {
+            state.isDragging = false;
+            state.canvas.style.cursor = 'move';
+        }
+
+        // Touch events
+        function handleTouchStart(e) {
+            if (e.touches.length === 1) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = state.canvas.getBoundingClientRect();
+                state.lastMousePos = {
+                    x: touch.clientX - rect.left,
+                    y: touch.clientY - rect.top
+                };
+                state.isDragging = true;
+            }
+        }
+
+        function handleTouchMove(e) {
+            if (state.isDragging && e.touches.length === 1) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const rect = state.canvas.getBoundingClientRect();
+                const currentX = touch.clientX - rect.left;
+                const currentY = touch.clientY - rect.top;
+                
+                const dx = currentX - state.lastMousePos.x;
+                const dy = currentY - state.lastMousePos.y;
+                
+                state.pan.x += dx;
+                state.pan.y += dy;
+                
+                state.lastMousePos = { x: currentX, y: currentY };
+                
+                drawImage();
+            }
+        }
+
+        function handleTouchEnd(e) {
+            state.isDragging = false;
+        }
+
+        // Wheel zoom
+        function handleWheel(e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -5 : 5;
+            zoomImage(delta);
+        }
+
+        // Download image
+        function downloadImage() {
+            if (!state.image) return;
+
+            // Get settings
+            const format = document.getElementById('outputFormat').value;
+            const sizeOption = document.getElementById('outputSize').value;
+            const customSize = document.getElementById('customSize').value;
+            const quality = 0.85; // Fixed quality for simplicity, matching competitor
+
+            // Calculate output size
+            let outputSize;
+            if (sizeOption === 'original') {
+                outputSize = Math.min(state.image.width, state.image.height);
+            } else if (sizeOption === 'custom') {
+                outputSize = parseInt(customSize);
+            } else {
+                outputSize = parseInt(sizeOption);
+            }
+
+            // Create temporary canvas for download
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = outputSize;
+            tempCanvas.height = outputSize;
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Calculate scale for output
+            const scale = (state.zoom / 100) * state.fitScale;
+            const imgWidth = state.image.width * scale;
+            const imgHeight = state.image.height * scale;
+
+            // Calculate position with pan offset
+            const centerX = (state.canvas.width - imgWidth) / 2 + state.pan.x;
+            const centerY = (state.canvas.height - imgHeight) / 2 + state.pan.y;
+
+            // Calculate source rectangle for cropping
+            const sourceX = (-centerX / state.canvas.width) * imgWidth;
+            const sourceY = (-centerY / state.canvas.height) * imgHeight;
+
+            // Draw scaled and cropped image to temp canvas
+            tempCtx.drawImage(
+                state.image,
+                sourceX,
+                sourceY,
+                imgWidth,
+                imgHeight,
+                0,
+                0,
+                outputSize,
+                outputSize
+            );
+
+            // Download
+            let fileName = `square-crop.${format}`;
+            if (format === 'png') {
+                tempCanvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, fileName);
+                    }
+                }, 'image/png');
+            } else if (format === 'webp') {
+                tempCanvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, fileName);
+                    }
+                }, 'image/webp');
+            } else {
+                tempCanvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, fileName);
+                    }
+                }, 'image/jpeg', quality);
+            }
+        }
+
+        // Helper function to download blob
+        function downloadBlob(blob, fileName) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize editor
+        document.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+            
+            // Add event listener for outputSize change
+            document.getElementById('outputSize').addEventListener('change', (e) => {
+                const customSizeGroup = document.getElementById('customSizeGroup');
+                if (e.target.value === 'custom') {
+                    customSizeGroup.style.display = 'block';
+                } else {
+                    customSizeGroup.style.display = 'none';
+                }
+            });
+            
+            // Add event listener for zoom slider
+            const zoomSlider = document.getElementById('zoomSlider');
+            if (zoomSlider) {
+                zoomSlider.addEventListener('input', (e) => {
+                    state.zoom = parseInt(e.target.value);
+                    if (state.zoom === 100) {
+                        state.pan = { x: 0, y: 0 };
+                    }
+                    updateZoomSlider();
+                    drawImage();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
