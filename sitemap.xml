@@ -3,7 +3,7 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.mecollage.top/</loc>
-    <lastmod>2024-11-14</lastmod>
+    <lastmod>2025-12-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/?lang=en" />
@@ -12,111 +12,83 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/" />
   </url>
   <url>
-    <loc>https://www.mecollage.top/features</loc>
-    <lastmod>2024-11-14</lastmod>
+    <loc>https://www.mecollage.top/features.html</loc>
+    <lastmod>2025-12-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/features" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/features?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/features?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/features" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/features.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/features.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/features.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/features.html" />
   </url>
   <url>
-    <loc>https://www.mecollage.top/tutorial</loc>
-    <lastmod>2024-11-14</lastmod>
+    <loc>https://www.mecollage.top/tutorial.html</loc>
+    <lastmod>2025-12-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/tutorial" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/tutorial?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/tutorial?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/tutorial" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/tutorial.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/tutorial.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/tutorial.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/tutorial.html" />
   </url>
   <url>
-    <loc>https://www.mecollage.top/blog</loc>
-    <lastmod>2024-11-14</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://www.mecollage.top/privacy.html</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/privacy.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/privacy.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/privacy.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/privacy.html" />
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/terms.html</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/terms.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/terms.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/terms.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/terms.html" />
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/public/tools/squarecrop/index.html</loc>
+    <lastmod>2025-12-29</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/blog" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/blog?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/blog?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/public/tools/squarecrop/index.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/public/tools/squarecrop/index.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/public/tools/squarecrop/index.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/public/tools/squarecrop/index.html" />
   </url>
   <url>
-    <loc>https://www.mecollage.top/blog/how-to-make-photo-collage</loc>
-    <lastmod>2024-11-14</lastmod>
+    <loc>https://www.mecollage.top/public/tools/roundedcorners/index.html</loc>
+    <lastmod>2025-12-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/blog/how-to-make-photo-collage" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/blog/how-to-make-photo-collage?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/blog/how-to-make-photo-collage?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/how-to-make-photo-collage" />
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/public/tools/roundedcorners/index.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/public/tools/roundedcorners/index.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/public/tools/roundedcorners/index.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/public/tools/roundedcorners/index.html" />
   </url>
   <url>
-    <loc>https://www.mecollage.top/blog/collage-design-tips</loc>
-    <lastmod>2024-11-14</lastmod>
+    <loc>https://www.mecollage.top/public/tools/square/index.html</loc>
+    <lastmod>2025-12-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/blog/collage-design-tips" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/blog/collage-design-tips?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/blog/collage-design-tips?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/collage-design-tips" />
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/public/tools/square/index.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/public/tools/square/index.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/public/tools/square/index.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/public/tools/square/index.html" />
   </url>
   <url>
-    <loc>https://www.mecollage.top/blog/holiday-collage-guide</loc>
-    <lastmod>2024-11-14</lastmod>
+    <loc>https://www.mecollage.top/public/tools/blurredframe/index.html</loc>
+    <lastmod>2025-12-29</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/blog/holiday-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/blog/holiday-collage-guide?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/blog/holiday-collage-guide?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/holiday-collage-guide" />
-  </url>
-  <url>
-    <loc>https://www.mecollage.top/blog/mobile-collage-tips</loc>
-    <lastmod>2024-11-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/blog/mobile-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/blog/mobile-collage-tips?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/blog/mobile-collage-tips?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/mobile-collage-tips" />
-  </url>
-  <url>
-    <loc>https://www.mecollage.top/blog/social-media-collage-guide</loc>
-    <lastmod>2024-11-13</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/blog/social-media-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/blog/social-media-collage-guide?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/blog/social-media-collage-guide?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/social-media-collage-guide" />
-  </url>
-  <url>
-    <loc>https://www.mecollage.top/blog/portfolio-collage-tips</loc>
-    <lastmod>2024-11-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/blog/portfolio-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/blog/portfolio-collage-tips?lang=zh" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/blog/portfolio-collage-tips?lang=es" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/portfolio-collage-tips" />
-  </url>
-  <url>
-    <loc>https://www.mecollage.top/works/screenshots/r2wzxs9y9evx087jkyht</loc>
-    <lastmod>2025-12-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.mecollage.top/works/screenshots/o2hi5q6cdkopkol85z5r</loc>
-    <lastmod>2025-12-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.mecollage.top/works/screenshots/nar5bdxrx5nszn0p2fhm</loc>
-    <lastmod>2025-12-23</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/public/tools/blurredframe/index.html?lang=en" />
+    <xhtml:link rel="alternate" hreflang="zh" href="https://www.mecollage.top/public/tools/blurredframe/index.html?lang=zh" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/public/tools/blurredframe/index.html?lang=es" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/public/tools/blurredframe/index.html" />
   </url>
 </urlset>
