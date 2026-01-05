@@ -62,5 +62,24 @@
     Header set X-XSS-Protection "1; mode=block"
 </IfModule>
 
-
-
+# Redirect rules
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Redirect HTTP to HTTPS and non-www to www in one rule
+    RewriteCond %{HTTP_HOST} !^www\. [OR]
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$
+    RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
+    
+    # Additional rule to handle any remaining non-www HTTPS requests
+    RewriteCond %{HTTPS} on
+    RewriteCond %{HTTP_HOST} !^www\.
+    RewriteCond %{HTTP_HOST} ^(.+)$
+    RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
+    
+    # SPA Routing - Redirect all requests that don't match a file to index.html
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ /index.html [L]
+</IfModule>
