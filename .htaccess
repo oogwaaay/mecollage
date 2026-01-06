@@ -78,6 +78,11 @@
     RewriteCond %{HTTP_HOST} ^(.+)$
     RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
     
+    # Allow direct access to static HTML files without .html extension
+    RewriteCond %{REQUEST_URI} ^/(terms|privacy|404)$
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^([^.]+)$ /$1.html [L]
+
     # SPA Routing - Redirect all requests that don't match a file to index.html
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
