@@ -1,0 +1,16 @@
+{
+  "nav.home": "Inicio",
+  "nav.blog": "Blog",
+  "nav.about": "Sobre Nosotros",
+  "nav.square": "Imagen Cuadrada",
+  "nav.github": "GitHub",
+  "footer.copyright": "© 2025 MeCollage. Todos los derechos reservados.",
+  "footer.home": "Volver a Inicio",
+  "footer.contact": "Contacto",
+  "footer.privacy": "Política de Privacidad",
+  "footer.terms": "Términos de Servicio",
+  "footer.github": "Problemas de GitHub",
+  "lang.english": "English",
+  "lang.chinese": "简体中文",
+  "lang.spanish": "Español"
+}

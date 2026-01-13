@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="x-default">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MeCollage Blog - Learn how to create beautiful photo collages with our comprehensive guides and tips. From beginner tutorials to advanced design techniques, discover everything you need to know about collage making." />
+    <meta name="keywords" content="collage tutorial, photo collage tips, collage design, how to make a collage, social media collage, portfolio collage, holiday collage, mobile collage" />
+    <meta name="author" content="MeCollage" />
+    <meta property="og:title" content="MeCollage Blog" />
+    <meta property="og:description" content="Learn how to create beautiful photo collages with our comprehensive guides and tips. From beginner tutorials to advanced design techniques." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/blog/" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="MeCollage Blog" />
+    <meta name="twitter:description" content="Learn how to create beautiful photo collages with our comprehensive guides and tips." />
+    <link rel="canonical" href="https://www.mecollage.top/blog/" />
+    <title>MeCollage Blog</title>
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <style>
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* 应用容器 */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 工具容器样式 */
+        .collage-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* 工具导航 */
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        /* 博客介绍 */
+        .blog-intro {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        .blog-intro p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 博客文章网格 */
+        .blog-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        /* 博客文章卡片 */
+        .blog-post-card {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-post-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+            border-color: rgba(143, 214, 143, 0.4);
+        }
+
+        /* 文章日期 */
+        .blog-post-date {
+            font-size: 0.875rem;
+            color: #8fd68f;
+            margin-bottom: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* 文章标题 */
+        .blog-post-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.95);
+            line-height: 1.3;
+        }
+
+        /* 文章摘要 */
+        .blog-post-excerpt {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+
+        /* 阅读更多链接 */
+        .blog-post-link {
+            display: inline-block;
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(143, 214, 143, 0.4);
+            align-self: flex-start;
+        }
+
+        .blog-post-link:hover {
+            background: rgba(143, 214, 143, 0.4);
+            border-color: rgba(143, 214, 143, 0.6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .collage-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .blog-posts-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .blog-post-card {
+                padding: 1.25rem;
+            }
+
+            .blog-post-title {
+                font-size: 1.3rem;
+            }
+
+            .blog-intro {
+                padding: 1.5rem;
+            }
+
+            .blog-intro p {
+                font-size: 1rem;
+            }
+        }
+
+        /* GitHub Link Styles */
+        .github-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .github-link i {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home">Home</a>
+                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
+                <a href="/about" class="nav-link" data-page="about">About</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer">Square Image</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="collage-tool-container">
+            <header class="page-header">
+                <h1 class="page-title">MeCollage Blog</h1>
+                <p class="page-subtitle">Discover the art of collage making with our comprehensive guides and tips</p>
+            </header>
+
+            <nav class="tool-nav">
+                <div class="tool-nav-container">
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Collage Maker</a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
+                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                </div>
+            </nav>
+
+            <!-- 博客介绍 -->
+            <section class="blog-intro">
+                <p>Welcome to the MeCollage Blog! Whether you're a beginner looking to learn the basics or an experienced designer seeking advanced techniques, our collection of guides and tutorials has something for everyone. Explore our articles to master the art of collage making and create stunning visuals for any occasion.</p>
+            </section>
+
+            <!-- 博客文章列表 -->
+            <main class="blog-posts-grid">
+                <!-- 文章 1 -->
+                <article class="blog-post-card">
+                    <span class="blog-post-date">2025-01-13</span>
+                    <h2 class="blog-post-title">How to Make Photo Collages: Complete Step-by-Step Guide</h2>
+                    <p class="blog-post-excerpt">Learn the fundamentals of creating beautiful photo collages with our comprehensive step-by-step guide. From selecting the perfect images to arranging them in an eye-catching layout, this guide covers every aspect of the collage-making process. Discover how to use MeCollage's powerful tools to bring your vision to life.</p>
+                    <a href="/blog/how-to-make-photo-collage/" class="blog-post-link">Read More</a>
+                </article>
+
+                <!-- 文章 2 -->
+                <article class="blog-post-card">
+                    <span class="blog-post-date">2025-01-13</span>
+                    <h2 class="blog-post-title">10 Collage Design Tips for Beginners</h2>
+                    <p class="blog-post-excerpt">Just starting out with collage making? These 10 essential design tips will help you create professional-looking collages from day one. Learn about composition, color theory, and layout techniques that will take your collages to the next level. Perfect for beginners who want to avoid common mistakes and create stunning visuals.</p>
+                    <a href="/blog/collage-design-tips-for-beginners/" class="blog-post-link">Read More</a>
+                </article>
+
+                <!-- 文章 3 -->
+                <article class="blog-post-card">
+                    <span class="blog-post-date">2025-01-13</span>
+                    <h2 class="blog-post-title">Creating Holiday Collages: Step-by-Step Tutorial</h2>
+                    <p class="blog-post-excerpt">Capture the magic of holidays with beautiful collages that tell your story. This step-by-step tutorial will guide you through creating festive collages for Christmas, Thanksgiving, birthdays, and other special occasions. Learn how to use themed elements, colors, and layouts to create memorable holiday collages.</p>
+                    <a href="/blog/creating-holiday-collages/" class="blog-post-link">Read More</a>
+                </article>
+
+                <!-- 文章 4 -->
+                <article class="blog-post-card">
+                    <span class="blog-post-date">2025-01-13</span>
+                    <h2 class="blog-post-title">Mobile Collage Making Tips & Tricks</h2>
+                    <p class="blog-post-excerpt">Create stunning collages on the go with these mobile-friendly tips and tricks. Learn how to optimize your workflow for mobile devices, use the best apps for collage making, and edit your collages directly from your smartphone. Perfect for anyone who wants to create beautiful collages without a desktop computer.</p>
+                    <a href="/blog/mobile-collage-making-tips/" class="blog-post-link">Read More</a>
+                </article>
+
+                <!-- 文章 5 -->
+                <article class="blog-post-card">
+                    <span class="blog-post-date">2025-01-13</span>
+                    <h2 class="blog-post-title">Social Media Collage Guide: Instagram, Facebook, Twitter</h2>
+                    <p class="blog-post-excerpt">Create engaging collages optimized for each social media platform. This guide covers the best practices for Instagram, Facebook, Twitter, and more. Learn about platform-specific dimensions, layout ideas, and content strategies that will help your collages stand out in crowded feeds and increase engagement.</p>
+                    <a href="/blog/social-media-collage-guide/" class="blog-post-link">Read More</a>
+                </article>
+
+                <!-- 文章 6 -->
+                <article class="blog-post-card">
+                    <span class="blog-post-date">2025-01-13</span>
+                    <h2 class="blog-post-title">Portfolio Collage Tips for Photographers and Designers</h2>
+                    <p class="blog-post-excerpt">Showcase your work professionally with portfolio collages. Learn how to curate your best pieces, create cohesive layouts, and design collages that highlight your unique style. This guide is perfect for photographers, graphic designers, and artists looking to create impressive portfolio pieces that stand out to clients and employers.</p>
+                    <a href="/blog/portfolio-collage-tips/" class="blog-post-link">Read More</a>
+                </article>
+            </main>
+
+            <footer>
+                <p>&copy; 2025 MeCollage. All rights reserved. | <a href="/" style="color: #8fd68f;">Back to Home</a> | <a href="/about" style="color: #8fd68f;">About</a> | <a href="/blog/" style="color: #8fd68f;">Blog</a> | <a href="/contact" style="color: #8fd68f;">Contact</a> | <a href="/privacy" style="color: #8fd68f;">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;">Terms of Service</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/assets/js/mecollage-main.js"></script>
+</body>
+</html>

@@ -62,6 +62,7 @@
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
     <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
     <style>
         /* Global styles */
         * {
@@ -300,10 +301,19 @@
         <!-- Navigation Bar -->
         <nav class="ghibli-nav">
             <div class="nav-left">
-                <a href="/" class="nav-link" data-page="home">Home</a>
-                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer">Square Image</a>
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about.html" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image</a>
             </div>
             <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
                 <div class="lang-selector" title="Switch Language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
@@ -322,7 +332,7 @@
         <!-- Main Content -->
         <main class="policy-container">
             <h1 class="policy-title">Privacy Policy</h1>
-            <p class="policy-subtitle">Last updated: December 27, 2025</p>
+            <p class="policy-subtitle">Last updated: January 13, 2025</p>
             
             <div class="policy-content">
                 <div class="policy-section">
@@ -370,6 +380,8 @@
                     <h2 class="policy-section-title">4. How We Store Your Information</h2>
                     <p class="policy-text">We take reasonable measures to protect your information from unauthorized access, disclosure, alteration, or destruction. However, please note that no method of transmission over the Internet or electronic storage is 100% secure.</p>
                     <p class="policy-text">For image processing, all images you upload are processed locally in your browser and are not stored on our servers unless explicitly stated otherwise.</p>
+                    <h3 class="policy-section-subtitle">2.3 Data Retention</h3>
+                    <p class="policy-text">Since we do not store your images on our servers, there is no data retention period for user-uploaded content. All image processing occurs locally in your browser. We may retain server logs for up to 30 days for security and analytics purposes.</p>
                 </div>
 
                 <div class="policy-section">
@@ -380,6 +392,7 @@
                         <li>To protect our rights, property, or safety, and that of our users and the public</li>
                         <li>With service providers who assist us in operating our website and providing our services</li>
                     </ul>
+                    <p class="policy-text">Since all image processing happens locally in your browser and we don't require user registration, we do not collect or store any personal information. We do not sell, rent, or trade user data because we don't collect it in the first place.</p>
                 </div>
 
                 <div class="policy-section">
@@ -391,7 +404,7 @@
                         <li>The right to request deletion of your personal information</li>
                         <li>The right to opt out of certain uses of your information</li>
                     </ul>
-                    <p class="policy-text">To exercise these rights, please contact us at [contact email].</p>
+                    <p class="policy-text">To exercise these rights, please visit our <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer">GitHub Issues page</a> or check our <a href="/contact" style="color: #8fd68f;">FAQ page</a>.</p>
                 </div>
 
                 <div class="policy-section">
@@ -405,16 +418,26 @@
                 </div>
 
                 <div class="policy-section">
-                    <h2 class="policy-section-title">9. Contact Us</h2>
-                    <p class="policy-text">If you have any questions about this Privacy Policy, please contact us at [contact email].</p>
+                    <h2 class="policy-section-title">9. Support</h2>
+                    <p class="policy-text">
+                        For support, please visit our
+                        <a href="https://github.com/oogwaaay/mecollage/issues" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: #8fd68f;">
+                            GitHub Issues page
+                        </a>
+                        to report bugs or request features.
+                    </p>
                 </div>
             </div>
         </main>
 
         <!-- Footer -->
         <footer>
-            <p>&copy; 2025 MeCollage. All rights reserved. | <a href="/">Back to Home</a> | <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms of Service</a></p>
+            <p><span data-i18n="footer.copyright">&copy; 2025 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
         </footer>
     </div>
+    <script src="/assets/js/i18n.js"></script>
 </body>
 </html>

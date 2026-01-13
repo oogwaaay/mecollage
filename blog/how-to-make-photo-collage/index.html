@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." />
+    <meta name="keywords" content="how to make photo collages, photo collage maker, online collage tool, free collage maker, MeCollage tutorial, step-by-step collage guide" />
+    <meta name="author" content="MeCollage" />
+    <meta property="og:title" content="How to Make Photo Collages: Complete Step-by-Step Guide" />
+    <meta property="og:description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.mecollage.top/blog/how-to-make-photo-collage/" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="article:published_time" content="2025-01-13" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How to Make Photo Collages: Complete Step-by-Step Guide" />
+    <meta name="twitter:description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." />
+    <link rel="canonical" href="https://www.mecollage.top/blog/how-to-make-photo-collage/" />
+    
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <style>
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* 应用容器 */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 博客文章容器 */
+        .blog-post-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* 文章标题 */
+        .blog-post-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        /* 文章元数据 */
+        .blog-post-meta {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .blog-post-date {
+            margin-right: 1rem;
+        }
+
+        /* 文章正文 */
+        .blog-post-content {
+            margin-bottom: 3rem;
+        }
+
+        .blog-post-content h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: #8fd68f;
+        }
+
+        .blog-post-content h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .blog-post-content p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .blog-post-content ul {
+            margin: 1rem 0 1.5rem 2rem;
+        }
+
+        .blog-post-content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        /* 引用样式 */
+        .blog-post-content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            background: rgba(143, 214, 143, 0.1);
+            border-left: 4px solid #8fd68f;
+            border-radius: 8px;
+            font-style: italic;
+        }
+
+        /* 代码块样式 */
+        .blog-post-content code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+        }
+
+        /* 返回博客首页链接 */
+        .back-to-blog {
+            display: inline-block;
+            margin: 2rem 0;
+            padding: 0.75rem 1.5rem;
+            background: rgba(143, 214, 143, 0.3);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(143, 214, 143, 0.4);
+        }
+
+        .back-to-blog:hover {
+            background: rgba(143, 214, 143, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        /* 相关文章推荐 */
+        .related-posts {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .related-posts-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: #8fd68f;
+        }
+
+        .related-posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-post-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .related-post-card:hover {
+            background: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .related-post-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .related-post-excerpt {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .blog-post-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .blog-post-title {
+                font-size: 2rem;
+            }
+
+            .blog-post-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .blog-post-content h3 {
+                font-size: 1.2rem;
+            }
+
+            .related-posts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home">Home</a>
+                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
+                <a href="/about" class="nav-link" data-page="about">About</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer">Square Image</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 博客文章内容 -->
+        <main class="collage-tool-container">
+            <article class="blog-post-container">
+                <h1 class="blog-post-title">How to Make Photo Collages: Complete Step-by-Step Guide</h1>
+                <div class="blog-post-meta">
+                    <span class="blog-post-date">Published: January 13, 2025</span>
+                    <span class="blog-post-author">by MeCollage Team</span>
+                </div>
+
+                <div class="blog-post-content">
+                    <p>Photo collages are a fantastic way to tell stories, showcase memories, and create visually stunning compositions from multiple images. Whether you're creating a collage for social media, a family album, or a professional portfolio, having the right tools can make all the difference. That's where MeCollage comes in - a free online collage maker that simplifies the process while offering powerful features.</p>
+
+                    <h2>What is MeCollage?</h2>
+                    <p>MeCollage is a free online photo collage maker that allows you to create beautiful collages with ease. Unlike many other collage tools that require downloads or subscriptions, MeCollage works entirely in your web browser, making it accessible from any device with an internet connection. With MeCollage, you can:</p>
+                    <ul>
+                        <li>Upload up to 20 photos per collage</li>
+                        <li>Choose from multiple aspect ratios (1:1, 4:5, 9:16, 3:4, 16:9)</li>
+                        <li>Apply filters and effects to your images</li>
+                        <li>Add text and stickers for personalization</li>
+                        <li>Export your collages in high-quality PNG or JPG formats</li>
+                    </ul>
+
+                    <p>One of the standout features of MeCollage is that all processing happens locally in your browser, meaning your photos never leave your device. This ensures your privacy is protected while also making the tool fast and responsive.</p>
+
+                    <h2>Supported Formats</h2>
+                    <p>MeCollage supports a wide range of image formats, including:</p>
+                    <ul>
+                        <li><strong>PNG</strong>: Ideal for images with transparency or high-quality graphics</li>
+                        <li><strong>JPG/JPEG</strong>: The most common image format, perfect for photographs</li>
+                        <li><strong>HEIC</strong>: Modern format used by Apple devices, offering high quality with smaller file sizes</li>
+                    </ul>
+
+                    <h2>Step-by-Step Guide to Making a Photo Collage</h2>
+                    <p>Now that you understand what MeCollage is and what it can do, let's dive into the step-by-step process of creating a beautiful photo collage.</p>
+
+                    <h3>1. Upload Your Photos</h3>
+                    <p>The first step in creating a collage is to upload your photos. MeCollage offers two convenient ways to do this:</p>
+                    <ul>
+                        <li><strong>Drag and Drop</strong>: Simply drag your photos from your computer or device and drop them into the designated upload area on the MeCollage website. This is the fastest and most intuitive method.</li>
+                        <li><strong>Click to Upload</strong>: If dragging and dropping isn't convenient for you, you can also click on the upload area to open a file browser and select your photos manually.</li>
+                    </ul>
+                    <p>Remember, you can upload up to 20 photos at once, giving you plenty of flexibility to create rich, detailed collages.</p>
+
+                    <h3>2. Choose an Aspect Ratio</h3>
+                    <p>Once your photos are uploaded, the next step is to choose the perfect aspect ratio for your collage. The aspect ratio determines the overall shape of your collage and should be chosen based on where you plan to use it:</p>
+                    <ul>
+                        <li><strong>1:1 (Square)</strong>: Perfect for Instagram posts, profile pictures, and balanced compositions</li>
+                        <li><strong>4:5</strong>: Ideal for Instagram Stories and portrait-oriented content</li>
+                        <li><strong>9:16</strong>: Great for TikTok videos, YouTube Shorts, and full-screen mobile content</li>
+                        <li><strong>3:4</strong>: Traditional portrait ratio, suitable for prints and vertical displays</li>
+                        <li><strong>16:9 (Widescreen)</strong>: Perfect for desktop backgrounds, YouTube thumbnails, and horizontal displays</li>
+                    </ul>
+                    <p>MeCollage will automatically arrange your photos based on the aspect ratio you choose, but you can always make further adjustments later.</p>
+
+                    <h3>3. Adjust the Gutter (Spacing Between Images)</h3>
+                    <p>The gutter refers to the spacing between the images in your collage. MeCollage allows you to adjust this spacing using a simple slider:</p>
+                    <ul>
+                        <li><strong>Zero Gutter</strong>: Images touch each other, creating a seamless look</li>
+                        <li><strong>Small Gutter</strong>: Subtle spacing that separates images while maintaining a cohesive look</li>
+                        <li><strong>Large Gutter</strong>: More pronounced spacing, ideal for creating visual breathing room between images</li>
+                    </ul>
+                    <p>Experiment with different gutter sizes to find the perfect balance for your collage. The right spacing can make a significant difference in the overall aesthetic of your final product.</p>
+
+                    <h3>4. Add Rounded Corners</h3>
+                    <p>MeCollage offers the option to add rounded corners to your images, giving your collage a softer, more modern look. You can adjust the radius of the corners using another intuitive slider:</p>
+                    <ul>
+                        <li><strong>No Radius</strong>: Sharp, square corners for a clean, minimalist look</li>
+                        <li><strong>Small Radius</strong>: Subtle rounding that adds a touch of softness</li>
+                        <li><strong>Large Radius</strong>: Bold, rounded corners for a playful, modern aesthetic</li>
+                    </ul>
+                    <p>This feature is especially popular for social media content, as it creates a more approachable and friendly appearance.</p>
+
+                    <h3>5. Apply Filters</h3>
+                    <p>To enhance your collage and create a cohesive look, MeCollage offers a variety of filters that you can apply to your images:</p>
+                    <ul>
+                        <li><strong>None</strong>: Original image with no modifications</li>
+                        <li><strong>Noir</strong>: Black and white with increased contrast for a dramatic effect</li>
+                        <li><strong>Retro</strong>: Sepia tones and vintage styling</li>
+                        <li><strong>Fade</strong>: Soft, muted colors for a dreamy look</li>
+                        <li><strong>Glow</strong>: Enhanced brightness and contrast for a vibrant appearance</li>
+                        <li><strong>Cool</strong>: Blue-tinted filter for a calm, refreshing feel</li>
+                    </ul>
+                    <p>You can apply the same filter to all images in your collage or customize each image individually, giving you complete creative control.</p>
+
+                    <h3>6. Add Text and Stickers</h3>
+                    <p>To personalize your collage further, MeCollage allows you to add text and stickers:</p>
+                    <ul>
+                        <li><strong>Text</strong>: Add captions, quotes, or titles to your collage. You can customize the font size, color, and weight to match your style.</li>
+                        <li><strong>Stickers</strong>: Enhance your collage with a variety of emoji stickers, perfect for adding personality and fun to your creations.</li>
+                    </ul>
+                    <p>Both text and stickers can be dragged and positioned anywhere on your collage, giving you the freedom to create truly unique designs.</p>
+
+                    <h3>7. Export Your Collage</h3>
+                    <p>Once you're satisfied with your collage, it's time to export it for use. MeCollage offers two high-quality export options:</p>
+                    <ul>
+                        <li><strong>PNG</strong>: Best for digital use, offering lossless quality and transparency support</li>
+                        <li><strong>JPG</strong>: Ideal for web use and sharing, providing a good balance between quality and file size</li>
+                    </ul>
+                    <p>Simply click the export button, choose your preferred format, and your collage will be downloaded to your device, ready to share or use however you like.</p>
+
+                    <h2>Tips for Creating Stunning Collages</h2>
+                    <p>Now that you know how to use MeCollage, here are some additional tips to help you create truly stunning collages:</p>
+                    <ul>
+                        <li><strong>Choose a Theme</strong>: Select photos that share a common theme, color scheme, or story to create a cohesive collage.</li>
+                        <li><strong>Vary Image Sizes</strong>: Mix different image sizes and orientations to create visual interest and balance.</li>
+                        <li><strong>Consider Composition</strong>: Use the rule of thirds and other composition techniques to create visually pleasing layouts.</li>
+                        <li><strong>Keep it Simple</strong>: Don't overcrowd your collage with too many elements. Sometimes less is more.</li>
+                        <li><strong>Experiment</strong>: Don't be afraid to try different layouts, filters, and styles. The beauty of MeCollage is that you can always undo and try again.</li>
+                    </ul>
+
+                    <h2>Why Choose MeCollage?</h2>
+                    <p>With so many collage-making tools available online, you might be wondering why you should choose MeCollage. Here are some compelling reasons:</p>
+                    <ul>
+                        <li><strong>Completely Free</strong>: No hidden fees, subscriptions, or watermarks</li>
+                        <li><strong>Privacy-Focused</strong>: All processing happens locally in your browser</li>
+                        <li><strong>Easy to Use</strong>: Intuitive interface that's perfect for beginners and experts alike</li>
+                        <li><strong>Feature-Rich</strong>: Wide range of tools and options for customization</li>
+                        <li><strong>Fast and Responsive</strong>: No need to wait for server processing</li>
+                        <li><strong>Cross-Platform</strong>: Works on any device with a web browser</li>
+                    </ul>
+
+                    <h2>Conclusion</h2>
+                    <p>Creating beautiful photo collages has never been easier thanks to MeCollage. With its intuitive interface, powerful features, and commitment to privacy, it's the perfect tool for anyone looking to create stunning collages quickly and easily.</p>
+                    <p>Whether you're creating collages for social media, personal use, or professional projects, MeCollage has everything you need to bring your vision to life. So why wait? Head over to MeCollage today and start creating beautiful collages that will impress your friends, family, and followers.</p>
+
+                    <a href="/blog/" class="back-to-blog">
+                        <i class="fas fa-arrow-left"></i> Back to Blog Home
+                    </a>
+
+                    <!-- Related Posts -->
+                    <div class="related-posts">
+                        <h3 class="related-posts-title">Related Posts</h3>
+                        <div class="related-posts-grid">
+                            <a href="/blog/collage-design-tips/" class="related-post-card">
+                                <h4 class="related-post-title">10 Pro Tips for Better Collage Design</h4>
+                                <p class="related-post-excerpt">Learn expert tips and techniques to take your collage designs to the next level.</p>
+                            </a>
+                            <a href="/blog/holiday-collage-guide/" class="related-post-card">
+                                <h4 class="related-post-title">How to Create Perfect Holiday Collages</h4>
+                                <p class="related-post-excerpt">Create memorable holiday collages that capture the spirit of the season.</p>
+                            </a>
+                            <a href="/blog/social-media-collage-guide/" class="related-post-card">
+                                <h4 class="related-post-title">Social Media Collage Best Practices</h4>
+                                <p class="related-post-excerpt">Learn how to create collages optimized for different social media platforms.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 MeCollage. All rights reserved. | <a href="/" style="color: #8fd68f;">Back to Home</a> | <a href="/about" style="color: #8fd68f;">About</a> | <a href="/blog/" style="color: #8fd68f;">Blog</a> | <a href="/contact" style="color: #8fd68f;">Contact</a> | <a href="/privacy" style="color: #8fd68f;">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;">Terms of Service</a></p>
+        </footer>
+    </div>
+</div>
+
+<script>
+    // 确保DOM完全加载后初始化应用
+    document.addEventListener('DOMContentLoaded', () => {
+        // 多语言选择器功能
+        const langSelectorToggle = document.querySelector('.lang-selector-toggle');
+        const langMenu = document.querySelector('.lang-menu');
+        const langMenuBackdrop = document.querySelector('.lang-menu-backdrop');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        if (langSelectorToggle && langMenu && langMenuBackdrop) {
+            // 切换语言菜单显示
+            langSelectorToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isExpanded = langSelectorToggle.getAttribute('aria-expanded') === 'true';
+                langSelectorToggle.setAttribute('aria-expanded', !isExpanded);
+                langMenu.style.display = isExpanded ? 'none' : 'block';
+                langMenuBackdrop.style.display = isExpanded ? 'none' : 'block';
+            });
+
+            // 点击背景关闭菜单
+            langMenuBackdrop.addEventListener('click', () => {
+                langSelectorToggle.setAttribute('aria-expanded', 'false');
+                langMenu.style.display = 'none';
+                langMenuBackdrop.style.display = 'none';
+            });
+
+            // 点击语言选项
+            langOptions.forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const lang = e.target.dataset.lang;
+                    // 这里可以添加语言切换逻辑
+                    console.log('Switching to language:', lang);
+                    // 关闭菜单
+                    langSelectorToggle.setAttribute('aria-expanded', 'false');
+                    langMenu.style.display = 'none';
+                    langMenuBackdrop.style.display = 'none';
+                });
+            });
+        }
+    });
+</script>
+</body>
+</html>

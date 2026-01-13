@@ -1,0 +1,16 @@
+{
+  "nav.home": "首页",
+  "nav.blog": "博客",
+  "nav.about": "关于我们",
+  "nav.square": "方形图片",
+  "nav.github": "GitHub",
+  "footer.copyright": "© 2025 MeCollage. 保留所有权利。",
+  "footer.home": "返回首页",
+  "footer.contact": "联系我们",
+  "footer.privacy": "隐私政策",
+  "footer.terms": "服务条款",
+  "footer.github": "GitHub 问题",
+  "lang.english": "English",
+  "lang.chinese": "简体中文",
+  "lang.spanish": "Español"
+}
