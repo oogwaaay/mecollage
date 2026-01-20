@@ -37,6 +37,15 @@ class I18n {
     }
   }
 
+  // 获取翻译文本
+  t(key, params = {}) {
+    let text = this.translations[key] || key;
+    Object.keys(params).forEach(param => {
+      text = text.replace(`{${param}}`, params[param]);
+    });
+    return text;
+  }
+
   // 应用翻译到页面元素
   applyTranslation() {
     // 更新HTML语言属性
@@ -47,7 +56,72 @@ class I18n {
     elements.forEach(element => {
       const key = element.getAttribute('data-i18n');
       if (this.translations[key]) {
-        element.textContent = this.translations[key];
+        // 检查是否有占位符替换
+        let text = this.translations[key];
+        // 简单的占位符替换逻辑，如果需要的话
+        // ...
+        
+        // 检查元素是否有子元素（除了纯文本）
+        if (element.children.length > 0) {
+             // 保留图标等子元素，只替换文本节点
+             // 这需要更复杂的DOM操作，或者简单的约定：
+             // 如果有子元素，寻找专门的文本容器，或者假定data-i18n只用于替换该元素的文本内容
+             // 简单的做法：如果有子元素（如<i>），我们通常不希望破坏它
+             // 策略：如果包含子标签，仅替换最后一个文本节点，或者寻找特定的span?
+             // 现在的项目结构中，很多按钮是 <i class="..."></i> Text 形式
+             // 这种情况下直接设置 textContent 会覆盖图标
+             
+             // 更好的策略：将文本包裹在 span 中，并把 data-i18n 放在 span 上
+             // 或者在这里进行智能处理：保留第一个子元素（如果是图标）
+             
+             // 暂时简单处理：如果发现有子元素，且没有显式的data-i18n-target，则跳过或者警告
+             // 但为了兼容性，我们应该在HTML中把文本包起来。
+             // 不过，为了方便，这里可以尝试只替换文本节点
+             
+             const textNodes = Array.from(element.childNodes).filter(node => node.nodeType === Node.TEXT_NODE);
+             if (textNodes.length > 0) {
+                 // 替换最后一个文本节点（通常是标签后的文字）
+                 textNodes[textNodes.length - 1].textContent = text;
+             } else {
+                 // 如果没有文本节点，可能需要追加？或者直接覆盖？
+                 // 安全起见，不做破坏性操作，除非HTML结构调整好
+                 // 建议修改HTML结构： <a ...><i ...></i> <span data-i18n="key">Text</span></a>
+             }
+        } else {
+            element.textContent = text;
+        }
+      }
+    });
+
+    // 处理 title 属性
+    document.querySelectorAll('[data-i18n-title]').forEach(element => {
+      const key = element.getAttribute('data-i18n-title');
+      if (this.translations[key]) {
+        element.title = this.translations[key];
+      }
+    });
+
+    // 处理 placeholder 属性
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+      const key = element.getAttribute('data-i18n-placeholder');
+      if (this.translations[key]) {
+        element.placeholder = this.translations[key];
+      }
+    });
+
+    // 处理 meta 标签 content 属性
+    document.querySelectorAll('meta[data-i18n-content]').forEach(element => {
+      const key = element.getAttribute('data-i18n-content');
+      if (this.translations[key]) {
+        element.setAttribute('content', this.translations[key]);
+      }
+    });
+
+    // 处理 alt 属性
+    document.querySelectorAll('[data-i18n-alt]').forEach(element => {
+      const key = element.getAttribute('data-i18n-alt');
+      if (this.translations[key]) {
+        element.alt = this.translations[key];
       }
     });
 
@@ -60,6 +134,11 @@ class I18n {
         langTextSpan.textContent = currentLangText;
       }
     }
+    
+    // 触发自定义事件，通知其他组件语言已变更
+    document.dispatchEvent(new CustomEvent('languageChanged', { 
+      detail: { lang: this.currentLang, translations: this.translations } 
+    }));
   }
 
   // 设置语言切换器

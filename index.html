@@ -7,8 +7,8 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Create beautiful image collages with unlimited images. Free online collage maker with 20+ templates, custom grids, filters, and decorations. Support for horizontal, vertical, and grid layouts. Export in PNG or JPG format. Learn how to make photo collages with our tutorials and guides." />
-    <meta name="keywords" content="collage maker, photo collage, image collage, online collage maker, free collage maker, photo grid, image editor, how to make a collage, collage tutorial, photo collage tool, 拼图工具, 照片拼图, 拼图制作" />
+    <meta name="description" content="Create beautiful image collages with unlimited images. Free online collage maker with 20+ templates, custom grids, filters, and decorations. Support for horizontal, vertical, and grid layouts. Export in PNG or JPG format. Learn how to make photo collages with our tutorials and guides." data-i18n-content="meta.description" />
+    <meta name="keywords" content="collage maker, photo collage, image collage, online collage maker, free collage maker, photo grid, image editor, how to make a collage, collage tutorial, photo collage tool, 拼图工具, 照片拼图, 拼图制作" data-i18n-content="meta.keywords" />
     <meta name="author" content="MeCollage" />
     <meta property="og:title" content="MeCollage - Free Online Image Collage Maker" />
     <meta property="og:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
@@ -22,7 +22,7 @@
     <meta name="twitter:title" content="MeCollage - Free Online Image Collage Maker" />
     <meta name="twitter:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
     <link rel="canonical" href="https://www.mecollage.top/" />
-    <title>MeCollage - Image Collage Maker</title>
+    <title data-i18n="app.title_full">MeCollage - Image Collage Maker</title>
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -965,10 +965,11 @@
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="nav-link github-link" 
-                   title="View on GitHub">
+                   title="View on GitHub"
+                   data-i18n-title="nav.github_view">
                     <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
                 </a>
-                <div class="lang-selector" title="Switch Language">
+                <div class="lang-selector" title="Switch Language" data-i18n-title="nav.switch_language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
                         <span>English</span>
@@ -976,6 +977,8 @@
                     <div class="lang-menu" role="menu">
                         <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
                         <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
                         <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
@@ -985,17 +988,17 @@
 
         <div class="collage-tool-container">
             <header class="page-header">
-                <h1 class="page-title">MeCollage</h1>
-                <p class="page-subtitle">Create beautiful image collages with unlimited images. Simple. Professional. Support up to 20 photos.</p>
+                <h1 class="page-title" data-i18n="home.title">MeCollage</h1>
+                <p class="page-subtitle" data-i18n="home.subtitle">Create beautiful image collages with unlimited images. Simple. Professional. Support up to 20 photos.</p>
             </header>
 
             <nav class="tool-nav">
                 <div class="tool-nav-container">
-                    <a href="/" class="tool-nav-link active"><i class="fas fa-home"></i> Collage Maker</a>
-                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
-                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
-                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
-                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                    <a href="/" class="tool-nav-link active"><i class="fas fa-home"></i> <span data-i18n="tool.collage_maker">Collage Maker</span></a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span data-i18n="tool.square_crop">Square Crop</span></a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span data-i18n="tool.rounded_corners">Rounded Corners</span></a>
+                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span data-i18n="tool.square_image">Square Image</span></a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span data-i18n="tool.blurred_frame">Blurred Frame</span></a>
                 </div>
             </nav>
 
@@ -1007,7 +1010,7 @@
                 <div class="sidebar-section" id="layoutSection">
                     <!-- 纵横比选择 -->
                     <div class="sidebar-section">
-                        <h3 class="sidebar-title">Aspect Ratio</h3>
+                        <h3 class="sidebar-title" data-i18n="sidebar.aspect_ratio">Aspect Ratio</h3>
                         <div class="aspect-ratio-grid">
                             <button class="aspect-ratio-btn active" data-ratio="1:1">1:1</button>
                             <button class="aspect-ratio-btn" data-ratio="4:5">4:5</button>
@@ -1019,12 +1022,12 @@
 
                     <!-- 几何设置 -->
                     <div class="sidebar-section">
-                        <h3 class="sidebar-title">Geometry</h3>
+                        <h3 class="sidebar-title" data-i18n="sidebar.geometry">Geometry</h3>
                         
                         <!-- 间距滑块 -->
                         <div class="slider-control">
                             <div class="slider-label">
-                                <span>Gutter</span>
+                                <span data-i18n="sidebar.gutter">Gutter</span>
                                 <span class="slider-value" id="gutterValue">0px</span>
                             </div>
                             <input type="range" class="slider" id="gutterSlider" min="0" max="100" value="0">
@@ -1033,7 +1036,7 @@
                         <!-- 圆角滑块 -->
                         <div class="slider-control">
                             <div class="slider-label">
-                                <span>Radius</span>
+                                <span data-i18n="sidebar.radius">Radius</span>
                                 <span class="slider-value" id="radiusValue">0px</span>
                             </div>
                             <input type="range" class="slider" id="radiusSlider" min="0" max="200" value="0">
@@ -1043,14 +1046,14 @@
 
                 <!-- 滤镜设置（默认隐藏） -->
                 <div class="sidebar-section" id="filterSection" style="display: none;">
-                    <h3 class="sidebar-title">Photo Filters</h3>
+                    <h3 class="sidebar-title" data-i18n="sidebar.filters">Photo Filters</h3>
                     <div class="filter-grid">
-                        <button class="filter-btn active" data-filter="none">None</button>
-                        <button class="filter-btn" data-filter="noir">Noir</button>
-                        <button class="filter-btn" data-filter="retro">Retro</button>
-                        <button class="filter-btn" data-filter="fade">Fade</button>
-                        <button class="filter-btn" data-filter="glow">Glow</button>
-                        <button class="filter-btn" data-filter="cool">Cool</button>
+                        <button class="filter-btn active" data-filter="none" data-i18n="filter.none">None</button>
+                        <button class="filter-btn" data-filter="noir" data-i18n="filter.noir">Noir</button>
+                        <button class="filter-btn" data-filter="retro" data-i18n="filter.retro">Retro</button>
+                        <button class="filter-btn" data-filter="fade" data-i18n="filter.fade">Fade</button>
+                        <button class="filter-btn" data-filter="glow" data-i18n="filter.glow">Glow</button>
+                        <button class="filter-btn" data-filter="cool" data-i18n="filter.cool">Cool</button>
                     </div>
                 </div>
 
@@ -1058,14 +1061,14 @@
                 <div class="sidebar-section" id="textSection" style="display: none;">
                     <div class="text-tool">
                         <div class="text-tool-icon">T</div>
-                        <button class="text-add-btn" id="addTextBtn">Add Text</button>
-                        <p class="text-hint">Double click text on canvas to modify content</p>
+                        <button class="text-add-btn" id="addTextBtn" data-i18n="text.add_btn">Add Text</button>
+                        <p class="text-hint" data-i18n="text.hint">Double click text on canvas to modify content</p>
                     </div>
                 </div>
                 
                 <!-- 贴纸设置（默认隐藏） -->
                 <div class="sidebar-section" id="stickerSection" style="display: none;">
-                    <h3 class="sidebar-title">Emoji Stickers</h3>
+                    <h3 class="sidebar-title" data-i18n="sidebar.stickers">Emoji Stickers</h3>
                     <div class="sticker-grid">
                         <button class="sticker-btn" data-sticker="✨">✨</button>
                         <button class="sticker-btn" data-sticker="❤️">❤️</button>
@@ -1087,107 +1090,148 @@
             <section class="canvas-container">
                 <!-- 初始上传界面 -->
                 <div class="upload-screen" id="uploadScreen">
-                    <h1 class="upload-title">Your photos,<br><span style="color: #8fd68f;">perfectly arranged.</span></h1>
-                    <p class="upload-subtitle">Simple. Professional. Support up to 20 photos.</p>
+                    <h1 class="upload-title" data-i18n="upload.title">Your photos,<br><span style="color: #8fd68f;">perfectly arranged.</span></h1>
+                    <p class="upload-subtitle" data-i18n="upload.subtitle">Simple. Professional. Support up to 20 photos.</p>
                     <div class="upload-area" id="uploadArea">
                         <input type="file" id="fileInput" multiple accept="image/*">
                         <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                        <div class="upload-text">Drop photos or Click to Upload</div>
-                        <div class="upload-hint">PNG, JPG, HEIC up to 20 images</div>
+                        <div class="upload-text" data-i18n="upload.drop_hint">Drop photos or Click to Upload</div>
+                        <div class="upload-hint" data-i18n="upload.format_hint">PNG, JPG, HEIC up to 20 images</div>
                     </div>
                 </div>
 
                 <!-- 拼图画布 -->
                 <div class="collage-canvas" id="collageCanvas">
                     <div class="collage-grid" id="collageGrid"></div>
-                    <div class="photo-counter" id="photoCounter">0 / 20 PHOTOS</div>
+                    <div class="photo-counter" id="photoCounter">0 / 20 <span data-i18n="app.photos_count">PHOTOS</span></div>
                     <!-- 实时位置反馈 -->
                     <div class="position-feedback" id="positionFeedback" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; pointer-events: none; display: none;"></div>
                 </div>
                 
                 <!-- 底部功能栏 -->
                 <div class="bottom-toolbar">
-                    <button class="toolbar-btn active" id="layoutBtn" title="Layout">
+                    <button class="toolbar-btn active" id="layoutBtn" title="Layout" data-i18n-title="sidebar.aspect_ratio">
                         <span>⬜</span>
                     </button>
-                    <button class="toolbar-btn" id="filterBtn" title="Filter">
+                    <button class="toolbar-btn" id="filterBtn" title="Filter" data-i18n-title="sidebar.filters">
                         <span>🌈</span>
                     </button>
-                    <button class="toolbar-btn" id="textBtn" title="Text">
+                    <button class="toolbar-btn" id="textBtn" title="Text" data-i18n-title="sidebar.text">
                         <span>T</span>
                     </button>
-                    <button class="toolbar-btn" id="stickerBtn" title="Sticker">
+                    <button class="toolbar-btn" id="stickerBtn" title="Sticker" data-i18n-title="sidebar.stickers">
                         <span>📌</span>
                     </button>
                 </div>
             </section>
         </main>
 
+        <!-- SEO Pages Section -->
+        <section style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px); padding: 60px 20px; margin-top: 40px; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.18);">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="text-align: center; color: #8fd68f; font-size: 2.2em; margin-bottom: 50px; text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.4);" data-i18n="seo.guides_title">Collage Guides & Tutorials</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                    <a href="/how-to-make-a-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_make_collage_title">📖 How to Make a Collage</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_make_collage_desc">Step-by-step tutorial for creating stunning photo collages</p>
+                    </a>
+                    <a href="/instagram-story-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_insta_story_title">📱 Instagram Story Collage</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_insta_story_desc">Create perfect 9:16 vertical collages for Instagram Stories</p>
+                    </a>
+                    <a href="/square-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_square_collage_title">🔲 Square Collage</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_square_collage_desc">Create 1:1 square collages for Instagram posts</p>
+                    </a>
+                    <a href="/vertical-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_vertical_collage_title">📏 Vertical Collage</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_vertical_collage_desc">Perfect 9:16 portrait format for mobile wallpapers</p>
+                    </a>
+                    <a href="/birthday-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_birthday_collage_title">🎂 Birthday Collage</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_birthday_collage_desc">Create festive birthday collages with stickers and effects</p>
+                    </a>
+                    <a href="/wedding-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_wedding_collage_title">💒 Wedding Collage</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_wedding_collage_desc">Elegant wedding collages with romantic filters</p>
+                    </a>
+                    <a href="/christmas-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_christmas_collage_title">🎄 Christmas Collage</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_christmas_collage_desc">Festive holiday collages with Christmas stickers</p>
+                    </a>
+                    <a href="/free-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_free_collage_title">🆓 Free Collage Maker</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_free_collage_desc">Why choose MeCollage over Canva, Fotor, FotoJet</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- FAQ Section -->
         <section class="faq-section">
             <div class="faq-container">
-                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <h2 class="faq-title" data-i18n="faq.title">Frequently Asked Questions</h2>
                 <div class="faq-items">
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">What is MeCollage?</span>
+                            <span class="faq-question-text" data-i18n="faq.q1">What is MeCollage?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
-                        <div class="faq-answer" hidden>
+                        <div class="faq-answer" hidden data-i18n="faq.a1">
                             <p>MeCollage is a free online image collage maker that allows you to create beautiful collages with unlimited images. It offers professional layout options, customization features, and support for up to 20 photos per collage.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">How do I create a collage?</span>
+                            <span class="faq-question-text" data-i18n="faq.q2">How do I create a collage?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
-                        <div class="faq-answer" hidden>
+                        <div class="faq-answer" hidden data-i18n="faq.a2">
                             <p>Simply click or drag and drop your photos into the upload area. Once uploaded, your images will be automatically arranged into a collage. You can then customize the layout, add filters, text, or stickers to perfect your design.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">How many images can I add?</span>
+                            <span class="faq-question-text" data-i18n="faq.q3">How many images can I add?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
-                        <div class="faq-answer" hidden>
+                        <div class="faq-answer" hidden data-i18n="faq.a3">
                             <p>You can add up to 20 images per collage. The tool supports various formats including PNG, JPG, and HEIC.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">What aspect ratios are supported?</span>
+                            <span class="faq-question-text" data-i18n="faq.q4">What aspect ratios are supported?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
-                        <div class="faq-answer" hidden>
+                        <div class="faq-answer" hidden data-i18n="faq.a4">
                             <p>MeCollage supports multiple aspect ratios including 1:1, 4:5, 9:16, 3:4, and 16:9, allowing you to create collages optimized for different platforms and purposes.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">Can I customize my collage?</span>
+                            <span class="faq-question-text" data-i18n="faq.q5">Can I customize my collage?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
-                        <div class="faq-answer" hidden>
+                        <div class="faq-answer" hidden data-i18n="faq.a5">
                             <p>Yes! You can adjust the gutter spacing between images, add rounded corners, apply various filters, insert text, and add emoji stickers to personalize your collage. The intuitive toolbar at the bottom of the canvas gives you quick access to all these features.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">How do I export my collage?</span>
+                            <span class="faq-question-text" data-i18n="faq.q6">How do I export my collage?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
-                        <div class="faq-answer" hidden>
+                        <div class="faq-answer" hidden data-i18n="faq.a6">
                             <p>Once you're satisfied with your collage, you can export it using the export functionality. The tool uses html2canvas to generate a high-quality image of your collage for download.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">Is MeCollage free to use?</span>
+                            <span class="faq-question-text" data-i18n="faq.q7">Is MeCollage free to use?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
-                        <div class="faq-answer" hidden>
+                        <div class="faq-answer" hidden data-i18n="faq.a7">
                             <p>Yes, MeCollage is completely free to use. You can create unlimited collages without any watermarks, signup requirements, or hidden fees.</p>
                         </div>
                     </div>
@@ -1196,7 +1240,7 @@
         </section>
 
         <footer>
-            <p><span data-i18n="footer.copyright"></span>&copy; 2025 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
         </footer>
     </div>
     </div>

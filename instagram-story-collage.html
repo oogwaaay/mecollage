@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create stunning Instagram Story collages with MeCollage. Free online tool to combine multiple photos into beautiful 9:16 vertical collages. No watermark, no signup required." />
+    <meta name="keywords" content="instagram story collage, instagram collage maker, story collage, vertical collage, 9:16 collage, social media collage" />
+    <meta property="og:title" content="Instagram Story Collage Maker - Free 9:16 Vertical Collage Tool" />
+    <meta property="og:description" content="Create beautiful Instagram Story collages with multiple photos. Perfect 9:16 ratio, no watermark, completely free." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/instagram-story-collage" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Instagram Story Collage Maker - Free 9:16 Vertical Collage Tool</title>
+    <link rel="canonical" href="https://www.mecollage.top/instagram-story-collage" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/instagram-story-collage" />
+    <link rel="alternate" hreflang="zh" href="https://www.mecollage.top/zh/instagram-story-collage" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/instagram-story-collage" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/instagram-story-collage" />
+    <link rel="alternate" hreflang="zh-tw" href="https://www.mecollage.top/tw/instagram-story-collage" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/instagram-story-collage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <style>
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(18px);
+            
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        .cta-button {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 15px 30px;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        .feature {
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .feature i {
+            font-size: 2em;
+            color: #8fd68f;
+            margin-bottom: 15px;
+        }
+        .feature h3 {
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+        .step-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #8fd68f;
+            margin-right: 20px;
+            min-width: 50px;
+        }
+        .step-content h3 {
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        .step-content p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        .faq {
+            margin: 50px 0;
+        }
+        .faq-item {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+        .faq-item h3 {
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+        .faq-item p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>Instagram Story Collage Maker</h1>
+        <p class="subtitle">Create stunning 9:16 vertical collages for your Instagram Stories</p>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> Start Creating
+        </a>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Perfect 9:16 Ratio</h3>
+                <p>Optimized for Instagram Stories with the exact dimensions</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-images"></i>
+                <h3>Up to 20 Photos</h3>
+                <p>Combine multiple photos into one stunning story</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <h3>Instant Export</h3>
+                <p>Download your collage in seconds, no watermark</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">How to Create Instagram Story Collages</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Choose 9:16 Aspect Ratio</h3>
+                <p>Select the vertical format (9:16) which is perfect for Instagram Stories. This ensures your collage fits perfectly without cropping.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>Upload Your Photos</h3>
+                <p>Add up to 20 photos from your device. We support PNG, JPG, and HEIC formats. Drag and drop or click to upload.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>Customize Your Collage</h3>
+                <p>Adjust spacing between photos, add rounded corners, apply filters, add text, and decorate with emoji stickers.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3>Export & Share</h3>
+                <p>Download your collage in high-quality PNG or JPG format and share directly to your Instagram Story.</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">Why Use MeCollage for Instagram Stories?</h2>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-lock"></i>
+                <h3>Privacy First</h3>
+                <p>All processing happens in your browser. Your photos never leave your device.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-ban"></i>
+                <h3>No Watermark</h3>
+                <p>Export clean collages without any watermarks or branding.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-user-lock"></i>
+                <h3>No Sign Up Required</h3>
+                <p>Start creating immediately without creating an account.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-infinity"></i>
+                <h3>Completely Free</h3>
+                <p>Unlimited collages with no hidden costs or premium features.</p>
+            </div>
+        </div>
+
+        <div class="faq">
+            <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin-bottom: 30px;">Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What is the ideal size for Instagram Story collages?</h3>
+                <p>Instagram Stories use a 9:16 aspect ratio (1080x1920 pixels). Our tool automatically creates collages in this perfect vertical format.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How many photos can I include in one story collage?</h3>
+                <p>You can add up to 20 photos in a single collage. For best results on Stories, we recommend using 2-6 photos for clear visibility.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Can I add text to my Instagram Story collage?</h3>
+                <p>Yes! You can add custom text to your collage, perfect for captions, quotes, or branding. Double-click the text on the canvas to edit.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Do my collages have watermarks?</h3>
+                <p>No! All collages are exported without watermarks. You get clean, professional results every time.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What formats can I export my collage in?</h3>
+                <p>You can export your Instagram Story collage in both PNG and JPG formats, whichever works best for your needs.</p>
+            </div>
+        </div>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> Create Your Story Collage Now
+        </a>
+    </div>
+</body>
+</html>

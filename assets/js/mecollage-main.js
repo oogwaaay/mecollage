@@ -1386,7 +1386,7 @@ class MeCollagePro {
     
     const textLayer = {
       id: `text-${Date.now()}`,
-      content: 'Double click to edit',
+      content: window.i18n.t('app.double_click_edit'),
       x: x,
       y: y,
       fontSize: 24,
@@ -1659,7 +1659,7 @@ class MeCollagePro {
     `;
     
     const title = document.createElement('h3');
-    title.textContent = 'Edit Text';
+    title.textContent = window.i18n.t('dialog.edit_text_title');
     title.style.cssText = `
       margin: 0 0 1rem 0;
       font-size: 1.25rem;
@@ -1687,7 +1687,7 @@ class MeCollagePro {
     `;
     
     const colorLabel = document.createElement('label');
-    colorLabel.textContent = 'Text Color:';
+    colorLabel.textContent = window.i18n.t('dialog.text_color_label');
     colorLabel.style.cssText = `
       display: block;
       margin-bottom: 0.75rem;
@@ -1754,7 +1754,7 @@ class MeCollagePro {
     `;
     
     const confirmBtn = document.createElement('button');
-    confirmBtn.textContent = 'OK';
+    confirmBtn.textContent = window.i18n.t('dialog.ok');
     confirmBtn.style.cssText = `
       padding: 0.5rem 1rem;
       background-color: #3b82f6;
@@ -1833,7 +1833,7 @@ class MeCollagePro {
     
     // 检查元素是否存在
     if (!collageGrid || !collageCanvas) {
-      alert('Canvas elements not found');
+      alert(window.i18n.t('error.canvas_not_found'));
       return;
     }
     

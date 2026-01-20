@@ -342,6 +342,8 @@
                     <div class="lang-menu" role="menu">
                         <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
                         <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
                         <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
@@ -622,7 +624,7 @@
             </section>
 
             <footer>
-            <p>&copy; 2025 MeCollage. All rights reserved. | <a href="/" style="color: #8fd68f;">Back to Home</a> | <a href="/about" style="color: #8fd68f;">About</a> | <a href="/blog/" style="color: #8fd68f;">Blog</a> | <a href="/contact" style="color: #8fd68f;">Contact</a> | <a href="/privacy" style="color: #8fd68f;">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;">Terms of Service</a></p>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;" data-i18n="footer.home">Back to Home</a> | <a href="/about" style="color: #8fd68f;" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: #8fd68f;" data-i18n="nav.blog">Blog</a> | <a href="/contact" style="color: #8fd68f;" data-i18n="footer.contact">Contact</a> | <a href="/privacy" style="color: #8fd68f;" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;" data-i18n="footer.terms">Terms of Service</a></p>
         </footer>
         </div>
     </div>
@@ -630,6 +632,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="/assets/js/mecollage-main.js"></script>
+    <!-- 多语言支持 -->
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <script src="/assets/js/i18n.js"></script>
     <script>
         // FAQ Toggle Functionality (if needed)
         document.addEventListener('DOMContentLoaded', () => {

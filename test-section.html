@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试 SEO 页面跳转</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            min-height: 100vh;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        h1 {
+            text-align: center;
+            color: #8fd68f;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.4);
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            padding: 30px;
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 15px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            background: rgba(143, 214, 143, 0.25);
+            transform: translateY(-2px);
+        }
+        .card h3 {
+            color: #8fd68f;
+            margin: 0 0 10px 0;
+            font-size: 1.3em;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+        }
+        .card p {
+            margin: 0;
+            font-size: 0.95em;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 40px;
+            padding: 15px 30px;
+            background: rgba(143, 214, 143, 0.2);
+            border: 1px solid rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .back-link:hover {
+            background: rgba(143, 214, 143, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>📚 所有 SEO 内页导航</h1>
+        <div class="grid">
+            <a href="/how-to-make-a-collage.html" class="card">
+                <h3>📖 How to Make a Collage</h3>
+                <p>制作拼图的分步教程</p>
+            </a>
+            <a href="/instagram-story-collage.html" class="card">
+                <h3>📱 Instagram Story Collage</h3>
+                <p>9:16 竖屏拼图</p>
+            </a>
+            <a href="/square-collage.html" class="card">
+                <h3>🔲 Square Collage</h3>
+                <p>1:1 方形拼图</p>
+            </a>
+            <a href="/vertical-collage.html" class="card">
+                <h3>📏 Vertical Collage</h3>
+                <p>9:16 竖屏格式</p>
+            </a>
+            <a href="/birthday-collage-maker.html" class="card">
+                <h3>🎂 Birthday Collage</h3>
+                <p>生日拼图</p>
+            </a>
+            <a href="/wedding-collage-maker.html" class="card">
+                <h3>💒 Wedding Collage</h3>
+                <p>婚礼拼图</p>
+            </a>
+            <a href="/christmas-collage-maker.html" class="card">
+                <h3>🎄 Christmas Collage</h3>
+                <p>圣诞节拼图</p>
+            </a>
+            <a href="/free-collage-maker.html" class="card">
+                <h3>🆓 Free Collage Maker</h3>
+                <p>免费工具对比</p>
+            </a>
+        </div>
+        <a href="/" class="back-link">
+            <i class="fas fa-home"></i> 返回首页
+        </a>
+    </div>
+</body>
+</html>

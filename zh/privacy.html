@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>隐私政策 - MeCollage</title>
+    <meta name="description" content="MeCollage 隐私政策 - 了解我们如何收集、使用和保护您的数据。">
+    <link rel="canonical" href="https://www.mecollage.top/zh/privacy">
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <style>
+        /* Global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navigation styles */
+        .ghibli-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #8fd68f;
+        }
+
+        .nav-link.active {
+            color: #8fd68f;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-selector {
+            position: relative;
+        }
+
+        .lang-selector-toggle {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-selector-toggle:hover {
+            background: rgba(143, 214, 143, 0.2);
+            color: #8fd68f;
+        }
+
+        /* Main content styles */
+        .policy-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .policy-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-align: center;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .policy-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .policy-content {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .policy-section {
+            margin-bottom: 2rem;
+        }
+
+        .policy-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .policy-section-subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .policy-text {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .policy-list {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .policy-list li {
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        footer a {
+            color: #8fd68f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #66BB6A;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .ghibli-nav {
+                padding: 1rem;
+            }
+
+            .nav-left {
+                gap: 1rem;
+            }
+
+            .policy-container {
+                padding: 1rem;
+            }
+
+            .policy-title {
+                font-size: 2rem;
+            }
+
+            .policy-subtitle {
+                font-size: 1rem;
+            }
+
+            .policy-content {
+                padding: 1.5rem;
+            }
+
+            .policy-section-title {
+                font-size: 1.3rem;
+            }
+
+            .policy-section-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    <!-- Google Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about.html" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="policy-container">
+            <h1 class="policy-title">隐私政策</h1>
+            <p class="policy-subtitle">最后更新时间：2025年1月13日</p>
+            
+            <div class="policy-content">
+                <div class="policy-section">
+                    <h2 class="policy-section-title">1. Introduction</h2>
+                    <p class="policy-text">Welcome to MeCollage. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our services, or interact with us. Please read this Privacy Policy carefully. If you do not agree with the terms of this Privacy Policy, please do not access the site.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">2. Information We Collect</h2>
+                    <h3 class="policy-section-subtitle">2.1 Personal Information</h3>
+                    <p class="policy-text">We may collect personal information that you voluntarily provide to us when you visit our website, register for an account, or use our services. This information may include:</p>
+                    <ul class="policy-list">
+                        <li>Your name and contact information (if you choose to provide it)</li>
+                        <li>Email address (if you subscribe to our newsletter or contact us)</li>
+                        <li>User-generated content (such as images you upload to create collages)</li>
+                    </ul>
+
+                    <h3 class="policy-section-subtitle">2.2 Non-Personal Information</h3>
+                    <p class="policy-text">We may also collect non-personal information automatically when you visit our website. This information may include:</p>
+                    <ul class="policy-list">
+                        <li>Your IP address</li>
+                        <li>Browser type and version</li>
+                        <li>Operating system</li>
+                        <li>Referrer URL</li>
+                        <li>Pages viewed and time spent on our website</li>
+                        <li>Device information</li>
+                    </ul>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">3. How We Use Your Information</h2>
+                    <p class="policy-text">We use the information we collect for various purposes, including:</p>
+                    <ul class="policy-list">
+                        <li>To provide, maintain, and improve our services</li>
+                        <li>To process and complete your requests</li>
+                        <li>To personalize your experience on our website</li>
+                        <li>To communicate with you, including responding to your inquiries</li>
+                        <li>To analyze usage patterns and improve our website</li>
+                        <li>To detect, prevent, and address technical issues</li>
+                        <li>To comply with legal obligations</li>
+                    </ul>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">4. How We Store Your Information</h2>
+                    <p class="policy-text">We take reasonable measures to protect your information from unauthorized access, disclosure, alteration, or destruction. However, please note that no method of transmission over the Internet or electronic storage is 100% secure.</p>
+                    <p class="policy-text">For image processing, all images you upload are processed locally in your browser and are not stored on our servers unless explicitly stated otherwise.</p>
+                    <h3 class="policy-section-subtitle">2.3 Data Retention</h3>
+                    <p class="policy-text">Since we do not store your images on our servers, there is no data retention period for user-uploaded content. All image processing occurs locally in your browser. We may retain server logs for up to 30 days for security and analytics purposes.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">5. Third-Party Sharing</h2>
+                    <p class="policy-text">We do not share, sell, rent, or trade your personal information with third parties for their commercial purposes. However, we may disclose your information in the following circumstances:</p>
+                    <ul class="policy-list">
+                        <li>To comply with legal requirements or respond to lawful requests</li>
+                        <li>To protect our rights, property, or safety, and that of our users and the public</li>
+                        <li>With service providers who assist us in operating our website and providing our services</li>
+                    </ul>
+                    <p class="policy-text">Since all image processing happens locally in your browser and we don't require user registration, we do not collect or store any personal information. We do not sell, rent, or trade user data because we don't collect it in the first place.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">6. Your Rights</h2>
+                    <p class="policy-text">Depending on your location, you may have certain rights regarding your personal information, including:</p>
+                    <ul class="policy-list">
+                        <li>The right to access your personal information</li>
+                        <li>The right to request correction of inaccurate information</li>
+                        <li>The right to request deletion of your personal information</li>
+                        <li>The right to opt out of certain uses of your information</li>
+                    </ul>
+                    <p class="policy-text">To exercise these rights, please visit our <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer">GitHub Issues page</a> or check our <a href="/contact" style="color: #8fd68f;">FAQ page</a>.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">7. Cookies and Tracking Technologies</h2>
+                    <p class="policy-text">We may use cookies and similar tracking technologies to enhance your experience on our website. Cookies are small data files that are placed on your device when you visit a website. You can control cookies through your browser settings.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">8. Changes to This Privacy Policy</h2>
+                    <p class="policy-text">We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title">9. Support</h2>
+                    <p class="policy-text">
+                        For support, please visit our
+                        <a href="https://github.com/oogwaaay/mecollage/issues" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: #8fd68f;">
+                            GitHub Issues page
+                        </a>
+                        to report bugs or request features.
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p><span data-i18n="footer.copyright">&copy; 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+        </footer>
+    </div>
+    <script src="/assets/js/i18n.js"></script>
+</body>
+</html>

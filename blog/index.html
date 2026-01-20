@@ -354,27 +354,30 @@
         <!-- Main Navigation -->
         <nav class="ghibli-nav">
             <div class="nav-left">
-                <a href="/" class="nav-link" data-page="home">Home</a>
-                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
-                <a href="/about" class="nav-link" data-page="about">About</a>
-                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer">Square Image</a>
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image</a>
             </div>
             <div class="nav-right">
-                <a href="https://github.com/oogwaaay/mecollage/issues" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="nav-link github-link" 
-                   title="View on GitHub">
-                    <i class="fab fa-github"></i> GitHub
+                <a href="https://github.com/oogwaaay/mecollage/issues"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="nav-link github-link"
+                   title="View on GitHub"
+                   data-i18n="nav.github">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
                 </a>
                 <div class="lang-selector" title="Switch Language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
-                        <span>English</span>
+                        <span data-i18n="lang.english">English</span>
                     </button>
                     <div class="lang-menu" role="menu">
                         <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
                         <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
                         <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
@@ -455,11 +458,14 @@
             </main>
 
             <footer>
-                <p>&copy; 2025 MeCollage. All rights reserved. | <a href="/" style="color: #8fd68f;">Back to Home</a> | <a href="/about" style="color: #8fd68f;">About</a> | <a href="/blog/" style="color: #8fd68f;">Blog</a> | <a href="/contact" style="color: #8fd68f;">Contact</a> | <a href="/privacy" style="color: #8fd68f;">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;">Terms of Service</a></p>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;" data-i18n="footer.home">Back to Home</a> | <a href="/about" style="color: #8fd68f;" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: #8fd68f;" data-i18n="nav.blog">Blog</a> | <a href="/contact" style="color: #8fd68f;" data-i18n="footer.contact">Contact</a> | <a href="/privacy" style="color: #8fd68f;" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;" data-i18n="footer.terms">Terms of Service</a></p>
             </footer>
         </div>
     </div>
 
     <script src="/assets/js/mecollage-main.js"></script>
+    <!-- 多语言支持 -->
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <script src="/assets/js/i18n.js"></script>
 </body>
 </html>

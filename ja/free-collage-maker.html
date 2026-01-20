@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MeCollage - 100%無料オンラインコラージュメーカー、透かしなし、登録なし、制限なし。Canva、Fotor、FotoJetと比較。" />
+    <meta property="og:title" content="無料コラージュメーカー - 透かしなし、登録なし、真に無料" />
+    <title>無料コラージュメーカー - 透かしなし、登録なし、真に無料</title>
+    <link rel="canonical" href="https://www.mecollage.top/ja/free-collage-maker" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Noto Sans SC', sans-serif; background-color: transparent;
+            color: rgba(255, 255, 255, 0.9); min-height: 100vh; padding: 40px 20px; } .container { max-width: 1000px; margin: 0 auto; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
+            border-radius: 20px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); } h1 { font-size: 2.5em; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); text-align: center; } table { width: 100%; border-collapse: collapse; margin: 40px 0; } th, td { padding: 15px; text-align: center; border-bottom: 1px solid #ddd; } th { background: #667eea; color: white; } .mecollage-col { background: rgba(143, 214, 143, 0.15); font-weight: 600; } .check { color: #4caf50; font-size: 1.2em; } .cross { color: #f44336; font-size: 1.2em; } .cta-button { display: block; width: 250px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
+            color: rgba(255, 255, 255, 0.9); color: white; text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; } .highlight { background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); padding: 30px; border-radius: 10px; margin: 30px 0; border-left: 4px solid #ffc107; }</style>
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>無料コラージュメーカー比較</h1>
+        <p class="subtitle">MeCollageがCanva、Fotor、FotoJetの真に無料の代替品である理由を見る</p>
+        <a href="/" class="cta-button"><i class="fas fa-plus"></i> MeCollageを試す</a>
+        <h2 style="color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">機能比較</h2>
+        <table>
+            <thead><tr><th>機能</th><th class="mecollage-col">MeCollage</th><th>Canva</th><th>Fotor</th><th>FotoJet</th></tr></thead>
+            <tbody>
+                <tr><td>100%無料</td><td class="mecollage-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+                <tr><td>透かしなし</td><td class="mecollage-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+                <tr><td>登録不要</td><td class="mecollage-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+                <tr><td>オープンソース</td><td class="mecollage-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
+            </tbody>
+        </table>
+        <div class="highlight"><h3>💡 MeCollageを選ぶ理由</h3><p style="color: rgba(255, 255, 255, 0.9); line-height: 1.8;">ほとんどの「無料」コラージュメーカーは無料試用版です。透かしを追加し、エクスポートを制限し、アカウント作成を強制します。MeCollageは完全に異なります - 私たちは<strong>完全に無料</strong>で、隠れた費用も、透かしも、登録もありません。純粋でシンプルなコラージュ作成だけです。</p></div>
+        <a href="/" class="cta-button"><i class="fas fa-plus"></i> 無料で作成開始</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="学习如何使用 MeCollage 制作照片拼图。分步教程，教你创建精美的拼图。免费在线拼图工具。" />
+    <meta property="og:title" content="如何制作照片拼图 - 完整教程指南" />
+    <title>如何制作照片拼图 - 完整教程指南</title>
+    <link rel="canonical" href="https://www.mecollage.top/zh/how-to-make-a-collage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Noto Sans SC', sans-serif; background-color: transparent;
+            color: rgba(255, 255, 255, 0.9); min-height: 100vh; padding: 40px 20px; } .container { max-width: 900px; margin: 0 auto; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
+            border-radius: 20px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); } h1 { font-size: 2.5em; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); text-align: center; } h2 { color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px; } h3 { color: #8fd68f; margin: 30px 0 15px; } p { color: rgba(255, 255, 255, 0.9); line-height: 1.8; } .step { display: flex; margin: 30px 0; padding: 25px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; border-left: 4px solid #8fd68f; } .step-number { font-size: 2.5em; font-weight: bold; color: #8fd68f; margin-right: 25px; min-width: 60px; } .cta-button { display: block; width: 250px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
+            color: rgba(255, 255, 255, 0.9); color: white; text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; }</style>
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>如何制作照片拼图</h1>
+        <p style="text-align: center; font-size: 1.2em; color: rgba(255, 255, 255, 0.9); margin-bottom: 40px;">几分钟内创建精美拼图的分步指南</p>
+        <a href="/" class="cta-button"><i class="fas fa-plus"></i> 立即开始</a>
+        <h2>分步教程</h2>
+        <div class="step"><div class="step-number">1</div><div class="step-content"><h3>选择宽高比</h3><p>1:1 正方形适合 Instagram 帖子，9:16 竖屏适合快拍，16:9 横屏适合横幅。</p></div></div>
+        <div class="step"><div class="step-number">2</div><div class="step-content"><h3>上传照片</h3><p>添加最多 20 张照片。支持 PNG、JPG、HEIC 格式。点击或拖放上传。</p></div></div>
+        <div class="step"><div class="step-number">3</div><div class="step-content"><h3>排列布局</h3><p>自动排列，你可以调整间距（0-50px）、圆角和顺序。</p></div></div>
+        <div class="step"><div class="step-number">4</div><div class="step-content"><h3>添加创意元素</h3><p>应用滤镜、添加文字、emoji 贴纸进行个性化。</p></div></div>
+        <div class="step"><div class="step-number">5</div><div class="step-content"><h3>导出拼图</h3><p>选择 PNG 或 JPG 格式，高质量无水印下载。</p></div></div>
+        <a href="/" class="cta-button"><i class="fas fa-plus"></i> 开始制作拼图</a>
+    </div>
+</body>
+</html>

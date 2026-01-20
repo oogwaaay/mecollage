@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="使用 MeCollage 创建精美的 Instagram 快拍拼图。免费在线工具，支持 9:16 竖屏拼图，无水印，无需注册。" />
+    <meta name="keywords" content="instagram 快拍拼图, instagram 拼图工具, 竖屏拼图, 9:16 拼图, 社交媒体拼图" />
+    <meta property="og:title" content="Instagram 快拍拼图工具 - 免费竖屏拼图制作" />
+    <meta property="og:description" content="制作精美的 Instagram 快拍拼图，完美 9:16 比例，无水印，完全免费。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/zh/instagram-story-collage" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Instagram 快拍拼图工具 - 免费竖屏拼图制作</title>
+    <link rel="canonical" href="https://www.mecollage.top/zh/instagram-story-collage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <style>
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        .cta-button {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 15px 30px;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        .feature {
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .feature i {
+            font-size: 2em;
+            color: #8fd68f;
+            margin-bottom: 15px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+        .step-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #8fd68f;
+            margin-right: 20px;
+            min-width: 50px;
+        }
+        .faq-item {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>Instagram 快拍拼图工具</h1>
+        <p class="subtitle">为你的 Instagram 快拍制作精美的 9:16 竖屏拼图</p>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> 开始创作
+        </a>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>完美 9:16 比例</h3>
+                <p>专为 Instagram 快拍优化的竖屏尺寸</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-images"></i>
+                <h3>支持最多20张照片</h3>
+                <p>将多张照片组合成一个精美的快拍</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <h3>快速导出</h3>
+                <p>几秒钟内下载拼图，无水印</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">如何制作 Instagram 快拍拼图</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>选择 9:16 竖屏比例</h3>
+                <p>选择竖屏格式（9:16），这是 Instagram 快拍的完美尺寸。这样可以确保你的拼图完美适配，无需裁剪。</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>上传你的照片</h3>
+                <p>添加最多 20 张照片。支持 PNG、JPG 和 HEIC 格式。拖放或点击上传。</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>自定义你的拼图</h3>
+                <p>调整照片间距、圆角，添加滤镜、文字和 emoji 贴纸进行装饰。</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3>导出并分享</h3>
+                <p>以高质量 PNG 或 JPG 格式下载拼图，直接分享到 Instagram 快拍。</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">常见问题</h2>
+
+        <div class="faq-item">
+            <h3>Instagram 快拍的最佳尺寸是多少？</h3>
+            <p>Instagram 快拍使用 9:16 比例（1080x1920 像素）。我们的工具自动创建这种完美的竖屏格式。</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>一个快拍拼图可以包含多少张照片？</h3>
+            <p>你可以在一个拼图中添加最多 20 张照片。为了在快拍中获得最佳效果，建议使用 2-6 张照片，确保清晰可见。</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>可以给拼图添加文字吗？</h3>
+            <p>可以！你可以添加自定义文字到拼图中，非常适合添加标题、引语或品牌信息。双击画布上的文字即可编辑。</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>我的拼图会有水印吗？</h3>
+            <p>不会！所有拼图导出时都不带水印。每次都能获得干净、专业的水准。</p>
+        </div>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> 立即创建快拍拼图
+        </a>
+    </div>
+</body>
+</html>

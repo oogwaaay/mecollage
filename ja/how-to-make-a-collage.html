@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="MeCollageでフォトコラージュの作り方を学ぶ。美しいコラージュを作成するステップバイステップチュートリアル。" />
+    <meta property="og:title" content="フォトコラージュの作り方 - 完全チュートリアルガイド" />
+    <title>フォトコラージュの作り方 - 完全チュートリアルガイド</title>
+    <link rel="canonical" href="https://www.mecollage.top/ja/how-to-make-a-collage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Noto Sans SC', sans-serif; background-color: transparent;
+            color: rgba(255, 255, 255, 0.9); min-height: 100vh; padding: 40px 20px; } .container { max-width: 900px; margin: 0 auto; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
+            border-radius: 20px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); } h1 { font-size: 2.5em; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); text-align: center; } h2 { color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px; } h3 { color: #8fd68f; margin: 30px 0 15px; } p { color: rgba(255, 255, 255, 0.9); line-height: 1.8; } .step { display: flex; margin: 30px 0; padding: 25px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; border-left: 4px solid #8fd68f; } .step-number { font-size: 2.5em; font-weight: bold; color: #8fd68f; margin-right: 25px; min-width: 60px; } .cta-button { display: block; width: 250px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
+            color: rgba(255, 255, 255, 0.9); color: white; text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; }</style>
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>フォトコラージュの作り方</h1>
+        <p style="text-align: center; font-size: 1.2em; color: rgba(255, 255, 255, 0.9); margin-bottom: 40px;">数分で美しいコラージュを作成するステップバイステップガイド</p>
+        <a href="/" class="cta-button"><i class="fas fa-plus"></i> 今すぐ開始</a>
+        <h2>ステップバイステップチュートリアル</h2>
+        <div class="step"><div class="step-number">1</div><div class="step-content"><h3>アスペクト比を選択</h3><p>1:1正方形はInstagram投稿、9:16縦型はストーリーズ、16:9横向きはバナーに最適。</p></div></div>
+        <div class="step"><div class="step-number">2</div><div class="step-content"><h3>写真をアップロード</h3><p>最大20枚の写真を追加。PNG、JPG、HEIC形式をサポート。クリックまたはドラッグでアップロード。</p></div></div>
+        <div class="step"><div class="step-number">3</div><div class="step-content"><h3>レイアウトを配置</h3><p>自動配置、間隔（0-50px）、角、順序を調整できます。</p></div></div>
+        <div class="step"><div class="step-number">4</div><div class="step-content"><h3>創造的なタッチを追加</h3><p>フィルターを適用、テキスト追加、絵文字ステッカーでパーソナライズ。</p></div></div>
+        <div class="step"><div class="step-number">5</div><div class="step-content"><h3>コラージュをエクスポート</h3><p>PNGまたはJPGを選択、高品質透かしなしでダウンロード。</p></div></div>
+        <a href="/" class="cta-button"><i class="fas fa-plus"></i> コラージュ作成を開始</a>
+    </div>
+</body>
+</html>

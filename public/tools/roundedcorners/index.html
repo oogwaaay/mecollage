@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rounded Corners - Free Online Image Corner Rounding Tool</title>
-    <meta name="description" content="Add rounded corners to images online for free. Adjust corner radius with slider (0-50%). Download in PNG, JPG formats. Perfect for profile pictures, buttons, and modern designs.">
-    <meta name="keywords" content="rounded corners, image rounded corners, round corners online, corner rounding tool, rounded image, online corner editor, rounded photo">
+    <title data-i18n="tool.rounded_corners.meta.title">Rounded Corners - Free Online Image Corner Rounding Tool</title>
+    <meta name="description" content="Add rounded corners to images online for free. Adjust corner radius with slider (0-50%). Download in PNG, JPG formats. Perfect for profile pictures, buttons, and modern designs." data-i18n-content="tool.rounded_corners.meta.description">
+    <meta name="keywords" content="rounded corners, image rounded corners, round corners online, corner rounding tool, rounded image, online corner editor, rounded photo" data-i18n-content="tool.rounded_corners.meta.keywords">
     <link rel="canonical" href="https://www.mecollage.top/public/tools/roundedcorners/">
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -599,8 +599,8 @@
         <nav class="ghibli-nav">
             <div class="nav-left">
                 <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
-                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
-                <a href="/about" class="nav-link" data-page="about">About</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
                 <a href="/public/tools/square/" class="nav-link" data-page="square" data-i18n="nav.square" rel="noopener noreferrer">Square Image</a>
             </div>
             <div class="nav-right">
@@ -608,18 +608,22 @@
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="nav-link github-link" 
-                   title="View on GitHub">
+                   title="View on GitHub"
+                   data-i18n="nav.github"
+                   data-i18n-title="nav.github_view">
                     <i class="fab fa-github"></i> GitHub
                 </a>
-                <div class="lang-selector" title="Switch Language">
+                <div class="lang-selector" title="Switch Language" data-i18n-title="nav.switch_language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
                         <span data-i18n="lang.name">English</span>
                     </button>
                     <div class="lang-menu" role="menu">
-                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.options.en">English</button>
-                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.options.zh">简体中文</button>
-                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.options.es">Español</button>
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.english">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.chinese">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem" data-i18n="lang.traditional_chinese">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem" data-i18n="lang.japanese">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.spanish">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
                 </div>
@@ -628,18 +632,18 @@
 
         <div class="rounded-tool-container">
             <header class="page-header">
-                <h1 class="page-title">Rounded Corners</h1>
-                <p class="page-subtitle">Add customizable rounded corners to your images with transparent backgrounds. Perfect for modern web design, profile pictures, UI elements, and app icons.</p>
+                <h1 class="page-title" data-i18n="tool.rounded_corners.title">Rounded Corners</h1>
+                <p class="page-subtitle" data-i18n="tool.rounded_corners.subtitle">Add customizable rounded corners to your images with transparent backgrounds. Perfect for modern web design, profile pictures, UI elements, and app icons.</p>
             </header>
 
             <nav class="tool-nav">
                 <div class="tool-nav-container">
-                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Home</a>
-                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
-                    <a href="/public/tools/roundedcorners/" class="tool-nav-link active"><i class="fas fa-border-radius"></i> Rounded Corners</a>
-                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
-                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
-                </div>
+            <a href="/" class="tool-nav-link" data-i18n="nav.home"><i class="fas fa-home"></i> Home</a>
+            <a href="/public/tools/squarecrop/" class="tool-nav-link" data-i18n="tool.common.nav_square_crop"><i class="fas fa-crop-square"></i> Square Crop</a>
+            <a href="/public/tools/roundedcorners/" class="tool-nav-link active" data-i18n="tool.common.nav_rounded_corners"><i class="fas fa-border-radius"></i> Rounded Corners</a>
+            <a href="/public/tools/square/" class="tool-nav-link" data-i18n="tool.common.nav_square_image"><i class="fas fa-square"></i> Square Image</a>
+            <a href="/public/tools/blurredframe/" class="tool-nav-link" data-i18n="tool.common.nav_blurred_frame"><i class="fas fa-image"></i> Blurred Frame</a>
+        </div>
             </nav>
 
             <div class="main-content">
@@ -647,8 +651,8 @@
                     <div id="uploadContainer">
                         <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                             <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                            <div class="upload-text">Drag & drop an image here or click to upload</div>
-                            <div class="upload-hint">Supports JPG, PNG, WEBP formats</div>
+                            <div class="upload-text" data-i18n="tool.rounded_corners.upload.text">Drag & drop an image here or click to upload</div>
+                            <div class="upload-hint" data-i18n="tool.rounded_corners.upload.hint">Supports JPG, PNG, WEBP formats</div>
                         </div>
                         <input type="file" id="fileInput" accept="image/*">
                     </div>
@@ -659,17 +663,17 @@
                         </div>
 
                         <div class="action-buttons" style="margin-top: 20px;">
-                            <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> Reset</button>
-                            <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Change Image</button>
+                            <button class="btn btn-secondary" onclick="resetEditor()" data-i18n="tool.rounded_corners.editor.reset"><i class="fas fa-redo"></i> Reset</button>
+                            <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()" data-i18n="tool.rounded_corners.editor.change_image"><i class="fas fa-upload"></i> Change Image</button>
                         </div>
                     </div>
                 </section>
 
                 <aside class="settings-section" id="settingsSection">
-                    <h3><i class="fas fa-cog"></i> Settings</h3>
+                    <h3 data-i18n="tool.rounded_corners.settings.title"><i class="fas fa-cog"></i> Settings</h3>
                     
                     <div class="setting-group">
-                        <label class="setting-label">Corner Radius</label>
+                        <label class="setting-label" data-i18n="tool.rounded_corners.settings.radius">Corner Radius</label>
                         <div class="radius-slider-container">
                             <div class="radius-slider">
                                 <input type="range" id="radiusSlider" min="0" max="50" value="10">
@@ -685,23 +689,23 @@
                     </div>
 
                     <div class="setting-group">
-                        <label class="setting-label">Download</label>
+                        <label class="setting-label" data-i18n="tool.rounded_corners.settings.download_label">Download</label>
                         <select id="outputSize">
-                            <option value="original" selected>Original</option>
-                            <option value="1080">1080px</option>
-                            <option value="1024">1024px</option>
-                            <option value="512">512px</option>
-                            <option value="custom">Custom</option>
+                            <option value="original" selected data-i18n="tool.rounded_corners.settings.size_original">Original</option>
+                            <option value="1080" data-i18n="tool.rounded_corners.settings.size_1080">1080px</option>
+                            <option value="1024" data-i18n="tool.rounded_corners.settings.size_1024">1024px</option>
+                            <option value="512" data-i18n="tool.rounded_corners.settings.size_512">512px</option>
+                            <option value="custom" data-i18n="tool.rounded_corners.settings.size_custom">Custom</option>
                         </select>
                         <!-- Custom size inputs -->
                         <div id="customSizeInputs" style="display: none; margin-top: 15px; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 12px;">
                             <div style="display: flex; gap: 15px; flex-wrap: wrap;">
                                 <div style="flex: 1; min-width: 150px;">
-                                    <label class="setting-label" style="margin-bottom: 5px;">Width (px)</label>
+                                    <label class="setting-label" style="margin-bottom: 5px;" data-i18n="tool.rounded_corners.settings.width">Width (px)</label>
                                     <input type="number" id="customWidth" min="1" max="8192" value="1000" style="width: 100%;">
                                 </div>
                                 <div style="flex: 1; min-width: 150px;">
-                                    <label class="setting-label" style="margin-bottom: 5px;">Height (px)</label>
+                                    <label class="setting-label" style="margin-bottom: 5px;" data-i18n="tool.rounded_corners.settings.height">Height (px)</label>
                                     <input type="number" id="customHeight" min="1" max="8192" value="1000" style="width: 100%;">
                                 </div>
                             </div>
@@ -709,53 +713,53 @@
                     </div>
 
                     <div class="setting-group">
-                        <label class="setting-label">Format</label>
+                        <label class="setting-label" data-i18n="tool.rounded_corners.settings.format">Format</label>
                         <select id="outputFormat">
-                            <option value="png" selected>PNG</option>
-                            <option value="jpg">JPG</option>
-                            <option value="webp">WEBP</option>
+                            <option value="png" selected data-i18n="tool.rounded_corners.settings.format_png">PNG</option>
+                            <option value="jpg" data-i18n="tool.rounded_corners.settings.format_jpeg">JPG</option>
+                            <option value="webp" data-i18n="tool.rounded_corners.settings.format_webp">WEBP</option>
                         </select>
                     </div>
 
                     <div class="setting-group">
-                        <button class="btn btn-primary" onclick="downloadImage()"><i class="fas fa-download"></i> Download Image</button>
+                        <button class="btn btn-primary" onclick="downloadImage()" data-i18n="tool.rounded_corners.settings.download_btn"><i class="fas fa-download"></i> Download Image</button>
                     </div>
                 </aside>
             </div>
 
             <!-- FAQ Section -->
             <section class="faq-section" id="faqSection">
-                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <h2 class="faq-title" data-i18n="tool.rounded_corners.faq.title">Frequently Asked Questions</h2>
                 <div class="faq-container">
                     <div class="faq-item">
-                        <h3 class="faq-question">What is Rounded Corners?</h3>
-                        <p class="faq-answer">Rounded Corners is a free online tool that adds customizable rounded corners to your images with transparent backgrounds. Perfect for modern UI design, profile pictures, app icons, and web graphics that need that polished, contemporary look.</p>
+                        <h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q1">What is Rounded Corners?</h3>
+                        <p class="faq-answer" data-i18n="tool.rounded_corners.faq.a1">Rounded Corners is a free online tool that adds customizable rounded corners to your images with transparent backgrounds. Perfect for modern UI design, profile pictures, app icons, and web graphics that need that polished, contemporary look.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">How does it work?</h3>
-                        <p class="faq-answer">Upload your image and use the corner radius slider to adjust how rounded you want the corners (0% for square, 50% for circular). The tool outputs images with transparency outside the rounded shape, making them perfect for overlaying on any background.</p>
+                        <h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q2">How does it work?</h3>
+                        <p class="faq-answer" data-i18n="tool.rounded_corners.faq.a2">Upload your image and use the corner radius slider to adjust how rounded you want the corners (0% for square, 50% for circular). The tool outputs images with transparency outside the rounded shape, making them perfect for overlaying on any background.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Perfect for modern design</h3>
-                        <p class="faq-answer">Rounded corners are essential in modern web and app design. Create sleek profile pictures, stylish UI elements, app icons with rounded corners, or any graphic that needs smooth, contemporary edges instead of sharp 90-degree angles.</p>
+                        <h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q3">Perfect for modern design</h3>
+                        <p class="faq-answer" data-i18n="tool.rounded_corners.faq.a3">Rounded corners are essential in modern web and app design. Create sleek profile pictures, stylish UI elements, app icons with rounded corners, or any graphic that needs smooth, contemporary edges instead of sharp 90-degree angles.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Easy to use</h3>
-                        <p class="faq-answer">Simply upload your image, adjust the corner radius slider, and download. The live preview shows exactly how your rounded image will look. From subtle rounding to perfect circles at 50%, you have complete control.</p>
+                        <h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q4">Easy to use</h3>
+                        <p class="faq-answer" data-i18n="tool.rounded_corners.faq.a4">Simply upload your image, adjust the corner radius slider, and download. The live preview shows exactly how your rounded image will look. From subtle rounding to perfect circles at 50%, you have complete control.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Transparent output</h3>
-                        <p class="faq-answer">Download as PNG with transparent corners, or choose JPEG/WEBP if you prefer a solid background. The transparent PNG option makes it easy to use your rounded images anywhere without worrying about backgrounds.</p>
+                        <h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q5">Transparent output</h3>
+                        <p class="faq-answer" data-i18n="tool.rounded_corners.faq.a5">Download as PNG with transparent corners, or choose JPEG/WEBP if you prefer a solid background. The transparent PNG option makes it easy to use your rounded images anywhere without worrying about backgrounds.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Free and unlimited</h3>
-                        <p class="faq-answer">Completely free with no watermarks, signup requirements, or hidden fees. Add rounded corners to unlimited images with full quality and all customization options available at no cost.</p>
+                        <h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q6">Free and unlimited</h3>
+                        <p class="faq-answer" data-i18n="tool.rounded_corners.faq.a6">Completely free with no watermarks, signup requirements, or hidden fees. Add rounded corners to unlimited images with full quality and all customization options available at no cost.</p>
                     </div>
                 </div>
             </section>
 
             <footer>
-                <p>&copy; 2024 MeCollage. All rights reserved. | <a href="/">Back to Home</a></p>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
             </footer>
         </div>
     </div>
@@ -998,7 +1002,7 @@
         // Update radius UI
         function updateRadiusUI() {
             document.getElementById('radiusSlider').value = state.radius;
-            document.getElementById('radiusValue').textContent = `${state.radius}%`;
+            document.getElementById('radiusValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.radius }) : `${state.radius}%`;
             
             // Update active preview item
             document.querySelectorAll('.radius-preview-item').forEach(item => {
@@ -1136,7 +1140,7 @@
             );
 
             // Download
-            let fileName = `rounded-corners.${format}`;
+            let fileName = `${window.i18n ? window.i18n.t('tool.rounded_corners.default_filename') : 'rounded-corners'}.${format}`;
             let mimeType;
             let qualityValue = quality;
 
@@ -1183,5 +1187,8 @@
             updateRadiusUI();
         });
     </script>
+    <!-- 多语言支持 -->
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <script src="/assets/js/i18n.js"></script>
 </body>
 </html>

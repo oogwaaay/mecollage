@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Crea collages stunning para Instagram Stories con MeCollage. Herramienta gratuita online con relación 9:16, sin marca de agua." />
+    <meta name="keywords" content="collage instagram stories, collage maker, collage vertical, 9:16, collage redes sociales" />
+    <meta property="og:title" content="Creador de Collage para Instagram Stories - Herramienta 9:16 Gratuita" />
+    <meta property="og:description" content="Crea collages hermosos para tus Stories de Instagram. Relación 9:16 perfecta, sin marca de agua, completamente gratis." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/es/instagram-story-collage" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Creador de Collage para Instagram Stories - Herramienta 9:16 Gratuita</title>
+    <link rel="canonical" href="https://www.mecollage.top/es/instagram-story-collage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <style>
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        .cta-button {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 15px 30px;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        .feature {
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .feature i {
+            font-size: 2em;
+            color: #8fd68f;
+            margin-bottom: 15px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+        .step-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #8fd68f;
+            margin-right: 20px;
+            min-width: 50px;
+        }
+        .faq-item {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>Creador de Collage para Instagram Stories</h1>
+        <p class="subtitle">Crea collages verticales 9:16 hermosos para tus Stories</p>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> Comenzar a Crear
+        </a>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Relación 9:16 Perfecta</h3>
+                <p>Optimizado para Instagram Stories con las dimensiones exactas</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-images"></i>
+                <h3>Hasta 20 Fotos</h3>
+                <p>Combina múltiples fotos en un solo collage stunning</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <h3>Exportación Instantánea</h3>
+                <p>Descarga tu collage en segundos, sin marca de agua</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">Cómo Crear Collages para Instagram Stories</h2>
+
+        <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+                <h3>Elige Relación 9:16</h3>
+                <p>Selecciona el formato vertical (9:16) que es perfecto para Instagram Stories. Esto asegura que tu collage quepa perfectamente sin recortes.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+                <h3>Sube Tus Fotos</h3>
+                <p>Añade hasta 20 fotos de tu dispositivo. Soportamos PNG, JPG y formatos HEIC. Arrastra y suelta o haz clic para subir.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+                <h3>Personaliza Tu Collage</h3>
+                <p>Ajusta el espaciado entre fotos, añade esquinas redondeadas, aplica filtros, añade texto y decora con stickers emoji.</p>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+                <h3>Exporta y Comparte</h3>
+                <p>Descarga tu collage en PNG o JPG de alta calidad y compártelo directamente a tu Story de Instagram.</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">Preguntas Frecuentes</h2>
+
+        <div class="faq-item">
+            <h3>¿Cuál es el tamaño ideal para collages de Instagram Stories?</h3>
+            <p>Instagram Stories usa una relación de 9:16 (1080x1920 píxeles). Nuestra herramienta crea automáticamente collages en este formato vertical perfecto.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>¿Cuántas fotos puedo incluir en un collage de Story?</h3>
+            <p>Puedes añadir hasta 20 fotos en un solo collage. Para mejores resultados en Stories, recomendamos usar 2-6 fotos para una visibilidad clara.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>¿Puedo añadir texto a mi collage de Instagram Story?</h3>
+            <p>¡Sí! Puedes añadir texto personalizado a tu collage, perfecto para subtítulos, citas o branding. Haz doble clic en el texto en el lienzo para editarlo.</p>
+        </div>
+
+        <div class="faq-item">
+            <h3>¿Tienen mis collages marcas de agua?</h3>
+            <p>¡No! Todos los collages se exportan sin marcas de agua. Siempre obtienes resultados limpios y profesionales.</p>
+        </div>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> Crea Tu Collage de Story Ahora
+        </a>
+    </div>
+</body>
+</html>

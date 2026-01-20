@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Square Crop Tool - Free Online Image Cropper to 1:1 Ratio</title>
-    <meta name="description" content="Easily crop images to perfect square 1:1 ratio online for free. Adjust crop area with drag and drop, zoom and pan for precise control. Download in high-quality PNG, JPG, WEBP formats. Ideal for social media profiles, Instagram posts, and more.">
-    <meta name="keywords" content="square crop, image cropper, 1:1 ratio, online crop tool, square image maker, social media crop, square photo creator, free image cropper">
+    <title data-i18n="tool.square_crop.meta.title">Square Crop Tool - Free Online Image Cropper to 1:1 Ratio</title>
+    <meta name="description" data-i18n-content="tool.square_crop.meta.description" content="Easily crop images to perfect square 1:1 ratio online for free. Adjust crop area with drag and drop, zoom and pan for precise control. Download in high-quality PNG, JPG, WEBP formats. Ideal for social media profiles, Instagram posts, and more.">
+    <meta name="keywords" data-i18n-content="tool.square_crop.meta.keywords" content="square crop, image cropper, 1:1 ratio, online crop tool, square image maker, social media crop, square photo creator, free image cropper">
     <link rel="canonical" href="https://www.mecollage.top/public/tools/squarecrop/">
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -584,8 +584,8 @@
         <nav class="ghibli-nav">
             <div class="nav-left">
                 <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
-                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
-                <a href="/about" class="nav-link" data-page="about">About</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
                 <a href="/public/tools/square/" class="nav-link" data-page="square" data-i18n="nav.square" rel="noopener noreferrer">Square Image</a>
             </div>
             <div class="nav-right">
@@ -593,18 +593,21 @@
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="nav-link github-link" 
-                   title="View on GitHub">
-                    <i class="fab fa-github"></i> GitHub
+                   title="View on GitHub"
+                   data-i18n-title="nav.github_view">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
                 </a>
-                <div class="lang-selector" title="Switch Language">
+                <div class="lang-selector" title="Switch Language" data-i18n-title="nav.switch_language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
                         <span data-i18n="lang.name">English</span>
                     </button>
                     <div class="lang-menu" role="menu">
-                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.options.en">English</button>
-                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.options.zh">简体中文</button>
-                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.options.es">Español</button>
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.english">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.chinese">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem" data-i18n="lang.traditional_chinese">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem" data-i18n="lang.japanese">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.spanish">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
                 </div>
@@ -613,17 +616,17 @@
 
         <div class="squarecrop-tool-container">
             <header class="page-header">
-                <h1 class="page-title">Square Crop 1:1</h1>
-                <p class="page-subtitle">Easily transform images into perfect square 1:1 ratio. Perfect for social media profiles, Instagram posts, and any platform requiring square visuals. Adjust zoom and position for precise cropping control.</p>
+                <h1 class="page-title" data-i18n="tool.square_crop.title">Square Crop 1:1</h1>
+                <p class="page-subtitle" data-i18n="tool.square_crop.subtitle">Easily transform images into perfect square 1:1 ratio. Perfect for social media profiles, Instagram posts, and any platform requiring square visuals. Adjust zoom and position for precise cropping control.</p>
             </header>
 
             <nav class="tool-nav">
                 <div class="tool-nav-container">
-                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Home</a>
-                    <a href="/public/tools/squarecrop/" class="tool-nav-link active"><i class="fas fa-crop-square"></i> Square Crop</a>
-                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
-                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
-                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> <span data-i18n="nav.home">Home</span></a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link active"><i class="fas fa-crop-square"></i> <span data-i18n="tool.common.nav_square_crop">Square Crop</span></a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span data-i18n="tool.common.nav_rounded_corners">Rounded Corners</span></a>
+                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span data-i18n="tool.common.nav_square_image">Square Image</span></a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span data-i18n="tool.common.nav_blurred_frame">Blurred Frame</span></a>
                 </div>
             </nav>
 
@@ -632,8 +635,8 @@
                     <div id="uploadContainer">
                         <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                             <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                            <div class="upload-text">Drag & drop an image here or click to upload</div>
-                            <div class="upload-hint">Works with JPG, PNG, WEBP formats</div>
+                            <div class="upload-text" data-i18n="tool.square_crop.upload.text">Drag & drop an image here or click to upload</div>
+                            <div class="upload-hint" data-i18n="tool.square_crop.upload.hint">Works with JPG, PNG, WEBP formats</div>
                         </div>
                         <input type="file" id="fileInput" accept="image/*">
                     </div>
@@ -646,7 +649,7 @@
                         <div class="controls">
                             <div class="zoom-controls">
                                 <div style="text-align: center; margin-bottom: 10px;">
-                                    <span style="font-weight: 500; color: rgba(255, 255, 255, 0.8); margin-right: 10px;">Zoom</span>
+                                    <span style="font-weight: 500; color: rgba(255, 255, 255, 0.8); margin-right: 10px;" data-i18n="tool.square_crop.editor.zoom">Zoom</span>
                                     <span class="zoom-value" id="zoomValue">100%</span>
                                 </div>
                                 <div class="zoom-slider">
@@ -655,78 +658,78 @@
                             </div>
 
                             <div class="action-buttons">
-                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> Reset</button>
-                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Change Image</button>
+                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> <span data-i18n="tool.square_crop.editor.reset">Reset</span></button>
+                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> <span data-i18n="tool.square_crop.editor.change_image">Change Image</span></button>
                             </div>
                         </div>
 
-                        <div class="quick-tip">
+                        <div class="quick-tip" data-i18n="tool.square_crop.editor.tip">
                             💡 Tip: Drag the image within the square frame to adjust the crop position, and use the zoom slider for precise control.
                         </div>
                     </div>
                 </section>
 
                 <aside class="settings-section" id="settingsSection" style="display: none;">
-                    <h3>Crop Settings</h3>
+                    <h3 data-i18n="tool.square_crop.settings.title">Crop Settings</h3>
                     
                     <div class="setting-group">
                         <select id="outputSize">
-                            <option value="original" selected>Original</option>
-                            <option value="1200">1200px</option>
-                            <option value="custom">Custom</option>
-                        </select>
+                    <option value="original" selected data-i18n="tool.square_crop.settings.size_original">Original</option>
+                    <option value="1200" data-i18n="tool.square_crop.settings.size_1200">1200px</option>
+                    <option value="custom" data-i18n="tool.square_crop.settings.size_custom">Custom</option>
+                </select>
                     </div>
 
                     <div class="setting-group">
                         <select id="outputFormat">
-                            <option value="jpg" selected>JPEG</option>
-                            <option value="png">PNG</option>
-                            <option value="webp">WEBP</option>
+                            <option value="jpg" selected data-i18n="tool.square_crop.settings.format_jpeg">JPEG</option>
+                            <option value="png" data-i18n="tool.square_crop.settings.format_png">PNG</option>
+                            <option value="webp" data-i18n="tool.square_crop.settings.format_webp">WEBP</option>
                         </select>
                     </div>
 
                     <div class="setting-group" id="customSizeGroup" style="display: none;">
-                        <label class="setting-label">Custom Size (px)</label>
+                        <label class="setting-label" data-i18n="tool.square_crop.settings.custom_size_label">Custom Size (px)</label>
                         <input type="number" id="customSize" min="100" max="10000" value="1200">
                     </div>
 
-                    <button class="btn btn-primary" onclick="downloadImage()">Download Image</button>
+                    <button class="btn btn-primary" onclick="downloadImage()" data-i18n="tool.square_crop.settings.download"><i class="fas fa-download"></i> Download Image</button>
                 </aside>
             </div>
 
             <!-- FAQ Section -->
             <section class="faq-section" id="faqSection">
-                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <h2 class="faq-title" data-i18n="tool.square_crop.faq.title">Frequently Asked Questions</h2>
                 <div class="faq-container">
                     <div class="faq-item">
-                        <h3 class="faq-question">What is Square Crop 1:1?</h3>
-                        <p class="faq-answer">Square Crop 1:1 is a free online tool that crops your images to a perfect square (1:1 aspect ratio). Perfect for profile pictures, Instagram posts, and any platform that requires square images.</p>
+                        <h3 class="faq-question" data-i18n="tool.square_crop.faq.q1">What is Square Crop 1:1?</h3>
+                        <p class="faq-answer" data-i18n="tool.square_crop.faq.a1">Square Crop 1:1 is a free online tool that crops your images to a perfect square (1:1 aspect ratio). Perfect for profile pictures, Instagram posts, and any platform that requires square images.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">How does it work?</h3>
-                        <p class="faq-answer">Upload your image and use the zoom slider to adjust the crop area. Drag the image to reposition it within the square frame. The tool ensures your image is cropped to a perfect 1:1 ratio while giving you full control over what to keep in frame.</p>
+                        <h3 class="faq-question" data-i18n="tool.square_crop.faq.q2">How does it work?</h3>
+                        <p class="faq-answer" data-i18n="tool.square_crop.faq.a2">Upload your image and use the zoom slider to adjust the crop area. Drag the image to reposition it within the square frame. The tool ensures your image is cropped to a perfect 1:1 ratio while giving you full control over what to keep in frame.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Perfect for social media</h3>
-                        <p class="faq-answer">Ideal for Instagram profile pictures, Facebook avatars, Twitter images, and any platform where square images are required. No more awkward crops or stretched images.</p>
+                        <h3 class="faq-question" data-i18n="tool.square_crop.faq.q3">Perfect for social media</h3>
+                        <p class="faq-answer" data-i18n="tool.square_crop.faq.a3">Ideal for Instagram profile pictures, Facebook avatars, Twitter images, and any platform where square images are required. No more awkward crops or stretched images.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Easy to use</h3>
-                        <p class="faq-answer">Simply zoom and drag to position your image perfectly. The visual preview shows exactly what your final square crop will look like before you download.</p>
+                        <h3 class="faq-question" data-i18n="tool.square_crop.faq.q4">Easy to use</h3>
+                        <p class="faq-answer" data-i18n="tool.square_crop.faq.a4">Simply zoom and drag to position your image perfectly. The visual preview shows exactly what your final square crop will look like before you download.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">High-quality output</h3>
-                        <p class="faq-answer">Download your square-cropped images in JPEG, PNG, or WEBP format with customizable sizes. All processing happens in your browser - your images never leave your device.</p>
+                        <h3 class="faq-question" data-i18n="tool.square_crop.faq.q5">High-quality output</h3>
+                        <p class="faq-answer" data-i18n="tool.square_crop.faq.a5">Download your square-cropped images in JPEG, PNG, or WEBP format with customizable sizes. All processing happens in your browser - your images never leave your device.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Free and unlimited</h3>
-                        <p class="faq-answer">Completely free with no watermarks, signup requirements, or hidden fees. Crop unlimited images with full quality and all customization options available at no cost.</p>
+                        <h3 class="faq-question" data-i18n="tool.square_crop.faq.q6">Free and unlimited</h3>
+                        <p class="faq-answer" data-i18n="tool.square_crop.faq.a6">Completely free with no watermarks, signup requirements, or hidden fees. Crop unlimited images with full quality and all customization options available at no cost.</p>
                     </div>
                 </div>
             </section>
 
             <footer>
-                <p>&copy; 2024 MeCollage. All rights reserved. | <a href="/">Back to Home</a></p>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
             </footer>
         </div>
     </div>
@@ -883,7 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function updateZoomSlider() {
             document.getElementById('zoomSlider').value = state.zoom;
-            document.getElementById('zoomValue').textContent = `${state.zoom}%`;
+            document.getElementById('zoomValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.zoom }) : `${state.zoom}%`;
         }
 
         // Drag functions
@@ -1010,7 +1013,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
 
             // Download
-            let fileName = `square-crop.${format}`;
+            let fileName = `${window.i18n ? window.i18n.t('tool.square_crop.default_filename') : 'square-crop'}.${format}`;
             if (format === 'png') {
                 tempCanvas.toBlob((blob) => {
                     if (blob) {
@@ -1072,5 +1075,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     </script>
+    <!-- 多语言支持 -->
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <script src="/assets/js/i18n.js"></script>
 </body>
 </html>

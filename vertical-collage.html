@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create vertical collages (9:16 ratio) with MeCollage. Perfect for Instagram Stories, TikTok, and mobile wallpapers. Free online tool." />
+    <meta name="keywords" content="vertical collage, 9:16 collage, portrait collage, mobile wallpaper collage, vertical photo grid" />
+    <meta property="og:title" content="Vertical Collage Maker - Free 9:16 Portrait Collage Tool" />
+    <meta property="og:description" content="Create beautiful vertical collages for Instagram Stories, TikTok, and mobile wallpapers. 9:16 ratio, no watermark." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/vertical-collage" />
+    <title>Vertical Collage Maker - Free 9:16 Portrait Collage Tool</title>
+    <link rel="canonical" href="https://www.mecollage.top/vertical-collage" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/vertical-collage" />
+    <link rel="alternate" hreflang="zh" href="https://www.mecollage.top/zh/vertical-collage" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/vertical-collage" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/vertical-collage" />
+    <link rel="alternate" hreflang="zh-tw" href="https://www.mecollage.top/tw/vertical-collage" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/vertical-collage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <style>
+        .ghibli-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(18px);
+            
+            border-radius: 20px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.2em;
+            margin-bottom: 40px;
+        }
+        .cta-button {
+            display: block;
+            width: 200px;
+            margin: 40px auto;
+            padding: 15px 30px;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1em;
+            transition: transform 0.2s;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        .feature {
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .feature i {
+            font-size: 2em;
+            color: #14b8a6;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>Vertical Collage Maker</h1>
+        <p class="subtitle">Create stunning 9:16 vertical collages for mobile and social media</p>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> Start Creating
+        </a>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Perfect 9:16 Ratio</h3>
+                <p>Ideal for Instagram Stories, TikTok, and mobile wallpapers</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-arrows-alt-v"></i>
+                <h3>Portrait Layouts</h3>
+                <p>Vertical arrangements optimized for mobile viewing</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-images"></i>
+                <h3>Up to 20 Photos</h3>
+                <p>Combine multiple photos into vertical format</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-download"></i>
+                <h3>High Quality Export</h3>
+                <p>Download in PNG/JPG without watermarks</p>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">Use Cases for Vertical Collages</h2>
+        <div class="features">
+            <div class="feature">
+                <i class="fab fa-instagram"></i>
+                <h3>Instagram Stories</h3>
+                <p>Full-screen vertical format for maximum impact</p>
+            </div>
+            <div class="feature">
+                <i class="fab fa-tiktok"></i>
+                <h3>TikTok Content</h3>
+                <p>Perfect vertical ratio for TikTok videos and backgrounds</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile"></i>
+                <h3>Phone Wallpapers</h3>
+                <p>Create personalized vertical photo wallpapers</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-ad"></i>
+                <h3>Mobile Ads</h3>
+                <p>Vertical format optimized for mobile advertising</p>
+            </div>
+        </div>
+
+        <a href="/" class="cta-button">
+            <i class="fas fa-plus"></i> Create Your Vertical Collage
+        </a>
+    </div>
+</body>
+</html>

@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Square Image - Free Online Image Squaring Tool</title>
-    <meta name="description" content="Convert images to square shape online for free. Choose from blur background, solid color, resize, or crop modes. Perfect for social media posts, profile pictures, and more.">
-    <meta name="keywords" content="square image, make image square, convert to square, square photo, social media square, online square maker, square background">
+    <title data-i18n="tool.square.meta.title">Square Image - Free Online Image Squaring Tool</title>
+    <meta name="description" content="Convert images to square shape online for free. Choose from blur background, solid color, resize, or crop modes. Perfect for social media posts, profile pictures, and more." data-i18n-content="tool.square.meta.description">
+    <meta name="keywords" content="square image, make image square, convert to square, square photo, social media square, online square maker, square background" data-i18n-content="tool.square.meta.keywords">
     <link rel="canonical" href="https://www.mecollage.top/public/tools/square/">
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -749,8 +749,8 @@
         <nav class="ghibli-nav">
             <div class="nav-left">
                 <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
-                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
-                <a href="/about" class="nav-link" data-page="about">About</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
                 <a href="/public/tools/square/" class="nav-link" data-page="square" data-i18n="nav.square" rel="noopener noreferrer">Square Image</a>
             </div>
             <div class="nav-right">
@@ -758,18 +758,21 @@
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="nav-link github-link" 
-                   title="View on GitHub">
-                    <i class="fab fa-github"></i> GitHub
+                   title="View on GitHub"
+                   data-i18n-title="nav.github_view">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
                 </a>
-                <div class="lang-selector" title="Switch Language">
+                <div class="lang-selector" title="Switch Language" data-i18n-title="nav.switch_language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
                         <span data-i18n="lang.name">English</span>
                     </button>
                     <div class="lang-menu" role="menu">
-                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.options.en">English</button>
-                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.options.zh">简体中文</button>
-                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.options.es">Español</button>
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.english">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.chinese">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem" data-i18n="lang.traditional_chinese">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem" data-i18n="lang.japanese">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.spanish">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
                 </div>
@@ -778,17 +781,17 @@
 
         <div class="square-tool-container">
             <header class="page-header">
-                <h1 class="page-title"> Square Image</h1>
-                <p class="page-subtitle">Convert images to square shape online for free</p>
+                <h1 class="page-title" data-i18n="tool.square.title">Square Image</h1>
+                <p class="page-subtitle" data-i18n="tool.square.subtitle">Convert images to square shape online for free</p>
             </header>
 
             <nav class="tool-nav">
                 <div class="tool-nav-container">
-                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Home</a>
-                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
-                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
-                    <a href="/public/tools/square/" class="tool-nav-link active"><i class="fas fa-square"></i> Square Image</a>
-                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> <span data-i18n="nav.home">Home</span></a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span data-i18n="tool.common.nav_square_crop">Square Crop</span></a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span data-i18n="tool.common.nav_rounded_corners">Rounded Corners</span></a>
+                    <a href="/public/tools/square/" class="tool-nav-link active"><i class="fas fa-square"></i> <span data-i18n="tool.common.nav_square_image">Square Image</span></a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span data-i18n="tool.common.nav_blurred_frame">Blurred Frame</span></a>
                 </div>
             </nav>
 
@@ -797,8 +800,8 @@
                     <div id="uploadContainer">
                         <div class="upload-area" onclick="document.getElementById('fileInput').click()">
                             <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
-                            <div class="upload-text">Drag & drop an image here or click to upload</div>
-                            <div class="upload-hint">Supports JPG, PNG, WEBP formats</div>
+                            <div class="upload-text" data-i18n="tool.square.upload.text">Drag & drop an image here or click to upload</div>
+                            <div class="upload-hint" data-i18n="tool.square.upload.hint">Supports JPG, PNG, WEBP formats</div>
                         </div>
                         <input type="file" id="fileInput" accept="image/*">
                     </div>
@@ -812,14 +815,14 @@
                             <!-- Tool-specific controls will be displayed here based on selected tool -->
                             <div id="blurControls" class="tool-controls" style="display: none;">
                                 <div class="option-group">
-                                    <label class="option-label">Blur Amount</label>
+                                    <label class="option-label" data-i18n="tool.square.controls.blur_amount">Blur Amount</label>
                                     <input type="range" id="blurSlider" min="1" max="20" value="10" class="blur-slider">
                                 </div>
                             </div>
 
                             <div id="colorControls" class="tool-controls" style="display: none;">
                                 <div class="option-group">
-                                    <label class="option-label">Background Color</label>
+                                    <label class="option-label" data-i18n="tool.square.controls.bg_color">Background Color</label>
                                     <div class="color-picker-container">
                                         <input type="color" id="backgroundColor" value="#ffffff">
                                         <span id="colorPreview">#ffffff</span>
@@ -831,7 +834,7 @@
                             <div id="cropControls" class="tool-controls" style="display: none;">
                                 <div class="option-group">
                                     <div class="zoom-control">
-                                        <label class="option-label">Zoom</label>
+                                        <label class="option-label" data-i18n="tool.square.controls.zoom">Zoom</label>
                                         <div class="zoom-slider-container">
                                             <input type="range" id="zoomSlider" min="50" max="200" value="100" class="zoom-slider">
                                             <span class="zoom-value" id="zoomValue">100%</span>
@@ -841,98 +844,98 @@
                             </div>
 
                             <div class="action-buttons">
-                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> Reset</button>
-                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Change Image</button>
+                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> <span data-i18n="tool.square.editor.reset">Reset</span></button>
+                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> <span data-i18n="tool.square.editor.change_image">Change Image</span></button>
                             </div>
                         </div>
                     </div>
                 </section>
 
                 <aside class="settings-section" id="settingsSection">
-                    <h3><i class="fas fa-tools"></i> Tools</h3>
+                    <h3 data-i18n="tool.square.settings.tools_title"><i class="fas fa-tools"></i> Tools</h3>
                     
                     <div class="tools-group">
-                        <button class="tool-btn active" data-tool="blur">Square with blur</button>
-                        <button class="tool-btn" data-tool="solid">Square with color</button>
-                        <button class="tool-btn" data-tool="resize">Square by resizing</button>
-                        <button class="tool-btn" data-tool="crop">Square Crop</button>
+                        <button class="tool-btn active" data-tool="blur" data-i18n="tool.square.tools.blur">Square with blur</button>
+                        <button class="tool-btn" data-tool="solid" data-i18n="tool.square.tools.solid">Square with color</button>
+                        <button class="tool-btn" data-tool="resize" data-i18n="tool.square.tools.resize">Square by resizing</button>
+                        <button class="tool-btn" data-tool="crop" data-i18n="tool.square.tools.crop">Square Crop</button>
                     </div>
 
-                    <h3><i class="fas fa-cog"></i> Download Settings</h3>
+                    <h3 data-i18n="tool.square.settings.download_title"><i class="fas fa-cog"></i> Download Settings</h3>
                     
                     <div class="download-settings-row">
                         <div class="setting-group">
                             <select id="outputSize">
-                                <option value="1200" selected>1200px</option>
-                                <option value="original">Original</option>
-                                <option value="custom">Custom</option>
+                                <option value="1200" selected data-i18n="tool.square.settings.size_1200">1200px</option>
+                                <option value="original" data-i18n="tool.square.settings.size_original">Original</option>
+                                <option value="custom" data-i18n="tool.square.settings.size_custom">Custom</option>
                             </select>
                         </div>
 
                         <div class="setting-group">
                             <select id="outputFormat">
-                                <option value="jpg" selected>JPEG</option>
-                                <option value="png">PNG</option>
-                                <option value="webp">WEBP</option>
-                            </select>
+                            <option value="jpg" selected data-i18n="tool.square.settings.format_jpeg">JPEG</option>
+                            <option value="png" data-i18n="tool.square.settings.format_png">PNG</option>
+                            <option value="webp" data-i18n="tool.square.settings.format_webp">WEBP</option>
+                        </select>
                         </div>
                     </div>
 
                     <div class="setting-group" id="customSizeGroup" style="display: none;">
-                        <label class="setting-label">Custom Size (px)</label>
+                        <label class="setting-label" data-i18n="tool.square.settings.size_label">Custom Size (px)</label>
                         <input type="number" id="customSize" min="100" max="10000" value="1200">
                     </div>
 
                     <div class="setting-group">
-                        <label class="setting-label">JPG Quality: <span id="qualityValue">85%</span></label>
+                        <label class="setting-label"><span data-i18n="tool.square.settings.quality_label">JPG Quality</span>: <span id="qualityValue">85%</span></label>
                         <input type="range" id="qualitySlider" min="10" max="100" value="85" class="quality-slider">
                     </div>
                     
-                    <button class="btn btn-primary download-btn" onclick="downloadImage()"><i class="fas fa-download"></i> Download Image</button>
+                    <button class="btn btn-primary download-btn" onclick="downloadImage()" data-i18n="tool.square.settings.download_btn"><i class="fas fa-download"></i> Download Image</button>
                 </aside>
             </div>
 
             <!-- FAQ Section -->
             <section class="faq-section" id="faqSection">
-                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <h2 class="faq-title" data-i18n="tool.square.faq.title">Frequently Asked Questions</h2>
                 <div class="faq-container">
                     <div class="faq-item">
-                        <h3 class="faq-question">What is Square Image?</h3>
-                        <p class="faq-answer">Square Image is a free online tool that converts any photo into a perfect square format. Perfect for social media profile pictures, Instagram posts, thumbnails, and more. Choose from blur backgrounds, solid colors, resize, or crop options.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q1">What is Square Image?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a1">Square Image is a free online tool that converts any photo into a perfect square format. Perfect for social media profile pictures, Instagram posts, thumbnails, and more. Choose from blur backgrounds, solid colors, resize, or crop options.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Can I make my image square without cropping?</h3>
-                        <p class="faq-answer">Yes! Use the "Square with blur" or "Square with color" modes to make your image square without losing any part of the original photo. These modes add a blurred or colored background to fill the square space, keeping your entire image intact and centered.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q2">Can I make my image square without cropping?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a2">Yes! Use the "Square with blur" or "Square with color" modes to make your image square without losing any part of the original photo. These modes add a blurred or colored background to fill the square space, keeping your entire image intact and centered.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">How do I convert rectangle to square?</h3>
-                        <p class="faq-answer">Converting rectangular images to square is easy with four methods: blur background (keeps entire image with artistic blur), color background (adds solid color borders), resize (fits image to square by stretching), or crop (select the portion you want). Choose the method that best fits your needs.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q3">How do I convert rectangle to square?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a3">Converting rectangular images to square is easy with four methods: blur background (keeps entire image with artistic blur), color background (adds solid color borders), resize (fits image to square by stretching), or crop (select the portion you want). Choose the method that best fits your needs.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">How does the blur background work?</h3>
-                        <p class="faq-answer">The blur background tool creates smooth, professional-looking backgrounds by blurring your original image and using it as the background. Your original image stays sharp and clear in the center while the blurred version fills the square canvas. Adjust the blur intensity with the slider to achieve your perfect look.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q4">How does the blur background work?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a4">The blur background tool creates smooth, professional-looking backgrounds by blurring your original image and using it as the background. Your original image stays sharp and clear in the center while the blurred version fills the square canvas. Adjust the blur intensity with the slider to achieve your perfect look.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">How do I make a square image for Instagram?</h3>
-                        <p class="faq-answer">Upload your photo, choose any of the four tools (blur, color, resize, or crop), adjust settings to your preference, and download. The default 1200px size is perfect for Instagram posts and profile pictures. All Instagram-ready formats are supported: JPEG, PNG, and WEBP.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q5">How do I make a square image for Instagram?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a5">Upload your photo, choose any of the four tools (blur, color, resize, or crop), adjust settings to your preference, and download. The default 1200px size is perfect for Instagram posts and profile pictures. All Instagram-ready formats are supported: JPEG, PNG, and WEBP.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">What formats are supported?</h3>
-                        <p class="faq-answer">Upload JPG, PNG, WEBP, and most common image formats. All processing happens in your browser - your images never leave your device. Download your squared image as high-quality JPEG, PNG with full transparency support, or modern WEBP format.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q6">What formats are supported?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a6">Upload JPG, PNG, WEBP, and most common image formats. All processing happens in your browser - your images never leave your device. Download your squared image as high-quality JPEG, PNG with full transparency support, or modern WEBP format.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">What is the best square size for social media?</h3>
-                        <p class="faq-answer">The recommended size is 1200x1200px for most platforms including Instagram, Facebook, LinkedIn, and Twitter. For YouTube thumbnails, 1080x1080px works well. You can also choose "Original" to maintain your photo's quality or set a custom size up to 10000px for professional use.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q7">What is the best square size for social media?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a7">The recommended size is 1200x1200px for most platforms including Instagram, Facebook, LinkedIn, and Twitter. For YouTube thumbnails, 1080x1080px works well. You can also choose "Original" to maintain your photo's quality or set a custom size up to 10000px for professional use.</p>
                     </div>
                     <div class="faq-item">
-                        <h3 class="faq-question">Is this tool free to use?</h3>
-                        <p class="faq-answer">Yes, completely free with no watermarks, signup requirements, or hidden fees. Process unlimited images with full quality downloads. All features including blur backgrounds, color backgrounds, resize, and crop tools are available to everyone at no cost.</p>
+                        <h3 class="faq-question" data-i18n="tool.square.faq.q8">Is this tool free to use?</h3>
+                        <p class="faq-answer" data-i18n="tool.square.faq.a8">Yes, completely free with no watermarks, signup requirements, or hidden fees. Process unlimited images with full quality downloads. All features including blur backgrounds, color backgrounds, resize, and crop tools are available to everyone at no cost.</p>
                     </div>
                 </div>
             </section>
 
             <footer>
-                <p>&copy; 2024 MeCollage. All rights reserved. | <a href="/">Back to Home</a></p>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
             </footer>
         </div>
     </div>
@@ -1031,7 +1034,7 @@
                     const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
                     state.zoom = Math.max(50, Math.min(200, state.zoom + delta));
                     document.getElementById('zoomSlider').value = state.zoom;
-                    document.getElementById('zoomValue').textContent = `${state.zoom}%`;
+                    document.getElementById('zoomValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.zoom }) : `${state.zoom}%`;
                     drawSquareImage();
                 }
             });
@@ -1097,39 +1100,44 @@
         function initPresetColors() {
             // Simplified color palette matching competitor
             const presetColors = [
-                '#9e9e9e', // Gray
-                '#ffffff', // White
-                '#000000', // Black
-                '#f44336', // Red
-                '#4caf50', // Green
-                '#2196f3', // Blue
-                'gradient' // Custom color picker trigger
+                { color: '#9e9e9e', key: 'tool.square.colors.gray' },
+                { color: '#ffffff', key: 'tool.square.colors.white' },
+                { color: '#000000', key: 'tool.square.colors.black' },
+                { color: '#f44336', key: 'tool.square.colors.red' },
+                { color: '#4caf50', key: 'tool.square.colors.green' },
+                { color: '#2196f3', key: 'tool.square.colors.blue' },
+                { color: 'gradient', key: 'tool.square.colors.custom' }
             ];
             const colorsContainer = document.getElementById('presetColors');
             
             colorsContainer.innerHTML = '';
             
-            presetColors.forEach(color => {
+            presetColors.forEach(item => {
                 const colorBtn = document.createElement('div');
                 colorBtn.className = 'preset-color';
                 
-                if (color === 'gradient') {
+                // Add i18n support
+                colorBtn.setAttribute('data-i18n-title', item.key);
+                if (window.i18n) {
+                    colorBtn.title = window.i18n.t(item.key);
+                }
+                
+                if (item.color === 'gradient') {
                     // Create gradient button for custom color picker
                     colorBtn.style.background = 'linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)';
-                    colorBtn.title = 'Custom Color';
                     colorBtn.addEventListener('click', () => {
                         // Trigger color picker dialog
                         document.getElementById('backgroundColor').click();
                     });
                 } else {
                     // Regular color button
-                    colorBtn.style.backgroundColor = color;
-                    colorBtn.dataset.color = color;
+                    colorBtn.style.backgroundColor = item.color;
+                    colorBtn.dataset.color = item.color;
                     
                     colorBtn.addEventListener('click', () => {
-                        state.options.backgroundColor = color;
-                        document.getElementById('backgroundColor').value = color;
-                        document.getElementById('colorPreview').textContent = color;
+                        state.options.backgroundColor = item.color;
+                        document.getElementById('backgroundColor').value = item.color;
+                        document.getElementById('colorPreview').textContent = item.color;
                         drawSquareImage();
                         
                         // Update selected state
@@ -1190,7 +1198,7 @@
                 case 'crop':
                     document.getElementById('cropControls').style.display = 'block';
                     document.getElementById('zoomSlider').value = state.zoom;
-                    document.getElementById('zoomValue').textContent = `${state.zoom}%`;
+                    document.getElementById('zoomValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.zoom }) : `${state.zoom}%`;
                     break;
             }
         }
@@ -1425,7 +1433,7 @@
 
         // Quality slider event
         document.getElementById('qualitySlider').addEventListener('input', (e) => {
-            document.getElementById('qualityValue').textContent = `${e.target.value}%`;
+            document.getElementById('qualityValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: e.target.value }) : `${e.target.value}%`;
         });
 
         // Download image
@@ -1472,7 +1480,7 @@
             }
 
             // Download
-            let fileName = `square-image.${format}`;
+            let fileName = `${window.i18n ? window.i18n.t('tool.square.default_filename') : 'square-image'}.${format}`;
             if (format === 'png') {
                 tempCanvas.toBlob((blob) => {
                     if (blob) {
@@ -1641,5 +1649,8 @@
             document.getElementById('settingsSection').style.display = 'none';
         });
     </script>
+    <!-- 多语言支持 -->
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <script src="/assets/js/i18n.js"></script>
 </body>
 </html>

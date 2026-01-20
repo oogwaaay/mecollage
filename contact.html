@@ -518,6 +518,8 @@
                     <div class="lang-menu" role="menu">
                         <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
                         <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
                         <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
@@ -527,8 +529,8 @@
 
         <div class="collage-tool-container">
             <header class="page-header">
-                <h1 class="page-title">Contact & Support</h1>
-                <p class="page-subtitle">Find help and connect with our community</p>
+                <h1 class="page-title" data-i18n="contact.title">Contact & Support</h1>
+                <p class="page-subtitle" data-i18n="contact.subtitle">Find help and connect with our community</p>
             </header>
 
             <nav class="tool-nav">
@@ -543,8 +545,8 @@
 
             <!-- Community Support Section -->
             <section class="contact-section community-support">
-                <h2 class="section-title">Get Support & Connect</h2>
-                <p>MeCollage is a free, community-supported project. While we don't offer direct email support, you can connect with us through our community channels.</p>
+                <h2 class="section-title" data-i18n="contact.support_title">Get Support & Connect</h2>
+                <p data-i18n="contact.support_desc">MeCollage is a free, community-supported project. While we don't offer direct email support, you can connect with us through our community channels.</p>
                 <div class="support-options">
                     <div class="contact-method">
                         <a href="https://github.com/oogwaaay/mecollage/issues" 
@@ -553,8 +555,8 @@
                            class="contact-link">
                             <i class="fab fa-github"></i>
                             <div>
-                                <h3>GitHub Issues</h3>
-                                <p>Report bugs & request features on our GitHub repository</p>
+                                <h3 data-i18n="contact.github_title">GitHub Issues</h3>
+                                <p data-i18n="contact.github_desc">Report bugs & request features on our GitHub repository</p>
                             </div>
                         </a>
                     </div>
@@ -563,13 +565,13 @@
 
             <!-- Quick Help Section -->
             <section class="contact-section">
-                <h2 class="section-title">Quick Help</h2>
+                <h2 class="section-title" data-i18n="contact.quick_help_title">Quick Help</h2>
                 <div class="quick-help">
-                    <p>Need immediate assistance? Check out these resources:</p>
+                    <p data-i18n="contact.quick_help_desc">Need immediate assistance? Check out these resources:</p>
                     <div class="quick-help-links">
-                        <a href="/blog/" class="quick-help-link">View Our Blog</a>
-                        <a href="#faq" class="quick-help-link">Read FAQ</a>
-                        <a href="https://github.com/oogwaaay/mecollage/issues" target="_blank" rel="noopener noreferrer" class="quick-help-link">Report a Bug</a>
+                        <a href="/blog/" class="quick-help-link" data-i18n="contact.link_blog">View Our Blog</a>
+                        <a href="#faq" class="quick-help-link" data-i18n="contact.link_faq">Read FAQ</a>
+                        <a href="https://github.com/oogwaaay/mecollage/issues" target="_blank" rel="noopener noreferrer" class="quick-help-link" data-i18n="contact.link_bug">Report a Bug</a>
                     </div>
                 </div>
             </section>
@@ -577,96 +579,96 @@
             <!-- FAQ Section -->
             <section class="faq-section" id="faq">
                 <div class="faq-container">
-                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <h2 class="section-title" data-i18n="faq.title">Frequently Asked Questions</h2>
                     <div class="faq-items">
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">Is MeCollage really free to use?</span>
+                                <span class="faq-question-text" data-i18n="faq.q7">Is MeCollage really free to use?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>Yes, MeCollage is completely free. No hidden fees, no watermarks, no signup required.</p>
+                                <p data-i18n="faq.a7">Yes, MeCollage is completely free. No hidden fees, no watermarks, no signup required.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">How many photos can I use in a collage?</span>
+                                <span class="faq-question-text" data-i18n="faq.q3">How many photos can I use in a collage?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>You can use up to 20 photos per collage.</p>
+                                <p data-i18n="faq.a3">You can use up to 20 photos per collage.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">Do you store my photos?</span>
+                                <span class="faq-question-text" data-i18n="faq.q8">Do you store my photos?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>No. All photo processing happens locally in your browser. Your photos never leave your device.</p>
+                                <p data-i18n="faq.a8">No. All photo processing happens locally in your browser. Your photos never leave your device.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">What image formats are supported?</span>
+                                <span class="faq-question-text" data-i18n="faq.q9">What image formats are supported?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>We support PNG, JPG, and HEIC formats.</p>
+                                <p data-i18n="faq.a9">We support PNG, JPG, and HEIC formats.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">Can I use MeCollage on mobile devices?</span>
+                                <span class="faq-question-text" data-i18n="faq.q10">Can I use MeCollage on mobile devices?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>Yes, MeCollage works on any device with a web browser, including smartphones and tablets.</p>
+                                <p data-i18n="faq.a10">Yes, MeCollage works on any device with a web browser, including smartphones and tablets.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">Why isn't my collage exporting?</span>
+                                <span class="faq-question-text" data-i18n="faq.q11">Why isn't my collage exporting?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>Make sure you have uploaded at least 2 photos. Try using a different browser or clearing your browser cache.</p>
+                                <p data-i18n="faq.a11">Make sure you have uploaded at least 2 photos. Try using a different browser or clearing your browser cache.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">Can I use collages created with MeCollage commercially?</span>
+                                <span class="faq-question-text" data-i18n="faq.q12">Can I use collages created with MeCollage commercially?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>Yes! You own the collages you create. Use them however you like.</p>
+                                <p data-i18n="faq.a12">Yes! You own the collages you create. Use them however you like.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">Will MeCollage add watermarks to my images?</span>
+                                <span class="faq-question-text" data-i18n="faq.q13">Will MeCollage add watermarks to my images?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>No. MeCollage never adds watermarks to your collages.</p>
+                                <p data-i18n="faq.a13">No. MeCollage never adds watermarks to your collages.</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">How do I change the aspect ratio?</span>
+                                <span class="faq-question-text" data-i18n="faq.q14">How do I change the aspect ratio?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>Use the "Aspect Ratio" buttons in the sidebar (1:1, 4:5, 9:16, 3:4, 16:9).</p>
+                                <p data-i18n="faq.a14">Use the "Aspect Ratio" buttons in the sidebar (1:1, 4:5, 9:16, 3:4, 16:9).</p>
                             </div>
                         </div>
                         <div class="faq-item">
                             <button class="faq-question" aria-expanded="false">
-                                <span class="faq-question-text">Is my data safe?</span>
+                                <span class="faq-question-text" data-i18n="faq.q15">Is my data safe?</span>
                                 <i class="fas fa-chevron-down faq-icon"></i>
                             </button>
                             <div class="faq-answer" hidden>
-                                <p>Absolutely. All processing happens locally in your browser. We don't collect or store your personal data.</p>
+                                <p data-i18n="faq.a15">Absolutely. All processing happens locally in your browser. We don't collect or store your personal data.</p>
                             </div>
                         </div>
                     </div>
@@ -675,15 +677,15 @@
 
             <!-- About This Project Section -->
             <section class="contact-section">
-                <h2 class="section-title">About MeCollage</h2>
+                <h2 class="section-title" data-i18n="contact.about_title">About MeCollage</h2>
                 <div class="about-section">
-                    <p>MeCollage is an open-source, client-side photo collage tool. We believe in privacy, simplicity, and free access to creative tools.</p>
-                    <p style="margin-top: 1rem;">Our mission is to provide an easy-to-use, powerful collage maker that respects your privacy and gives you full control over your creations.</p>
+                    <p data-i18n="contact.about_p1">MeCollage is an open-source, client-side photo collage tool. We believe in privacy, simplicity, and free access to creative tools.</p>
+                    <p style="margin-top: 1rem;" data-i18n="contact.about_p2">Our mission is to provide an easy-to-use, powerful collage maker that respects your privacy and gives you full control over your creations.</p>
                 </div>
             </section>
 
             <footer>
-                <p><span data-i18n="footer.copyright">&copy; 2025 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a></p>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a></p>
             </footer>
         </div>
     </div>

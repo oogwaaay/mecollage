@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blurred Frame - Add Beautiful Blurred Borders to Images Online</title>
-    <meta name="description" content="Add beautiful blurred borders around your images. Perfect for Instagram, stories, and social media posts. Adjust frame width and blur intensity with simple sliders.">
-    <meta name="keywords" content="blurred frame, image border blur, blurred border, photo frame blur, social media frame, Instagram frame, blurred background frame">
+    <title data-i18n="tool.blurred_frame.title">Blurred Frame - Add Beautiful Blurred Borders to Images Online</title>
+    <meta name="description" data-i18n-content="tool.blurred_frame.meta.description" content="Add beautiful blurred borders around your images. Perfect for Instagram, stories, and social media posts. Adjust frame width and blur intensity with simple sliders.">
+    <meta name="keywords" data-i18n-content="tool.blurred_frame.meta.keywords" content="blurred frame, image border blur, blurred border, photo frame blur, social media frame, Instagram frame, blurred background frame">
     <link rel="canonical" href="https://www.mecollage.top/public/tools/blurredframe/">
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -631,8 +631,8 @@
         <nav class="ghibli-nav">
             <div class="nav-left">
                 <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
-                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
-                <a href="/about" class="nav-link" data-page="about">About</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
                 <a href="/public/tools/square/" class="nav-link" data-page="square" data-i18n="nav.square" rel="noopener noreferrer">Square Image</a>
             </div>
             <div class="nav-right">
@@ -640,18 +640,21 @@
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="nav-link github-link" 
-                   title="View on GitHub">
-                    <i class="fab fa-github"></i> GitHub
+                   title="View on GitHub"
+                   data-i18n-title="nav.github_view">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
                 </a>
-                <div class="lang-selector" title="Switch Language">
+                <div class="lang-selector" title="Switch Language" data-i18n-title="nav.switch_language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
                         <span data-i18n="lang.name">English</span>
                     </button>
                     <div class="lang-menu" role="menu">
-                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.options.en">English</button>
-                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.options.zh">简体中文</button>
-                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.options.es">Español</button>
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.english">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.chinese">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem" data-i18n="lang.traditional_chinese">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem" data-i18n="lang.japanese">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.spanish">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
                 </div>
@@ -660,17 +663,17 @@
 
         <div class="blurred-tool-container">
             <header class="page-header">
-                <h1 class="page-title">Blurred Frame</h1>
-                <p class="page-subtitle">Transform images with stunning blurred frames. Perfect for Instagram, stories, and social media posts.</p>
+                <h1 class="page-title" data-i18n="tool.blurred_frame.title">Blurred Frame</h1>
+                <p class="page-subtitle" data-i18n="tool.blurred_frame.desc">Transform images with stunning blurred frames. Perfect for Instagram, stories, and social media posts.</p>
             </header>
 
             <nav class="tool-nav">
                 <div class="tool-nav-container">
-                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Home</a>
-                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
-                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
-                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
-                    <a href="/public/tools/blurredframe/" class="tool-nav-link active"><i class="fas fa-image"></i> Blurred Frame</a>
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> <span data-i18n="nav.home">Home</span></a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span data-i18n="tool.common.nav_square_crop">Square Crop</span></a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span data-i18n="tool.common.nav_rounded_corners">Rounded Corners</span></a>
+                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span data-i18n="tool.common.nav_square_image">Square Image</span></a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link active"><i class="fas fa-image"></i> <span data-i18n="tool.common.nav_blurred_frame">Blurred Frame</span></a>
                 </div>
             </nav>
 
@@ -678,8 +681,8 @@
                 <section class="preview-section">
                     <div id="uploadContainer">
                         <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-                            <button class="btn btn-primary" style="margin: 15px auto; display: block;">Choose an image</button>
-                            <div class="upload-hint">or drop images here or paste</div>
+                            <button class="btn btn-primary" style="margin: 15px auto; display: block;" data-i18n="tool.blurred_frame.choose_image">Choose an image</button>
+                            <div class="upload-hint" data-i18n="tool.blurred_frame.drop_hint">or drop images here or paste</div>
                         </div>
                         <input type="file" id="fileInput" accept="image/*">
                     </div>
@@ -691,12 +694,12 @@
 
                         <div class="controls">
                             <div class="action-buttons">
-                                <button class="btn btn-primary" onclick="downloadImage()"><i class="fas fa-download"></i> Download</button>
-                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> Reset</button>
-                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> Change Image</button>
+                                <button class="btn btn-primary" onclick="downloadImage()"><i class="fas fa-download"></i> <span data-i18n="tool.blurred_frame.download">Download</span></button>
+                                <button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> <span data-i18n="tool.blurred_frame.reset">Reset</span></button>
+                                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> <span data-i18n="tool.blurred_frame.change_image">Change Image</span></button>
                             </div>
 
-                            <div class="quick-tip">
+                            <div class="quick-tip" data-i18n="tool.blurred_frame.tip">
                                 💡 Quick Tip: You can drag the image within the frame to adjust its position.
                             </div>
                         </div>
@@ -704,71 +707,71 @@
                 </section>
 
                 <aside class="settings-section" id="settingsSection" style="display: none;">
-                    <h3><i class="fas fa-cog"></i> Frame Settings</h3>
+                    <h3><i class="fas fa-cog"></i> <span data-i18n="tool.blurred_frame.settings">Frame Settings</span></h3>
                     
                     <div class="setting-group">
-                        <label class="setting-label">Aspect Ratio</label>
+                        <label class="setting-label" data-i18n="sidebar.aspect_ratio">Aspect Ratio</label>
                         <select id="aspectRatio">
-                            <option value="original" selected>Original</option>
-                            <option value="1:1">1:1 (Square)</option>
-                            <option value="4:3">4:3</option>
-                            <option value="3:4">3:4</option>
-                            <option value="16:9">16:9</option>
-                            <option value="9:16">9:16</option>
-                            <option value="custom">Custom</option>
-                        </select>
+                        <option value="original" selected data-i18n="tool.blurred_frame.settings.aspect_ratio_original">Original</option>
+                        <option value="1:1" data-i18n="tool.blurred_frame.settings.aspect_ratio_1_1">1:1 (Square)</option>
+                        <option value="4:3" data-i18n="tool.blurred_frame.settings.aspect_ratio_4_3">4:3</option>
+                        <option value="3:4" data-i18n="tool.blurred_frame.settings.aspect_ratio_3_4">3:4</option>
+                        <option value="16:9" data-i18n="tool.blurred_frame.settings.aspect_ratio_16_9">16:9</option>
+                        <option value="9:16" data-i18n="tool.blurred_frame.settings.aspect_ratio_9_16">9:16</option>
+                        <option value="custom" data-i18n="tool.blurred_frame.settings.size_custom">Custom</option>
+                    </select>
                     </div>
                     
                     <div class="setting-group" id="customAspectRatioGroup" style="display: none;">
-                        <label class="setting-label">Custom Aspect Ratio</label>
+                        <label class="setting-label" data-i18n="tool.blurred_frame.custom_aspect_ratio">Custom Aspect Ratio</label>
                         <div style="display: flex; align-items: center; gap: 10px;">
-                            <input type="number" id="aspectRatioWidth" placeholder="Width" min="1" max="100" value="16" style="width: 60px;">
+                            <input type="number" id="aspectRatioWidth" placeholder="Width" data-i18n-placeholder="tool.blurred_frame.settings.placeholder_width" min="1" max="100" value="16" style="width: 60px;">
                             <span style="color: rgba(255, 255, 255, 0.7);">:</span>
-                            <input type="number" id="aspectRatioHeight" placeholder="Height" min="1" max="100" value="9" style="width: 60px;">
+                            <input type="number" id="aspectRatioHeight" placeholder="Height" data-i18n-placeholder="tool.blurred_frame.settings.placeholder_height" min="1" max="100" value="9" style="width: 60px;">
                         </div>
                     </div>
 
                     <div class="setting-group">
-                        <label class="setting-label">Main Image Scale <span id="mainScaleValue">100%</span></label>
+                        <label class="setting-label"><span data-i18n="tool.blurred_frame.main_scale">Main Image Scale</span> <span id="mainScaleValue">100%</span></label>
                         <input type="range" id="mainScaleSlider" min="50" max="200" value="100" class="quality-slider">
                     </div>
 
                     <div class="setting-group">
-                        <label class="setting-label">Background Scale <span id="bgScaleValue">150%</span></label>
+                        <label class="setting-label"><span data-i18n="tool.blurred_frame.bg_scale">Background Scale</span> <span id="bgScaleValue">150%</span></label>
                         <input type="range" id="bgScaleSlider" min="100" max="300" value="150" class="quality-slider">
                     </div>
 
                     <div class="setting-group">
-                        <label class="setting-label">Blur Intensity <span id="blurIntensityValue">30</span></label>
+                        <label class="setting-label"><span data-i18n="tool.blurred_frame.blur_intensity">Blur Intensity</span> <span id="blurIntensityValue">30</span></label>
                         <input type="range" id="blurIntensitySlider" min="0" max="200" value="30" class="quality-slider">
                     </div>
 
                     <div class="setting-group">
-                        <label class="setting-label">Download</label>
+                        <label class="setting-label" data-i18n="tool.blurred_frame.download_settings">Download</label>
                         <select id="outputSize">
-                            <option value="1200" selected>1200px</option>
-                            <option value="original">Original</option>
-                            <option value="custom">Custom</option>
+                            <option value="1200" selected data-i18n="tool.blurred_frame.settings.size_1200">1200px</option>
+                            <option value="original" data-i18n="tool.blurred_frame.settings.size_original">Original</option>
+                            <option value="custom" data-i18n="tool.blurred_frame.settings.size_custom">Custom</option>
                         </select>
                     </div>
                     
                     <div class="setting-group" id="customSizeGroup" style="display: none;">
-                        <label class="setting-label">Custom Size (px)</label>
-                        <input type="number" id="customSizeInput" placeholder="Enter custom size" min="100" max="4000" value="1200">
+                        <label class="setting-label" data-i18n="tool.square.settings.size_label">Custom Size (px)</label>
+                        <input type="number" id="customSizeInput" placeholder="Enter custom size" data-i18n-placeholder="tool.blurred_frame.settings.placeholder_custom_size" min="100" max="4000" value="1200">
                     </div>
 
                     <div class="setting-group">
                         <div style="display: flex; gap: 10px;">
                             <select id="outputFormat" style="flex: 1;">
-                                <option value="jpg" selected>JPEG</option>
-                                <option value="png">PNG</option>
-                                <option value="webp">WEBP</option>
+                                <option value="jpg" selected data-i18n="tool.blurred_frame.settings.format_jpeg">JPEG</option>
+                                <option value="png" data-i18n="tool.blurred_frame.settings.format_png">PNG</option>
+                                <option value="webp" data-i18n="tool.blurred_frame.settings.format_webp">WEBP</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="setting-group">
-                        <button class="btn btn-primary" onclick="downloadImage()" style="width: 100%; margin-top: 20px;"><i class="fas fa-download"></i> Download Image</button>
+                        <button class="btn btn-primary" onclick="downloadImage()" style="width: 100%; margin-top: 20px;"><i class="fas fa-download"></i> <span data-i18n="tool.blurred_frame.settings.download_btn">Download Image</span></button>
                     </div>
                 </aside>
             </div>
@@ -776,60 +779,60 @@
         <!-- FAQ Section -->
         <section class="faq-section">
             <div class="faq-container">
-                <h2 class="faq-title">Frequently Asked Questions</h2>
+                <h2 class="faq-title" data-i18n="tool.blurred_frame.faq.title">Frequently Asked Questions</h2>
                 <div class="faq-items">
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">What is Blurred Frame?</span>
+                            <span class="faq-question-text" data-i18n="tool.blurred_frame.faq.q1">What is Blurred Frame?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>Blurred Frame is a free online tool that adds beautiful blurred borders around your images. Create stunning visual effects perfect for social media posts, Instagram stories, and professional photography presentations.</p>
+                            <p data-i18n="tool.blurred_frame.faq.a1">Blurred Frame is a free online tool that adds beautiful blurred borders around your images. Create stunning visual effects perfect for social media posts, Instagram stories, and professional photography presentations.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">How does it work?</span>
+                            <span class="faq-question-text" data-i18n="tool.blurred_frame.faq.q2">How does it work?</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>Upload your image and adjust the frame width and blur intensity with simple sliders. The tool automatically creates a blurred extension of your image around the edges, maintaining the original aspect ratio while adding an artistic border effect.</p>
+                            <p data-i18n="tool.blurred_frame.faq.a2">Upload your image and adjust the frame width and blur intensity with simple sliders. The tool automatically creates a blurred extension of your image around the edges, maintaining the original aspect ratio while adding an artistic border effect.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">Perfect for social media</span>
+                            <span class="faq-question-text" data-i18n="tool.blurred_frame.faq.q3">Perfect for social media</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>Ideal for Instagram posts, Facebook images, and any platform where you want to preserve your image's full content without cropping. The blurred frame fills the space beautifully while keeping focus on your main subject.</p>
+                            <p data-i18n="tool.blurred_frame.faq.a3">Ideal for Instagram posts, Facebook images, and any platform where you want to preserve your image's full content without cropping. The blurred frame fills the space beautifully while keeping focus on your main subject.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">Customizable settings</span>
+                            <span class="faq-question-text" data-i18n="tool.blurred_frame.faq.q4">Customizable settings</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>Control both the frame width (5-40% of image) and blur amount (1-100) to achieve your desired look. From subtle soft borders to dramatic blurred edges, create the perfect frame for any image style.</p>
+                            <p data-i18n="tool.blurred_frame.faq.a4">Control both the frame width (5-40% of image) and blur amount (1-100) to achieve your desired look. From subtle soft borders to dramatic blurred edges, create the perfect frame for any image style.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">High-quality output</span>
+                            <span class="faq-question-text" data-i18n="tool.blurred_frame.faq.q5">High-quality output</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>Download your framed images in JPEG, PNG, or WEBP format with customizable sizes up to original resolution. All processing happens in your browser - your images never leave your device.</p>
+                            <p data-i18n="tool.blurred_frame.faq.a5">Download your framed images in JPEG, PNG, or WEBP format with customizable sizes up to original resolution. All processing happens in your browser - your images never leave your device.</p>
                         </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question" aria-expanded="false">
-                            <span class="faq-question-text">Free and unlimited</span>
+                            <span class="faq-question-text" data-i18n="tool.blurred_frame.faq.q6">Free and unlimited</span>
                             <i class="fas fa-chevron-down faq-icon"></i>
                         </button>
                         <div class="faq-answer" hidden>
-                            <p>Completely free with no watermarks, signup requirements, or hidden fees. Process unlimited images with full quality and all customization options available at no cost.</p>
+                            <p data-i18n="tool.blurred_frame.faq.a6">Completely free with no watermarks, signup requirements, or hidden fees. Process unlimited images with full quality and all customization options available at no cost.</p>
                         </div>
                     </div>
                 </div>
@@ -837,7 +840,7 @@
         </section>
 
         <footer>
-            <p>&copy; 2025 MeCollage. All rights reserved. | <a href="/">Back to Home</a></p>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
         </footer>
     </div>
 </div>
@@ -1018,11 +1021,11 @@
         // Update settings sliders
         function updateSettingsSliders() {
             document.getElementById('mainScaleSlider').value = state.mainScale;
-            document.getElementById('mainScaleValue').textContent = `${state.mainScale}%`;
+            document.getElementById('mainScaleValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.mainScale }) : `${state.mainScale}%`;
             document.getElementById('bgScaleSlider').value = state.bgScale;
-            document.getElementById('bgScaleValue').textContent = `${state.bgScale}%`;
+            document.getElementById('bgScaleValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.bgScale }) : `${state.bgScale}%`;
             document.getElementById('blurIntensitySlider').value = state.blurIntensity;
-            document.getElementById('blurIntensityValue').textContent = `${state.blurIntensity}`;
+            document.getElementById('blurIntensityValue').textContent = window.i18n ? window.i18n.t('tool.common.value_pixels', { value: state.blurIntensity }) : `${state.blurIntensity}px`;
         }
 
         // Draw blurred frame image on canvas
@@ -1140,21 +1143,21 @@
         // Main scale slider event
         document.getElementById('mainScaleSlider').addEventListener('input', (e) => {
             state.mainScale = parseInt(e.target.value);
-            document.getElementById('mainScaleValue').textContent = `${state.mainScale}%`;
+            document.getElementById('mainScaleValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.mainScale }) : `${state.mainScale}%`;
             drawBlurredFrame();
         });
 
         // Background scale slider event
         document.getElementById('bgScaleSlider').addEventListener('input', (e) => {
             state.bgScale = parseInt(e.target.value);
-            document.getElementById('bgScaleValue').textContent = `${state.bgScale}%`;
+            document.getElementById('bgScaleValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.bgScale }) : `${state.bgScale}%`;
             drawBlurredFrame();
         });
 
         // Blur intensity slider event
         document.getElementById('blurIntensitySlider').addEventListener('input', (e) => {
             state.blurIntensity = parseInt(e.target.value);
-            document.getElementById('blurIntensityValue').textContent = `${state.blurIntensity}`;
+            document.getElementById('blurIntensityValue').textContent = window.i18n ? window.i18n.t('tool.common.value_pixels', { value: state.blurIntensity }) : `${state.blurIntensity}px`;
             drawBlurredFrame();
         });
 
@@ -1343,7 +1346,7 @@
             tempCtx.drawImage(state.image, mainX, mainY, mainWidth, mainHeight);
 
             // Download
-            let fileName = `blurred-frame.${format}`;
+            let fileName = `${window.i18n ? window.i18n.t('tool.blurred_frame.default_filename') : 'blurred-frame'}.${format}`;
             
             // Determine MIME type based on format
             let mimeType;
@@ -1402,5 +1405,8 @@
             initCanvas();
         });
     </script>
+    <!-- 多语言支持 -->
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <script src="/assets/js/i18n.js"></script>
 </body>
 </html>
