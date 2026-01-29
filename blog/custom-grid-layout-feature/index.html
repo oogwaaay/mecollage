@@ -7,20 +7,20 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." data-i18n-content="blog.how_to.excerpt" />
-    <meta name="keywords" content="how to make photo collages, photo collage maker, online collage tool, free collage maker, MeCollage tutorial, step-by-step collage guide" data-i18n-content="meta.keywords" />
+    <meta name="description" data-i18n-content="blog.custom_grid.excerpt" content="Discover the power of custom grid layouts in MeCollage. Learn how to manually set rows and columns to create unique photo arrangements that perfectly fit your creative vision." />
+    <meta name="keywords" content="custom grid layout, photo collage grid, collage maker custom layout, MeCollage tutorial, grid layout guide" />
     <meta name="author" content="MeCollage" />
-    <meta property="og:title" content="How to Make Photo Collages: Complete Step-by-Step Guide" data-i18n-content="blog.how_to.title" />
-    <meta property="og:description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." data-i18n-content="blog.how_to.excerpt" />
+    <meta property="og:title" data-i18n-content="blog.custom_grid.title" content="Custom Grid Layout: Personalize Your Collage Arrangements" />
+    <meta property="og:description" data-i18n-content="blog.custom_grid.excerpt" content="Discover the power of custom grid layouts in MeCollage. Learn how to manually set rows and columns to create unique photo arrangements." />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://www.mecollage.top/blog/how-to-make-photo-collage/" />
+    <meta property="og:url" content="https://www.mecollage.top/blog/custom-grid-layout-feature/" />
     <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
     <meta property="og:locale" content="en_US" />
-    <meta property="article:published_time" content="2025-01-13" />
+    <meta property="article:published_time" content="2026-01-28" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to Make Photo Collages: Complete Step-by-Step Guide" data-i18n-content="blog.how_to.title" />
-    <meta name="twitter:description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." data-i18n-content="blog.how_to.excerpt" />
-    <link rel="canonical" href="https://www.mecollage.top/blog/how-to-make-photo-collage/" />
+    <meta name="twitter:title" data-i18n-content="blog.custom_grid.title" content="Custom Grid Layout: Personalize Your Collage Arrangements" />
+    <meta name="twitter:description" data-i18n-content="blog.custom_grid.excerpt" content="Discover the power of custom grid layouts in MeCollage." />
+    <link rel="canonical" href="https://www.mecollage.top/blog/custom-grid-layout-feature/" />
     
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -34,6 +34,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
     <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
@@ -129,25 +166,6 @@
             line-height: 1.8;
         }
 
-        /* 引用样式 */
-        .blog-post-content blockquote {
-            margin: 1.5rem 0;
-            padding: 1rem 1.5rem;
-            background: rgba(143, 214, 143, 0.1);
-            border-left: 4px solid #8fd68f;
-            border-radius: 8px;
-            font-style: italic;
-        }
-
-        /* 代码块样式 */
-        .blog-post-content code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-        }
-
         /* 返回博客首页链接 */
         .back-to-blog {
             display: inline-block;
@@ -168,55 +186,6 @@
             box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
         }
 
-        /* 相关文章推荐 */
-        .related-posts {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .related-posts-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #8fd68f;
-        }
-
-        .related-posts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .related-post-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .related-post-card:hover {
-            background: rgba(143, 214, 143, 0.1);
-            border-color: rgba(143, 214, 143, 0.3);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .related-post-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .related-post-excerpt {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-
         /* 响应式设计 */
         @media (max-width: 768px) {
             .blog-post-container {
@@ -234,10 +203,6 @@
 
             .blog-post-content h3 {
                 font-size: 1.2rem;
-            }
-
-            .related-posts-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -311,56 +276,33 @@
         <!-- 博客文章内容 -->
         <main class="collage-tool-container">
             <article class="blog-post-container">
-                <h1 class="blog-post-title" data-i18n="blog.how_to.title">How to Make Photo Collages: Complete Step-by-Step Guide</h1>
+                <h1 class="blog-post-title" data-i18n="blog.custom_grid.title">Custom Grid Layout: Personalize Your Collage Arrangements</h1>
                 <div class="blog-post-meta">
-                    <span class="blog-post-date">Published: January 13, 2025</span>
-                    <span class="blog-post-author">by MeCollage Team</span>
+                    <span class="blog-post-date" data-i18n="blog.custom_grid.date">2026-01-28</span>
                 </div>
 
                 <div class="blog-post-content">
-                    <p data-i18n="blog.how_to.intro">Photo collages are a fantastic way to tell stories, showcase memories, and create visually stunning compositions from multiple images.</p>
+                    <p data-i18n="blog.custom_grid.intro">We're excited to announce the new Custom Grid Layout feature in MeCollage! While our auto-layout is great for quick creations, sometimes you need more control. Now, you can specify exactly how many rows and columns your collage should have.</p>
 
-                    <h2 data-i18n="blog.how_to.h2_what_is">What is MeCollage?</h2>
-                    <p data-i18n="blog.how_to.p_what_is">MeCollage is a free online photo collage maker that allows you to create beautiful collages with ease.</p>
-                    
-                    <h2 data-i18n="blog.how_to.h2_guide">Step-by-Step Guide to Making a Photo Collage</h2>
-                    
-                    <h3 data-i18n="blog.how_to.step1">1. Upload Your Photos</h3>
-                    <h3 data-i18n="blog.how_to.step2">2. Choose an Aspect Ratio</h3>
-                    <h3 data-i18n="blog.how_to.step3">3. Adjust the Gutter (Spacing Between Images)</h3>
-                    <h3 data-i18n="blog.how_to.step4">4. Add Rounded Corners</h3>
-                    <h3 data-i18n="blog.how_to.step5">5. Apply Filters</h3>
-                    <h3 data-i18n="blog.how_to.step6">6. Add Text and Stickers</h3>
-                    <h3 data-i18n="blog.how_to.step7">7. Export Your Collage</h3>
-
-                    <h2 data-i18n="blog.how_to.h2_tips">Tips for Creating Stunning Collages</h2>
+                    <h2 data-i18n="blog.custom_grid.how_to_title">How to Use Custom Grid Layout</h2>
                     <ul>
-                        <li data-i18n="blog.how_to.li_theme">Choose a Theme: Select photos that share a common theme, color scheme, or story.</li>
-                        <li data-i18n="blog.how_to.li_simple">Keep it Simple: Don't overcrowd your collage with too many elements. Sometimes less is more.</li>
+                        <li data-i18n="blog.custom_grid.step1">1. Upload your photos (up to 20).</li>
+                        <li data-i18n="blog.custom_grid.step2">2. In the Sidebar, look for the 'Grid Layout' section.</li>
+                        <li data-i18n="blog.custom_grid.step3">3. Toggle from 'Auto' to 'Custom'.</li>
+                        <li data-i18n="blog.custom_grid.step4">4. Enter your desired Rows and Columns (e.g., 2x3, 4x5).</li>
+                        <li data-i18n="blog.custom_grid.step5">5. Click 'Apply' to see your new layout instantly!</li>
+                    </ul>
+
+                    <h2 data-i18n="blog.custom_grid.benefits_title">Why Use Custom Grids?</h2>
+                    <ul>
+                        <li data-i18n="blog.custom_grid.benefit1">Precise Control: Match your layout to the exact number of photos you have.</li>
+                        <li data-i18n="blog.custom_grid.benefit2">Creative Freedom: Experiment with unconventional grids like 1x5 or 5x1.</li>
+                        <li data-i18n="blog.custom_grid.benefit3">Professional Look: Ensure all photos are the same size and perfectly aligned.</li>
                     </ul>
 
                     <a href="/blog/" class="back-to-blog" data-i18n="blog.common.back_to_blog">
                         <i class="fas fa-arrow-left"></i> Back to Blog Home
                     </a>
-
-                    <!-- Related Posts -->
-                    <div class="related-posts">
-                        <h3 class="related-posts-title" data-i18n="blog.common.related_posts">Related Posts</h3>
-                        <div class="related-posts-grid">
-                            <a href="/blog/collage-design-tips/" class="related-post-card">
-                                <h4 class="related-post-title" data-i18n="blog.design_tips.title">10 Collage Design Tips for Beginners</h4>
-                                <p class="related-post-excerpt" data-i18n="blog.design_tips.excerpt">Just starting out with collage making? These 10 essential design tips will help you create professional-looking collages from day one.</p>
-                            </a>
-                            <a href="/blog/holiday-collage-guide/" class="related-post-card">
-                                <h4 class="related-post-title" data-i18n="blog.holiday.title">Creating Holiday Collages: Step-by-Step Tutorial</h4>
-                                <p class="related-post-excerpt" data-i18n="blog.holiday.excerpt">Capture the magic of holidays with beautiful collages that tell your story.</p>
-                            </a>
-                            <a href="/blog/social-media-collage-guide/" class="related-post-card">
-                                <h4 class="related-post-title" data-i18n="blog.social_media.title">Social Media Collage Guide: Instagram, Facebook, Twitter</h4>
-                                <p class="related-post-excerpt" data-i18n="blog.social_media.excerpt">Create engaging collages optimized for each social media platform.</p>
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </article>
         </main>

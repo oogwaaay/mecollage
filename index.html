@@ -23,6 +23,7 @@
     <meta name="twitter:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
     <link rel="canonical" href="https://www.mecollage.top/" />
     <title data-i18n="app.title_full">MeCollage - Image Collage Maker</title>
+    <script src="/coi-serviceworker.js"></script>
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -260,6 +261,70 @@
             background: rgba(143, 214, 143, 0.3);
             color: #8fd68f;
             border-color: rgba(143, 214, 143, 0.6);
+        }
+
+        /* 布局模式切换按钮 */
+        .layout-mode-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .layout-mode-btn:hover {
+            background: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .layout-mode-btn.active {
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            border-color: rgba(143, 214, 143, 0.6);
+        }
+
+        /* 自定义网格输入框 */
+        .grid-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .grid-input:focus {
+            outline: none;
+            border-color: rgba(143, 214, 143, 0.6);
+            background: rgba(143, 214, 143, 0.1);
+        }
+
+        .apply-grid-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(143, 214, 143, 0.3);
+            border: 1px solid rgba(143, 214, 143, 0.5);
+            border-radius: 8px;
+            color: #8fd68f;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .apply-grid-btn:hover {
+            background: rgba(143, 214, 143, 0.4);
+            border-color: rgba(143, 214, 143, 0.7);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(143, 214, 143, 0.3);
         }
 
         /* 滑块控件 */
@@ -1023,7 +1088,7 @@
                     <!-- 几何设置 -->
                     <div class="sidebar-section">
                         <h3 class="sidebar-title" data-i18n="sidebar.geometry">Geometry</h3>
-                        
+
                         <!-- 间距滑块 -->
                         <div class="slider-control">
                             <div class="slider-label">
@@ -1040,6 +1105,28 @@
                                 <span class="slider-value" id="radiusValue">0px</span>
                             </div>
                             <input type="range" class="slider" id="radiusSlider" min="0" max="200" value="0">
+                        </div>
+                    </div>
+
+                    <!-- 自定义网格布局 -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title" data-i18n="sidebar.grid_layout">Grid Layout</h3>
+
+                        <!-- 布局模式切换 -->
+                        <div class="layout-mode-toggle" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                            <button class="layout-mode-btn active" data-mode="auto" data-i18n="sidebar.auto_layout">Auto</button>
+                            <button class="layout-mode-btn" data-mode="custom" data-i18n="sidebar.custom_layout">Custom</button>
+                        </div>
+
+                        <!-- 自定义网格输入 -->
+                        <div id="customGridInputs" style="display: none;">
+                            <div class="grid-input-container" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <input type="number" id="gridRowsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: rgba(255, 255, 255, 0.9); font-size: 0.875rem; text-align: center;">
+                                <span style="color: rgba(255, 255, 255, 0.7);">×</span>
+                                <input type="number" id="gridColsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: rgba(255, 255, 255, 0.9); font-size: 0.875rem; text-align: center;">
+                                <button id="applyGridBtn" class="apply-grid-btn" style="flex: 1; padding: 0.5rem; background: rgba(143, 214, 143, 0.3); border: 1px solid rgba(143, 214, 143, 0.5); border-radius: 8px; color: #8fd68f; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" data-i18n="sidebar.apply_grid">Apply</button>
+                            </div>
+                            <p style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); text-align: center; margin-top: 0.5rem;" data-i18n="sidebar.grid_hint">Example: 3 × 3 for 9 photos</p>
                         </div>
                     </div>
                 </div>
@@ -1084,6 +1171,23 @@
                         <button class="sticker-btn" data-sticker="📷">📷</button>
                     </div>
                 </div>
+
+                <!-- AI 功能设置（默认隐藏） -->
+                <div class="sidebar-section" id="aiSection" style="display: none;">
+                    <h3 class="sidebar-title" data-i18n="sidebar.ai_features">AI Enhancements</h3>
+                    <div class="ai-tool-group">
+                        <div class="ai-tool-item" style="margin-bottom: 1.5rem;">
+                            <h4 style="font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;" data-i18n="ai.face_center_title">Smart Face Centering</h4>
+                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;" data-i18n="ai.face_center_desc">Automatically detect and center faces in collage cells.</p>
+                            <button class="apply-grid-btn" id="aiFaceCenterBtn" style="width: 100%;" data-i18n="ai.apply_face_center">Apply to All Photos</button>
+                        </div>
+                        <div class="ai-tool-item">
+                            <h4 style="font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;" data-i18n="ai.bg_removal_title">Local AI Background Removal</h4>
+                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;" data-i18n="ai.bg_removal_desc">Remove background from selected photo locally using AI.</p>
+                            <button class="apply-grid-btn" id="aiBgRemovalBtn" style="width: 100%;" data-i18n="ai.remove_bg">Remove Background</button>
+                        </div>
+                    </div>
+                </div>
             </aside>
 
             <!-- 画布区域 -->
@@ -1121,6 +1225,12 @@
                     </button>
                     <button class="toolbar-btn" id="stickerBtn" title="Sticker" data-i18n-title="sidebar.stickers">
                         <span>📌</span>
+                    </button>
+                    <button class="toolbar-btn" id="aiBtn" title="AI Features" data-i18n-title="sidebar.ai_features">
+                        <span>🤖</span>
+                    </button>
+                    <button class="toolbar-btn" id="exportBtn" title="Export" data-i18n-title="sidebar.export">
+                        <span>💾</span>
                     </button>
                 </div>
             </section>
@@ -1246,7 +1356,10 @@
     </div>
 
     <!-- 引入html2canvas库用于图片导出 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+    <!-- AI Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.1/dist/ort.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js" crossorigin="anonymous"></script>
     <script src="/assets/js/mecollage-main.js"></script>
     <!-- 多语言支持 -->
     <script src="/assets/js/i18n.js"></script>

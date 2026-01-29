@@ -14,7 +14,7 @@ class MeCollagePro {
     this.stickerLayers = []; // 贴纸图层
     this.currentFilter = 'none'; // 当前滤镜
     this.selectedImageIndex = -1; // 当前选中的图片索引
-    
+
     // 拖拽功能相关变量
     this.draggedElement = null;
     this.dragStartX = 0;
@@ -29,7 +29,7 @@ class MeCollagePro {
     this.undoStack = []; // 撤销栈
     this.redoStack = []; // 重做栈
     this.dragAnimationFrame = null; // 拖拽动画帧ID
-    
+
     // 大小调整和旋转相关变量
     this.isResizing = false;
     this.isRotating = false;
@@ -42,7 +42,17 @@ class MeCollagePro {
     this.currentRotation = 0;
     this.resizeStartWidth = 0;
     this.resizeStartHeight = 0;
-    
+
+    // 自定义网格布局相关变量
+    // 自定义网格布局相关变量
+    this.useCustomGrid = false; // 是否使用自定义网格
+    this.customGridRows = 3; // 自定义行数
+    this.customGridCols = 3; // 自定义列数
+
+    // AI 相关变量
+    this.isAiModelsLoaded = false;
+    this.isProcessingAi = false;
+
     this.init();
   }
 
@@ -208,13 +218,45 @@ class MeCollagePro {
         this.applyFilter(filter);
       });
     });
-    
+
     // 添加文字按钮
     const addTextBtn = document.getElementById('addTextBtn');
     if (addTextBtn) {
       addTextBtn.addEventListener('click', () => this.addTextLayer());
     }
-    
+
+    // 自定义网格布局模式切换
+    const layoutModeBtns = document.querySelectorAll('.layout-mode-btn');
+    layoutModeBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const mode = e.target.dataset.mode;
+        this.setGridLayoutMode(mode);
+      });
+    });
+
+    // 应用自定义网格按钮
+    const applyGridBtn = document.getElementById('applyGridBtn');
+    if (applyGridBtn) {
+      applyGridBtn.addEventListener('click', () => this.applyCustomGrid());
+    }
+
+    // AI 功能按钮
+    const aiBtn = document.getElementById('aiBtn');
+    const aiFaceCenterBtn = document.getElementById('aiFaceCenterBtn');
+    const aiBgRemovalBtn = document.getElementById('aiBgRemovalBtn');
+
+    if (aiBtn) {
+      aiBtn.addEventListener('click', () => this.activateTool('ai'));
+    }
+
+    if (aiFaceCenterBtn) {
+      aiFaceCenterBtn.addEventListener('click', () => this.applySmartFaceCenter());
+    }
+
+    if (aiBgRemovalBtn) {
+      aiBgRemovalBtn.addEventListener('click', () => this.applyAiBgRemoval());
+    }
+
     // 添加全局鼠标事件监听器，用于拖拽功能
     document.addEventListener('mousemove', (e) => this.handleGlobalMouseMove(e));
     document.addEventListener('mouseup', () => this.handleGlobalMouseUp());
@@ -428,10 +470,18 @@ class MeCollagePro {
    * 根据图片数量和纵横比计算网格布局
    */
   calculateGridLayout() {
+    // 如果使用自定义网格，直接返回自定义的行列数
+    if (this.useCustomGrid) {
+      return {
+        rows: this.customGridRows,
+        cols: this.customGridCols
+      };
+    }
+
     // 考虑添加图片按钮，需要为其预留位置
     const imageCount = this.images.length;
     const totalItems = imageCount + 1; // +1 是添加图片按钮
-    
+
     if (totalItems === 0) return { rows: 1, cols: 1 };
     
     // 根据纵横比和总项目数（图片+添加按钮）计算最佳网格
@@ -915,6 +965,11 @@ class MeCollagePro {
     img.style.objectFit = 'cover';
     img.style.transition = 'transform 0.2s ease';
     
+    // 应用智能人脸居中
+    if (image.faceCenter) {
+      img.style.objectPosition = `${image.faceCenter.x}% ${image.faceCenter.y}%`;
+    }
+    
     // 应用滤镜
     img.style.filter = this.getFilterStyle(image.filter);
     innerContainer.appendChild(img);
@@ -1266,6 +1321,7 @@ class MeCollagePro {
     document.getElementById('filterSection').style.display = 'none';
     document.getElementById('textSection').style.display = 'none';
     document.getElementById('stickerSection').style.display = 'none';
+    document.getElementById('aiSection').style.display = 'none';
     
     // 显示当前工具对应的内容
     switch (toolName) {
@@ -1281,6 +1337,9 @@ class MeCollagePro {
       case 'sticker':
         document.getElementById('stickerSection').style.display = 'block';
         this.bindStickerEvents();
+        break;
+      case 'ai':
+        document.getElementById('aiSection').style.display = 'block';
         break;
     }
   }
@@ -1998,6 +2057,212 @@ class MeCollagePro {
       });
     } else {
       alert('Export feature requires html2canvas library');
+    }
+  }
+
+  /**
+   * 设置网格布局模式（自动/自定义）
+   */
+  setGridLayoutMode(mode) {
+    this.useCustomGrid = (mode === 'custom');
+
+    // 更新按钮状态
+    document.querySelectorAll('.layout-mode-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+
+    // 显示/隐藏自定义网格输入框
+    const customGridInputs = document.getElementById('customGridInputs');
+    if (customGridInputs) {
+      customGridInputs.style.display = this.useCustomGrid ? 'block' : 'none';
+    }
+
+    // 重新渲染拼图
+    if (this.images.length > 0) {
+      this.renderCollage();
+    }
+  }
+
+  /**
+   * 应用自定义网格设置
+   */
+  applyCustomGrid() {
+    const rowsInput = document.getElementById('gridRowsInput');
+    const colsInput = document.getElementById('gridColsInput');
+
+    if (!rowsInput || !colsInput) return;
+
+    const rows = parseInt(rowsInput.value);
+    const cols = parseInt(colsInput.value);
+
+    // 验证输入
+    if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1 || rows > 10 || cols > 10) {
+      alert('Please enter valid grid dimensions (1-10)');
+      return;
+    }
+
+    // 验证网格容量
+    const gridCapacity = rows * cols - 1; // -1 是为了给添加按钮留空间
+    if (this.images.length > gridCapacity) {
+      alert(`Current grid (${rows}×${cols}) can only hold ${gridCapacity} photos. You have ${this.images.length} photos.`);
+      return;
+    }
+
+    // 应用自定义网格
+    this.customGridRows = rows;
+    this.customGridCols = cols;
+    this.useCustomGrid = true;
+
+    // 重新渲染拼图
+    this.renderCollage();
+  }
+
+  /**
+   * 加载 AI 模型
+   */
+  async loadAiModels() {
+    if (this.isAiModelsLoaded) return true;
+    
+    try {
+      this.isProcessingAi = true;
+      this.updateAiBtnState(true);
+      
+      const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
+      await Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL)
+      ]);
+      
+      this.isAiModelsLoaded = true;
+      this.isProcessingAi = false;
+      this.updateAiBtnState(false);
+      return true;
+    } catch (error) {
+      console.error('Failed to load AI models:', error);
+      this.isProcessingAi = false;
+      this.updateAiBtnState(false);
+      alert('Failed to load AI models. Please check your internet connection.');
+      return false;
+    }
+  }
+
+  /**
+   * 更新 AI 按钮状态
+   */
+  updateAiBtnState(processing) {
+    const aiFaceCenterBtn = document.getElementById('aiFaceCenterBtn');
+    const aiBgRemovalBtn = document.getElementById('aiBgRemovalBtn');
+    
+    if (aiFaceCenterBtn) {
+      aiFaceCenterBtn.disabled = processing;
+      aiFaceCenterBtn.textContent = processing ? window.i18n.t('ai.processing') : window.i18n.t('ai.apply_face_center');
+    }
+    
+    if (aiBgRemovalBtn) {
+      aiBgRemovalBtn.disabled = processing;
+      aiBgRemovalBtn.textContent = processing ? window.i18n.t('ai.processing') : window.i18n.t('ai.remove_bg');
+    }
+  }
+
+  /**
+   * 应用智能人脸居中
+   */
+  async applySmartFaceCenter() {
+    if (this.images.length === 0) return;
+    
+    const success = await this.loadAiModels();
+    if (!success) return;
+    
+    this.isProcessingAi = true;
+    this.updateAiBtnState(true);
+    
+    try {
+      for (let i = 0; i < this.images.length; i++) {
+        const image = this.images[i];
+        if (image.faceCenter) continue; // 已经处理过的跳过
+        
+        const img = new Image();
+        img.src = image.url;
+        await new Promise(resolve => img.onload = resolve);
+        
+        const detections = await faceapi.detectAllFaces(img, new faceapi.TinyFaceDetectorOptions());
+        
+        if (detections.length > 0) {
+          // 找到最大的脸
+          const largestFace = detections.reduce((prev, current) => 
+            (prev.box.width * prev.box.height > current.box.width * current.box.height) ? prev : current
+          );
+          
+          const centerX = (largestFace.box.x + largestFace.box.width / 2) / img.width * 100;
+          const centerY = (largestFace.box.y + largestFace.box.height / 2) / img.height * 100;
+          
+          image.faceCenter = { x: centerX, y: centerY };
+        }
+      }
+      
+      this.renderCollage();
+    } catch (error) {
+      console.error('Face centering failed:', error);
+    } finally {
+      this.isProcessingAi = false;
+      this.updateAiBtnState(false);
+    }
+  }
+
+  /**
+   * 应用本地 AI 抠图
+   */
+  async applyAiBgRemoval() {
+    // 检查是否有选中的图片，如果没有则处理第一张或提示
+    let indexToProcess = this.selectedImageIndex;
+    if (indexToProcess === -1 && this.images.length > 0) {
+      indexToProcess = 0; // 默认处理第一张
+    }
+    
+    if (indexToProcess === -1) {
+      alert('Please select a photo first');
+      return;
+    }
+    
+    const image = this.images[indexToProcess];
+    this.isProcessingAi = true;
+    this.updateAiBtnState(true);
+    
+    try {
+      // 动态加载库（如果尚未加载）
+      if (typeof window.imglyRemoveBackground !== 'function') {
+        console.log('Loading AI Background Removal library from esm.sh...');
+        const module = await import('https://esm.sh/@imgly/background-removal@1.4.5');
+        window.imglyRemoveBackground = module.default;
+      }
+
+      // 使用 @imgly/background-removal，并配置高质量模型
+       const config = {
+         model: 'medium', // 使用标准模型以获得更好的平衡效果
+         output: {
+          format: 'image/png',
+          quality: 0.9,
+          type: 'foreground'
+        },
+        debug: true
+      };
+
+      const blob = await window.imglyRemoveBackground(image.url, config);
+      const url = URL.createObjectURL(blob);
+      
+      // 更新图片
+      image.url = url;
+      // 清除之前的人脸居中数据，因为图片内容变了
+      delete image.faceCenter;
+      
+      this.renderCollage();
+    } catch (error) {
+      console.error('Background removal failed:', error);
+      alert('Background removal failed. Please try again.');
+    } finally {
+      this.isProcessingAi = false;
+      this.updateAiBtnState(false);
     }
   }
 }

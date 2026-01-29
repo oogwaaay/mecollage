@@ -7,11 +7,11 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Create professional portfolio collages to showcase your work. Perfect for Behance, Dribbble, and LinkedIn." />
-    <meta name="keywords" content="portfolio collage, photographer portfolio, designer portfolio, Behance collage, Dribbble collage, professional portfolio" />
+    <meta name="description" data-i18n-content="blog.portfolio.excerpt" content="Create professional portfolio collages to showcase your work. Perfect for Behance, Dribbble, and LinkedIn." />
+    <meta name="keywords" data-i18n-content="meta.keywords" content="portfolio collage, photographer portfolio, designer portfolio, Behance collage, Dribbble collage, professional portfolio" />
     <meta name="author" content="MeCollage" />
-    <meta property="og:title" content="Portfolio Collage Tips for Photographers and Designers" />
-    <meta property="og:description" content="Create professional portfolio collages to showcase your work. Perfect for Behance, Dribbble, and LinkedIn." />
+    <meta property="og:title" data-i18n-content="blog.portfolio.title" content="Portfolio Collage Tips for Photographers and Designers" />
+    <meta property="og:description" data-i18n-content="blog.portfolio.excerpt" content="Create professional portfolio collages to showcase your work. Perfect for Behance, Dribbble, and LinkedIn." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://www.mecollage.top/blog/portfolio-collage-tips/" />
     <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
@@ -19,8 +19,8 @@
     <meta property="og:locale:alternate" content="zh_CN" />
     <meta property="og:locale:alternate" content="es_ES" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Portfolio Collage Tips for Photographers and Designers" />
-    <meta name="twitter:description" content="Create professional portfolio collages to showcase your work. Perfect for Behance, Dribbble, and LinkedIn." />
+    <meta name="twitter:title" data-i18n-content="blog.portfolio.title" content="Portfolio Collage Tips for Photographers and Designers" />
+    <meta name="twitter:description" data-i18n-content="blog.portfolio.excerpt" content="Create professional portfolio collages to showcase your work. Perfect for Behance, Dribbble, and LinkedIn." />
     <link rel="canonical" href="https://www.mecollage.top/blog/portfolio-collage-tips/" />
     <title>Portfolio Collage Tips for Photographers and Designers - MeCollage</title>
     <!-- DNS Prefetch for external resources -->
@@ -321,30 +321,31 @@
         <!-- Main Navigation -->
         <nav class="ghibli-nav">
             <div class="nav-left">
-                <a href="/" class="nav-link" data-page="home">Home</a>
-                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
-                <a href="/about" class="nav-link" data-page="about">About</a>
-                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer">Square Image</a>
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about.html" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image</a>
             </div>
             <div class="nav-right">
                 <a href="https://github.com/oogwaaay/mecollage/issues" 
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="nav-link github-link" 
-                   title="View on GitHub">
-                    <i class="fab fa-github"></i> GitHub
+                   title="View on GitHub"
+                   data-i18n-title="nav.github_view">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
                 </a>
-                <div class="lang-selector" title="Switch Language">
+                <div class="lang-selector" title="Switch Language" data-i18n-title="nav.switch_language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
-                        <span>English</span>
+                        <span data-i18n="lang.english">English</span>
                     </button>
                     <div class="lang-menu" role="menu">
-                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
-                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
-                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
-                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
-                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.english">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.chinese">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem" data-i18n="lang.traditional_chinese">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem" data-i18n="lang.japanese">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.spanish">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
                 </div>
@@ -353,258 +354,257 @@
 
         <div class="blog-article-container">
             <header class="page-header">
-                <h1 class="page-title">Portfolio Collage Tips for Photographers and Designers</h1>
+                <h1 class="page-title" data-i18n="blog.portfolio.title">Portfolio Collage Tips for Photographers and Designers</h1>
                 <div class="article-meta">
                     <span class="article-date"><i class="far fa-calendar"></i> 2025-01-13</span>
                     <span class="article-author"><i class="far fa-user"></i> MeCollage Team</span>
                 </div>
             </header>
 
-            <a href="/blog/" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog Home</a>
+            <a href="/blog/" class="back-to-blog"><i class="fas fa-arrow-left"></i> <span data-i18n="blog.common.back_to_blog">Back to Blog Home</span></a>
 
             <article class="article-content">
-                <p>For photographers, designers, and creative professionals, a well-crafted portfolio is essential for showcasing your work and attracting clients or job opportunities. In today's digital age, portfolio collages offer a dynamic way to present multiple pieces of your work in a single, visually compelling format. Whether you're sharing your portfolio on Behance, Dribbble, LinkedIn, or your personal website, a thoughtfully designed collage can make a lasting impression on potential clients and employers.</p>
+                <p data-i18n="blog.portfolio.intro">For photographers, designers, and creative professionals, a well-crafted portfolio is essential for showcasing your work and attracting clients or job opportunities. In today's digital age, portfolio collages offer a dynamic way to present multiple pieces of your work in a single, visually compelling format. Whether you're sharing your portfolio on Behance, Dribbble, LinkedIn, or your personal website, a thoughtfully designed collage can make a lasting impression on potential clients and employers.</p>
 
-                <p>With MeCollage, you can create professional portfolio collages that highlight your best work while maintaining a cohesive and polished appearance. In this guide, we'll share essential tips and best practices for creating portfolio collages that stand out in the competitive creative industry.</p>
+                <p data-i18n="blog.portfolio.p_professional">With MeCollage, you can create professional portfolio collages that highlight your best work while maintaining a cohesive and polished appearance. In this guide, we'll share essential tips and best practices for creating portfolio collages that stand out in the competitive creative industry.</p>
 
-                <h2>The Importance of Professional Portfolio Collages</h2>
-                <p>A professional portfolio is more than just a collection of your work—it's a visual resume that showcases your skills, style, and creative vision. Here's why portfolio collages are particularly effective:</p>
+                <h2 data-i18n="blog.portfolio.h2_imp">The Importance of Professional Portfolio Collages</h2>
+                <p data-i18n="blog.portfolio.p_imp">A professional portfolio is more than just a collection of your work—it's a visual resume that showcases your skills, style, and creative vision. Here's why portfolio collages are particularly effective:</p>
 
                 <ul>
-                    <li><strong>First Impressions Matter</strong>: A well-designed collage can immediately capture the attention of potential clients or employers, setting you apart from competitors.</li>
-                    <li><strong>Efficient Storytelling</strong>: Collages allow you to tell a visual story about your work, showing the breadth and depth of your capabilities in a single glance.</li>
-                    <li><strong>Adaptability</strong>: Collages can be tailored for different platforms and audiences, making them versatile tools for your professional toolkit.</li>
-                    <li><strong>Showcases Consistency</strong>: A cohesive collage demonstrates your ability to maintain a consistent style and quality across different projects.</li>
-                    <li><strong>Highlights Range</strong>: Collages can effectively show the diversity of your work, from different styles to various project types.</li>
+                    <li data-i18n="blog.portfolio.li_imp_first"><strong>First Impressions Matter</strong>: A well-designed collage can immediately capture the attention of potential clients or employers, setting you apart from competitors.</li>
+                    <li data-i18n="blog.portfolio.li_imp_story"><strong>Efficient Storytelling</strong>: Collages allow you to tell a visual story about your work, showing the breadth and depth of your capabilities in a single glance.</li>
+                    <li data-i18n="blog.portfolio.li_imp_adapt"><strong>Adaptability</strong>: Collages can be tailored for different platforms and audiences, making them versatile tools for your professional toolkit.</li>
+                    <li data-i18n="blog.portfolio.li_imp_cons"><strong>Showcases Consistency</strong>: A cohesive collage demonstrates your ability to maintain a consistent style and quality across different projects.</li>
+                    <li data-i18n="blog.portfolio.li_imp_range"><strong>Highlights Range</strong>: Collages can effectively show the diversity of your work, from different styles to various project types.</li>
                 </ul>
 
-                <h2>Principle 1: Embrace Simplicity in Design</h2>
-                <p>When it comes to portfolio collages, less is often more. A cluttered or overly complex design can distract from your actual work. Here are some simplicity principles to follow:</p>
+                <h2 data-i18n="blog.portfolio.h2_p1">Principle 1: Embrace Simplicity in Design</h2>
+                <p data-i18n="blog.portfolio.p_p1">When it comes to portfolio collages, less is often more. A cluttered or overly complex design can distract from your actual work. Here are some simplicity principles to follow:</p>
 
-                <h3>1. Minimalist Layout</h3>
+                <h3 data-i18n="blog.portfolio.h3_p1_min">1. Minimalist Layout</h3>
                 <ul>
-                    <li>Use a clean, uncluttered grid layout that allows your work to take center stage</li>
-                    <li>Avoid excessive decorations or distractions that might overshadow your portfolio pieces</li>
-                    <li>Choose a simple color palette that complements your work without competing with it</li>
-                    <li>Use consistent spacing between images to create a sense of order and harmony</li>
+                    <li data-i18n="blog.portfolio.li_p1_grid">Use a clean, uncluttered grid layout that allows your work to take center stage</li>
+                    <li data-i18n="blog.portfolio.li_p1_dec">Avoid excessive decorations or distractions that might overshadow your portfolio pieces</li>
+                    <li data-i18n="blog.portfolio.li_p1_clr">Choose a simple color palette that complements your work without competing with it</li>
+                    <li data-i18n="blog.portfolio.li_p1_spc">Use consistent spacing between images to create a sense of order and harmony</li>
                 </ul>
 
-                <h3>2. Strategic White Space</h3>
+                <h3 data-i18n="blog.portfolio.h3_p1_ws">2. Strategic White Space</h3>
                 <ul>
-                    <li>Incorporate generous white space around and between your work to create breathing room</li>
-                    <li>White space helps guide the viewer's eye through your collage, highlighting key pieces</li>
-                    <li>It creates a professional, polished look that appeals to creative directors and clients</li>
+                    <li data-i18n="blog.portfolio.li_p1_gen">Incorporate generous white space around and between your work to create breathing room</li>
+                    <li data-i18n="blog.portfolio.li_p1_guide">White space helps guide the viewer's eye through your collage, highlighting key pieces</li>
+                    <li data-i18n="blog.portfolio.li_p1_look">It creates a professional, polished look that appeals to creative directors and clients</li>
                 </ul>
 
-                <h3>3. Clear Hierarchy</h3>
+                <h3 data-i18n="blog.portfolio.h3_p1_hier">3. Clear Hierarchy</h3>
                 <ul>
-                    <li>Establish a visual hierarchy that guides viewers to your most impressive work first</li>
-                    <li>Use size and placement to emphasize your strongest pieces</li>
-                    <li>Consider the flow of your collage, leading viewers through your work in a logical sequence</li>
+                    <li data-i18n="blog.portfolio.li_p1_est">Establish a visual hierarchy that guides viewers to your most impressive work first</li>
+                    <li data-i18n="blog.portfolio.li_p1_emp">Use size and placement to emphasize your strongest pieces</li>
+                    <li data-i18n="blog.portfolio.li_p1_flow">Consider the flow of your collage, leading viewers through your work in a logical sequence</li>
                 </ul>
 
-                <h2>Principle 2: Highlight Your Best Work</h2>
-                <p>Your portfolio collage should showcase your strongest pieces, not every project you've ever completed. Here's how to curate effectively:</p>
+                <h2 data-i18n="blog.portfolio.h2_p2">Principle 2: Highlight Your Best Work</h2>
+                <p data-i18n="blog.portfolio.p_p2">Your portfolio collage should showcase your strongest pieces, not every project you've ever completed. Here's how to curate effectively:</p>
 
-                <h3>1. Quality Over Quantity</h3>
+                <h3 data-i18n="blog.portfolio.h3_p2_qual">1. Quality Over Quantity</h3>
                 <ul>
-                    <li>Include only your top 5-10 pieces, focusing on quality rather than quantity</li>
-                    <li>Be selective—even if you've completed many projects, only include those that best represent your skills and style</li>
-                    <li>Regularly update your portfolio collage to include your most recent and strongest work</li>
+                    <li data-i18n="blog.portfolio.li_p2_qty">Include only your top 5-10 pieces, focusing on quality rather than quantity</li>
+                    <li data-i18n="blog.portfolio.li_p2_sel">Be selective—even if you've completed many projects, only include those that best represent your skills and style</li>
+                    <li data-i18n="blog.portfolio.li_p2_upd">Regularly update your portfolio collage to include your most recent and strongest work</li>
                 </ul>
 
-                <h3>2. Showcase Diversity</h3>
+                <h3 data-i18n="blog.portfolio.h3_p2_div">2. Showcase Diversity</h3>
                 <ul>
-                    <li>Include a variety of work that demonstrates your range and versatility</li>
-                    <li>Show different styles, techniques, and project types</li>
-                    <li>Balance commercial work with personal projects to show both professional skills and creative passion</li>
+                    <li data-i18n="blog.portfolio.li_p2_var">Include a variety of work that demonstrates your range and versatility</li>
+                    <li data-i18n="blog.portfolio.li_p2_style">Show different styles, techniques, and project types</li>
+                    <li data-i18n="blog.portfolio.li_p2_bal">Balance commercial work with personal projects to show both professional skills and creative passion</li>
                 </ul>
 
-                <h3>3. Tell a Story</h3>
+                <h3 data-i18n="blog.portfolio.h3_p2_story">3. Tell a Story</h3>
                 <ul>
-                    <li>Arrange your work to tell a story about your creative journey or process</li>
-                    <li>Group related pieces together to show cohesive projects or series</li>
-                    <li>Consider the narrative flow of your collage, leading viewers through a logical progression</li>
+                    <li data-i18n="blog.portfolio.li_p2_arr">Arrange your work to tell a story about your creative journey or process</li>
+                    <li data-i18n="blog.portfolio.li_p2_grp">Group related pieces together to show cohesive projects or series</li>
+                    <li data-i18n="blog.portfolio.li_p2_nar">Consider the narrative flow of your collage, leading viewers through a logical progression</li>
                 </ul>
 
-                <h2>Principle 3: Optimize for Behance and Dribbble</h2>
-                <p>Behance and Dribbble are two of the most important platforms for showcasing creative work. Here are the optimal dimensions and tips for each:</p>
+                <h2 data-i18n="blog.portfolio.h2_p3">Principle 3: Optimize for Behance and Dribbble</h2>
+                <p data-i18n="blog.portfolio.p_p3">Behance and Dribbble are two of the most important platforms for showcasing creative work. Here are the optimal dimensions and tips for each:</p>
 
-                <h3>Behance Portfolio Collages</h3>
+                <h3 data-i18n="blog.portfolio.h3_p3_be">Behance Portfolio Collages</h3>
                 <ul>
-                    <li><strong>Recommended Aspect Ratio</strong>: 16:9 (widescreen) for project covers, 1:1 or 4:5 for individual collages within projects</li>
-                    <li><strong>Optimal Resolution</strong>: 1920x1080 pixels for project covers, 1080x1080 pixels for square collages</li>
-                    <li><strong>Design Tips</strong>: Create a consistent look across all your Behance project covers, use high-quality images, and include a brief project description</li>
+                    <li data-i18n="blog.portfolio.li_p3_be_asp"><strong>Recommended Aspect Ratio</strong>: 16:9 (widescreen) for project covers, 1:1 or 4:5 for individual collages within projects</li>
+                    <li data-i18n="blog.portfolio.li_p3_be_res"><strong>Optimal Resolution</strong>: 1920x1080 pixels for project covers, 1080x1080 pixels for square collages</li>
+                    <li data-i18n="blog.portfolio.li_p3_be_tips"><strong>Design Tips</strong>: Create a consistent look across all your Behance project covers, use high-quality images, and include a brief project description</li>
                 </ul>
 
-                <h3>Dribbble Portfolio Collages</h3>
+                <h3 data-i18n="blog.portfolio.h3_p3_dr">Dribbble Portfolio Collages</h3>
                 <ul>
-                    <li><strong>Recommended Aspect Ratio</strong>: 16:9 or 4:5 for shots</li>
-                    <li><strong>Optimal Resolution</strong>: 1200x675 pixels for 16:9 shots, 1080x1350 pixels for 4:5 shots</li>
-                    <li><strong>Design Tips</strong>: Keep Dribbble collages visually striking and on-trend, use bold colors or dramatic compositions, and include a concise caption that highlights key details</li>
+                    <li data-i18n="blog.portfolio.li_p3_dr_asp"><strong>Recommended Aspect Ratio</strong>: 16:9 or 4:5 for shots</li>
+                    <li data-i18n="blog.portfolio.li_p3_dr_res"><strong>Optimal Resolution</strong>: 1200x675 pixels for 16:9 shots, 1080x1350 pixels for 4:5 shots</li>
+                    <li data-i18n="blog.portfolio.li_p3_dr_tips"><strong>Design Tips</strong>: Keep Dribbble collages visually striking and on-trend, use bold colors or dramatic compositions, and include a concise caption that highlights key details</li>
                 </ul>
 
-                <h2>Principle 4: Showcase Series and Collections</h2>
-                <p>Grouping related work into series or collections can be a powerful way to showcase your ability to work on cohesive projects. Here's how to effectively present series in your collages:</p>
+                <h2 data-i18n="blog.portfolio.h2_p4">Principle 4: Showcase Series and Collections</h2>
+                <p data-i18n="blog.portfolio.p_p4">Grouping related work into series or collections can be a powerful way to showcase your ability to work on cohesive projects. Here's how to effectively present series in your collages:</p>
 
-                <h3>1. Consistent Visual Theme</h3>
+                <h3 data-i18n="blog.portfolio.h3_p4_vis">1. Consistent Visual Theme</h3>
                 <ul>
-                    <li>Ensure all pieces in a series share a consistent visual theme or style</li>
-                    <li>Use similar lighting, color palettes, or compositional elements across the series</li>
-                    <li>Consider adding a unifying element, such as a consistent border or background, to tie the series together</li>
+                    <li data-i18n="blog.portfolio.li_p4_ens">Ensure all pieces in a series share a consistent visual theme or style</li>
+                    <li data-i18n="blog.portfolio.li_p4_use">Use similar lighting, color palettes, or compositional elements across the series</li>
+                    <li data-i18n="blog.portfolio.li_p4_add">Consider adding a unifying element, such as a consistent border or background, to tie the series together</li>
                 </ul>
 
-                <h3>2. Clear Organization</h3>
+                <h3 data-i18n="blog.portfolio.h3_p4_org">2. Clear Organization</h3>
                 <ul>
-                    <li>Arrange series pieces in a logical order, such as chronological or thematic</li>
-                    <li>Use consistent spacing and alignment for series pieces</li>
-                    <li>Consider adding subtle labels or numbers to indicate the sequence of the series</li>
+                    <li data-i18n="blog.portfolio.li_p4_arr">Arrange series pieces in a logical order, such as chronological or thematic</li>
+                    <li data-i18n="blog.portfolio.li_p4_spc">Use consistent spacing and alignment for series pieces</li>
+                    <li data-i18n="blog.portfolio.li_p4_cons">Consider adding subtle labels or numbers to indicate the sequence of the series</li>
                 </ul>
 
-                <h3>3. Contextual Information</h3>
+                <h3 data-i18n="blog.portfolio.h3_p4_cont">3. Contextual Information</h3>
                 <ul>
-                    <li>Include brief contextual information about the series, such as the concept, inspiration, or process</li>
-                    <li>Explain the story behind the series to give viewers deeper insight into your creative process</li>
-                    <li>Highlight any challenges you overcame or unique techniques you used</li>
+                    <li data-i18n="blog.portfolio.li_p4_inc">Include brief contextual information about the series, such as the concept, inspiration, or process</li>
+                    <li data-i18n="blog.portfolio.li_p4_exp">Explain the story behind the series to give viewers deeper insight into your creative process</li>
+                    <li data-i18n="blog.portfolio.li_p4_high">Highlight any challenges you overcame or unique techniques you used</li>
                 </ul>
 
-                <h2>Principle 5: Maintain Consistent Style</h2>
-                <p>Consistency is key to creating a professional-looking portfolio collage. Here's how to maintain a cohesive style:</p>
+                <h2 data-i18n="blog.portfolio.h2_p5">Principle 5: Maintain Consistent Style</h2>
+                <p data-i18n="blog.portfolio.p_p5">Consistency is key to creating a professional-looking portfolio collage. Here's how to maintain a cohesive style:</p>
 
-                <h3>1. Color Palette</h3>
+                <h3 data-i18n="blog.portfolio.h3_p5_clr">1. Color Palette</h3>
                 <ul>
-                    <li>Choose a consistent color palette that complements your work</li>
-                    <li>Consider using colors that reflect your personal brand or creative style</li>
-                    <li>Avoid using too many contrasting colors that might create visual chaos</li>
+                    <li data-i18n="blog.portfolio.li_p5_cho">Choose a consistent color palette that complements your work</li>
+                    <li data-i18n="blog.portfolio.li_p5_cons">Consider using colors that reflect your personal brand or creative style</li>
+                    <li data-i18n="blog.portfolio.li_p5_avo">Avoid using too many contrasting colors that might create visual chaos</li>
                 </ul>
 
-                <h3>2. Typography</h3>
+                <h3 data-i18n="blog.portfolio.h3_p5_typo">2. Typography</h3>
                 <ul>
-                    <li>Use a consistent font family and size for any text in your collages</li>
-                    <li>Choose a font that aligns with your personal style and the tone of your work</li>
-                    <li>Limit text to essential information, such as project titles or brief descriptions</li>
+                    <li data-i18n="blog.portfolio.li_p5_use">Use a consistent font family and size for any text in your collages</li>
+                    <li data-i18n="blog.portfolio.li_p5_cho_f">Choose a font that aligns with your personal style and the tone of your work</li>
+                    <li data-i18n="blog.portfolio.li_p5_lim">Limit text to essential information, such as project titles or brief descriptions</li>
                 </ul>
 
-                <h3>3. Image Treatment</h3>
+                <h3 data-i18n="blog.portfolio.h3_p5_img">3. Image Treatment</h3>
                 <ul>
-                    <li>Apply consistent image treatment, such as filters or color grading, across all pieces in your collage</li>
-                    <li>Ensure all images have similar resolution and quality</li>
-                    <li>Consider using consistent borders or frames for a polished look</li>
+                    <li data-i18n="blog.portfolio.li_p5_app">Apply consistent image treatment, such as filters or color grading, across all pieces in your collage</li>
+                    <li data-i18n="blog.portfolio.li_p5_ens_q">Ensure all images have similar resolution and quality</li>
+                    <li data-i18n="blog.portfolio.li_p5_cons_b">Consider using consistent borders or frames for a polished look</li>
                 </ul>
 
-                <h2>Principle 6: Choose Between Professional and Casual Styles</h2>
-                <p>The style of your portfolio collage should align with your target audience and the type of work you want to attract. Here's how to decide between professional and casual styles:</p>
+                <h2 data-i18n="blog.portfolio.h2_p6">Principle 6: Choose Between Professional and Casual Styles</h2>
+                <p data-i18n="blog.portfolio.p_p6">The style of your portfolio collage should align with your target audience and the type of work you want to attract. Here's how to decide between professional and casual styles:</p>
 
-                <h3>Professional Style</h3>
+                <h3 data-i18n="blog.portfolio.h3_p6_prof">Professional Style</h3>
                 <ul>
-                    <li><strong>When to Use</strong>: For corporate clients, job applications, or formal projects</li>
-                    <li><strong>Characteristics</strong>: Clean lines, minimal decoration, neutral colors, structured layouts</li>
-                    <li><strong>Benefits</strong>: Conveys professionalism, reliability, and attention to detail</li>
-                    <li><strong>Best For</strong>: Corporate design work, architectural photography, professional services</li>
+                    <li data-i18n="blog.portfolio.li_p6_when"><strong>When to Use</strong>: For corporate clients, job applications, or formal projects</li>
+                    <li data-i18n="blog.portfolio.li_p6_char"><strong>Characteristics</strong>: Clean lines, minimal decoration, neutral colors, structured layouts</li>
+                    <li data-i18n="blog.portfolio.li_p6_ben"><strong>Benefits</strong>: Conveys professionalism, reliability, and attention to detail</li>
+                    <li data-i18n="blog.portfolio.li_p6_best"><strong>Best For</strong>: Corporate design work, architectural photography, professional services</li>
                 </ul>
 
-                <h3>Casual/Creative Style</h3>
+                <h3 data-i18n="blog.portfolio.h3_p6_cas">Casual/Creative Style</h3>
                 <ul>
-                    <li><strong>When to Use</strong>: For creative agencies, personal projects, or artistic portfolios</li>
-                    <li><strong>Characteristics</strong>: Bold colors, experimental layouts, playful elements, artistic treatments</li>
-                    <li><strong>Benefits</strong>: Showcases creativity, personality, and artistic vision</li>
-                    <li><strong>Best For</strong>: Graphic design, fashion photography, illustration, conceptual art</li>
+                    <li data-i18n="blog.portfolio.li_p6_when_c"><strong>When to Use</strong>: For creative agencies, personal projects, or artistic portfolios</li>
+                    <li data-i18n="blog.portfolio.li_p6_char_c"><strong>Characteristics</strong>: Bold colors, experimental layouts, playful elements, artistic treatments</li>
+                    <li data-i18n="blog.portfolio.li_p6_ben_c"><strong>Benefits</strong>: Showcases creativity, personality, and artistic vision</li>
+                    <li data-i18n="blog.portfolio.li_p6_best_c"><strong>Best For</strong>: Graphic design, fashion photography, illustration, conceptual art</li>
                 </ul>
 
-                <h3>Hybrid Approach</h3>
+                <h3 data-i18n="blog.portfolio.h3_p6_hyb">Hybrid Approach</h3>
                 <ul>
-                    <li>Consider a hybrid approach that balances professionalism with creativity</li>
-                    <li>Use a clean, structured layout with subtle creative elements</li>
-                    <li>Tailor your style to your specific niche and target audience</li>
+                    <li data-i18n="blog.portfolio.li_p6_cons">Consider a hybrid approach that balances professionalism with creativity</li>
+                    <li data-i18n="blog.portfolio.li_p6_use_h">Use a clean, structured layout with subtle creative elements</li>
+                    <li data-i18n="blog.portfolio.li_p6_tail">Tailor your style to your specific niche and target audience</li>
                 </ul>
 
-                <h2>Creating Your Portfolio Collage with MeCollage</h2>
-                <p>MeCollage makes it easy to create professional portfolio collages that showcase your work in the best possible light. Here's a step-by-step guide:</p>
+                <h2 data-i18n="blog.portfolio.h2_cre">Creating Your Portfolio Collage with MeCollage</h2>
+                <p data-i18n="blog.portfolio.p_cre">MeCollage makes it easy to create professional portfolio collages that showcase your work in the best possible light. Here's a step-by-step guide:</p>
 
-                <h3>1. Gather Your Best Work</h3>
+                <h3 data-i18n="blog.portfolio.h3_c_gat">1. Gather Your Best Work</h3>
                 <ul>
-                    <li>Select your top 5-10 pieces that best represent your skills and style</li>
-                    <li>Ensure all images are high-resolution and properly edited</li>
-                    <li>Organize your work into series or categories if applicable</li>
+                    <li data-i18n="blog.portfolio.li_c_sel">Select your top 5-10 pieces that best represent your skills and style</li>
+                    <li data-i18n="blog.portfolio.li_c_ens">Ensure all images are high-resolution and properly edited</li>
+                    <li data-i18n="blog.portfolio.li_c_org">Organize your work into series or categories if applicable</li>
                 </ul>
 
-                <h3>2. Choose Your Platform</h3>
+                <h3 data-i18n="blog.portfolio.h3_c_cho">2. Choose Your Platform</h3>
                 <ul>
-                    <li>Decide where you'll be sharing your collage (Behance, Dribbble, LinkedIn, etc.)</li>
-                    <li>Determine the optimal aspect ratio based on the platform requirements</li>
+                    <li data-i18n="blog.portfolio.li_c_dec">Decide where you'll be sharing your collage (Behance, Dribbble, LinkedIn, etc.)</li>
+                    <li data-i18n="blog.portfolio.li_c_det">Determine the optimal aspect ratio based on the platform requirements</li>
                 </ul>
 
-                <h3>3. Select a Layout</h3>
+                <h3 data-i18n="blog.portfolio.h3_c_sel">3. Select a Layout</h3>
                 <ul>
-                    <li>Choose a clean, minimalist layout that allows your work to shine</li>
-                    <li>Consider using a grid layout for a structured look, or a masonry layout for a more dynamic feel</li>
-                    <li>Experiment with different layouts to find the one that best showcases your work</li>
+                    <li data-i18n="blog.portfolio.li_c_clean">Choose a clean, minimalist layout that allows your work to shine</li>
+                    <li data-i18n="blog.portfolio.li_c_grid">Consider using a grid layout for a structured look, or a masonry layout for a more dynamic feel</li>
+                    <li data-i18n="blog.portfolio.li_c_exp">Experiment with different layouts to find the one that best showcases your work</li>
                 </ul>
 
-                <h3>4. Customize Your Design</h3>
+                <h3 data-i18n="blog.portfolio.h3_c_cust">4. Customize Your Design</h3>
                 <ul>
-                    <li>Adjust the gutter spacing to create breathing room between images</li>
-                    <li>Add subtle rounded corners for a modern look</li>
-                    <li>Apply a consistent filter or color treatment to create cohesion</li>
-                    <li>Add minimal text if needed, such as project titles or your name</li>
+                    <li data-i18n="blog.portfolio.li_c_adj">Adjust the gutter spacing to create breathing room between images</li>
+                    <li data-i18n="blog.portfolio.li_c_add">Add subtle rounded corners for a modern look</li>
+                    <li data-i18n="blog.portfolio.li_c_app">Apply a consistent filter or color treatment to create cohesion</li>
+                    <li data-i18n="blog.portfolio.li_c_min">Add minimal text if needed, such as project titles or your name</li>
                 </ul>
 
-                <h3>5. Review and Refine</h3>
+                <h3 data-i18n="blog.portfolio.h3_c_rev">5. Review and Refine</h3>
                 <ul>
-                    <li>Step back and review your collage with a critical eye</li>
-                    <li>Ensure the focus is on your work, not on the collage design itself</li>
-                    <li>Check for consistency in style, color, and quality</li>
-                    <li>Ask for feedback from peers or mentors if possible</li>
+                    <li data-i18n="blog.portfolio.li_c_step">Step back and review your collage with a critical eye</li>
+                    <li data-i18n="blog.portfolio.li_c_ens_f">Ensure the focus is on your work, not on the collage design itself</li>
+                    <li data-i18n="blog.portfolio.li_c_check">Check for consistency in style, color, and quality</li>
+                    <li data-i18n="blog.portfolio.li_c_ask">Ask for feedback from peers or mentors if possible</li>
                 </ul>
 
-                <h3>6. Export and Share</h3>
+                <h3 data-i18n="blog.portfolio.h3_c_exp">6. Export and Share</h3>
                 <ul>
-                    <li>Export your collage in the highest resolution possible</li>
-                    <li>Save it in a format suitable for your target platform (JPG for web, PNG for print)</li>
-                    <li>Share it across your professional channels, including your website, social media, and portfolio platforms</li>
+                    <li data-i18n="blog.portfolio.li_c_exp_h">Export your collage in the highest resolution possible</li>
+                    <li data-i18n="blog.portfolio.li_c_save">Save it in a format suitable for your target platform (JPG for web, PNG for print)</li>
+                    <li data-i18n="blog.portfolio.li_c_share">Share it across your professional channels, including your website, social media, and portfolio platforms</li>
                 </ul>
 
-                <h2>Conclusion</h2>
-                <p>Creating a professional portfolio collage is an essential skill for photographers, designers, and creative professionals. By following the principles outlined in this guide—embracing simplicity, highlighting your best work, optimizing for specific platforms, showcasing series, maintaining consistency, and choosing the right style—you can create portfolio collages that effectively showcase your skills and attract the right opportunities.</p>
+                <h2 data-i18n="blog.portfolio.h2_conc">Conclusion</h2>
+                <p data-i18n="blog.portfolio.p_conc">Creating a professional portfolio collage is an essential skill for photographers, designers, and creative professionals. By following the principles outlined in this guide—embracing simplicity, highlighting your best work, optimizing for specific platforms, showcasing series, maintaining consistency, and choosing the right style—you can create portfolio collages that effectively showcase your skills and attract the right opportunities.</p>
 
-                <p>With MeCollage, you have all the tools you need to create stunning portfolio collages that stand out in the competitive creative industry. Whether you're just starting your career or looking to refresh your existing portfolio, a well-designed collage can help you make a lasting impression on potential clients and employers.</p>
+                <p data-i18n="blog.portfolio.p_reflect">With MeCollage, you have all the tools you need to create stunning portfolio collages that stand out in the competitive creative industry. Whether you're just starting your career or looking to refresh your existing portfolio, a well-designed collage can help you make a lasting impression on potential clients and employers.</p>
 
-                <p>Remember, your portfolio is a reflection of your creative identity. Take the time to craft collages that truly represent who you are as a professional, and don't be afraid to experiment and evolve your style over time. With dedication and attention to detail, your portfolio collages can become powerful tools for advancing your creative career.</p>
+                <p data-i18n="blog.portfolio.p_identity">Remember, your portfolio is a reflection of your creative identity. Take the time to craft collages that truly represent who you are as a professional, and don't be afraid to experiment and evolve your style over time. With dedication and attention to detail, your portfolio collages can become powerful tools for advancing your creative career.</p>
 
-                <p>So, gather your best work, open MeCollage, and start creating portfolio collages that showcase your unique talent and vision!</p>
+                <p data-i18n="blog.portfolio.p_final">So, gather your best work, open MeCollage, and start creating portfolio collages that showcase your unique talent and vision!</p>
             </article>
 
             <section class="related-articles">
-                <h2>Related Articles</h2>
+                <h2 data-i18n="blog.common.related_posts">Related Articles</h2>
                 <div class="related-articles-grid">
                     <div class="related-article">
-                        <h3 class="related-article-title">How to Make a Photo Collage: Step-by-Step Guide</h3>
-                        <p>Learn the basics of creating stunning photo collages with our comprehensive guide.</p>
-                        <a href="/blog/how-to-make-photo-collage/" class="related-article-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="related-article-title" data-i18n="blog.how_to.title">How to Make a Photo Collage: Step-by-Step Guide</h3>
+                        <p data-i18n="blog.how_to.excerpt">Learn the basics of creating stunning photo collages with our comprehensive guide.</p>
+                        <a href="/blog/how-to-make-photo-collage/" class="related-article-link"><span data-i18n="blog.common.read_more">Read More</span> <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="related-article">
-                        <h3 class="related-article-title">10 Essential Collage Design Tips for Beginners</h3>
-                        <p>Master the art of collage design with these simple yet effective tips.</p>
-                        <a href="/blog/collage-design-tips/" class="related-article-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="related-article-title" data-i18n="blog.design_tips.title">10 Essential Collage Design Tips for Beginners</h3>
+                        <p data-i18n="blog.design_tips.excerpt">Master the art of collage design with these simple yet effective tips.</p>
+                        <a href="/blog/collage-design-tips/" class="related-article-link"><span data-i18n="blog.common.read_more">Read More</span> <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="related-article">
-                        <h3 class="related-article-title">Social Media Collage Guide: Instagram, Facebook, Twitter</h3>
-                        <p>Create perfect collages for social media with the best dimensions and ratios.</p>
-                        <a href="/blog/social-media-collage-guide/" class="related-article-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="related-article-title" data-i18n="blog.social_media.title">Social Media Collage Guide: Instagram, Facebook, Twitter</h3>
+                        <p data-i18n="blog.social_media.excerpt">Create perfect collages for social media with the best dimensions and ratios.</p>
+                        <a href="/blog/social-media-collage-guide/" class="related-article-link"><span data-i18n="blog.common.read_more">Read More</span> <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="related-article">
-                        <h3 class="related-article-title">Mobile Collage Making Tips & Tricks</h3>
-                        <p>Learn how to create beautiful collages on your mobile device with MeCollage.</p>
-                        <a href="/blog/mobile-collage-tips/" class="related-article-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="related-article-title" data-i18n="blog.mobile.title">Mobile Collage Making Tips & Tricks</h3>
+                        <p data-i18n="blog.mobile.excerpt">Learn how to create beautiful collages on your mobile device with MeCollage.</p>
+                        <a href="/blog/mobile-collage-tips/" class="related-article-link"><span data-i18n="blog.common.read_more">Read More</span> <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </section>
 
             <footer>
-            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;" data-i18n="footer.home">Back to Home</a> | <a href="/about" style="color: #8fd68f;" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: #8fd68f;" data-i18n="nav.blog">Blog</a> | <a href="/contact" style="color: #8fd68f;" data-i18n="footer.contact">Contact</a> | <a href="/privacy" style="color: #8fd68f;" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;" data-i18n="footer.terms">Terms of Service</a></p>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;" data-i18n="footer.home">Back to Home</a> | <a href="/about.html" style="color: #8fd68f;" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: #8fd68f;" data-i18n="nav.blog">Blog</a> | <a href="/contact.html" style="color: #8fd68f;" data-i18n="footer.contact">Contact</a> | <a href="/privacy.html" style="color: #8fd68f;" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms.html" style="color: #8fd68f;" data-i18n="footer.terms">Terms of Service</a></p>
         </footer>
         </div>
-    </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -612,38 +612,5 @@
     <!-- 多语言支持 -->
     <link rel="stylesheet" href="/assets/css/i18n.css">
     <script src="/assets/js/i18n.js"></script>
-    <script>
-        // FAQ Toggle Functionality (if needed)
-        document.addEventListener('DOMContentLoaded', () => {
-            // Language selector functionality
-            const langToggle = document.querySelector('.lang-selector-toggle');
-            const langMenu = document.querySelector('.lang-menu');
-            const langMenuBackdrop = document.querySelector('.lang-menu-backdrop');
-
-            if (langToggle && langMenu && langMenuBackdrop) {
-                langToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isExpanded = langToggle.getAttribute('aria-expanded') === 'true';
-                    langToggle.setAttribute('aria-expanded', !isExpanded);
-                    langMenu.style.display = isExpanded ? 'none' : 'block';
-                    langMenuBackdrop.style.display = isExpanded ? 'none' : 'block';
-                });
-
-                [langMenuBackdrop, ...document.querySelectorAll('.lang-option')].forEach(el => {
-                    el.addEventListener('click', () => {
-                        langToggle.setAttribute('aria-expanded', 'false');
-                        langMenu.style.display = 'none';
-                        langMenuBackdrop.style.display = 'none';
-                    });
-                });
-
-                document.addEventListener('click', () => {
-                    langToggle.setAttribute('aria-expanded', 'false');
-                    langMenu.style.display = 'none';
-                    langMenuBackdrop.style.display = 'none';
-                });
-            }
-        });
-    </script>
 </body>
 </html>

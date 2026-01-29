@@ -7,11 +7,11 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Learn how to create photo collages on your mobile device. Best practices for touch controls, photo selection, and sharing with MeCollage." />
-    <meta name="keywords" content="mobile collage, collage on phone, touch controls for collage, MeCollage mobile, photo selection tips, share collage to social media" />
+    <meta name="description" data-i18n-content="blog.mobile.excerpt" content="Learn how to create photo collages on your mobile device. Best practices for touch controls, photo selection, and sharing with MeCollage." />
+    <meta name="keywords" data-i18n-content="meta.keywords" content="mobile collage, collage on phone, touch controls for collage, MeCollage mobile, photo selection tips, share collage to social media" />
     <meta name="author" content="MeCollage" />
-    <meta property="og:title" content="Mobile Collage Making Tips & Tricks" />
-    <meta property="og:description" content="Learn how to create photo collages on your mobile device. Best practices for touch controls, photo selection, and sharing with MeCollage." />
+    <meta property="og:title" data-i18n-content="blog.mobile.title" content="Mobile Collage Making Tips & Tricks" />
+    <meta property="og:description" data-i18n-content="blog.mobile.excerpt" content="Learn how to create photo collages on your mobile device. Best practices for touch controls, photo selection, and sharing with MeCollage." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://www.mecollage.top/blog/mobile-collage-tips/" />
     <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
@@ -19,8 +19,8 @@
     <meta property="og:locale:alternate" content="zh_CN" />
     <meta property="og:locale:alternate" content="es_ES" />
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="Mobile Collage Making Tips & Tricks" />
-    <meta name="twitter:description" content="Learn how to create photo collages on your mobile device. Best practices for touch controls, photo selection, and sharing with MeCollage." />
+    <meta name="twitter:title" data-i18n-content="blog.mobile.title" content="Mobile Collage Making Tips & Tricks" />
+    <meta name="twitter:description" data-i18n-content="blog.mobile.excerpt" content="Learn how to create photo collages on your mobile device. Best practices for touch controls, photo selection, and sharing with MeCollage." />
     <link rel="canonical" href="https://www.mecollage.top/blog/mobile-collage-tips/" />
     <title>Mobile Collage Making Tips & Tricks - MeCollage</title>
     <!-- DNS Prefetch for external resources -->
@@ -321,30 +321,31 @@
         <!-- Main Navigation -->
         <nav class="ghibli-nav">
             <div class="nav-left">
-                <a href="/" class="nav-link" data-page="home">Home</a>
-                <a href="/blog/" class="nav-link" data-page="blog">Blog</a>
-                <a href="/about" class="nav-link" data-page="about">About</a>
-                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer">Square Image</a>
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/about.html" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image</a>
             </div>
             <div class="nav-right">
                 <a href="https://github.com/oogwaaay/mecollage/issues" 
                    target="_blank" 
                    rel="noopener noreferrer" 
                    class="nav-link github-link" 
-                   title="View on GitHub">
-                    <i class="fab fa-github"></i> GitHub
+                   title="View on GitHub"
+                   data-i18n-title="nav.github_view">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
                 </a>
-                <div class="lang-selector" title="Switch Language">
+                <div class="lang-selector" title="Switch Language" data-i18n-title="nav.switch_language">
                     <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
                         <span aria-hidden="true">🌐</span>
-                        <span>English</span>
+                        <span data-i18n="lang.english">English</span>
                     </button>
                     <div class="lang-menu" role="menu">
-                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
-                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
-                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
-                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
-                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem" data-i18n="lang.english">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem" data-i18n="lang.chinese">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem" data-i18n="lang.traditional_chinese">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem" data-i18n="lang.japanese">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem" data-i18n="lang.spanish">Español</button>
                     </div>
                     <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
                 </div>
@@ -353,233 +354,232 @@
 
         <div class="blog-article-container">
             <header class="page-header">
-                <h1 class="page-title">Mobile Collage Making Tips & Tricks</h1>
+                <h1 class="page-title" data-i18n="blog.mobile.title">Mobile Collage Making Tips & Tricks</h1>
                 <div class="article-meta">
                     <span class="article-date"><i class="far fa-calendar"></i> 2025-01-13</span>
                     <span class="article-author"><i class="far fa-user"></i> MeCollage Team</span>
                 </div>
             </header>
 
-            <a href="/blog/" class="back-to-blog"><i class="fas fa-arrow-left"></i> Back to Blog Home</a>
+            <a href="/blog/" class="back-to-blog" data-i18n="blog.common.back_to_blog"><i class="fas fa-arrow-left"></i> Back to Blog Home</a>
 
             <article class="article-content">
-                <p>In today's fast-paced world, mobile devices have become our primary tools for capturing and sharing memories. Whether you're on a family vacation, attending a special event, or simply documenting your daily life, creating collages on your smartphone or tablet offers a convenient way to showcase multiple photos in a single, visually appealing format. MeCollage is designed to work seamlessly on mobile devices, giving you all the power of a desktop collage maker right in the palm of your hand.</p>
+                <p data-i18n="blog.mobile.intro">In today's fast-paced world, mobile devices have become our primary tools for capturing and sharing memories. Whether you're on a family vacation, attending a special event, or simply documenting your daily life, creating collages on your smartphone or tablet offers a convenient way to showcase multiple photos in a single, visually appealing format. MeCollage is designed to work seamlessly on mobile devices, giving you all the power of a desktop collage maker right in the palm of your hand.</p>
 
-                <h2>MeCollage: Mobile-First Collage Creation</h2>
-                <p>MeCollage is fully optimized for mobile devices, ensuring that you can create stunning collages anytime, anywhere. Our responsive design adapts perfectly to different screen sizes, from compact smartphones to larger tablets. Whether you're using an iOS or Android device, you'll enjoy a smooth, intuitive experience that lets you focus on your creativity rather than struggling with cumbersome controls.</p>
+                <h2 data-i18n="blog.mobile.h2_first">MeCollage: Mobile-First Collage Creation</h2>
+                <p data-i18n="blog.mobile.p_first">MeCollage is fully optimized for mobile devices, ensuring that you can create stunning collages anytime, anywhere. Our responsive design adapts perfectly to different screen sizes, from compact smartphones to larger tablets. Whether you're using an iOS or Android device, you'll enjoy a smooth, intuitive experience that lets you focus on your creativity rather than struggling with cumbersome controls.</p>
 
-                <p>One of the key advantages of MeCollage on mobile is its lightweight design. Unlike many other collage apps that require heavy downloads and take up valuable storage space, MeCollage operates entirely in your browser. This means you can access it instantly from any device with an internet connection, without worrying about updates or compatibility issues.</p>
+                <p data-i18n="blog.mobile.p_lightweight">One of the key advantages of MeCollage on mobile is its lightweight design. Unlike many other collage apps that require heavy downloads and take up valuable storage space, MeCollage operates entirely in your browser. This means you can access it instantly from any device with an internet connection, without worrying about updates or compatibility issues.</p>
 
-                <h2>Mastering Touch Controls for Collage Creation</h2>
-                <p>Creating collages on a mobile device requires a different approach than using a mouse and keyboard. Here are some essential touch control tips to help you make the most of MeCollage on your phone or tablet:</p>
+                <h2 data-i18n="blog.mobile.h2_touch">Mastering Touch Controls for Collage Creation</h2>
+                <p data-i18n="blog.mobile.p_touch">Creating collages on a mobile device requires a different approach than using a mouse and keyboard. Here are some essential touch control tips to help you make the most of MeCollage on your phone or tablet:</p>
 
-                <h3>1. Navigating the Interface</h3>
+                <h3 data-i18n="blog.mobile.h3_nav">1. Navigating the Interface</h3>
                 <ul>
-                    <li><strong>Tap</strong> to select tools, images, or options</li>
-                    <li><strong>Long press</strong> on images to access additional options like removing or reordering</li>
-                    <li><strong>Swipe</strong> to scroll through tool options or image galleries</li>
-                    <li><strong>Pinch-to-zoom</strong> to preview your collage in detail</li>
+                    <li data-i18n="blog.mobile.li_nav_tap"><strong>Tap</strong> to select tools, images, or options</li>
+                    <li data-i18n="blog.mobile.li_nav_long"><strong>Long press</strong> on images to access additional options like removing or reordering</li>
+                    <li data-i18n="blog.mobile.li_nav_swipe"><strong>Swipe</strong> to scroll through tool options or image galleries</li>
+                    <li data-i18n="blog.mobile.li_nav_pinch"><strong>Pinch-to-zoom</strong> to preview your collage in detail</li>
                 </ul>
 
-                <h3>2. Arranging Images with Touch</h3>
-                <p>When working with multiple images in your collage, precise placement is key. Here's how to get the perfect arrangement using touch controls:</p>
+                <h3 data-i18n="blog.mobile.h3_arr">2. Arranging Images with Touch</h3>
+                <p data-i18n="blog.mobile.p_arr">When working with multiple images in your collage, precise placement is key. Here's how to get the perfect arrangement using touch controls:</p>
                 <ul>
-                    <li><strong>Drag</strong> images to reposition them within the grid</li>
-                    <li><strong>Pinch</strong> on individual images to resize them (if supported by the layout)</li>
-                    <li><strong>Double-tap</strong> on images to quickly flip or rotate them</li>
-                    <li><strong>Tap and hold</strong> to bring an image to the front or send it to the back</li>
+                    <li data-i18n="blog.mobile.li_arr_drag"><strong>Drag</strong> images to reposition them within the grid</li>
+                    <li data-i18n="blog.mobile.li_arr_pinch"><strong>Pinch</strong> on individual images to resize them (if supported by the layout)</li>
+                    <li data-i18n="blog.mobile.li_arr_double"><strong>Double-tap</strong> on images to quickly flip or rotate them</li>
+                    <li data-i18n="blog.mobile.li_arr_hold"><strong>Tap and hold</strong> to bring an image to the front or send it to the back</li>
                 </ul>
 
-                <h3>3. Using Tools Efficiently</h3>
-                <p>MeCollage's mobile interface is designed for quick access to essential tools. Here's how to navigate them:</p>
+                <h3 data-i18n="blog.mobile.h3_tools">3. Using Tools Efficiently</h3>
+                <p data-i18n="blog.mobile.p_tools">MeCollage's mobile interface is designed for quick access to essential tools. Here's how to navigate them:</p>
                 <ul>
-                    <li><strong>Swipe left/right</strong> on the bottom toolbar to switch between tool categories (layout, filter, text, sticker)</li>
-                    <li><strong>Tap and hold</strong> on tools to see additional options</li>
-                    <li><strong>Use two fingers</strong> to adjust sliders for gutter spacing, radius, and other parameters with more precision</li>
+                    <li data-i18n="blog.mobile.li_tools_swipe"><strong>Swipe left/right</strong> on the bottom toolbar to switch between tool categories (layout, filter, text, sticker)</li>
+                    <li data-i18n="blog.mobile.li_tools_hold"><strong>Tap and hold</strong> on tools to see additional options</li>
+                    <li data-i18n="blog.mobile.li_tools_two"><strong>Use two fingers</strong> to adjust sliders for gutter spacing, radius, and other parameters with more precision</li>
                 </ul>
 
-                <h2>Smart Photo Selection Tips for Mobile</h2>
-                <p>Choosing the right photos is crucial for creating a visually appealing collage. When working on a mobile device, you may have thousands of photos in your gallery, making selection a daunting task. Here are some tips to help you choose the perfect images for your mobile collage:</p>
+                <h2 data-i18n="blog.mobile.h2_select">Smart Photo Selection Tips for Mobile</h2>
+                <p data-i18n="blog.mobile.p_select">Choosing the right photos is crucial for creating a visually appealing collage. When working on a mobile device, you may have thousands of photos in your gallery, making selection a daunting task. Here are some tips to help you choose the perfect images for your mobile collage:</p>
 
-                <h3>1. Plan Your Theme First</h3>
-                <p>Before you start selecting photos, decide on a theme or story for your collage. This could be a specific event (like a birthday party or vacation), a color scheme, or a particular mood. Having a clear theme will make it easier to narrow down your photo choices.</p>
+                <h3 data-i18n="blog.mobile.h3_plan">1. Plan Your Theme First</h3>
+                <p data-i18n="blog.mobile.p_plan">Before you start selecting photos, decide on a theme or story for your collage. This could be a specific event (like a birthday party or vacation), a color scheme, or a particular mood. Having a clear theme will make it easier to narrow down your photo choices.</p>
 
-                <h3>2. Use Your Device's Built-in Features</h3>
+                <h3 data-i18n="blog.mobile.h3_built">2. Use Your Device's Built-in Features</h3>
                 <ul>
-                    <li><strong>Albums</strong>: Most mobile devices organize photos into albums by date, location, or automatically generated categories. Use these to quickly find photos from a specific event.</li>
-                    <li><strong>Favorites</strong>: Mark your best photos as favorites in your gallery app to easily access them later.</li>
-                    <li><strong>Search</strong>: Use your device's search function to find photos by location, date, or even objects within the images.</li>
+                    <li data-i18n="blog.mobile.li_built_albums"><strong>Albums</strong>: Most mobile devices organize photos into albums by date, location, or automatically generated categories. Use these to quickly find photos from a specific event.</li>
+                    <li data-i18n="blog.mobile.li_built_fav"><strong>Favorites</strong>: Mark your best photos as favorites in your gallery app to easily access them later.</li>
+                    <li data-i18n="blog.mobile.li_built_search"><strong>Search</strong>: Use your device's search function to find photos by location, date, or even objects within the images.</li>
                 </ul>
 
-                <h3>3. Consider Image Orientation and Composition</h3>
-                <p>When selecting photos for your collage, pay attention to their orientation (portrait or landscape) and how they'll fit together:</p>
+                <h3 data-i18n="blog.mobile.h3_comp">3. Consider Image Orientation and Composition</h3>
+                <p data-i18n="blog.mobile.p_comp">When selecting photos for your collage, pay attention to their orientation (portrait or landscape) and how they'll fit together:</p>
                 <ul>
-                    <li>Mix portrait and landscape orientations for visual variety, but ensure they work well with your chosen layout</li>
-                    <li>Look for photos with similar lighting conditions to create a cohesive look</li>
-                    <li>Avoid including too many busy or cluttered images, as they can make your collage feel overwhelming</li>
+                    <li data-i18n="blog.mobile.li_comp_mix">Mix portrait and landscape orientations for visual variety, but ensure they work well with your chosen layout</li>
+                    <li data-i18n="blog.mobile.li_comp_light">Look for photos with similar lighting conditions to create a cohesive look</li>
+                    <li data-i18n="blog.mobile.li_comp_clutter">Avoid including too many busy or cluttered images, as they can make your collage feel overwhelming</li>
                 </ul>
 
-                <h3>4. Select a Balanced Mix</h3>
-                <p>Aim for a balanced mix of close-ups, wide shots, and detail shots. This creates visual interest and tells a more complete story. For example, if you're creating a vacation collage, include:</p>
+                <h3 data-i18n="blog.mobile.h3_bal">4. Select a Balanced Mix</h3>
+                <p data-i18n="blog.mobile.p_bal">Aim for a balanced mix of close-ups, wide shots, and detail shots. This creates visual interest and tells a more complete story. For example, if you're creating a vacation collage, include:</p>
                 <ul>
-                    <li>Wide shots of landscapes or venues</li>
-                    <li>Close-ups of people or special moments</li>
-                    <li>Detail shots of food, decorations, or souvenirs</li>
+                    <li data-i18n="blog.mobile.li_bal_wide">Wide shots of landscapes or venues</li>
+                    <li data-i18n="blog.mobile.li_bal_close">Close-ups of people or special moments</li>
+                    <li data-i18n="blog.mobile.li_bal_detail">Detail shots of food, decorations, or souvenirs</li>
                 </ul>
 
-                <h2>Understanding Mobile Performance</h2>
-                <p>While MeCollage is optimized for mobile devices, it's important to understand how performance can vary based on your device's capabilities:</p>
+                <h2 data-i18n="blog.mobile.h2_perf">Understanding Mobile Performance</h2>
+                <p data-i18n="blog.mobile.p_perf">While MeCollage is optimized for mobile devices, it's important to understand how performance can vary based on your device's capabilities:</p>
 
-                <h3>1. Device Specifications Matter</h3>
-                <p>Newer devices with more powerful processors and larger amounts of RAM will handle complex collages more smoothly than older devices. If you're working with a large number of high-resolution images, you may notice some lag on older devices.</p>
+                <h3 data-i18n="blog.mobile.h3_spec">1. Device Specifications Matter</h3>
+                <p data-i18n="blog.mobile.p_spec">Newer devices with more powerful processors and larger amounts of RAM will handle complex collages more smoothly than older devices. If you're working with a large number of high-resolution images, you may notice some lag on older devices.</p>
 
-                <h3>2. Image Quantity and Quality</h3>
-                <p>MeCollage supports up to 20 images per collage, but keep in mind that:</p>
+                <h3 data-i18n="blog.mobile.h3_qty">2. Image Quantity and Quality</h3>
+                <p data-i18n="blog.mobile.p_qty">MeCollage supports up to 20 images per collage, but keep in mind that:</p>
                 <ul>
-                    <li>More images = more processing power required</li>
-                    <li>High-resolution images take longer to load and process</li>
-                    <li>Complex layouts with many cells may render more slowly on mobile</li>
+                    <li data-i18n="blog.mobile.li_qty_proc">More images = more processing power required</li>
+                    <li data-i18n="blog.mobile.li_qty_res">High-resolution images take longer to load and process</li>
+                    <li data-i18n="blog.mobile.li_qty_render">Complex layouts with many cells may render more slowly on mobile</li>
                 </ul>
 
-                <h3>3. Tips for Better Performance</h3>
+                <h3 data-i18n="blog.mobile.h3_perf_tips">3. Tips for Better Performance</h3>
                 <ul>
-                    <li>Close other apps running in the background before using MeCollage</li>
-                    <li>Use a stable internet connection for the best experience</li>
-                    <li>Start with a smaller number of images and add more gradually</li>
-                    <li>Consider resizing very large images before uploading them</li>
+                    <li data-i18n="blog.mobile.li_perf_apps">Close other apps running in the background before using MeCollage</li>
+                    <li data-i18n="blog.mobile.li_perf_net">Use a stable internet connection for the best experience</li>
+                    <li data-i18n="blog.mobile.li_perf_grad">Start with a smaller number of images and add more gradually</li>
+                    <li data-i18n="blog.mobile.li_perf_resize">Consider resizing very large images before uploading them</li>
                 </ul>
 
-                <h2>Exporting and Saving to Your Mobile Gallery</h2>
-                <p>Once you've created your perfect collage, it's time to save it to your device. MeCollage makes this process simple:</p>
+                <h2 data-i18n="blog.mobile.h2_save">Exporting and Saving to Your Mobile Gallery</h2>
+                <p data-i18n="blog.mobile.p_save">Once you've created your perfect collage, it's time to save it to your device. MeCollage makes this process simple:</p>
 
-                <h3>1. Exporting Your Collage</h3>
+                <h3 data-i18n="blog.mobile.h3_exp">1. Exporting Your Collage</h3>
                 <ul>
-                    <li>Tap the export button in the toolbar (typically represented by a download icon)</li>
-                    <li>Choose your desired file format (PNG or JPG)</li>
-                    <li>Select the quality/resolution that best meets your needs</li>
-                    <li>Wait for the export process to complete</li>
+                    <li data-i18n="blog.mobile.li_exp_btn">Tap the export button in the toolbar (typically represented by a download icon)</li>
+                    <li data-i18n="blog.mobile.li_exp_fmt">Choose your desired file format (PNG or JPG)</li>
+                    <li data-i18n="blog.mobile.li_exp_qual">Select the quality/resolution that best meets your needs</li>
+                    <li data-i18n="blog.mobile.li_exp_wait">Wait for the export process to complete</li>
                 </ul>
 
-                <h3>2. Saving to Your Gallery</h3>
-                <p>After exporting, you'll have the option to save the collage directly to your device's gallery. The exact steps may vary depending on your device and browser, but generally:</p>
+                <h3 data-i18n="blog.mobile.h3_gallery">2. Saving to Your Gallery</h3>
+                <p data-i18n="blog.mobile.p_gallery">After exporting, you'll have the option to save the collage directly to your device's gallery. The exact steps may vary depending on your device and browser, but generally:</p>
                 <ul>
-                    <li>Tap "Save Image" or "Download" when prompted</li>
-                    <li>Open your device's gallery app</li>
-                    <li>Look for the saved collage in your "Downloads" folder or a dedicated "MeCollage" album</li>
+                    <li data-i18n="blog.mobile.li_gallery_save">Tap "Save Image" or "Download" when prompted</li>
+                    <li data-i18n="blog.mobile.li_gallery_open">Open your device's gallery app</li>
+                    <li data-i18n="blog.mobile.li_gallery_look">Look for the saved collage in your "Downloads" folder or a dedicated "MeCollage" album</li>
                 </ul>
 
-                <h3>3. Managing Your Saved Collages</h3>
-                <p>To keep your collages organized:</p>
+                <h3 data-i18n="blog.mobile.h3_manage">3. Managing Your Saved Collages</h3>
+                <p data-i18n="blog.mobile.p_manage">To keep your collages organized:</p>
                 <ul>
-                    <li>Create a dedicated album in your gallery for MeCollage creations</li>
-                    <li>Rename collages with descriptive names (e.g., "FamilyVacation2025_Collage")</li>
-                    <li>Regularly back up your collages to cloud storage to prevent loss</li>
+                    <li data-i18n="blog.mobile.li_manage_album">Create a dedicated album in your gallery for MeCollage creations</li>
+                    <li data-i18n="blog.mobile.li_manage_name">Rename collages with descriptive names (e.g., "FamilyVacation2025_Collage")</li>
+                    <li data-i18n="blog.mobile.li_manage_backup">Regularly back up your collages to cloud storage to prevent loss</li>
                 </ul>
 
-                <h2>Sharing Your Collages to Social Media Apps</h2>
-                <p>One of the best things about creating collages is sharing them with friends and family. MeCollage makes it easy to share your creations directly to popular social media platforms:</p>
+                <h2 data-i18n="blog.mobile.h2_share">Sharing Your Collages to Social Media Apps</h2>
+                <p data-i18n="blog.mobile.p_share">One of the best things about creating collages is sharing them with friends and family. MeCollage makes it easy to share your creations directly to popular social media platforms:</p>
 
-                <h3>1. Direct Sharing Options</h3>
-                <p>After exporting your collage, you can use your device's built-in sharing feature to post it directly to:</p>
+                <h3 data-i18n="blog.mobile.h3_direct">1. Direct Sharing Options</h3>
+                <p data-i18n="blog.mobile.p_direct">After exporting your collage, you can use your device's built-in sharing feature to post it directly to:</p>
                 <ul>
-                    <li>Instagram (feed, stories, or reels)</li>
-                    <li>Facebook (timeline, groups, or stories)</li>
-                    <li>Twitter/X</li>
-                    <li>Pinterest</li>
-                    <li>WhatsApp, Telegram, and other messaging apps</li>
+                    <li data-i18n="blog.mobile.li_direct_insta">Instagram (feed, stories, or reels)</li>
+                    <li data-i18n="blog.mobile.li_direct_fb">Facebook (timeline, groups, or stories)</li>
+                    <li data-i18n="blog.mobile.li_direct_tw">Twitter/X</li>
+                    <li data-i18n="blog.mobile.li_direct_pin">Pinterest</li>
+                    <li data-i18n="blog.mobile.li_direct_msg">WhatsApp, Telegram, and other messaging apps</li>
                 </ul>
 
-                <h3>2. Optimizing Collages for Social Media</h3>
-                <p>Different social media platforms have different requirements for image dimensions. Here's how to optimize your collages:</p>
+                <h3 data-i18n="blog.mobile.h3_opt">2. Optimizing Collages for Social Media</h3>
+                <p data-i18n="blog.mobile.p_opt">Different social media platforms have different requirements for image dimensions. Here's how to optimize your collages:</p>
                 <ul>
-                    <li><strong>Instagram Feed</strong>: Use square (1:1) or portrait (4:5) layouts for the best results</li>
-                    <li><strong>Instagram Stories</strong>: Use vertical (9:16) layouts</li>
-                    <li><strong>Facebook</strong>: Square or landscape (16:9) layouts work well</li>
-                    <li><strong>Twitter/X</strong>: Landscape (16:9) or square layouts are optimal</li>
+                    <li data-i18n="blog.mobile.li_opt_insta"><strong>Instagram Feed</strong>: Use square (1:1) or portrait (4:5) layouts for the best results</li>
+                    <li data-i18n="blog.mobile.li_opt_stories"><strong>Instagram Stories</strong>: Use vertical (9:16) layouts</li>
+                    <li data-i18n="blog.mobile.li_opt_fb"><strong>Facebook</strong>: Square or landscape (16:9) layouts work well</li>
+                    <li data-i18n="blog.mobile.li_opt_tw"><strong>Twitter/X</strong>: Landscape (16:9) or square layouts are optimal</li>
                 </ul>
 
-                <h3>3. Adding Captions and Hashtags</h3>
-                <p>When sharing your collages, don't forget to add engaging captions and relevant hashtags to increase visibility. Some popular collage-related hashtags include:</p>
+                <h3 data-i18n="blog.mobile.h3_tags">3. Adding Captions and Hashtags</h3>
+                <p data-i18n="blog.mobile.p_tags">When sharing your collages, don't forget to add engaging captions and relevant hashtags to increase visibility. Some popular collage-related hashtags include:</p>
                 <ul>
-                    <li>#PhotoCollage</li>
-                    <li>#CollageArt</li>
-                    <li>#MemoryCollage</li>
-                    <li>#PhotoGrid</li>
-                    <li>#MeCollage</li>
+                    <li data-i18n="blog.mobile.li_tags_pc">#PhotoCollage</li>
+                    <li data-i18n="blog.mobile.li_tags_ca">#CollageArt</li>
+                    <li data-i18n="blog.mobile.li_tags_mc">#MemoryCollage</li>
+                    <li data-i18n="blog.mobile.li_tags_pg">#PhotoGrid</li>
+                    <li data-i18n="blog.mobile.li_tags_me">#MeCollage</li>
                 </ul>
 
-                <h2>Mobile Collage FAQs: Troubleshooting Common Issues</h2>
-                <p>Even with the most intuitive tools, you may encounter issues when creating collages on mobile. Here are solutions to some common problems:</p>
+                <h2 data-i18n="blog.mobile.h2_faq">Mobile Collage FAQs: Troubleshooting Common Issues</h2>
+                <p data-i18n="blog.mobile.p_faq">Even with the most intuitive tools, you may encounter issues when creating collages on mobile. Here are solutions to some common problems:</p>
 
-                <h3>1. Images Won't Upload</h3>
-                <p>If you're having trouble uploading images from your mobile device:</p>
+                <h3 data-i18n="blog.mobile.h3_upload_err">1. Images Won't Upload</h3>
+                <p data-i18n="blog.mobile.p_upload_err">If you're having trouble uploading images from your mobile device:</p>
                 <ul>
-                    <li>Ensure MeCollage has permission to access your photos</li>
-                    <li>Check that your internet connection is stable</li>
-                    <li>Try reducing the number of images you're uploading at once</li>
-                    <li>Clear your browser cache and try again</li>
+                    <li data-i18n="blog.mobile.li_upload_perm">Ensure MeCollage has permission to access your photos</li>
+                    <li data-i18n="blog.mobile.li_upload_net">Check that your internet connection is stable</li>
+                    <li data-i18n="blog.mobile.li_upload_qty">Try reducing the number of images you're uploading at once</li>
+                    <li data-i18n="blog.mobile.li_upload_cache">Clear your browser cache and try again</li>
                 </ul>
 
-                <h3>2. Touch Controls Are Unresponsive</h3>
-                <p>If touch controls feel laggy or unresponsive:</p>
+                <h3 data-i18n="blog.mobile.h3_touch_err">2. Touch Controls Are Unresponsive</h3>
+                <p data-i18n="blog.mobile.p_touch_err">If touch controls feel laggy or unresponsive:</p>
                 <ul>
-                    <li>Close other apps running in the background</li>
-                    <li>Ensure your device's screen is clean and free of moisture</li>
-                    <li>Try refreshing the browser page</li>
-                    <li>Restart your device if the problem persists</li>
+                    <li data-i18n="blog.mobile.li_touch_apps">Close other apps running in the background</li>
+                    <li data-i18n="blog.mobile.li_touch_clean">Ensure your device's screen is clean and free of moisture</li>
+                    <li data-i18n="blog.mobile.li_touch_refresh">Try refreshing the browser page</li>
+                    <li data-i18n="blog.mobile.li_touch_restart">Restart your device if the problem persists</li>
                 </ul>
 
-                <h3>3. Collage Won't Export</h3>
-                <p>If you're having trouble exporting your collage:</p>
+                <h3 data-i18n="blog.mobile.h3_exp_err">3. Collage Won't Export</h3>
+                <p data-i18n="blog.mobile.p_exp_err">If you're having trouble exporting your collage:</p>
                 <ul>
-                    <li>Check that you have enough storage space on your device</li>
-                    <li>Try using a different file format (PNG vs JPG)</li>
-                    <li>Reduce the number of images in your collage</li>
-                    <li>Ensure your browser is up to date</li>
+                    <li data-i18n="blog.mobile.li_exp_space">Check that you have enough storage space on your device</li>
+                    <li data-i18n="blog.mobile.li_exp_fmt_err">Try using a different file format (PNG vs JPG)</li>
+                    <li data-i18n="blog.mobile.li_exp_qty_err">Reduce the number of images in your collage</li>
+                    <li data-i18n="blog.mobile.li_exp_browser">Ensure your browser is up to date</li>
                 </ul>
 
-                <h3>4. Collage Looks Different on Other Devices</h3>
-                <p>If your collage appears differently on other devices:</p>
+                <h3 data-i18n="blog.mobile.h3_diff_err">4. Collage Looks Different on Other Devices</h3>
+                <p data-i18n="blog.mobile.p_diff_err">If your collage appears differently on other devices:</p>
                 <ul>
-                    <li>Remember that screen sizes and resolutions vary between devices</li>
-                    <li>Use standard aspect ratios that work well across platforms</li>
-                    <li>Test your collage on different devices before sharing if possible</li>
+                    <li data-i18n="blog.mobile.li_diff_screen">Remember that screen sizes and resolutions vary between devices</li>
+                    <li data-i18n="blog.mobile.li_diff_aspect">Use standard aspect ratios that work well across platforms</li>
+                    <li data-i18n="blog.mobile.li_diff_test">Test your collage on different devices before sharing if possible</li>
                 </ul>
 
-                <h2>Final Thoughts: Embrace Mobile Collage Creation</h2>
-                <p>Creating collages on mobile devices offers unparalleled convenience and flexibility. With MeCollage's mobile-optimized interface, you can turn your photos into beautiful collages whenever inspiration strikes, whether you're on the go or relaxing at home.</p>
+                <h2 data-i18n="blog.mobile.h2_final">Final Thoughts: Embrace Mobile Collage Creation</h2>
+                <p data-i18n="blog.mobile.p_final_intro">Creating collages on mobile devices offers unparalleled convenience and flexibility. With MeCollage's mobile-optimized interface, you can turn your photos into beautiful collages whenever inspiration strikes, whether you're on the go or relaxing at home.</p>
 
-                <p>Remember to experiment with different layouts, play with touch controls to find what works best for you, and don't be afraid to get creative. The more you practice, the more comfortable you'll become with mobile collage creation, and the more stunning your results will be.</p>
+                <p data-i18n="blog.mobile.p_final_exp">Remember to experiment with different layouts, play with touch controls to find what works best for you, and don't be afraid to get creative. The more you practice, the more comfortable you'll become with mobile collage creation, and the more stunning your results will be.</p>
 
-                <p>So grab your phone, open MeCollage, and start creating beautiful collages that tell your unique story. Happy collaging!</p>
+                <p data-i18n="blog.mobile.p_final_outro">So grab your phone, open MeCollage, and start creating beautiful collages that tell your unique story. Happy collaging!</p>
             </article>
 
             <section class="related-articles">
-                <h2>Related Articles</h2>
+                <h2 data-i18n="blog.common.related_posts">Related Articles</h2>
                 <div class="related-articles-grid">
                     <div class="related-article">
-                        <h3 class="related-article-title">How to Make a Photo Collage: Step-by-Step Guide</h3>
-                        <p>Learn the basics of creating stunning photo collages with our comprehensive guide.</p>
-                        <a href="/blog/how-to-make-photo-collage/" class="related-article-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="related-article-title" data-i18n="blog.how_to.title">How to Make a Photo Collage: Step-by-Step Guide</h3>
+                        <p data-i18n="blog.how_to.excerpt">Learn the basics of creating stunning photo collages with our comprehensive guide.</p>
+                        <a href="/blog/how-to-make-photo-collage/" class="related-article-link"><span data-i18n="blog.common.read_more">Read More</span> <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="related-article">
-                        <h3 class="related-article-title">10 Essential Collage Design Tips for Beginners</h3>
-                        <p>Master the art of collage design with these simple yet effective tips.</p>
-                        <a href="/blog/collage-design-tips/" class="related-article-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="related-article-title" data-i18n="blog.design_tips.title">10 Essential Collage Design Tips for Beginners</h3>
+                        <p data-i18n="blog.design_tips.excerpt">Master the art of collage design with these simple yet effective tips.</p>
+                        <a href="/blog/collage-design-tips/" class="related-article-link"><span data-i18n="blog.common.read_more">Read More</span> <i class="fas fa-arrow-right"></i></a>
                     </div>
                     <div class="related-article">
-                        <h3 class="related-article-title">Creating Holiday Collages: Step-by-Step Tutorial</h3>
-                        <p>Learn how to create festive holiday collages with MeCollage.</p>
-                        <a href="/blog/holiday-collage-guide/" class="related-article-link">Read More <i class="fas fa-arrow-right"></i></a>
+                        <h3 class="related-article-title" data-i18n="blog.holiday.title">Creating Holiday Collages: Step-by-Step Tutorial</h3>
+                        <p data-i18n="blog.holiday.excerpt">Learn how to create festive holiday collages with MeCollage.</p>
+                        <a href="/blog/holiday-collage-guide/" class="related-article-link"><span data-i18n="blog.common.read_more">Read More</span> <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </section>
 
             <footer>
-            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;" data-i18n="footer.home">Back to Home</a> | <a href="/about" style="color: #8fd68f;" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: #8fd68f;" data-i18n="nav.blog">Blog</a> | <a href="/contact" style="color: #8fd68f;" data-i18n="footer.contact">Contact</a> | <a href="/privacy" style="color: #8fd68f;" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms" style="color: #8fd68f;" data-i18n="footer.terms">Terms of Service</a></p>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;" data-i18n="footer.home">Back to Home</a> | <a href="/about.html" style="color: #8fd68f;" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: #8fd68f;" data-i18n="nav.blog">Blog</a> | <a href="/contact.html" style="color: #8fd68f;" data-i18n="footer.contact">Contact</a> | <a href="/privacy.html" style="color: #8fd68f;" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms.html" style="color: #8fd68f;" data-i18n="footer.terms">Terms of Service</a></p>
         </footer>
         </div>
-    </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -587,38 +587,5 @@
     <!-- 多语言支持 -->
     <link rel="stylesheet" href="/assets/css/i18n.css">
     <script src="/assets/js/i18n.js"></script>
-    <script>
-        // FAQ Toggle Functionality (if needed)
-        document.addEventListener('DOMContentLoaded', () => {
-            // Language selector functionality
-            const langToggle = document.querySelector('.lang-selector-toggle');
-            const langMenu = document.querySelector('.lang-menu');
-            const langMenuBackdrop = document.querySelector('.lang-menu-backdrop');
-
-            if (langToggle && langMenu && langMenuBackdrop) {
-                langToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const isExpanded = langToggle.getAttribute('aria-expanded') === 'true';
-                    langToggle.setAttribute('aria-expanded', !isExpanded);
-                    langMenu.style.display = isExpanded ? 'none' : 'block';
-                    langMenuBackdrop.style.display = isExpanded ? 'none' : 'block';
-                });
-
-                [langMenuBackdrop, ...document.querySelectorAll('.lang-option')].forEach(el => {
-                    el.addEventListener('click', () => {
-                        langToggle.setAttribute('aria-expanded', 'false');
-                        langMenu.style.display = 'none';
-                        langMenuBackdrop.style.display = 'none';
-                    });
-                });
-
-                document.addEventListener('click', () => {
-                    langToggle.setAttribute('aria-expanded', 'false');
-                    langMenu.style.display = 'none';
-                    langMenuBackdrop.style.display = 'none';
-                });
-            }
-        });
-    </script>
 </body>
 </html>

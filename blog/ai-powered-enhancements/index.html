@@ -7,20 +7,20 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." data-i18n-content="blog.how_to.excerpt" />
-    <meta name="keywords" content="how to make photo collages, photo collage maker, online collage tool, free collage maker, MeCollage tutorial, step-by-step collage guide" data-i18n-content="meta.keywords" />
+    <meta name="description" data-i18n-content="blog.ai_enhancements.excerpt" content="Take your collages to the next level with MeCollage Pro's new AI features. Learn how to use Smart Face Centering and Local AI Background Removal." />
+    <meta name="keywords" content="AI collage maker, smart face centering, background removal, local AI image processing, MeCollage Pro features" />
     <meta name="author" content="MeCollage" />
-    <meta property="og:title" content="How to Make Photo Collages: Complete Step-by-Step Guide" data-i18n-content="blog.how_to.title" />
-    <meta property="og:description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." data-i18n-content="blog.how_to.excerpt" />
+    <meta property="og:title" data-i18n-content="blog.ai_enhancements.title" content="AI-Powered Enhancements: Smart Face Centering and Background Removal" />
+    <meta property="og:description" data-i18n-content="blog.ai_enhancements.excerpt" content="Take your collages to the next level with MeCollage Pro's new AI features." />
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://www.mecollage.top/blog/how-to-make-photo-collage/" />
+    <meta property="og:url" content="https://www.mecollage.top/blog/ai-powered-enhancements/" />
     <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
     <meta property="og:locale" content="en_US" />
-    <meta property="article:published_time" content="2025-01-13" />
+    <meta property="article:published_time" content="2026-01-29" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="How to Make Photo Collages: Complete Step-by-Step Guide" data-i18n-content="blog.how_to.title" />
-    <meta name="twitter:description" content="Learn how to create beautiful photo collages with MeCollage. Support up to 20 photos, multiple aspect ratios, filters, and more. Free online tool." data-i18n-content="blog.how_to.excerpt" />
-    <link rel="canonical" href="https://www.mecollage.top/blog/how-to-make-photo-collage/" />
+    <meta name="twitter:title" data-i18n-content="blog.ai_enhancements.title" content="AI-Powered Enhancements: Smart Face Centering and Background Removal" />
+    <meta name="twitter:description" data-i18n-content="blog.ai_enhancements.excerpt" content="Take your collages to the next level with MeCollage Pro's new AI features." />
+    <link rel="canonical" href="https://www.mecollage.top/blog/ai-powered-enhancements/" />
     
     <!-- DNS Prefetch for external resources -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -34,6 +34,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
     <!-- Main CSS -->
     <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
     <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
@@ -129,25 +166,6 @@
             line-height: 1.8;
         }
 
-        /* 引用样式 */
-        .blog-post-content blockquote {
-            margin: 1.5rem 0;
-            padding: 1rem 1.5rem;
-            background: rgba(143, 214, 143, 0.1);
-            border-left: 4px solid #8fd68f;
-            border-radius: 8px;
-            font-style: italic;
-        }
-
-        /* 代码块样式 */
-        .blog-post-content code {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-        }
-
         /* 返回博客首页链接 */
         .back-to-blog {
             display: inline-block;
@@ -168,55 +186,6 @@
             box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
         }
 
-        /* 相关文章推荐 */
-        .related-posts {
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .related-posts-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #8fd68f;
-        }
-
-        .related-posts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .related-post-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .related-post-card:hover {
-            background: rgba(143, 214, 143, 0.1);
-            border-color: rgba(143, 214, 143, 0.3);
-            transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        }
-
-        .related-post-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .related-post-excerpt {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-
         /* 响应式设计 */
         @media (max-width: 768px) {
             .blog-post-container {
@@ -234,10 +203,6 @@
 
             .blog-post-content h3 {
                 font-size: 1.2rem;
-            }
-
-            .related-posts-grid {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -311,56 +276,34 @@
         <!-- 博客文章内容 -->
         <main class="collage-tool-container">
             <article class="blog-post-container">
-                <h1 class="blog-post-title" data-i18n="blog.how_to.title">How to Make Photo Collages: Complete Step-by-Step Guide</h1>
+                <h1 class="blog-post-title" data-i18n="blog.ai_enhancements.title">AI-Powered Enhancements: Smart Face Centering and Background Removal</h1>
                 <div class="blog-post-meta">
-                    <span class="blog-post-date">Published: January 13, 2025</span>
-                    <span class="blog-post-author">by MeCollage Team</span>
+                    <span class="blog-post-date" data-i18n="blog.ai_enhancements.date">2026-01-29</span>
                 </div>
 
                 <div class="blog-post-content">
-                    <p data-i18n="blog.how_to.intro">Photo collages are a fantastic way to tell stories, showcase memories, and create visually stunning compositions from multiple images.</p>
+                    <p data-i18n="blog.ai_enhancements.intro">We are thrilled to introduce AI-powered enhancements to MeCollage! These features leverage the latest browser-based AI technology to help you create stunning collages with minimal effort. Best of all, everything runs locally on your device, ensuring your privacy is never compromised.</p>
 
-                    <h2 data-i18n="blog.how_to.h2_what_is">What is MeCollage?</h2>
-                    <p data-i18n="blog.how_to.p_what_is">MeCollage is a free online photo collage maker that allows you to create beautiful collages with ease.</p>
-                    
-                    <h2 data-i18n="blog.how_to.h2_guide">Step-by-Step Guide to Making a Photo Collage</h2>
-                    
-                    <h3 data-i18n="blog.how_to.step1">1. Upload Your Photos</h3>
-                    <h3 data-i18n="blog.how_to.step2">2. Choose an Aspect Ratio</h3>
-                    <h3 data-i18n="blog.how_to.step3">3. Adjust the Gutter (Spacing Between Images)</h3>
-                    <h3 data-i18n="blog.how_to.step4">4. Add Rounded Corners</h3>
-                    <h3 data-i18n="blog.how_to.step5">5. Apply Filters</h3>
-                    <h3 data-i18n="blog.how_to.step6">6. Add Text and Stickers</h3>
-                    <h3 data-i18n="blog.how_to.step7">7. Export Your Collage</h3>
+                    <h2 data-i18n="blog.ai_enhancements.face_center_title">Smart Face Centering</h2>
+                    <p data-i18n="blog.ai_enhancements.face_center_desc">Tired of faces being cut off in collage cells? Our Smart Face Centering tool uses AI to detect faces in your photos and automatically adjust their position so they are perfectly centered in each cell.</p>
+                    <div style="background: rgba(143, 214, 143, 0.1); border-left: 4px solid #8fd68f; padding: 1rem; margin-bottom: 1.5rem; border-radius: 0 12px 12px 0;"></div>
+                        <h4 style="margin-bottom: 0.5rem; color: #8fd68f;" data-i18n="blog.ai_enhancements.how_to_title">How to Use</h4>
+                        <p style="margin-bottom: 0; font-size: 0.95rem;" data-i18n="blog.ai_enhancements.face_center_how_to">1. Click the 🤖 button in the bottom toolbar to open the AI panel; 2. Click the 'Apply to All Photos' button; 3. The system will automatically analyze all images and center faces within their cells.</p>
+                    </div>
 
-                    <h2 data-i18n="blog.how_to.h2_tips">Tips for Creating Stunning Collages</h2>
-                    <ul>
-                        <li data-i18n="blog.how_to.li_theme">Choose a Theme: Select photos that share a common theme, color scheme, or story.</li>
-                        <li data-i18n="blog.how_to.li_simple">Keep it Simple: Don't overcrowd your collage with too many elements. Sometimes less is more.</li>
-                    </ul>
+                    <h2 data-i18n="blog.ai_enhancements.bg_removal_title">Local AI Background Removal</h2>
+                    <p data-i18n="blog.ai_enhancements.bg_removal_desc">Create clean, product-focused collages or fun compositions by removing backgrounds instantly. Our AI background remover identifies the subject and removes the background entirely within your browser—no uploads required.</p>
+                    <div style="background: rgba(143, 214, 143, 0.1); border-left: 4px solid #8fd68f; padding: 1rem; margin-bottom: 1.5rem; border-radius: 0 12px 12px 0;">
+                        <h4 style="margin-bottom: 0.5rem; color: #8fd68f;" data-i18n="blog.ai_enhancements.how_to_title">How to Use</h4>
+                        <p style="margin-bottom: 0; font-size: 0.95rem;" data-i18n="blog.ai_enhancements.bg_removal_how_to">1. Click to select the photo you want to process on the canvas; 2. Click the 🤖 button in the bottom toolbar (if the panel isn't already open); 3. Click the 'Remove Background' button; 4. Wait a few seconds for the background to become transparent.</p>
+                    </div>
+
+                    <h2 data-i18n="blog.ai_enhancements.privacy_title">Privacy First AI</h2>
+                    <p data-i18n="blog.ai_enhancements.privacy_desc">Unlike other tools that process your photos on their servers, MeCollage's AI features run entirely on your local machine using WebAssembly and GPU acceleration. Your photos never leave your device.</p>
 
                     <a href="/blog/" class="back-to-blog" data-i18n="blog.common.back_to_blog">
                         <i class="fas fa-arrow-left"></i> Back to Blog Home
                     </a>
-
-                    <!-- Related Posts -->
-                    <div class="related-posts">
-                        <h3 class="related-posts-title" data-i18n="blog.common.related_posts">Related Posts</h3>
-                        <div class="related-posts-grid">
-                            <a href="/blog/collage-design-tips/" class="related-post-card">
-                                <h4 class="related-post-title" data-i18n="blog.design_tips.title">10 Collage Design Tips for Beginners</h4>
-                                <p class="related-post-excerpt" data-i18n="blog.design_tips.excerpt">Just starting out with collage making? These 10 essential design tips will help you create professional-looking collages from day one.</p>
-                            </a>
-                            <a href="/blog/holiday-collage-guide/" class="related-post-card">
-                                <h4 class="related-post-title" data-i18n="blog.holiday.title">Creating Holiday Collages: Step-by-Step Tutorial</h4>
-                                <p class="related-post-excerpt" data-i18n="blog.holiday.excerpt">Capture the magic of holidays with beautiful collages that tell your story.</p>
-                            </a>
-                            <a href="/blog/social-media-collage-guide/" class="related-post-card">
-                                <h4 class="related-post-title" data-i18n="blog.social_media.title">Social Media Collage Guide: Instagram, Facebook, Twitter</h4>
-                                <p class="related-post-excerpt" data-i18n="blog.social_media.excerpt">Create engaging collages optimized for each social media platform.</p>
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </article>
         </main>
