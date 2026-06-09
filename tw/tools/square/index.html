@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/favicon.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="tool.square.meta.title">正方形圖片 - 免費線上圖片正方形化工具</title>
+<meta content="免費線上將圖片轉換為正方形。從模糊背景、純色、調整大小或裁剪模式中選擇。非常適合社交媒體貼文、個人資料照片等。" data-i18n-content="tool.square.meta.description" name="description"/>
+<meta content="正方形圖片, 使圖片變正方形, 轉換為正方形, 正方形照片, 社交媒體正方形, 線上正方形製作器, 正方形背景" data-i18n-content="tool.square.meta.keywords" name="keywords"/>
+<meta content="Square Image Converter - Free Online Tool | MeCollage" property="og:title"/>
+<meta content="免費線上將圖片轉換為正方形。從模糊背景、純色、調整大小或裁剪模式中選擇。非常適合社交媒體貼文、個人資料照片等。" property="og:description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://www.mecollage.top/tw/tools/square/index.html" property="og:url"/>
+<meta content="https://www.mecollage.top/favicon-192.png" property="og:image"/>
+<meta content="zh_TW" property="og:locale"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="Square Image Converter - Free Online Tool | MeCollage" name="twitter:title"/>
+<meta content="免費線上將圖片轉換為正方形。從模糊背景、純色、調整大小或裁剪模式中選擇。非常適合社交媒體貼文、個人資料照片等。" name="twitter:description"/>
+<link href="https://www.mecollage.top/tw/tools/square/index.html" rel="canonical"/><link href="https://www.mecollage.top/public/tools/square/index.html" hreflang="x-default" rel="alternate"/><link href="https://www.mecollage.top/public/tools/square/index.html" hreflang="en" rel="alternate"/><link href="https://www.mecollage.top/zh/tools/square/index.html" hreflang="zh-CN" rel="alternate"/><link href="https://www.mecollage.top/tw/tools/square/index.html" hreflang="zh-TW" rel="alternate"/><link href="https://www.mecollage.top/ja/tools/square/index.html" hreflang="ja" rel="alternate"/><link href="https://www.mecollage.top/es/tools/square/index.html" hreflang="es" rel="alternate"/>
+
+
+
+
+
+
+<!-- DNS Prefetch for external resources -->
+<link href="https://fonts.googleapis.com" rel="dns-prefetch"/>
+<link href="https://fonts.gstatic.com" rel="dns-prefetch"/>
+<!-- Preconnect for fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<!-- Preload critical resources -->
+<link as="image" fetchpriority="high" href="/wallImage.webp" rel="preload" type="image/webp"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<!-- Early WebP detection -->
+<script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+<!-- Main CSS -->
+<link href="/assets/index-vAuRGWiM.css" rel="stylesheet"/>
+<link href="/assets/pages-C2UaL6ML.css" rel="stylesheet"/>
+<!-- Custom CSS for Square Tool -->
+<style>
+        /* Square Tool Specific Styles */
+        .square-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Two-column layout when settings are visible */
+        .main-content.settings-visible {
+            grid-template-columns: 1fr 300px;
+        }
+
+        .preview-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 2px dashed #8fd68f;
+            border-radius: 20px;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-area:hover {
+            border-color: #66BB6A;
+            background-color: rgba(143, 214, 143, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #8fd68f;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .canvas-container {
+            position: relative;
+            margin: 20px auto;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #previewCanvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mode-selector {
+            margin: 20px 0;
+        }
+
+        .mode-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .mode-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .mode-btn {
+            padding: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .mode-btn:hover {
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .mode-btn.active {
+            background: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .options-panel {
+            margin: 20px 0;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .option-group {
+            margin-bottom: 20px;
+        }
+
+        .option-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .blur-slider {
+            margin: 15px 0;
+        }
+
+        .color-picker-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        #backgroundColor {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        #colorPreview {
+            flex: 1;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .size-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .size-option {
+            padding: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .size-option:hover {
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+        }
+
+        .size-option.active {
+            background: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8fd68f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #66BB6A;
+            transform: scale(1.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: #8fd68f;
+            color: #1a1a1a;
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #66BB6A;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .settings-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: none;
+        }
+
+        .settings-section h3 {
+            margin-bottom: 20px;
+            color: #8fd68f;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Tools Group */
+        .tools-group {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        /* Download Settings Row */
+        .download-settings-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .download-settings-row .setting-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        /* Download Button */
+        .download-btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 14px;
+            font-size: 1.1rem;
+        }
+
+        .tool-btn {
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+
+        .tool-btn:hover {
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+        }
+
+        .tool-btn.active {
+            background: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .setting-group {
+            margin-bottom: 25px;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: rgba(143, 214, 143, 0.6);
+            box-shadow: 0 0 0 3px rgba(143, 214, 143, 0.2);
+        }
+
+        select option {
+            background: #333;
+            color: #fff;
+        }
+
+        .quality-slider {
+            margin: 15px 0;
+        }
+
+        /* Zoom Control */
+        .zoom-control {
+            margin-top: 15px;
+        }
+
+        .zoom-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .zoom-slider {
+            flex: 1;
+        }
+
+        .zoom-value {
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            min-width: 50px;
+            text-align: right;
+        }
+
+        /* Preset Colors */
+        .preset-colors {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .preset-color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .preset-color:hover {
+            transform: scale(1.2);
+            border-color: rgba(255, 255, 255, 0.6);
+        }
+
+        .preset-color.selected {
+            border-color: rgba(143, 214, 143, 0.8);
+            box-shadow: 0 0 0 2px rgba(143, 214, 143, 0.3);
+        }
+
+        .download-info {
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #8fd68f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin: 2rem 0;
+        }
+
+        .faq-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .faq-answer {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        footer a:hover {
+            color: #66BB6A;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .settings-section {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .square-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .upload-area {
+                padding: 30px 15px;
+            }
+
+            .upload-icon {
+                font-size: 3rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .mode-buttons {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tool-nav-link {
+                width: 100%;
+                max-width: 200px;
+                text-align: center;
+            }
+        }
+    </style>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509"></script>
+</head>
+<body>
+<!-- Ghibli Background -->
+<div class="ghibli-background">
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+<div class="cloud cloud4"></div>
+<div class="sun"></div>
+<div class="bird bird1">🐦</div>
+<div class="bird bird2">🐦</div>
+<div class="tree tree1">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+<div class="tree tree2">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+<div class="tree tree3">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+<div class="tree tree4">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+</div>
+<div class="app-container">
+<!-- Main Navigation (Inherited from Main Site) -->
+<nav class="ghibli-nav">
+<div class="nav-left">
+<a class="nav-link" data-i18n="nav.home" data-page="home" href="/">首頁</a>
+<a class="nav-link" data-i18n="nav.blog" data-page="blog" href="/blog/">部落格</a>
+<a class="nav-link" data-i18n="nav.about" data-page="about" href="/about.html">關於我們</a>
+<a class="nav-link" data-i18n="nav.square" data-page="square" href="/public/tools/square/" rel="noopener noreferrer">正方形圖片</a>
+</div>
+<div class="nav-right">
+<a class="nav-link github-link" data-i18n-title="nav.github_view" href="https://github.com/oogwaaay/mecollage/issues" rel="noopener noreferrer" target="_blank" title="在 GitHub 上查看">
+<i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+</a>
+<div class="lang-selector" data-i18n-title="nav.switch_language" title="切換語言">
+<button aria-expanded="false" aria-haspopup="true" class="lang-selector-toggle" type="button">
+<span aria-hidden="true">🌐</span>
+<span data-i18n="lang.name">English</span>
+</button>
+<div class="lang-menu" role="menu">
+<button class="lang-option" data-i18n="lang.english" data-lang="en" role="menuitem" type="button">English</button>
+<button class="lang-option" data-i18n="lang.chinese" data-lang="zh" role="menuitem" type="button">简体中文</button>
+<button class="lang-option" data-i18n="lang.traditional_chinese" data-lang="zh-tw" role="menuitem" type="button">繁體中文</button>
+<button class="lang-option" data-i18n="lang.japanese" data-lang="ja" role="menuitem" type="button">日本語</button>
+<button class="lang-option" data-i18n="lang.spanish" data-lang="es" role="menuitem" type="button">Español</button>
+</div>
+<div aria-hidden="true" class="lang-menu-backdrop" tabindex="-1"></div>
+</div>
+</div>
+</nav>
+<div class="square-tool-container">
+<header class="page-header">
+<h1 class="page-title" data-i18n="tool.square.title">正方形圖片</h1>
+<p class="page-subtitle" data-i18n="tool.square.subtitle">免費線上將圖片轉換為正方形</p>
+</header>
+<nav class="tool-nav">
+<div class="tool-nav-container">
+<a class="tool-nav-link" href="/"><i class="fas fa-home"></i> <span data-i18n="nav.home">首頁</span></a>
+<a class="tool-nav-link" href="/public/tools/squarecrop/"><i class="fas fa-crop-square"></i> <span data-i18n="tool.common.nav_square_crop">正方形裁剪</span></a>
+<a class="tool-nav-link" href="/public/tools/roundedcorners/"><i class="fas fa-border-radius"></i> <span data-i18n="tool.common.nav_rounded_corners">圓角工具</span></a>
+<a class="tool-nav-link active" href="/public/tools/square/"><i class="fas fa-square"></i> <span data-i18n="tool.common.nav_square_image">正方形圖片</span></a>
+<a class="tool-nav-link" href="/public/tools/blurredframe/"><i class="fas fa-image"></i> <span data-i18n="tool.common.nav_blurred_frame">模糊邊框</span></a>
+</div>
+</nav>
+<div class="main-content">
+<section class="preview-section">
+<div id="uploadContainer">
+<div class="upload-area" onclick="document.getElementById('fileInput').click()">
+<div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+<div class="upload-text" data-i18n="tool.square.upload.text">將圖片拖放到此處或點擊上傳</div>
+<div class="upload-hint" data-i18n="tool.square.upload.hint">支援 JPG, PNG, WEBP 格式</div>
+</div>
+<input accept="image/*" id="fileInput" type="file"/>
+</div>
+<div id="editorContainer" style="display: none;">
+<div class="canvas-container" id="canvasContainer">
+<canvas id="previewCanvas"></canvas>
+</div>
+<div class="controls">
+<!-- Tool-specific controls will be displayed here based on selected tool -->
+<div class="tool-controls" id="blurControls" style="display: none;">
+<div class="option-group">
+<label class="option-label" data-i18n="tool.square.controls.blur_amount">模糊強度</label>
+<input class="blur-slider" id="blurSlider" max="20" min="1" type="range" value="10"/>
+</div>
+</div>
+<div class="tool-controls" id="colorControls" style="display: none;">
+<div class="option-group">
+<label class="option-label" data-i18n="tool.square.controls.bg_color">背景顏色</label>
+<div class="color-picker-container">
+<input id="backgroundColor" type="color" value="#ffffff"/>
+<span id="colorPreview">#ffffff</span>
+</div>
+<div class="preset-colors" id="presetColors"></div>
+</div>
+</div>
+<div class="tool-controls" id="cropControls" style="display: none;">
+<div class="option-group">
+<div class="zoom-control">
+<label class="option-label" data-i18n="tool.square.controls.zoom">縮放</label>
+<div class="zoom-slider-container">
+<input class="zoom-slider" id="zoomSlider" max="200" min="50" type="range" value="100"/>
+<span class="zoom-value" id="zoomValue">100%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="action-buttons">
+<button class="btn btn-secondary" onclick="resetEditor()"><i class="fas fa-redo"></i> <span data-i18n="tool.square.editor.reset">重置</span></button>
+<button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i> <span data-i18n="tool.square.editor.change_image">更改圖片</span></button>
+</div>
+</div>
+</div>
+</section>
+<aside class="settings-section" id="settingsSection">
+<h3 data-i18n="tool.square.settings.tools_title"><i class="fas fa-tools"></i>工具</h3>
+<div class="tools-group">
+<button class="tool-btn active" data-i18n="tool.square.tools.blur" data-tool="blur">模糊背景</button>
+<button class="tool-btn" data-i18n="tool.square.tools.solid" data-tool="solid">純色背景</button>
+<button class="tool-btn" data-i18n="tool.square.tools.resize" data-tool="resize">調整大小</button>
+<button class="tool-btn" data-i18n="tool.square.tools.crop" data-tool="crop">正方形裁剪</button>
+</div>
+<h3 data-i18n="tool.square.settings.download_title"><i class="fas fa-cog"></i>下載設置</h3>
+<div class="download-settings-row">
+<div class="setting-group">
+<select id="outputSize">
+<option data-i18n="tool.square.settings.size_1200" selected="" value="1200">1200px</option>
+<option data-i18n="tool.square.settings.size_original" value="original">原始大小</option>
+<option data-i18n="tool.square.settings.size_custom" value="custom">自定義</option>
+</select>
+</div>
+<div class="setting-group">
+<select id="outputFormat">
+<option data-i18n="tool.square.settings.format_jpeg" selected="" value="jpg">JPEG</option>
+<option data-i18n="tool.square.settings.format_png" value="png">PNG</option>
+<option data-i18n="tool.square.settings.format_webp" value="webp">WEBP</option>
+</select>
+</div>
+</div>
+<div class="setting-group" id="customSizeGroup" style="display: none;">
+<label class="setting-label" data-i18n="tool.square.settings.size_label">自定義尺寸 (px)</label>
+<input id="customSize" max="10000" min="100" type="number" value="1200"/>
+</div>
+<div class="setting-group">
+<label class="setting-label"><span data-i18n="tool.square.settings.quality_label">JPG 品質</span>: <span id="qualityValue">85%</span></label>
+<input class="quality-slider" id="qualitySlider" max="100" min="10" type="range" value="85"/>
+</div>
+<button class="btn btn-primary download-btn" data-i18n="tool.square.settings.download_btn" onclick="downloadImage()"><i class="fas fa-download"></i>下載圖片</button>
+</aside>
+</div>
+<!-- SEO Content Section -->
+<section class="seo-content" style="background: rgba(0, 0, 0, 0.35); backdrop-filter: blur(18px); border-radius: 30px; padding: 2rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.18); margin: 2rem 0;">
+<h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; color: #8fd68f; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);">Free Square Image Converter Online</h2>
+<p style="font-size: 1rem; color: rgba(255, 255, 255, 0.85); line-height: 1.7; margin-bottom: 1.5rem;">
+                    Looking for an easy way to <strong>make your photos square</strong>? <strong>MeCollage</strong> helps you transform any rectangular photo into a perfect 1:1 square format. Whether you need <strong>square images for Instagram</strong>, profile pictures, thumbnails, or social media posts, our tool handles it all — no signup, no watermarks, completely free.
+                </p>
+<h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: #8fd68f;">Why Use Our Square Image Tool?</h3>
+<ul style="color: rgba(255, 255, 255, 0.85); line-height: 1.8; margin-bottom: 1.5rem; padding-left: 1.5rem;">
+<li><strong>4 conversion modes</strong>: Blur background, solid color, resize, or crop</li>
+<li><strong>Perfect for Instagram</strong>: Default 1200x1200px size for optimal quality</li>
+<li><strong>Privacy first</strong>: All processing happens in your browser, images never leave your device</li>
+<li><strong>Multiple formats</strong>: Export as JPEG, PNG (with transparency), or WEBP</li>
+<li><strong>100% free</strong>: No watermarks, no signup, no limits</li>
+</ul>
+<h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: #8fd68f;">How to Make an Image Square</h3>
+<ol style="color: rgba(255, 255, 255, 0.85); line-height: 1.8; padding-left: 1.5rem;">
+<li>Upload your photo (JPG, PNG, or WEBP)</li>
+<li>Choose your preferred mode: blur, color, resize, or crop</li>
+<li>Adjust settings to your preference</li>
+<li>Download your squared image instantly</li>
+</ol>
+</section>
+<!-- FAQ Section -->
+<section class="faq-section" id="faqSection">
+<h2 class="faq-title" data-i18n="tool.square.faq.title">常見問題</h2>
+<div class="faq-container">
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q1">什麼是正方形圖片？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a1">正方形圖片是一個免費的線上工具，可以將任何照片轉換為完美的正方形格式。非常適合社交媒體個人資料照片、Instagram 貼文、縮圖等。從模糊背景、純色、調整大小或裁剪選項中選擇。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q2">我可以在不裁剪的情況下將圖片變為正方形嗎？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a2">是的！使用「模糊背景」或「純色背景」模式可以在不丟失原始照片任何部分的情況下將圖片變為正方形。這些模式會添加模糊或彩色背景來填補正方形空間，保持整個圖片完整並居中。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q3">如何將長方形轉換為正方形？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a3">將長方形圖片轉換為正方形很容易，有四種方法：模糊背景（保留整個圖片並添加藝術模糊）、彩色背景（添加純色邊框）、調整大小（透過拉伸使圖片適合正方形）或裁剪（選擇您想要的部分）。選擇最適合您需求的方法。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q4">模糊背景是如何運作的？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a4">模糊背景工具透過模糊您的原始圖片並將其用作背景，創建平滑且專業的背景。您的原始圖片在中心保持清晰，而模糊版本則填滿正方形畫布。使用滑塊調整模糊強度以達到完美的外觀。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q5">如何為 Instagram 製作正方形圖片？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a5">上傳您的照片，選擇四種工具（模糊、顏色、調整大小或裁剪）中的任何一種，根據您的喜好調整設置，然後下載。默認的 1200px 尺寸非常適合 Instagram 貼文和個人資料照片。支援所有適合 Instagram 的格式：JPEG、PNG 和 WEBP。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q6">支援哪些格式？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a6">可以上傳 JPG、PNG、WEBP 和大多數常見圖片格式。所有處理都在您的瀏覽器中進行 - 您的圖片永遠不會離開您的設備。將您的正方形圖片下載為高品質 JPEG、具有完全透明度支援的 PNG 或現代 WEBP 格式。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q7">社交媒體最佳的正方形尺寸是多少？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a7">對於包括 Instagram、Facebook、LinkedIn 和 Twitter 在內的大多數平台，推薦尺寸為 1200x1200px。對於 YouTube 縮圖，1080x1080px 效果很好。您也可以選擇「原始大小」以保持照片品質，或為專業用途設置高達 10000px 的自定義尺寸。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.square.faq.q8">這個工具是免費使用的嗎？</h3>
+<p class="faq-answer" data-i18n="tool.square.faq.a8">是的，完全免費，無水印、無需註冊或隱藏費用。免費處理無限數量的圖片，具有高品質下載。包括模糊背景、彩色背景、調整大小和裁剪工具在內的所有功能都對所有人免費開放。</p>
+</div>
+</div>
+</section>
+<footer>
+<p><span data-i18n="footer.copyright">© 2026 MeCollage. 版權所有。</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">返回首頁</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">關於我們</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">部落格</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">聯繫我們</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">隱私政策</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">服務條款</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" rel="noopener noreferrer" style="color: #8fd68f;" target="_blank"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+</footer>
+</div>
+</div>
+<script>
+        // State management
+        const state = {
+            image: null,
+            canvas: null,
+            ctx: null,
+            selectedTool: 'blur',
+            containerSize: 0,
+            zoom: 100,
+            pan: { x: 0, y: 0 },
+            isDragging: false,
+            dragStart: { x: 0, y: 0 },
+            options: {
+                blurStrength: 20,
+                backgroundColor: '#ffffff',
+                resizeFit: 'contain'
+            }
+        };
+
+        // Initialize canvas
+        function initCanvas() {
+            state.canvas = document.getElementById('previewCanvas');
+            state.ctx = state.canvas.getContext('2d');
+            
+            // Calculate container size based on viewport
+            const calculateContainerSize = () => {
+                const maxSize = Math.min(window.innerWidth - 40, window.innerHeight - 300, 800);
+                state.containerSize = maxSize;
+            };
+
+            calculateContainerSize();
+            window.addEventListener('resize', calculateContainerSize);
+            
+            // Add event listeners for zoom and pan
+            addCanvasEventListeners();
+        }
+        
+        // Add event listeners for canvas interaction
+        function addCanvasEventListeners() {
+            const canvas = state.canvas;
+            const container = document.getElementById('canvasContainer');
+            
+            // Mouse down event for dragging
+            canvas.addEventListener('mousedown', (e) => {
+                if (state.selectedTool === 'crop') {
+                    state.isDragging = true;
+                    const rect = canvas.getBoundingClientRect();
+                    state.dragStart.x = e.clientX - rect.left;
+                    state.dragStart.y = e.clientY - rect.top;
+                    canvas.style.cursor = 'grabbing';
+                }
+            });
+            
+            // Mouse move event for dragging
+            canvas.addEventListener('mousemove', (e) => {
+                if (state.isDragging && state.selectedTool === 'crop') {
+                    const rect = canvas.getBoundingClientRect();
+                    const currentX = e.clientX - rect.left;
+                    const currentY = e.clientY - rect.top;
+                    
+                    state.pan.x += (currentX - state.dragStart.x);
+                    state.pan.y += (currentY - state.dragStart.y);
+                    
+                    state.dragStart.x = currentX;
+                    state.dragStart.y = currentY;
+                    
+                    drawSquareImage();
+                }
+            });
+            
+            // Mouse up event for dragging
+            canvas.addEventListener('mouseup', () => {
+                if (state.isDragging) {
+                    state.isDragging = false;
+                    canvas.style.cursor = 'grab';
+                }
+            });
+            
+            // Mouse leave event for dragging
+            canvas.addEventListener('mouseleave', () => {
+                if (state.isDragging) {
+                    state.isDragging = false;
+                    canvas.style.cursor = 'default';
+                }
+            });
+            
+            // Wheel event for zooming
+            container.addEventListener('wheel', (e) => {
+                if (state.selectedTool === 'crop') {
+                    e.preventDefault();
+                    const zoomSpeed = 5;
+                    const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
+                    state.zoom = Math.max(50, Math.min(200, state.zoom + delta));
+                    document.getElementById('zoomSlider').value = state.zoom;
+                    document.getElementById('zoomValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.zoom }) : `${state.zoom}%`;
+                    drawSquareImage();
+                }
+            });
+        }
+
+        // Image upload handling
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        });
+
+        // Drag and drop support
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadContainer = document.getElementById('uploadContainer');
+            
+            uploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.add('drag-over');
+            });
+
+            uploadContainer.addEventListener('dragleave', () => {
+                uploadContainer.classList.remove('drag-over');
+            });
+
+            uploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    loadImage(file);
+                }
+            });
+        });
+
+        // Load image
+        function loadImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    state.image = img;
+                    
+                    // Reset state
+                    state.zoom = 100;
+                    state.pan = { x: 0, y: 0 };
+                    
+                    // Initialize preset colors
+                    initPresetColors();
+                    
+                    // Update UI
+                    updateToolControls();
+                    drawSquareImage();
+                    showEditor();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Initialize preset colors
+        function initPresetColors() {
+            // Simplified color palette matching competitor
+            const presetColors = [
+                { color: '#9e9e9e', key: 'tool.square.colors.gray' },
+                { color: '#ffffff', key: 'tool.square.colors.white' },
+                { color: '#000000', key: 'tool.square.colors.black' },
+                { color: '#f44336', key: 'tool.square.colors.red' },
+                { color: '#4caf50', key: 'tool.square.colors.green' },
+                { color: '#2196f3', key: 'tool.square.colors.blue' },
+                { color: 'gradient', key: 'tool.square.colors.custom' }
+            ];
+            const colorsContainer = document.getElementById('presetColors');
+            
+            colorsContainer.innerHTML = '';
+            
+            presetColors.forEach(item => {
+                const colorBtn = document.createElement('div');
+                colorBtn.className = 'preset-color';
+                
+                // Add i18n support
+                colorBtn.setAttribute('data-i18n-title', item.key);
+                if (window.i18n) {
+                    colorBtn.title = window.i18n.t(item.key);
+                }
+                
+                if (item.color === 'gradient') {
+                    // Create gradient button for custom color picker
+                    colorBtn.style.background = 'linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3)';
+                    colorBtn.addEventListener('click', () => {
+                        // Trigger color picker dialog
+                        document.getElementById('backgroundColor').click();
+                    });
+                } else {
+                    // Regular color button
+                    colorBtn.style.backgroundColor = item.color;
+                    colorBtn.dataset.color = item.color;
+                    
+                    colorBtn.addEventListener('click', () => {
+                        state.options.backgroundColor = item.color;
+                        document.getElementById('backgroundColor').value = item.color;
+                        document.getElementById('colorPreview').textContent = item.color;
+                        drawSquareImage();
+                        
+                        // Update selected state
+                        document.querySelectorAll('.preset-color').forEach(btn => btn.classList.remove('selected'));
+                        colorBtn.classList.add('selected');
+                    });
+                }
+                
+                colorsContainer.appendChild(colorBtn);
+            });
+        }
+
+        // Show editor
+        function showEditor() {
+            document.getElementById('uploadContainer').style.display = 'none';
+            document.getElementById('editorContainer').style.display = 'block';
+            document.getElementById('settingsSection').style.display = 'block';
+            document.querySelector('.main-content').classList.add('settings-visible');
+        }
+
+        // Reset editor
+        function resetEditor() {
+            state.image = null;
+            state.selectedTool = 'blur';
+            state.zoom = 100;
+            state.pan = { x: 0, y: 0 };
+            
+            // Reset UI
+            document.getElementById('editorContainer').style.display = 'none';
+            document.getElementById('uploadContainer').style.display = 'block';
+            document.getElementById('settingsSection').style.display = 'none';
+            document.querySelector('.main-content').classList.remove('settings-visible');
+            
+            // Reset tool selection
+            document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.tool-btn[data-tool="blur"]').classList.add('active');
+            
+            // Hide all tool controls
+            document.querySelectorAll('.tool-controls').forEach(ctrl => ctrl.style.display = 'none');
+        }
+
+        // Update tool controls based on selected tool
+        function updateToolControls() {
+            // Hide all tool controls
+            document.querySelectorAll('.tool-controls').forEach(ctrl => ctrl.style.display = 'none');
+            
+            // Show the selected tool controls
+            switch (state.selectedTool) {
+                case 'blur':
+                    document.getElementById('blurControls').style.display = 'block';
+                    document.getElementById('blurSlider').value = state.options.blurStrength;
+                    break;
+                case 'solid':
+                    document.getElementById('colorControls').style.display = 'block';
+                    document.getElementById('backgroundColor').value = state.options.backgroundColor;
+                    document.getElementById('colorPreview').textContent = state.options.backgroundColor;
+                    break;
+                case 'crop':
+                    document.getElementById('cropControls').style.display = 'block';
+                    document.getElementById('zoomSlider').value = state.zoom;
+                    document.getElementById('zoomValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.zoom }) : `${state.zoom}%`;
+                    break;
+            }
+        }
+        
+        // Add event listeners for tool selection
+        function addToolSelectionListeners() {
+            document.querySelectorAll('.tool-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Update tool selection
+                    document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    state.selectedTool = btn.dataset.tool;
+                    
+                    // Reset zoom and pan for crop tool
+                    if (state.selectedTool === 'crop') {
+                        state.zoom = 100;
+                        state.pan = { x: 0, y: 0 };
+                    }
+                    
+                    // Update UI
+                    updateToolControls();
+                    drawSquareImage();
+                });
+            });
+            
+            // Blur strength slider
+            document.getElementById('blurSlider').addEventListener('input', (e) => {
+                state.options.blurStrength = parseInt(e.target.value);
+                drawSquareImage();
+            });
+            
+            // Background color picker
+            document.getElementById('backgroundColor').addEventListener('input', (e) => {
+                state.options.backgroundColor = e.target.value;
+                document.getElementById('colorPreview').textContent = e.target.value;
+                drawSquareImage();
+            });
+            
+            // Zoom slider for crop tool
+            document.getElementById('zoomSlider').addEventListener('input', (e) => {
+                state.zoom = parseInt(e.target.value);
+                document.getElementById('zoomValue').textContent = `${state.zoom}%`;
+                drawSquareImage();
+            });
+            
+            // Output size selection
+            document.getElementById('outputSize').addEventListener('change', (e) => {
+                if (e.target.value === 'custom') {
+                    document.getElementById('customSizeGroup').style.display = 'block';
+                } else {
+                    document.getElementById('customSizeGroup').style.display = 'none';
+                }
+            });
+        }
+
+        // Draw square image based on selected tool
+        function drawSquareImage() {
+            if (!state.image || !state.ctx) return;
+
+            // Set canvas to square size
+            const squareSize = state.containerSize;
+            state.canvas.width = squareSize;
+            state.canvas.height = squareSize;
+            
+            // Clear canvas
+            state.ctx.clearRect(0, 0, squareSize, squareSize);
+
+            switch (state.selectedTool) {
+                case 'blur':
+                    drawBlurBackground(squareSize);
+                    break;
+                case 'solid':
+                    drawSolidBackground(squareSize);
+                    break;
+                case 'resize':
+                    drawResized(squareSize);
+                    break;
+                case 'crop':
+                    drawCropped(squareSize);
+                    break;
+            }
+        }
+
+        // Draw with blur background
+        function drawBlurBackground(squareSize) {
+            // Draw blurred background
+            const blurCanvas = document.createElement('canvas');
+            blurCanvas.width = state.image.width;
+            blurCanvas.height = state.image.height;
+            const blurCtx = blurCanvas.getContext('2d');
+            
+            // Draw original image
+            blurCtx.drawImage(state.image, 0, 0);
+            
+            // Apply blur filter
+            blurCtx.filter = `blur(${state.options.blurStrength}px)`;
+            blurCtx.drawImage(blurCanvas, 0, 0);
+            blurCtx.filter = 'none';
+            
+            // Scale and center the blurred background
+            const scale = Math.max(squareSize / state.image.width, squareSize / state.image.height);
+            const scaledWidth = state.image.width * scale;
+            const scaledHeight = state.image.height * scale;
+            const offsetX = (squareSize - scaledWidth) / 2;
+            const offsetY = (squareSize - scaledHeight) / 2;
+            
+            state.ctx.drawImage(blurCanvas, offsetX, offsetY, scaledWidth, scaledHeight);
+            
+            // Draw the original image in the center
+            const imgRatio = state.image.width / state.image.height;
+            let drawWidth, drawHeight;
+            
+            if (imgRatio > 1) {
+                // Landscape image
+                drawHeight = squareSize;
+                drawWidth = drawHeight * imgRatio;
+            } else {
+                // Portrait or square image
+                drawWidth = squareSize;
+                drawHeight = drawWidth / imgRatio;
+            }
+            
+            const imgOffsetX = (squareSize - drawWidth) / 2;
+            const imgOffsetY = (squareSize - drawHeight) / 2;
+            
+            state.ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
+        }
+
+        // Draw with solid color background
+        function drawSolidBackground(squareSize) {
+            // Draw solid color background
+            state.ctx.fillStyle = state.options.backgroundColor;
+            state.ctx.fillRect(0, 0, squareSize, squareSize);
+            
+            // Draw the original image in the center
+            const imgRatio = state.image.width / state.image.height;
+            let drawWidth, drawHeight;
+            
+            if (imgRatio > 1) {
+                // Landscape image
+                drawHeight = squareSize;
+                drawWidth = drawHeight * imgRatio;
+            } else {
+                // Portrait or square image
+                drawWidth = squareSize;
+                drawHeight = drawWidth / imgRatio;
+            }
+            
+            const imgOffsetX = (squareSize - drawWidth) / 2;
+            const imgOffsetY = (squareSize - drawHeight) / 2;
+            
+            state.ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
+        }
+
+        // Draw resized image
+        function drawResized(squareSize) {
+            if (state.options.resizeFit === 'contain') {
+                // Contain - fit entire image within square
+                const imgRatio = state.image.width / state.image.height;
+                let drawWidth, drawHeight;
+                
+                if (imgRatio > 1) {
+                    drawWidth = squareSize;
+                    drawHeight = drawWidth / imgRatio;
+                } else {
+                    drawHeight = squareSize;
+                    drawWidth = drawHeight * imgRatio;
+                }
+                
+                const imgOffsetX = (squareSize - drawWidth) / 2;
+                const imgOffsetY = (squareSize - drawHeight) / 2;
+                
+                state.ctx.fillStyle = '#ffffff';
+                state.ctx.fillRect(0, 0, squareSize, squareSize);
+                state.ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
+            } else {
+                // Cover - fill square, crop if needed
+                const imgRatio = state.image.width / state.image.height;
+                let srcX = 0, srcY = 0, srcWidth = state.image.width, srcHeight = state.image.height;
+                
+                if (imgRatio > 1) {
+                    // Landscape image - crop sides
+                    srcWidth = state.image.height;
+                    srcX = (state.image.width - srcWidth) / 2;
+                } else {
+                    // Portrait image - crop top/bottom
+                    srcHeight = state.image.width;
+                    srcY = (state.image.height - srcHeight) / 2;
+                }
+                
+                state.ctx.drawImage(state.image, srcX, srcY, srcWidth, srcHeight, 0, 0, squareSize, squareSize);
+            }
+        }
+
+        // Draw cropped image with zoom and pan
+        function drawCropped(squareSize) {
+            // Calculate zoom factor
+            const zoomFactor = state.zoom / 100;
+            
+            // Determine image dimensions for cropping
+            const imgRatio = state.image.width / state.image.height;
+            let drawWidth, drawHeight;
+            
+            if (imgRatio > 1) {
+                // Landscape image - base on height
+                drawHeight = squareSize * zoomFactor;
+                drawWidth = drawHeight * imgRatio;
+            } else {
+                // Portrait or square image - base on width
+                drawWidth = squareSize * zoomFactor;
+                drawHeight = drawWidth / imgRatio;
+            }
+            
+            // Calculate initial position (centered)
+            let offsetX = (squareSize - drawWidth) / 2 + state.pan.x;
+            let offsetY = (squareSize - drawHeight) / 2 + state.pan.y;
+            
+            // Draw the image
+            state.ctx.drawImage(state.image, offsetX, offsetY, drawWidth, drawHeight);
+        }
+
+        // Mode button click event
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.mode = btn.dataset.mode;
+                updateOptionsPanel();
+                drawSquareImage();
+            });
+        });
+
+        // Quality slider event
+        document.getElementById('qualitySlider').addEventListener('input', (e) => {
+            document.getElementById('qualityValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: e.target.value }) : `${e.target.value}%`;
+        });
+
+        // Download image
+        function downloadImage() {
+            if (!state.image) return;
+
+            // Get settings
+            const format = document.getElementById('outputFormat').value;
+            const sizeOption = document.getElementById('outputSize').value;
+            const customSize = document.getElementById('customSize').value;
+            const quality = document.getElementById('qualitySlider').value / 100;
+
+            // Create temporary canvas for download
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+
+            // Calculate output size
+            let outputSize;
+            if (sizeOption === 'original') {
+                outputSize = Math.max(state.image.width, state.image.height);
+            } else if (sizeOption === 'custom') {
+                outputSize = parseInt(customSize);
+            } else {
+                outputSize = parseInt(sizeOption);
+            }
+
+            tempCanvas.width = outputSize;
+            tempCanvas.height = outputSize;
+
+            // Draw square image to temp canvas
+            switch (state.selectedTool) {
+                case 'blur':
+                    drawBlurBackgroundToCanvas(tempCanvas, tempCtx, outputSize);
+                    break;
+                case 'solid':
+                    drawSolidBackgroundToCanvas(tempCanvas, tempCtx, outputSize);
+                    break;
+                case 'resize':
+                    drawResizedToCanvas(tempCanvas, tempCtx, outputSize);
+                    break;
+                case 'crop':
+                    drawCroppedToCanvas(tempCanvas, tempCtx, outputSize);
+                    break;
+            }
+
+            // Download
+            let fileName = `${window.i18n ? window.i18n.t('tool.square.default_filename') : 'square-image'}.${format}`;
+            if (format === 'png') {
+                tempCanvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, fileName);
+                    }
+                }, 'image/png');
+            } else {
+                tempCanvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, fileName);
+                    }
+                }, 'image/jpeg', quality);
+            }
+        }
+
+        // Helper functions for drawing to temp canvas
+        function drawBlurBackgroundToCanvas(canvas, ctx, size) {
+            const blurCanvas = document.createElement('canvas');
+            blurCanvas.width = state.image.width;
+            blurCanvas.height = state.image.height;
+            const blurCtx = blurCanvas.getContext('2d');
+            
+            blurCtx.drawImage(state.image, 0, 0);
+            blurCtx.filter = `blur(${state.options.blurStrength}px)`;
+            blurCtx.drawImage(blurCanvas, 0, 0);
+            blurCtx.filter = 'none';
+            
+            const scale = Math.max(size / state.image.width, size / state.image.height);
+            const scaledWidth = state.image.width * scale;
+            const scaledHeight = state.image.height * scale;
+            const offsetX = (size - scaledWidth) / 2;
+            const offsetY = (size - scaledHeight) / 2;
+            
+            ctx.drawImage(blurCanvas, offsetX, offsetY, scaledWidth, scaledHeight);
+            
+            const imgRatio = state.image.width / state.image.height;
+            let drawWidth, drawHeight;
+            
+            if (imgRatio > 1) {
+                drawHeight = size;
+                drawWidth = drawHeight * imgRatio;
+            } else {
+                drawWidth = size;
+                drawHeight = drawWidth / imgRatio;
+            }
+            
+            const imgOffsetX = (size - drawWidth) / 2;
+            const imgOffsetY = (size - drawHeight) / 2;
+            
+            ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
+        }
+
+        function drawSolidBackgroundToCanvas(canvas, ctx, size) {
+            ctx.fillStyle = state.options.backgroundColor;
+            ctx.fillRect(0, 0, size, size);
+            
+            const imgRatio = state.image.width / state.image.height;
+            let drawWidth, drawHeight;
+            
+            if (imgRatio > 1) {
+                drawHeight = size;
+                drawWidth = drawHeight * imgRatio;
+            } else {
+                drawWidth = size;
+                drawHeight = drawWidth / imgRatio;
+            }
+            
+            const imgOffsetX = (size - drawWidth) / 2;
+            const imgOffsetY = (size - drawHeight) / 2;
+            
+            ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
+        }
+
+        function drawResizedToCanvas(canvas, ctx, size) {
+            if (state.options.resizeFit === 'contain') {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, size, size);
+                
+                const imgRatio = state.image.width / state.image.height;
+                let drawWidth, drawHeight;
+                
+                if (imgRatio > 1) {
+                    drawWidth = size;
+                    drawHeight = drawWidth / imgRatio;
+                } else {
+                    drawHeight = size;
+                    drawWidth = drawHeight * imgRatio;
+                }
+                
+                const imgOffsetX = (size - drawWidth) / 2;
+                const imgOffsetY = (size - drawHeight) / 2;
+                
+                ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
+            } else {
+                const imgRatio = state.image.width / state.image.height;
+                let srcX = 0, srcY = 0, srcWidth = state.image.width, srcHeight = state.image.height;
+                
+                if (imgRatio > 1) {
+                    srcWidth = state.image.height;
+                    srcX = (state.image.width - srcWidth) / 2;
+                } else {
+                    srcHeight = state.image.width;
+                    srcY = (state.image.height - srcHeight) / 2;
+                }
+                
+                ctx.drawImage(state.image, srcX, srcY, srcWidth, srcHeight, 0, 0, size, size);
+            }
+        }
+
+        function drawCroppedToCanvas(canvas, ctx, size) {
+            // Calculate zoom factor
+            const zoomFactor = state.zoom / 100;
+            
+            // Determine image dimensions for cropping
+            const imgRatio = state.image.width / state.image.height;
+            let srcX = 0, srcY = 0, srcWidth = state.image.width, srcHeight = state.image.height;
+            
+            if (imgRatio > 1) {
+                // Landscape image - calculate source dimensions based on zoom
+                srcHeight = state.image.height;
+                srcWidth = srcHeight * imgRatio;
+                const scale = (srcWidth / srcHeight) * zoomFactor;
+                const cropSize = srcHeight / scale;
+                
+                // Calculate source position based on pan
+                const panX = (state.pan.x / canvas.width) * srcWidth;
+                srcX = (srcWidth - cropSize) / 2 - panX;
+                srcWidth = cropSize;
+            } else {
+                // Portrait image - calculate source dimensions based on zoom
+                srcWidth = state.image.width;
+                srcHeight = srcWidth / imgRatio;
+                const scale = (srcHeight / srcWidth) * zoomFactor;
+                const cropSize = srcWidth / scale;
+                
+                // Calculate source position based on pan
+                const panY = (state.pan.y / canvas.height) * srcHeight;
+                srcY = (srcHeight - cropSize) / 2 - panY;
+                srcHeight = cropSize;
+            }
+            
+            // Ensure source coordinates are within bounds
+            srcX = Math.max(0, Math.min(srcX, state.image.width - srcWidth));
+            srcY = Math.max(0, Math.min(srcY, state.image.height - srcHeight));
+            
+            ctx.drawImage(state.image, srcX, srcY, srcWidth, srcHeight, 0, 0, size, size);
+        }
+
+        // Helper function to download blob
+        function downloadBlob(blob, fileName) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize editor
+        document.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+            addToolSelectionListeners();
+            // Ensure settings section is hidden initially
+            document.getElementById('settingsSection').style.display = 'none';
+        });
+    </script>
+<!-- 多语言支持 -->
+<link href="/assets/css/i18n.css" rel="stylesheet"/>
+<script src="/assets/js/i18n.js"></script>
+</body>
+</html>

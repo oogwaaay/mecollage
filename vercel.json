@@ -1,0 +1,49 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": true,
+  "rewrites": [
+    { "source": "/tools/:path*", "destination": "/public/tools/:path*" }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        { "type": "query", "key": "lang", "value": "zh" }
+      ],
+      "destination": "/zh/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        { "type": "query", "key": "lang", "value": "es" }
+      ],
+      "destination": "/es/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        { "type": "query", "key": "lang", "value": "ja" }
+      ],
+      "destination": "/ja/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        { "type": "query", "key": "lang", "value": "zh-tw" }
+      ],
+      "destination": "/tw/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        { "type": "query", "key": "lang", "value": "en" }
+      ],
+      "destination": "/:path*",
+      "permanent": true
+    }
+  ]
+}

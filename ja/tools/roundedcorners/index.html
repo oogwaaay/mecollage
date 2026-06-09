@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8"/>
+<link href="/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/favicon.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="/favicon-192.png" rel="icon" sizes="192x192" type="image/png"/>
+<link href="/site.webmanifest" rel="manifest"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title data-i18n="tool.rounded_corners.meta.title">角丸ツール - 無料オンライン画像角丸作成</title>
+<meta content="オンラインで無料で画像に角丸を追加。スライダーで角丸の半径（0-50%）を調整。PNG、JPG形式でダウンロード。プロフィール写真、ボタン、モダンなデザインに最適。" data-i18n-content="tool.rounded_corners.meta.description" name="description"/>
+<meta content="角丸, 画像角丸, オンライン角丸, 角丸ツール, 丸い画像, オンライン角丸エディタ, 丸い写真" data-i18n-content="tool.rounded_corners.meta.keywords" name="keywords"/>
+<link href="https://www.mecollage.top/ja/tools/roundedcorners/index.html" rel="canonical"/><link href="https://www.mecollage.top/public/tools/roundedcorners/index.html" hreflang="x-default" rel="alternate"/><link href="https://www.mecollage.top/public/tools/roundedcorners/index.html" hreflang="en" rel="alternate"/><link href="https://www.mecollage.top/zh/tools/roundedcorners/index.html" hreflang="zh-CN" rel="alternate"/><link href="https://www.mecollage.top/tw/tools/roundedcorners/index.html" hreflang="zh-TW" rel="alternate"/><link href="https://www.mecollage.top/ja/tools/roundedcorners/index.html" hreflang="ja" rel="alternate"/><link href="https://www.mecollage.top/es/tools/roundedcorners/index.html" hreflang="es" rel="alternate"/>
+<!-- DNS Prefetch for external resources -->
+<link href="https://fonts.googleapis.com" rel="dns-prefetch"/>
+<link href="https://fonts.gstatic.com" rel="dns-prefetch"/>
+<!-- Preconnect for fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<!-- Preload critical resources -->
+<link as="image" fetchpriority="high" href="/wallImage.webp" rel="preload" type="image/webp"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<!-- Early WebP detection -->
+<script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+<!-- Main CSS -->
+<link href="/assets/index-vAuRGWiM.css" rel="stylesheet"/>
+<link href="/assets/pages-C2UaL6ML.css" rel="stylesheet"/>
+<!-- Custom CSS for Rounded Corners Tool -->
+<style>
+        /* Rounded Corners Tool Specific Styles */
+        .rounded-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .preview-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 2px dashed #8fd68f;
+            border-radius: 20px;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .upload-area:hover {
+            border-color: #66BB6A;
+            background-color: rgba(143, 214, 143, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 4rem;
+            color: #8fd68f;
+            margin-bottom: 15px;
+        }
+
+        .upload-text {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .canvas-container {
+            position: relative;
+            margin: 20px auto;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        #previewCanvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .radius-control {
+            margin: 20px 0;
+        }
+
+        .radius-label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+        }
+
+        .radius-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .radius-slider {
+            flex: 1;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8fd68f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            background: #66BB6A;
+            transform: scale(1.2);
+        }
+
+        .radius-value {
+            font-weight: 700;
+            color: #8fd68f;
+            font-size: 1.2rem;
+            min-width: 60px;
+        }
+
+        .radius-preview {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .radius-preview-item {
+            width: 50px;
+            height: 50px;
+            background-color: #8fd68f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.8);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .radius-preview-item:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .radius-preview-item.active {
+            border-color: rgba(255, 255, 255, 0.6);
+            background-color: #66BB6A;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: #8fd68f;
+            color: #1a1a1a;
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #66BB6A;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 0, 0, 0.4);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .settings-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+            transform: translateY(10px);
+            opacity: 0;
+            visibility: hidden;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .settings-section.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+            height: auto;
+            overflow: visible;
+        }
+
+        .settings-section h3 {
+            margin-bottom: 20px;
+            color: #8fd68f;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .setting-group {
+            margin-bottom: 25px;
+        }
+
+        .setting-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        select, input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+            color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        select:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: rgba(143, 214, 143, 0.6);
+            box-shadow: 0 0 0 3px rgba(143, 214, 143, 0.2);
+        }
+
+        select option {
+            background: #333;
+            color: #fff;
+        }
+
+        .quality-slider {
+            margin: 15px 0;
+        }
+
+        .download-info {
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #8fd68f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin: 2rem 0;
+        }
+
+        .faq-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .faq-answer {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        footer a:hover {
+            color: #66BB6A;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .settings-section {
+                order: -1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .rounded-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .upload-area {
+                padding: 30px 15px;
+            }
+
+            .upload-icon {
+                font-size: 3rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .radius-slider-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .radius-value {
+                text-align: center;
+            }
+
+            .tool-nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tool-nav-link {
+                width: 100%;
+                max-width: 200px;
+                text-align: center;
+            }
+        }
+    </style>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509"></script>
+</head>
+<body>
+<!-- Ghibli Background -->
+<div class="ghibli-background">
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+<div class="cloud cloud4"></div>
+<div class="sun"></div>
+<div class="bird bird1">🐦</div>
+<div class="bird bird2">🐦</div>
+<div class="tree tree1">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+<div class="tree tree2">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+<div class="tree tree3">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+<div class="tree tree4">
+<div class="tree-trunk"></div>
+<div class="tree-foliage"></div>
+</div>
+</div>
+<div class="app-container">
+<!-- Main Navigation (Inherited from Main Site) -->
+<nav class="ghibli-nav">
+<div class="nav-left">
+<a class="nav-link" data-i18n="nav.home" data-page="home" href="/">ホーム</a>
+<a class="nav-link" data-i18n="nav.blog" data-page="blog" href="/blog/">ブログ</a>
+<a class="nav-link" data-i18n="nav.about" data-page="about" href="/about.html">について</a>
+<a class="nav-link" data-i18n="nav.square" data-page="square" href="/public/tools/square/" rel="noopener noreferrer">正方形画像</a>
+</div>
+<div class="nav-right">
+<a class="nav-link github-link" data-i18n="nav.github" data-i18n-title="nav.github_view" href="https://github.com/oogwaaay/mecollage/issues" rel="noopener noreferrer" target="_blank" title="GitHubで見る">
+<i class="fab fa-github"></i>GitHub</a>
+<div class="lang-selector" data-i18n-title="nav.switch_language" title="言語切り替え">
+<button aria-expanded="false" aria-haspopup="true" class="lang-selector-toggle" type="button">
+<span aria-hidden="true">🌐</span>
+<span data-i18n="lang.name">English</span>
+</button>
+<div class="lang-menu" role="menu">
+<button class="lang-option" data-i18n="lang.english" data-lang="en" role="menuitem" type="button">English</button>
+<button class="lang-option" data-i18n="lang.chinese" data-lang="zh" role="menuitem" type="button">简体中文</button>
+<button class="lang-option" data-i18n="lang.traditional_chinese" data-lang="zh-tw" role="menuitem" type="button">繁體中文</button>
+<button class="lang-option" data-i18n="lang.japanese" data-lang="ja" role="menuitem" type="button">日本語</button>
+<button class="lang-option" data-i18n="lang.spanish" data-lang="es" role="menuitem" type="button">Español</button>
+</div>
+<div aria-hidden="true" class="lang-menu-backdrop" tabindex="-1"></div>
+</div>
+</div>
+</nav>
+<div class="rounded-tool-container">
+<header class="page-header">
+<h1 class="page-title" data-i18n="tool.rounded_corners.title">角丸ツール</h1>
+<p class="page-subtitle" data-i18n="tool.rounded_corners.subtitle">透明な背景を持つ画像にカスタマイズ可能な角丸を追加します。モダンなウェブデザイン、プロフィール写真、UI要素、アプリアイコンに最適です。</p>
+</header>
+<nav class="tool-nav">
+<div class="tool-nav-container">
+<a class="tool-nav-link" data-i18n="nav.home" href="/"><i class="fas fa-home"></i>ホーム</a>
+<a class="tool-nav-link" data-i18n="tool.common.nav_square_crop" href="/public/tools/squarecrop/"><i class="fas fa-crop-square"></i>正方形クロップ</a>
+<a class="tool-nav-link active" data-i18n="tool.common.nav_rounded_corners" href="/public/tools/roundedcorners/"><i class="fas fa-border-radius"></i>角丸ツール</a>
+<a class="tool-nav-link" data-i18n="tool.common.nav_square_image" href="/public/tools/square/"><i class="fas fa-square"></i>正方形画像</a>
+<a class="tool-nav-link" data-i18n="tool.common.nav_blurred_frame" href="/public/tools/blurredframe/"><i class="fas fa-image"></i>ぼかしフレーム</a>
+</div>
+</nav>
+<div class="main-content">
+<section class="preview-section">
+<div id="uploadContainer">
+<div class="upload-area" onclick="document.getElementById('fileInput').click()">
+<div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+<div class="upload-text" data-i18n="tool.rounded_corners.upload.text">画像をここにドラッグ＆ドロップ、またはクリックしてアップロード</div>
+<div class="upload-hint" data-i18n="tool.rounded_corners.upload.hint">JPG, PNG, WEBP形式に対応</div>
+</div>
+<input accept="image/*" id="fileInput" type="file"/>
+</div>
+<div id="editorContainer" style="display: none;">
+<div class="canvas-container" id="canvasContainer">
+<canvas id="previewCanvas"></canvas>
+</div>
+<div class="action-buttons" style="margin-top: 20px;">
+<button class="btn btn-secondary" data-i18n="tool.rounded_corners.editor.reset" onclick="resetEditor()"><i class="fas fa-redo"></i>リセット</button>
+<button class="btn btn-secondary" data-i18n="tool.rounded_corners.editor.change_image" onclick="document.getElementById('fileInput').click()"><i class="fas fa-upload"></i>画像を変更</button>
+</div>
+</div>
+</section>
+<aside class="settings-section" id="settingsSection">
+<h3 data-i18n="tool.rounded_corners.settings.title"><i class="fas fa-cog"></i>設定</h3>
+<div class="setting-group">
+<label class="setting-label" data-i18n="tool.rounded_corners.settings.radius">角丸半径</label>
+<div class="radius-slider-container">
+<div class="radius-slider">
+<input id="radiusSlider" max="50" min="0" type="range" value="10"/>
+</div>
+<span class="radius-value" id="radiusValue">10%</span>
+</div>
+<div class="radius-preview">
+<div class="radius-preview-item" data-radius="0" style="border-radius: 0%">0%</div>
+<div class="radius-preview-item" data-radius="10" style="border-radius: 10%">10%</div>
+<div class="radius-preview-item" data-radius="25" style="border-radius: 25%">25%</div>
+<div class="radius-preview-item" data-radius="50" style="border-radius: 50%">50%</div>
+</div>
+</div>
+<div class="setting-group">
+<label class="setting-label" data-i18n="tool.rounded_corners.settings.download_label">ダウンロード</label>
+<select id="outputSize">
+<option data-i18n="tool.rounded_corners.settings.size_original" selected="" value="original">オリジナル</option>
+<option data-i18n="tool.rounded_corners.settings.size_1080" value="1080">1080px</option>
+<option data-i18n="tool.rounded_corners.settings.size_1024" value="1024">1024px</option>
+<option data-i18n="tool.rounded_corners.settings.size_512" value="512">512px</option>
+<option data-i18n="tool.rounded_corners.settings.size_custom" value="custom">カスタム</option>
+</select>
+<!-- Custom size inputs -->
+<div id="customSizeInputs" style="display: none; margin-top: 15px; padding: 15px; background: rgba(0, 0, 0, 0.2); border-radius: 12px;">
+<div style="display: flex; gap: 15px; flex-wrap: wrap;">
+<div style="flex: 1; min-width: 150px;">
+<label class="setting-label" data-i18n="tool.rounded_corners.settings.width" style="margin-bottom: 5px;">幅 (px)</label>
+<input id="customWidth" max="8192" min="1" style="width: 100%;" type="number" value="1000"/>
+</div>
+<div style="flex: 1; min-width: 150px;">
+<label class="setting-label" data-i18n="tool.rounded_corners.settings.height" style="margin-bottom: 5px;">高さ (px)</label>
+<input id="customHeight" max="8192" min="1" style="width: 100%;" type="number" value="1000"/>
+</div>
+</div>
+</div>
+</div>
+<div class="setting-group">
+<label class="setting-label" data-i18n="tool.rounded_corners.settings.format">形式</label>
+<select id="outputFormat">
+<option data-i18n="tool.rounded_corners.settings.format_png" selected="" value="png">PNG</option>
+<option data-i18n="tool.rounded_corners.settings.format_jpeg" value="jpg">JPEG</option>
+<option data-i18n="tool.rounded_corners.settings.format_webp" value="webp">WEBP</option>
+</select>
+</div>
+<div class="setting-group">
+<button class="btn btn-primary" data-i18n="tool.rounded_corners.settings.download_btn" onclick="downloadImage()"><i class="fas fa-download"></i>画像をダウンロード</button>
+</div>
+</aside>
+</div>
+<!-- FAQ Section -->
+<section class="faq-section" id="faqSection">
+<h2 class="faq-title" data-i18n="tool.rounded_corners.faq.title">よくある質問</h2>
+<div class="faq-container">
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q1">角丸ツールとは何ですか？</h3>
+<p class="faq-answer" data-i18n="tool.rounded_corners.faq.a1">角丸ツールは、透明な背景を持つ画像にカスタマイズ可能な角丸を追加する無料のオンラインツールです。洗練されたモダンな外観が必要なモダンなUIデザイン、プロフィール写真、アプリアイコン、ウェブグラフィックに最適です。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q2">どのように機能しますか？</h3>
+<p class="faq-answer" data-i18n="tool.rounded_corners.faq.a2">画像をアップロードし、角丸半径スライダーを使用して角をどれだけ丸くするか（正方形は0%、円形は50%）を調整します。このツールは、丸みを帯びた形状の外側が透明な画像を出力するため、あらゆる背景に重ねるのに最適です。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q3">モダンデザインに最適</h3>
+<p class="faq-answer" data-i18n="tool.rounded_corners.faq.a3">角丸は、モダンなウェブおよびアプリデザインに不可欠です。洗練されたプロフィール写真、スタイリッシュなUI要素、角の丸いアプリアイコン、または鋭い90度の角ではなく滑らかでモダンなエッジが必要なグラフィックを作成します。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q4">使いやすい</h3>
+<p class="faq-answer" data-i18n="tool.rounded_corners.faq.a4">画像をアップロードし、角丸半径スライダーを調整してダウンロードするだけです。ライブプレビューは、丸みを帯びた画像がどのように見えるかを正確に表示します。微妙な丸みから50%の完全な円まで、完全に制御できます。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q5">透明な出力</h3>
+<p class="faq-answer" data-i18n="tool.rounded_corners.faq.a5">透明な角を持つPNGとしてダウンロードするか、単色の背景が必要な場合はJPEG/WEBPを選択します。透明PNGオプションを使用すると、背景を気にせずに角丸画像をどこでも簡単に使用できます。</p>
+</div>
+<div class="faq-item">
+<h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q6">無料で無制限</h3>
+<p class="faq-answer" data-i18n="tool.rounded_corners.faq.a6">透かし、サインアップ要件、隠れた料金なしで完全に無料です。無制限の画像に角丸を追加し、完全な品質とすべてのカスタマイズオプションをお楽しみください。</p>
+</div>
+</div>
+</section>
+<footer>
+<p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">ホームに戻る</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">について</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">ブログ</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">お問い合わせ</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">プライバシーポリシー</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">利用規約</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" rel="noopener noreferrer" style="color: #8fd68f;" target="_blank"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+</footer>
+</div>
+</div>
+<script>
+        // State management
+        const state = {
+            image: null,
+            canvas: null,
+            ctx: null,
+            radius: 10,
+            containerSize: 0
+        };
+
+        // Initialize canvas
+        function initCanvas() {
+            state.canvas = document.getElementById('previewCanvas');
+            state.ctx = state.canvas.getContext('2d');
+            
+            // Calculate container size based on viewport
+            const calculateContainerSize = () => {
+                const maxSize = Math.min(window.innerWidth - 40, window.innerHeight - 300, 800);
+                state.containerSize = maxSize;
+            };
+
+            calculateContainerSize();
+            window.addEventListener('resize', calculateContainerSize);
+        }
+
+        // Image upload handling
+        document.getElementById('fileInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                loadImage(file);
+            }
+        });
+
+        // Drag and drop support
+        document.addEventListener('DOMContentLoaded', () => {
+            const uploadContainer = document.getElementById('uploadContainer');
+            
+            uploadContainer.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.add('drag-over');
+            });
+
+            uploadContainer.addEventListener('dragleave', () => {
+                uploadContainer.classList.remove('drag-over');
+            });
+
+            uploadContainer.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadContainer.classList.remove('drag-over');
+                const file = e.dataTransfer.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    loadImage(file);
+                }
+            });
+
+            // Paste upload support
+            document.addEventListener('paste', (e) => {
+                const items = e.clipboardData.items;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.startsWith('image/')) {
+                        const file = items[i].getAsFile();
+                        if (file) {
+                            loadImage(file);
+                        }
+                        break;
+                    }
+                }
+            });
+        });
+
+        // Load image
+        function loadImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    state.image = img;
+                    drawRoundedImage();
+                    showEditor();
+                    showSettings();
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Show editor
+        function showEditor() {
+            document.getElementById('uploadContainer').style.display = 'none';
+            document.getElementById('editorContainer').style.display = 'block';
+        }
+
+        // Show settings section with smooth transition
+        function showSettings() {
+            const settingsSection = document.getElementById('settingsSection');
+            settingsSection.style.display = 'block';
+            // Trigger reflow
+            void settingsSection.offsetWidth;
+            settingsSection.classList.add('active');
+        }
+
+        // Hide settings section
+        function hideSettings() {
+            const settingsSection = document.getElementById('settingsSection');
+            settingsSection.classList.remove('active');
+            // Wait for transition to complete before hiding
+            setTimeout(() => {
+                settingsSection.style.display = 'none';
+            }, 300);
+        }
+
+        // Reset editor
+        function resetEditor() {
+            state.image = null;
+            state.radius = 10;
+            updateRadiusUI();
+            document.getElementById('editorContainer').style.display = 'none';
+            document.getElementById('uploadContainer').style.display = 'block';
+            hideSettings();
+        }
+
+        // Draw rounded image on canvas
+        function drawRoundedImage() {
+            if (!state.image || !state.ctx) return;
+
+            // Calculate canvas size
+            let canvasWidth, canvasHeight;
+            const imgRatio = state.image.width / state.image.height;
+            
+            // If radius is 50% (circle mode), make canvas square
+            if (state.radius === 50) {
+                // Create square canvas
+                const squareSize = Math.min(state.containerSize, 800);
+                canvasWidth = squareSize;
+                canvasHeight = squareSize;
+            } else {
+                // Normal mode - maintain image aspect ratio
+                if (imgRatio > 1) {
+                    // Landscape image
+                    canvasWidth = state.containerSize;
+                    canvasHeight = state.containerSize / imgRatio;
+                } else {
+                    // Portrait or square image
+                    canvasHeight = state.containerSize;
+                    canvasWidth = state.containerSize * imgRatio;
+                }
+            }
+
+            // Set canvas size
+            state.canvas.width = canvasWidth;
+            state.canvas.height = canvasHeight;
+            
+            // Clear canvas with transparent background
+            state.ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+            // Calculate image draw dimensions and position
+            let drawWidth, drawHeight, drawX, drawY;
+            if (state.radius === 50) {
+                // Circle mode - center image in square canvas
+                if (imgRatio > 1) {
+                    // Landscape image - fit height
+                    drawHeight = canvasHeight;
+                    drawWidth = drawHeight * imgRatio;
+                } else {
+                    // Portrait or square image - fit width
+                    drawWidth = canvasWidth;
+                    drawHeight = drawWidth / imgRatio;
+                }
+                
+                // Center the image in the square canvas
+                drawX = (canvasWidth - drawWidth) / 2;
+                drawY = (canvasHeight - drawHeight) / 2;
+            } else {
+                // Normal mode - draw image to fit canvas
+                drawWidth = canvasWidth;
+                drawHeight = canvasHeight;
+                drawX = 0;
+                drawY = 0;
+            }
+
+            // Draw rounded image
+            drawImageWithRoundedCorners(
+                state.ctx,
+                state.image,
+                drawX,
+                drawY,
+                drawWidth,
+                drawHeight,
+                (state.radius / 100) * Math.min(canvasWidth, canvasHeight)
+            );
+        }
+
+        // Function to draw image with rounded corners
+        function drawImageWithRoundedCorners(ctx, image, x, y, width, height, radius) {
+            // Save current context state
+            ctx.save();
+            
+            // Calculate the maximum possible radius (half of the shortest side)
+            const maxRadius = Math.min(width, height) / 2;
+            // Ensure radius doesn't exceed the maximum possible value
+            const finalRadius = Math.min(radius, maxRadius);
+            
+            ctx.beginPath();
+            
+            // For 50% radius (perfect circle), use circular path instead of rounded rectangle
+            if (finalRadius === maxRadius) {
+                // Draw a perfect circle centered in the rectangle
+                const centerX = x + width / 2;
+                const centerY = y + height / 2;
+                ctx.arc(centerX, centerY, finalRadius, 0, 2 * Math.PI);
+            } else {
+                // Create rounded rectangle path for non-circle cases
+                ctx.moveTo(x + finalRadius, y);
+                ctx.lineTo(x + width - finalRadius, y);
+                ctx.quadraticCurveTo(x + width, y, x + width, y + finalRadius);
+                ctx.lineTo(x + width, y + height - finalRadius);
+                ctx.quadraticCurveTo(x + width, y + height, x + width - finalRadius, y + height);
+                ctx.lineTo(x + finalRadius, y + height);
+                ctx.quadraticCurveTo(x, y + height, x, y + height - finalRadius);
+                ctx.lineTo(x, y + finalRadius);
+                ctx.quadraticCurveTo(x, y, x + finalRadius, y);
+            }
+            
+            ctx.closePath();
+            
+            // Clip to the path
+            ctx.clip();
+            
+            // Draw the image
+            ctx.drawImage(image, x, y, width, height);
+            
+            // Restore context state
+            ctx.restore();
+        }
+
+        // Update radius UI
+        function updateRadiusUI() {
+            document.getElementById('radiusSlider').value = state.radius;
+            document.getElementById('radiusValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.radius }) : `${state.radius}%`;
+            
+            // Update active preview item
+            document.querySelectorAll('.radius-preview-item').forEach(item => {
+                item.classList.remove('active');
+                if (parseInt(item.dataset.radius) === state.radius) {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        // Radius slider event
+        document.getElementById('radiusSlider').addEventListener('input', (e) => {
+            state.radius = parseInt(e.target.value);
+            updateRadiusUI();
+            drawRoundedImage();
+        });
+
+        // Radius preview click event
+        document.querySelectorAll('.radius-preview-item').forEach(item => {
+            item.addEventListener('click', () => {
+                state.radius = parseInt(item.dataset.radius);
+                updateRadiusUI();
+                drawRoundedImage();
+            });
+        });
+
+        // Output size change event - handle custom size inputs
+        document.getElementById('outputSize').addEventListener('change', (e) => {
+            const customSizeInputs = document.getElementById('customSizeInputs');
+            if (e.target.value === 'custom') {
+                customSizeInputs.style.display = 'block';
+            } else {
+                customSizeInputs.style.display = 'none';
+            }
+        });
+
+        // Download image
+        function downloadImage() {
+            if (!state.image) return;
+
+            // Get settings
+            const format = document.getElementById('outputFormat').value;
+            const sizeOption = document.getElementById('outputSize').value;
+            const quality = 0.9; // Default quality for WEBP and JPG
+
+            // Create temporary canvas for download
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+
+            const imgRatio = state.image.width / state.image.height;
+            let outputWidth, outputHeight;
+            
+            // Calculate base output size based on selected option
+            if (sizeOption === 'original') {
+                outputWidth = state.image.width;
+                outputHeight = state.image.height;
+            } else if (sizeOption === '1080') {
+                // 1080px max dimension
+                if (imgRatio > 1) {
+                    outputWidth = 1920; // 16:9 aspect ratio for 1080p
+                    outputHeight = 1080;
+                } else {
+                    outputHeight = 1080;
+                    outputWidth = 1080 / imgRatio;
+                }
+            } else if (sizeOption === 'custom') {
+                // Get custom width and height from inputs
+                const customWidth = parseInt(document.getElementById('customWidth').value);
+                const customHeight = parseInt(document.getElementById('customHeight').value);
+                outputWidth = isNaN(customWidth) ? state.image.width : customWidth;
+                outputHeight = isNaN(customHeight) ? state.image.height : customHeight;
+            } else {
+                const size = parseInt(sizeOption);
+                if (imgRatio > 1) {
+                    outputWidth = size;
+                    outputHeight = size / imgRatio;
+                } else {
+                    outputHeight = size;
+                    outputWidth = size * imgRatio;
+                }
+            }
+
+            // For 50% radius (circle mode), make the canvas square
+            let canvasWidth, canvasHeight;
+            if (state.radius === 50) {
+                // Create square canvas
+                canvasWidth = Math.min(outputWidth, outputHeight);
+                canvasHeight = canvasWidth;
+            } else {
+                // Normal mode - maintain aspect ratio
+                canvasWidth = outputWidth;
+                canvasHeight = outputHeight;
+            }
+
+            tempCanvas.width = canvasWidth;
+            tempCanvas.height = canvasHeight;
+
+            // Clear canvas with transparent background
+            tempCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+            // Calculate image draw dimensions and position
+            let drawWidth, drawHeight, drawX, drawY;
+            if (state.radius === 50) {
+                // Circle mode - center image in square canvas
+                if (imgRatio > 1) {
+                    // Landscape image - fit height
+                    drawHeight = canvasHeight;
+                    drawWidth = drawHeight * imgRatio;
+                } else {
+                    // Portrait or square image - fit width
+                    drawWidth = canvasWidth;
+                    drawHeight = drawWidth / imgRatio;
+                }
+                
+                // Center the image in the square canvas
+                drawX = (canvasWidth - drawWidth) / 2;
+                drawY = (canvasHeight - drawHeight) / 2;
+            } else {
+                // Normal mode - draw image to fit canvas
+                drawWidth = canvasWidth;
+                drawHeight = canvasHeight;
+                drawX = 0;
+                drawY = 0;
+            }
+
+            // Draw rounded image to temp canvas
+            drawImageWithRoundedCorners(
+                tempCtx,
+                state.image,
+                drawX,
+                drawY,
+                drawWidth,
+                drawHeight,
+                (state.radius / 100) * Math.min(canvasWidth, canvasHeight)
+            );
+
+            // Download
+            let fileName = `${window.i18n ? window.i18n.t('tool.rounded_corners.default_filename') : 'rounded-corners'}.${format}`;
+            let mimeType;
+            let qualityValue = quality;
+
+            switch (format) {
+                case 'png':
+                    mimeType = 'image/png';
+                    qualityValue = 1; // PNG is lossless
+                    break;
+                case 'jpg':
+                    mimeType = 'image/jpeg';
+                    qualityValue = 0.85;
+                    break;
+                case 'webp':
+                    mimeType = 'image/webp';
+                    qualityValue = 0.9;
+                    break;
+                default:
+                    mimeType = 'image/png';
+                    qualityValue = 1;
+            }
+
+            tempCanvas.toBlob((blob) => {
+                if (blob) {
+                    downloadBlob(blob, fileName);
+                }
+            }, mimeType, qualityValue);
+        }
+
+        // Helper function to download blob
+        function downloadBlob(blob, fileName) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize editor
+        document.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+            updateRadiusUI();
+        });
+    </script>
+<!-- 多语言支持 -->
+<link href="/assets/css/i18n.css" rel="stylesheet"/>
+<script src="/assets/js/i18n.js"></script>
+</body>
+</html>

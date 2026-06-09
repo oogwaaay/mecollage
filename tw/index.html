@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="使用無限數量的圖片創建美觀的照片拼圖。免費線上拼圖製作工具，提供 20 多種模板、自定義網格、濾鏡和裝飾。支援水平、垂直和網格佈局。以 PNG 或 JPG 格式導出。" data-i18n-content="meta.description" />
+    <meta name="keywords" content="拼圖製作工具, 照片拼圖, 圖片拼圖, 線上拼圖製作工具, 免費拼圖製作工具, 照片網格, 圖片編輯器, 如何製作拼圖, 拼圖教程, 照片拼圖工具" data-i18n-content="meta.keywords" />
+    <meta name="author" content="MeCollage" />
+    <meta property="og:title" content="MeCollage - 圖片拼圖製作工具" />
+    <meta property="og:description" content="使用無限數量的圖片創建美觀的照片拼圖。免費線上拼圖製作工具，提供 20 多種模板、自定義網格、濾鏡和裝飾。支援水平、垂直和網格佈局。以 PNG 或 JPG 格式導出。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/tw/" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="MeCollage - Free Online Image Collage Maker" />
+    <meta name="twitter:description" content="Create beautiful collages with unlimited images. Professional online image collage maker with multiple layouts and customization options." />
+    <link rel="canonical" href="https://www.mecollage.top/tw/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/" />
+    <title>MeCollage - 圖片拼圖製作工具</title>
+    <script src="/coi-serviceworker.js"></script>
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <style>
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* 应用容器 */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        /* 初始状态样式 - 未上传图片时隐藏不必要的元素 */
+        .sidebar {
+            display: none;
+        }
+        
+        .bottom-toolbar {
+            display: none;
+        }
+        
+        #exportBtn {
+            display: none;
+        }
+        
+        .collage-canvas {
+            display: none;
+        }
+        
+        .upload-screen {
+            display: block;
+        }
+
+        /* 工具容器样式 */
+        .collage-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* 工具导航 */
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        /* 主内容区域 */
+        .main-content {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #8fd68f;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 纵横比选择 */
+        .aspect-ratio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .aspect-ratio-btn {
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .aspect-ratio-btn:hover {
+            background: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .aspect-ratio-btn.active {
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            border-color: rgba(143, 214, 143, 0.6);
+        }
+
+        /* 布局模式切换按钮 */
+        .layout-mode-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .layout-mode-btn:hover {
+            background: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .layout-mode-btn.active {
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            border-color: rgba(143, 214, 143, 0.6);
+        }
+
+        /* 自定义网格输入框 */
+        .grid-input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.875rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .grid-input:focus {
+            outline: none;
+            border-color: rgba(143, 214, 143, 0.6);
+            background: rgba(143, 214, 143, 0.1);
+        }
+
+        .apply-grid-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(143, 214, 143, 0.3);
+            border: 1px solid rgba(143, 214, 143, 0.5);
+            border-radius: 8px;
+            color: #8fd68f;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .apply-grid-btn:hover {
+            background: rgba(143, 214, 143, 0.4);
+            border-color: rgba(143, 214, 143, 0.7);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(143, 214, 143, 0.3);
+        }
+
+        /* 滑块控件 */
+        .slider-control {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-value {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #8fd68f;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            background: #66BB6A;
+            transform: scale(1.2);
+        }
+
+        /* 画布区域 */
+        .canvas-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 初始上传界面 */
+        .upload-screen {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .upload-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .upload-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .upload-area {
+            border: 2px dashed #8fd68f;
+            border-radius: 20px;
+            padding: 3rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .upload-area:hover {
+            border-color: #66BB6A;
+            background-color: rgba(143, 214, 143, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.2);
+        }
+
+        .upload-area.drag-over {
+            border-color: #66BB6A;
+            background-color: rgba(143, 214, 143, 0.15);
+            transform: scale(1.02);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.3);
+        }
+
+        .upload-icon {
+            width: 4rem;
+            height: 4rem;
+            background-color: #8fd68f;
+            color: rgba(0, 0, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .upload-text {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* 拼图画布 */
+        .collage-canvas {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            height: 100%;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .collage-grid {
+            display: grid;
+            gap: var(--gutter, 0px);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+            /* 设置合适的宽度和高度限制 */
+            width: 100%;
+            max-width: 600px;
+            max-height: 500px;
+            /* 确保内容居中且不溢出 */
+            overflow: hidden;
+            /* 确保网格项对齐 */
+            align-items: stretch;
+            justify-items: stretch;
+            backdrop-filter: blur(10px);
+        }
+
+        .image-container,
+        .image-inner-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius, 0px);
+            width: 100%;
+            height: 100%;
+            min-height: 100px;
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+        
+        .image-outer-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            min-height: 100px;
+        }
+
+        .image-container img,
+        .image-inner-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.2s ease;
+            /* 优化图片渲染质量 */
+            image-rendering: auto;
+            /* 确保高质量缩放 */
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .image-container:hover img,
+        .image-outer-container:hover .image-inner-container img {
+            transform: scale(1.05);
+        }
+
+        .image-container .remove-btn {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            color: #ef4444;
+            border: none;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .image-container:hover .remove-btn {
+            opacity: 1;
+            transform: translateY(0) scale(1.05);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+            pointer-events: auto;
+        }
+        
+        /* Drag Handle组件 */
+        .drag-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 3rem;
+            height: 3rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: translate(-50%, 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: move;
+            z-index: 5;
+        }
+        
+        /* 鼠标悬停时，拖拽手柄从下方滑入 */
+        .image-container:hover .drag-handle {
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+        
+        /* 白点样式 */
+        .drag-dots {
+            display: flex;
+            gap: 0.375rem;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .drag-dots span {
+            display: block;
+            width: 0.375rem;
+            height: 0.375rem;
+            background-color: #64748b;
+            border-radius: 50%;
+        }
+
+        .add-image-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background-color: #f1f5f9;
+            border: 2px dashed #e2e8f0;
+            border-radius: var(--radius, 0px);
+            font-size: 2rem;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-image-btn:hover {
+            background-color: #e2e8f0;
+            border-color: #94a3b8;
+            color: #64748b;
+        }
+
+        /* 图片计数器 */
+        .photo-counter {
+            background: rgba(143, 214, 143, 0.3);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin: 0 auto 2rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(143, 214, 143, 0.4);
+        }
+
+        /* 底部功能栏 */
+        .bottom-toolbar {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin: 1rem auto 0;
+            justify-content: center;
+            max-width: 300px;
+            align-self: center;
+        }
+
+        .toolbar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .toolbar-btn:hover {
+            background: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .toolbar-btn.active {
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            border-color: rgba(143, 214, 143, 0.6);
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        /* 隐藏的文件输入 */
+        #fileInput {
+            display: none;
+        }
+
+        /* 滤镜网格 */
+        .filter-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-btn:hover {
+            background: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            border-color: rgba(143, 214, 143, 0.6);
+        }
+        
+        /* 贴纸网格 */
+        .sticker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .sticker-btn {
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .sticker-btn:hover {
+            background: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* 文字工具 */
+        .text-tool {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(143, 214, 143, 0.15);
+            border: 1px solid rgba(143, 214, 143, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .text-tool-icon {
+            font-size: 2rem;
+            color: #8fd68f;
+            margin-bottom: 1rem;
+        }
+
+        .text-add-btn {
+            padding: 0.75rem 1.5rem;
+            background: #8fd68f;
+            color: rgba(0, 0, 0, 0.8);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .text-add-btn:hover {
+            background: #66BB6A;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+        }
+
+        .text-hint {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 文字图层 */
+        .text-layer {
+            position: absolute;
+            cursor: pointer;
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 600;
+            text-align: center;
+            user-select: none;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .text-layer:hover {
+            outline: 2px solid #8fd68f;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #8fd68f;
+            text-align: center;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .faq-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background-color: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: #8fd68f;
+        }
+
+        .faq-question-text {
+            flex: 1;
+        }
+
+        .faq-icon {
+            font-size: 0.9rem;
+            color: #8fd68f;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+        }
+
+        .faq-answer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .collage-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .aspect-ratio-grid,
+            .filter-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .upload-area {
+                padding: 2rem;
+            }
+
+            .upload-title {
+                font-size: 2rem;
+            }
+
+            .tool-nav-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tool-nav-link {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+
+            /* FAQ Responsive Styles */
+            .faq-section {
+                padding: 1.5rem;
+            }
+
+            .faq-title {
+                font-size: 1.6rem;
+            }
+
+            .faq-question {
+                padding: 1.2rem;
+                font-size: 1rem;
+            }
+
+            .faq-answer {
+                padding: 0 1.2rem 1.2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* GitHub Link Styles */
+        .github-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+
+        .github-link i {
+            font-size: 1.2rem;
+        }
+    </style>
+    <!-- Google Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">首頁</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">部落格</a>
+                <a href="/about.html" class="nav-link" data-page="about" data-i18n="nav.about">關於我們</a>
+                <a href="/public/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">正方形圖片</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="在 GitHub 上查看"
+                   data-i18n-title="nav.github_view">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <div class="lang-selector" title="切換語言" data-i18n-title="nav.switch_language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>繁體中文</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="collage-tool-container">
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="home.title">MeCollage</h1>
+                <p class="page-subtitle" data-i18n="home.subtitle">使用無限數量的圖片創建美觀的照片拼圖。簡單、專業。支援多達 20 張照片。</p>
+            </header>
+
+            <nav class="tool-nav">
+                <div class="tool-nav-container">
+                    <a href="/" class="tool-nav-link active"><i class="fas fa-home"></i> <span data-i18n="tool.collage_maker">拼圖製作工具</span></a>
+                    <a href="/public/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span data-i18n="tool.square_crop">正方形裁剪</span></a>
+                    <a href="/public/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span data-i18n="tool.rounded_corners">圓角工具</span></a>
+                    <a href="/public/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span data-i18n="tool.square_image">正方形圖片</span></a>
+                    <a href="/public/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span data-i18n="tool.blurred_frame">模糊邊框</span></a>
+                </div>
+            </nav>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <!-- 布局设置（默认显示） -->
+                <div class="sidebar-section" id="layoutSection">
+                    <!-- 纵横比选择 -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title" data-i18n="sidebar.aspect_ratio">縱橫比</h3>
+                        <div class="aspect-ratio-grid">
+                            <button class="aspect-ratio-btn active" data-ratio="1:1">1:1</button>
+                            <button class="aspect-ratio-btn" data-ratio="4:5">4:5</button>
+                            <button class="aspect-ratio-btn" data-ratio="9:16">9:16</button>
+                            <button class="aspect-ratio-btn" data-ratio="3:4">3:4</button>
+                            <button class="aspect-ratio-btn" data-ratio="16:9">16:9</button>
+                        </div>
+                    </div>
+
+                    <!-- 几何设置 -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title" data-i18n="sidebar.geometry">幾何形狀</h3>
+
+                        <!-- 间距滑块 -->
+                        <div class="slider-control">
+                            <div class="slider-label">
+                                <span data-i18n="sidebar.gutter">間距</span>
+                                <span class="slider-value" id="gutterValue">0px</span>
+                            </div>
+                            <input type="range" class="slider" id="gutterSlider" min="0" max="100" value="0">
+                        </div>
+
+                        <!-- 圆角滑块 -->
+                        <div class="slider-control">
+                            <div class="slider-label">
+                                <span data-i18n="sidebar.radius">圓角</span>
+                                <span class="slider-value" id="radiusValue">0px</span>
+                            </div>
+                            <input type="range" class="slider" id="radiusSlider" min="0" max="200" value="0">
+                        </div>
+                    </div>
+
+                    <!-- 自定义网格布局 -->
+                    <div class="sidebar-section">
+                        <h3 class="sidebar-title" data-i18n="sidebar.grid_layout">網格佈局</h3>
+
+                        <!-- 布局模式切换 -->
+                        <div class="layout-mode-toggle" style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                            <button class="layout-mode-btn active" data-mode="auto" data-i18n="sidebar.auto_layout">自動</button>
+                            <button class="layout-mode-btn" data-mode="custom" data-i18n="sidebar.custom_layout">自定義</button>
+                        </div>
+
+                        <!-- 自定义网格输入 -->
+                        <div id="customGridInputs" style="display: none;">
+                            <div class="grid-input-container" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                <input type="number" id="gridRowsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: rgba(255, 255, 255, 0.9); font-size: 0.875rem; text-align: center;">
+                                <span style="color: rgba(255, 255, 255, 0.7);">×</span>
+                                <input type="number" id="gridColsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: rgba(255, 255, 255, 0.9); font-size: 0.875rem; text-align: center;">
+                                <button id="applyGridBtn" class="apply-grid-btn" style="flex: 1; padding: 0.5rem; background: rgba(143, 214, 143, 0.3); border: 1px solid rgba(143, 214, 143, 0.5); border-radius: 8px; color: #8fd68f; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" data-i18n="sidebar.apply_grid">應用</button>
+                            </div>
+                            <p style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); text-align: center; margin-top: 0.5rem;" data-i18n="sidebar.grid_hint">例如：3 × 3 放置 9 張照片</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 滤镜设置（默认隐藏） -->
+                <div class="sidebar-section" id="filterSection" style="display: none;">
+                    <h3 class="sidebar-title" data-i18n="sidebar.filters">照片濾鏡</h3>
+                    <div class="filter-grid">
+                        <button class="filter-btn active" data-filter="none" data-i18n="filter.none">無</button>
+                        <button class="filter-btn" data-filter="noir" data-i18n="filter.noir">黑白</button>
+                        <button class="filter-btn" data-filter="retro" data-i18n="filter.retro">復古</button>
+                        <button class="filter-btn" data-filter="fade" data-i18n="filter.fade">淡化</button>
+                        <button class="filter-btn" data-filter="glow" data-i18n="filter.glow">發光</button>
+                        <button class="filter-btn" data-filter="cool" data-i18n="filter.cool">冷色調</button>
+                    </div>
+                </div>
+
+                <!-- 文字设置（默认隐藏） -->
+                <div class="sidebar-section" id="textSection" style="display: none;">
+                    <div class="text-tool">
+                        <div class="text-tool-icon">T</div>
+                        <button class="text-add-btn" id="addTextBtn" data-i18n="text.add_btn">添加文字</button>
+                        <p class="text-hint" data-i18n="text.hint">按兩下畫布上的文字進行編輯</p>
+                    </div>
+                </div>
+                
+                <!-- 贴纸设置（默认隐藏） -->
+                <div class="sidebar-section" id="stickerSection" style="display: none;">
+                    <h3 class="sidebar-title" data-i18n="sidebar.stickers">貼紙</h3>
+                    <div class="sticker-grid">
+                        <button class="sticker-btn" data-sticker="✨">✨</button>
+                        <button class="sticker-btn" data-sticker="❤️">❤️</button>
+                        <button class="sticker-btn" data-sticker="🔥">🔥</button>
+                        <button class="sticker-btn" data-sticker="🎭">🎭</button>
+                        <button class="sticker-btn" data-sticker="✌️">✌️</button>
+                        <button class="sticker-btn" data-sticker="🌈">🌈</button>
+                        <button class="sticker-btn" data-sticker="😀">😀</button>
+                        <button class="sticker-btn" data-sticker="🎈">🎈</button>
+                        <button class="sticker-btn" data-sticker="☁️">☁️</button>
+                        <button class="sticker-btn" data-sticker="⭐">⭐</button>
+                        <button class="sticker-btn" data-sticker="🎀">🎀</button>
+                        <button class="sticker-btn" data-sticker="📷">📷</button>
+                    </div>
+                </div>
+
+                <!-- AI 功能设置（默认隐藏） -->
+                <div class="sidebar-section" id="aiSection" style="display: none;">
+                    <h3 class="sidebar-title" data-i18n="sidebar.ai_features">AI 增強功能</h3>
+                    <div class="ai-tool-group">
+                        <div class="ai-tool-item" style="margin-bottom: 1.5rem;">
+                            <h4 style="font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;" data-i18n="ai.face_center_title">智能人臉居中</h4>
+                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;" data-i18n="ai.face_center_desc">自動檢測並在拼圖格子中居中顯示人臉。</p>
+                            <button class="apply-grid-btn" id="aiFaceCenterBtn" style="width: 100%;" data-i18n="ai.apply_face_center">應用到所有照片</button>
+                        </div>
+                        <div class="ai-tool-item">
+                            <h4 style="font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;" data-i18n="ai.bg_removal_title">本地 AI 智能去背</h4>
+                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;" data-i18n="ai.bg_removal_desc">在本地使用 AI 瞬間移除選中照片的背景。</p>
+                            <button class="apply-grid-btn" id="aiBgRemovalBtn" style="width: 100%;" data-i18n="ai.remove_bg">移除背景</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 画布区域 -->
+            <section class="canvas-container">
+                <!-- 初始上传界面 -->
+                <div class="upload-screen" id="uploadScreen">
+                    <h1 class="upload-title" data-i18n="upload.title">Your photos,<br><span style="color: #8fd68f;">perfectly arranged.</span></h1>
+                    <p class="upload-subtitle" data-i18n="upload.subtitle">簡單、專業。支援多達 20 張照片。</p>
+                    <div class="upload-area" id="uploadArea">
+                        <input type="file" id="fileInput" multiple accept="image/*">
+                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <div class="upload-text" data-i18n="upload.drop_hint">拖放照片或點擊上傳</div>
+                        <div class="upload-hint" data-i18n="upload.format_hint">支援 PNG, JPG, HEIC，最多 20 張</div>
+                    </div>
+                </div>
+
+                <!-- 拼图画布 -->
+                <div class="collage-canvas" id="collageCanvas">
+                    <div class="collage-grid" id="collageGrid"></div>
+                    <div class="photo-counter" id="photoCounter">0 / 20 <span data-i18n="app.photos_count">張照片</span></div>
+                    <!-- 实时位置反馈 -->
+                    <div class="position-feedback" id="positionFeedback" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; pointer-events: none; display: none;"></div>
+                </div>
+                
+                <!-- 底部功能栏 -->
+                <div class="bottom-toolbar">
+                    <button class="toolbar-btn active" id="layoutBtn" title="縱橫比" data-i18n-title="sidebar.aspect_ratio">
+                        <span>⬜</span>
+                    </button>
+                    <button class="toolbar-btn" id="filterBtn" title="照片濾鏡" data-i18n-title="sidebar.filters">
+                        <span>🌈</span>
+                    </button>
+                    <button class="toolbar-btn" id="textBtn" title="文字" data-i18n-title="sidebar.text">
+                        <span>T</span>
+                    </button>
+                    <button class="toolbar-btn" id="stickerBtn" title="貼紙" data-i18n-title="sidebar.stickers">
+                        <span>📌</span>
+                    </button>
+                    <button class="toolbar-btn" id="aiBtn" title="AI 增強功能" data-i18n-title="sidebar.ai_features">
+                        <span>🤖</span>
+                    </button>
+                    <button class="toolbar-btn" id="exportBtn" title="導出" data-i18n-title="sidebar.export">
+                        <span>💾</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- SEO Pages Section -->
+        <section style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px); padding: 60px 20px; margin-top: 40px; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.18);">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <h2 style="text-align: center; color: #8fd68f; font-size: 2.2em; margin-bottom: 50px; text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.4);" data-i18n="seo.guides_title">拼圖指南與教程</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+                    <a href="/how-to-make-a-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_make_collage_title">📖 如何製作拼圖</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_make_collage_desc">製作精美照片拼圖的逐步教程</p>
+                    </a>
+                    <a href="/instagram-story-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_insta_story_title">📱 Instagram 故事拼圖</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_insta_story_desc">為 Instagram 故事創建完美的 9:16 垂直拼圖</p>
+                    </a>
+                    <a href="/square-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_square_collage_title">🔲 正方形拼圖</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_square_collage_desc">為 Instagram 貼文創建 1:1 正方形拼圖</p>
+                    </a>
+                    <a href="/vertical-collage.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_vertical_collage_title">📏 垂直拼圖</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_vertical_collage_desc">適合手機桌布的完美 9:16 縱向格式</p>
+                    </a>
+                    <a href="/birthday-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_birthday_collage_title">🎂 生日拼圖</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_birthday_collage_desc">使用貼紙和效果創建充滿節日氣氛的生日拼圖</p>
+                    </a>
+                    <a href="/wedding-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_wedding_collage_title">💒 婚禮拼圖</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_wedding_collage_desc">使用浪漫濾鏡打造優雅的婚禮拼圖</p>
+                    </a>
+                    <a href="/christmas-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_christmas_collage_title">🎄 聖誕拼圖</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_christmas_collage_desc">使用聖誕貼紙製作充滿節日氣氛的拼圖</p>
+                    </a>
+                    <a href="/free-collage-maker.html" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_free_collage_title">🆓 免費拼圖製作工具</h3>
+                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_free_collage_desc">為什麼選擇 MeCollage 而不是 Canva、Fotor 或 FotoJet</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="faq-container">
+                <h2 class="faq-title" data-i18n="faq.title">常見問題</h2>
+                <div class="faq-items">
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text" data-i18n="faq.q1">什麼是 MeCollage？</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden data-i18n="faq.a1">
+                            <p>MeCollage is a free online image collage maker that allows you to create beautiful collages with unlimited images. It offers professional layout options, customization features, and support for up to 20 photos per collage.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text" data-i18n="faq.q2">如何創建拼圖？</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden data-i18n="faq.a2">
+                            <p>Simply click or drag and drop your photos into the upload area. Once uploaded, your images will be automatically arranged into a collage. You can then customize the layout, add filters, text, or stickers to perfect your design.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text" data-i18n="faq.q3">我可以添加多少張圖片？</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden data-i18n="faq.a3">
+                            <p>You can add up to 20 images per collage. The tool supports various formats including PNG, JPG, and HEIC.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text" data-i18n="faq.q4">支援哪些縱橫比？</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden data-i18n="faq.a4">
+                            <p>MeCollage supports multiple aspect ratios including 1:1, 4:5, 9:16, 3:4, and 16:9, allowing you to create collages optimized for different platforms and purposes.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text" data-i18n="faq.q5">我可以自定義我的拼圖嗎？</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden data-i18n="faq.a5">
+                            <p>Yes! You can adjust the gutter spacing between images, add rounded corners, apply various filters, insert text, and add emoji stickers to personalize your collage. The intuitive toolbar at the bottom of the canvas gives you quick access to all these features.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text" data-i18n="faq.q6">如何導出我的拼圖？</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden data-i18n="faq.a6">
+                            <p>Once you're satisfied with your collage, you can export it using the export functionality. The tool uses html2canvas to generate a high-quality image of your collage for download.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text" data-i18n="faq.q7">MeCollage 是免費使用的嗎？</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden data-i18n="faq.a7">
+                            <p>Yes, MeCollage is completely free to use. You can create unlimited collages without any watermarks, signup requirements, or hidden fees.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. 版權所有。</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">返回首頁</span></a> | <a href="/about.html" style="color: #8fd68f;"><span data-i18n="nav.about">關於我們</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">部落格</span></a> | <a href="/contact.html" style="color: #8fd68f;"><span data-i18n="footer.contact">聯繫我們</span></a> | <a href="/privacy.html" style="color: #8fd68f;"><span data-i18n="footer.privacy">隱私政策</span></a> | <a href="/terms.html" style="color: #8fd68f;"><span data-i18n="footer.terms">服務條款</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+        </footer>
+    </div>
+    </div>
+
+    <!-- 引入html2canvas库用于图片导出 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
+    <!-- AI Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.1/dist/ort.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js" crossorigin="anonymous"></script>
+    <script src="/assets/js/mecollage-main.js"></script>
+    <!-- 多语言支持 -->
+    <script src="/assets/js/i18n.js"></script>
+    <script>
+      // 页面加载时立即隐藏不必要的元素，确保初始状态只显示上传界面
+      (function() {
+        // 隐藏侧边栏
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) sidebar.style.display = 'none';
+        
+        // 隐藏底部工具栏
+        const bottomToolbar = document.querySelector('.bottom-toolbar');
+        if (bottomToolbar) bottomToolbar.style.display = 'none';
+        
+        // 确保画布区域隐藏
+        const collageCanvas = document.getElementById('collageCanvas');
+        if (collageCanvas) collageCanvas.style.display = 'none';
+        
+        // 确保上传界面可见
+        const uploadScreen = document.getElementById('uploadScreen');
+        if (uploadScreen) uploadScreen.style.display = 'block';
+      })();
+      
+      // 确保DOM完全加载后初始化应用
+      document.addEventListener('DOMContentLoaded', () => {
+        window.mecollage = new MeCollagePro();
+        
+        // FAQ Toggle Functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isExpanded = question.getAttribute('aria-expanded') === 'true';
+                const icon = question.querySelector('.faq-icon');
+                
+                question.setAttribute('aria-expanded', !isExpanded);
+                answer.hidden = isExpanded;
+                
+                if (isExpanded) {
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+      });
+    </script>
+</body>
+</html>
