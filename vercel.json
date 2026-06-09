@@ -6,6 +6,11 @@
   ],
   "redirects": [
     {
+      "source": "/public/tools/(.*)",
+      "destination": "/tools/$1",
+      "permanent": true
+    },
+    {
       "source": "/:path*",
       "has": [
         { "type": "query", "key": "lang", "value": "zh" }
