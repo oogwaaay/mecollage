@@ -874,6 +874,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     loadImage(file);
                 }
             });
+
+            // Paste upload support
+            document.addEventListener('paste', (e) => {
+                const items = e.clipboardData.items;
+                for (let i = 0; i < items.length; i++) {
+                    if (items[i].type.startsWith('image/')) {
+                        const file = items[i].getAsFile();
+                        if (file) {
+                            loadImage(file);
+                        }
+                        break;
+                    }
+                }
+            });
         });
 
         // Load image
