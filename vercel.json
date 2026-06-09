@@ -2,7 +2,7 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "rewrites": [
-    { "source": "/tools/:path*", "destination": "/public/tools/:path*" }
+    { "source": "/tools/(.*)", "destination": "/public/tools/$1" }
   ],
   "redirects": [
     {
