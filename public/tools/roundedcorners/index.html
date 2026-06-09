@@ -733,6 +733,15 @@
                     <div class="setting-group">
                         <button class="btn btn-primary" onclick="downloadImage()" data-i18n="tool.rounded_corners.settings.download_btn"><i class="fas fa-download"></i> Download Image</button>
                     </div>
+                    
+                    <div class="next-steps" style="margin-top: 1.5rem; padding: 1rem; background: rgba(143, 214, 143, 0.1); border-radius: 12px; border: 1px solid rgba(143, 214, 143, 0.2);">
+                        <p style="color: #8fd68f; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem;"><i class="fas fa-arrow-right"></i> Done? Try these next:</p>
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <a href="/tools/square/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">Square Image →</a>
+                            <a href="/tools/blurredframe/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">Blurred Frame →</a>
+                            <a href="/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">Make a Collage →</a>
+                        </div>
+                    </div>
                 </aside>
             </div>
 
@@ -785,6 +794,14 @@
                     <div class="faq-item">
                         <h3 class="faq-question" data-i18n="tool.rounded_corners.faq.q6">Free and unlimited</h3>
                         <p class="faq-answer" data-i18n="tool.rounded_corners.faq.a6">Completely free with no watermarks, signup requirements, or hidden fees. Add rounded corners to unlimited images with full quality and all customization options available at no cost.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">What corner radius should I use for iOS App Store screenshots?</h3>
+                        <p class="faq-answer">For iPhone app screenshots, a corner radius around 20% gives a clean, native-looking rounded corner that matches modern iOS design language. Using 50% (fully round) would make your screenshot look like an app icon rather than a device screen, so avoid that. For iPad screenshots, slightly less rounding (around 15%) works better due to the larger aspect ratio. Always preview before submitting.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">Why does my rounded corner PNG look square on some websites?</h3>
+                        <p class="faq-answer">Some platforms compress uploaded images and may add a background color to transparent PNGs. Your rounded corners can appear as solid squares if the platform doesn't preserve transparency. <strong>Fix</strong>: Download with a solid background color that matches where you'll use it — our color picker lets you choose exact hex codes. For Instagram posts, white (#FFFFFF) or black (#000000) backgrounds work well. For websites, pick a color that matches the page background.</p>
                     </div>
                 </div>
             </section>

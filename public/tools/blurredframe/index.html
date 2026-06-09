@@ -782,6 +782,15 @@
                     <div class="setting-group">
                         <button class="btn btn-primary" onclick="downloadImage()" style="width: 100%; margin-top: 20px;"><i class="fas fa-download"></i> <span data-i18n="tool.blurred_frame.settings.download_btn">Download Image</span></button>
                     </div>
+                    
+                    <div class="next-steps" style="margin-top: 1.5rem; padding: 1rem; background: rgba(143, 214, 143, 0.1); border-radius: 12px; border: 1px solid rgba(143, 214, 143, 0.2);">
+                        <p style="color: #8fd68f; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.95rem;"><i class="fas fa-arrow-right"></i> Done? Try these next:</p>
+                        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                            <a href="/tools/square/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">Square Image →</a>
+                            <a href="/tools/roundedcorners/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">Round Corners →</a>
+                            <a href="/" style="color: rgba(255,255,255,0.9); text-decoration: none; font-size: 0.9rem; padding: 0.4rem 0.8rem; background: rgba(0,0,0,0.3); border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);">Make a Collage →</a>
+                        </div>
+                    </div>
                 </aside>
             </div>
 
@@ -864,6 +873,24 @@
                         </button>
                         <div class="faq-answer" hidden>
                             <p data-i18n="tool.blurred_frame.faq.a6">Completely free with no watermarks, signup requirements, or hidden fees. Process unlimited images with full quality and all customization options available at no cost.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">Why does high blur make my file 3x larger?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p>Blur creates complex pixel gradients that don't compress as efficiently as solid colors or sharp edges. A photo with heavy blur borders will have a larger file size than the same photo with a solid color border or a cropped version. If you need smaller files for email attachments or platforms with upload limits, try Color fill mode (solid colors compress best) or reduce the JPG quality setting.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question" aria-expanded="false">
+                            <span class="faq-question-text">Which platforms work best with blurred frame photos?</span>
+                            <i class="fas fa-chevron-down faq-icon"></i>
+                        </button>
+                        <div class="faq-answer" hidden>
+                            <p><strong>Instagram Feed</strong>: Perfect — blurred frame keeps your full photo visible and looks polished in the square grid.<br><br><strong>Instagram Stories</strong>: Not recommended — Stories are already 9:16 vertical, adding horizontal blur wastes screen space.<br><br><strong>Twitter/X</strong>: Good — stands out in the timeline with a cinematic look.<br><br><strong>LinkedIn</strong>: Excellent — professional appearance that looks polished in a business context.<br><br><strong>TikTok Cover</strong>: Avoid — thumbnails are small, blur details may not be visible at small sizes.</p>
                         </div>
                     </div>
                 </div>
