@@ -24,6 +24,12 @@
     <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/tools/square/" />
   </url>
   <url>
+    <loc>https://www.mecollage.top/blog/</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.mecollage.top/tools/squarecrop/</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
