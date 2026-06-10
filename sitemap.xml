@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<?xml version='1.0' encoding='UTF-8'?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.mecollage.top/</loc>
     <lastmod>2026-06-09</lastmod>
@@ -68,22 +67,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/about" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/about" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/about" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/about" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/about" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/contact</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/contact" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/contact" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/contact" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/contact" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/contact" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/privacy</loc>
     <lastmod>2026-06-09</lastmod>
@@ -91,21 +82,14 @@
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/privacy" />
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/privacy" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/privacy" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/privacy" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/privacy" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/terms</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/terms" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/terms" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/terms" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/terms" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/terms" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/free-collage-maker</loc>
     <lastmod>2026-06-09</lastmod>
@@ -200,86 +184,54 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/ai-powered-enhancements" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/ai-powered-enhancements" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/ai-powered-enhancements" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/ai-powered-enhancements" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/ai-powered-enhancements" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/blog/custom-grid-layout-feature</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/custom-grid-layout-feature" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/custom-grid-layout-feature" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/custom-grid-layout-feature" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/custom-grid-layout-feature" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/custom-grid-layout-feature" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/blog/how-to-make-photo-collage</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/how-to-make-photo-collage" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/how-to-make-photo-collage" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/how-to-make-photo-collage" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/how-to-make-photo-collage" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/how-to-make-photo-collage" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/blog/collage-design-tips</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/collage-design-tips" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/collage-design-tips" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/collage-design-tips" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/collage-design-tips" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/collage-design-tips" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/blog/holiday-collage-guide</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/holiday-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/holiday-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/holiday-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/holiday-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/holiday-collage-guide" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/blog/mobile-collage-tips</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/mobile-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/mobile-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/mobile-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/mobile-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/mobile-collage-tips" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/blog/social-media-collage-guide</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/social-media-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/social-media-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/social-media-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/social-media-collage-guide" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/social-media-collage-guide" />
-  </url>
+    </url>
   <url>
     <loc>https://www.mecollage.top/blog/portfolio-collage-tips</loc>
     <lastmod>2026-06-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/blog/portfolio-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/blog/portfolio-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/blog/portfolio-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/blog/portfolio-collage-tips" />
-    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/blog/portfolio-collage-tips" />
-  </url>
+    </url>
 </urlset>
