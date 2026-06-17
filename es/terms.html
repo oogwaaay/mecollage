@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Términos de Servicio - MeCollage</title>
+    <meta name="description" content="Términos de Servicio de MeCollage - Conoce los términos y condiciones para usar nuestro sitio web y servicios.">
+    <link rel="canonical" href="https://www.mecollage.top/es/terms/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/terms/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/terms/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/terms/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/terms/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/terms/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/terms/" />
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <style>
+        /* Global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navigation styles */
+        .ghibli-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #8fd68f;
+        }
+
+        .nav-link.active {
+            color: #8fd68f;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-selector {
+            position: relative;
+        }
+
+        .lang-selector-toggle {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-selector-toggle:hover {
+            background: rgba(143, 214, 143, 0.2);
+            color: #8fd68f;
+        }
+
+        /* Main content styles */
+        .policy-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .policy-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-align: center;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .policy-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .policy-content {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .policy-section {
+            margin-bottom: 2rem;
+        }
+
+        .policy-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .policy-section-subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .policy-text {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .policy-list {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .policy-list li {
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        footer a {
+            color: #8fd68f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #66BB6A;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .ghibli-nav {
+                padding: 1rem;
+            }
+
+            .nav-left {
+                gap: 1rem;
+            }
+
+            .policy-container {
+                padding: 1rem;
+            }
+
+            .policy-title {
+                font-size: 2rem;
+            }
+
+            .policy-subtitle {
+                font-size: 1rem;
+            }
+
+            .policy-content {
+                padding: 1.5rem;
+            }
+
+            .policy-section-title {
+                font-size: 1.3rem;
+            }
+
+            .policy-section-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    <!-- Google Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Inicio</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
+                <a href="/es/about/" class="nav-link" data-page="about" data-i18n="nav.about">Sobre nosotros</a>
+                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Imagen Cuadrada</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="policy-container">
+            <h1 class="policy-title" data-i18n="policy.terms.title">Términos de Servicio</h1>
+            <p class="policy-subtitle" data-i18n="policy.last_updated">Última actualización: 13 de enero de 2025</p>
+            
+            <div class="policy-content">
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.intro.title">1. Aceptación de los Términos</h2>
+                    <p class="policy-text" data-i18n="policy.terms.intro.text">Al acceder o usar el sitio web y los servicios de MeCollage, aceptas estar sujeto a estos Términos de Servicio y a nuestra Política de Privacidad. Si no estás de acuerdo con estos términos, por favor no uses nuestro sitio web ni nuestros servicios.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.service.title">2. Descripción del Servicio</h2>
+                    <p class="policy-text" data-i18n="policy.terms.service.text">MeCollage proporciona una plataforma en línea para crear y editar collages de imágenes. Nuestros servicios incluyen, entre otros, la creación de collages, la edición de imágenes y la exportación de imágenes. Nos reservamos el derecho de modificar, suspender o discontinuar cualquier parte de nuestros servicios en cualquier momento sin previo aviso.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.user.title">3. Responsabilidades del Usuario</h2>
+                    <p class="policy-text" data-i18n="policy.terms.user.text">Al usar nuestros servicios, aceptas:</p>
+                    <ul class="policy-list">
+                        <li data-i18n="policy.terms.user.list.1">Cumplir con todas las leyes y regulaciones aplicables</li>
+                        <li data-i18n="policy.terms.user.list.2">Respetar los derechos de propiedad intelectual de otros</li>
+                        <li data-i18n="policy.terms.user.list.3">No subir ni transmitir ningún contenido que sea ilegal, dañino o infrinja los derechos de otros</li>
+                        <li data-i18n="policy.terms.user.list.4">No usar nuestros servicios para ningún fin comercial sin nuestro consentimiento previo por escrito</li>
+                        <li data-i18n="policy.terms.user.list.5">Mantener la seguridad de tu cuenta (si corresponde)</li>
+                        <li data-i18n="policy.terms.user.list.6">No intentar interferir con el funcionamiento adecuado de nuestros servicios</li>
+                        <li data-i18n="policy.terms.user.list.7">No usar ningún medio automatizado para acceder a nuestros servicios</li>
+                    </ul>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.ip.title">4. Propiedad Intelectual</h2>
+                    <p class="policy-text" data-i18n="policy.terms.ip.text1">Todo el contenido y los materiales en el sitio web de MeCollage, incluyendo pero no limitado a texto, gráficos, logotipos, iconos, imágenes y software, son propiedad de MeCollage o sus licenciantes y están protegidos por las leyes de derechos de autor, marcas registradas y otras leyes de propiedad intelectual.</p>
+                    <p class="policy-text" data-i18n="policy.terms.ip.text2">Conservas la propiedad de cualquier imagen que subas a nuestros servicios. Al subir imágenes, nos otorgas una licencia no exclusiva, mundial y libre de regalías para usar, modificar y mostrar tus imágenes con el fin de proporcionarte nuestros servicios.</p>
+                    <p class="policy-text" data-i18n="policy.terms.ip.text3">MeCollage es un proyecto de código abierto. El código fuente está disponible para su revisión y contribución. Los collages que creas usando MeCollage te pertenecen, y tienes todos los derechos para usarlos para cualquier fin, incluyendo el uso comercial.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.privacy.title">5. Política de Privacidad</h2>
+                    <p class="policy-text" data-i18n="policy.terms.privacy.text">Tu uso de nuestros servicios también se rige por nuestra Política de Privacidad, que se incorpora a estos Términos de Servicio por referencia. Por favor, revisa nuestra Política de Privacidad para entender cómo recopilamos, usamos y protegemos tu información.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.warranties.title">6. Descargo de Responsabilidad de Garantías</h2>
+                    <p class="policy-text" data-i18n="policy.terms.warranties.text1">Nuestros servicios se proporcionan &quot;tal cual&quot; y &quot;según disponibilidad&quot; sin garantías de ningún tipo, ya sean expresas o implícitas. No garantizamos que nuestros servicios sean ininterrumpidos, seguros o libres de errores.</p>
+                    <p class="policy-text" data-i18n="policy.terms.warranties.text2">No ofrecemos garantías con respecto a la exactitud, fiabilidad o integridad de cualquier contenido o material en nuestro sitio web.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.liability.title">7. Limitación de Responsabilidad</h2>
+                    <p class="policy-text" data-i18n="policy.terms.liability.text1">En ningún caso MeCollage o sus directores, oficiales, empleados o agentes serán responsables de ningún daño indirecto, incidental, especial, consecuente o punitivo que surja de o en conexión con tu uso de nuestros servicios, incluso si hemos sido advertidos de la posibilidad de tales daños.</p>
+                    <p class="policy-text" data-i18n="policy.terms.liability.text2">Nuestra responsabilidad total hacia ti por todas las reclamaciones que surjan de o en conexión con estos Términos de Servicio o nuestros servicios no excederá la cantidad que pagaste (si la hay) para usar nuestros servicios.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.indemnification.title">8. Indemnización</h2>
+                    <p class="policy-text" data-i18n="policy.terms.indemnification.text">Aceptas indemnizar, defender y eximir de responsabilidad a MeCollage y sus directores, oficiales, empleados y agentes de cualquier y toda reclamación, daño, responsabilidad, costo y gasto que surja de o en conexión con tu uso de nuestros servicios, tu violación de estos Términos de Servicio o tu violación de los derechos de cualquier tercero.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.termination.title">9. Terminación</h2>
+                    <p class="policy-text" data-i18n="policy.terms.termination.text1">Podemos terminar o suspender tu acceso a nuestros servicios en cualquier momento, sin previo aviso ni responsabilidad, por cualquier motivo, incluyendo si incumples estos Términos de Servicio.</p>
+                    <p class="policy-text" data-i18n="policy.terms.termination.text2">Tras la terminación, tu derecho a usar el servicio cesará inmediatamente.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.changes.title">10. Cambios en estos Términos</h2>
+                    <p class="policy-text" data-i18n="policy.terms.changes.text1">Podemos actualizar estos Términos de Servicio de vez en cuando. Te notificaremos cualquier cambio publicando los nuevos Términos de Servicio en esta página. Se te recomienda revisar estos Términos de Servicio periódicamente para cualquier cambio.</p>
+                    <p class="policy-text" data-i18n="policy.terms.changes.text2">Tu uso continuado de nuestros servicios después de la publicación de los cambios constituye tu aceptación de los Términos de Servicio revisados.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.law.title">11. Ley Aplicable</h2>
+                    <p class="policy-text" data-i18n="policy.terms.law.text">Estos Términos de Servicio se regirán e interpretarán de acuerdo con las leyes de California, Estados Unidos, sin tener en cuenta sus principios de conflicto de leyes.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.dispute.title">12. Resolución de Disputas</h2>
+                    <p class="policy-text" data-i18n="policy.terms.dispute.text">Cualquier disputa que surja de o en conexión con estos Términos de Servicio o nuestros servicios se resolverá mediante negociación amistosa. Si la negociación falla, la disputa se someterá a la jurisdicción exclusiva de los tribunales de California, Estados Unidos.</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.contact.title">Contacto</h2>
+                    <p class="policy-text">
+                        <span data-i18n="policy.terms.contact.text_pre_link">Para obtener soporte, por favor visita nuestra </span>
+                        <a href="https://github.com/oogwaaay/mecollage/issues" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: #8fd68f;">
+                            <span data-i18n="policy.terms.contact.link_github">página de GitHub Issues</span>
+                        </a>
+                        <span data-i18n="policy.terms.contact.text_post_link"> para informar de errores o solicitar funciones.</span>
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. Todos los derechos reservados.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Volver al inicio</span></a> | <a href="/es/about/" style="color: #8fd68f;"><span data-i18n="nav.about">Sobre nosotros</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/es/contact/" style="color: #8fd68f;"><span data-i18n="footer.contact">Contacto</span></a> | <a href="/es/privacy/" style="color: #8fd68f;"><span data-i18n="footer.privacy">Política de privacidad</span></a> | <a href="/es/terms/" style="color: #8fd68f;"><span data-i18n="footer.terms">Términos de servicio</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+        </footer>
+    </div>
+    <script src="/assets/js/i18n.js"></script>
+</body>
+</html>

@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Find help and support for MeCollage. Check our FAQ, report bugs, or connect with our community." />
+    <meta name="keywords" content="contact, support, help, FAQ, community" />
+    <meta name="author" content="MeCollage" />
+    <meta property="og:title" content="お問い合わせ＆サポート - MeCollage" />
+    <meta property="og:description" content="MeCollageのヘルプとサポートを見つけてください。FAQを確認したり、バグを報告したり、コミュニティとつながったりできます。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/ja/contact/" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="お問い合わせ＆サポート - MeCollage" />
+    <meta name="twitter:description" content="MeCollageのヘルプとサポートを見つけてください。FAQを確認したり、バグを報告したり、コミュニティとつながったりできます。" />
+    <link rel="canonical" href="https://www.mecollage.top/ja/contact/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/contact/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/contact/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/contact/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/contact/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/contact/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/contact/" />
+    <title>お問い合わせ＆サポート - MeCollage</title>
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <style>
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* 应用容器 */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 工具容器样式 */
+        .collage-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* 工具导航 */
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        /* 联系页面特有样式 */
+        .contact-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #8fd68f;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .community-support {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .community-support p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .support-option {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .support-option:hover {
+            background: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .support-option i {
+            font-size: 2.5rem;
+            color: #8fd68f;
+            margin-bottom: 1rem;
+        }
+
+        .support-option h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .support-option p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+
+        .support-option a {
+            display: inline-block;
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(143, 214, 143, 0.4);
+        }
+
+        .support-option a:hover {
+            background: rgba(143, 214, 143, 0.4);
+            border-color: rgba(143, 214, 143, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Contact Method Styles */
+        .contact-method {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contact-method:hover {
+            background: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact-link i {
+            font-size: 2.5rem;
+            color: #8fd68f;
+        }
+
+        .contact-link h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .contact-link p {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+        }
+
+        /* Quick Help Section */
+        .quick-help {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .quick-help-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .quick-help-link {
+            display: inline-block;
+            background: rgba(143, 214, 143, 0.3);
+            color: #8fd68f;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(143, 214, 143, 0.4);
+        }
+
+        .quick-help-link:hover {
+            background: rgba(143, 214, 143, 0.4);
+            border-color: rgba(143, 214, 143, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* About Section */
+        .about-section {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            background-color: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            outline: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.95);
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: #8fd68f;
+        }
+
+        .faq-question-text {
+            flex: 1;
+        }
+
+        .faq-icon {
+            font-size: 0.9rem;
+            color: #8fd68f;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.6;
+        }
+
+        .faq-answer p {
+            margin: 0;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .collage-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .support-options {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-section {
+                padding: 1.5rem;
+            }
+
+            .faq-section {
+                padding: 1.5rem;
+            }
+
+            .quick-help-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+    <!-- Google Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">ホーム</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">ブログ</a>
+                <a href="/ja/about/" class="nav-link" data-page="about" data-i18n="nav.about">について</a>
+                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">正方形画像</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="collage-tool-container">
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="contact.title">お問い合わせ＆サポート</h1>
+                <p class="page-subtitle" data-i18n="contact.subtitle">ヘルプを見つけ、コミュニティとつながる</p>
+            </header>
+
+            <nav class="tool-nav">
+                <div class="tool-nav-container">
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Collage Maker</a>
+                    <a href="/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
+                    <a href="/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
+                    <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
+                    <a href="/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                </div>
+            </nav>
+
+            <!-- Community Support Section -->
+            <section class="contact-section community-support">
+                <h2 class="section-title" data-i18n="contact.support_title">サポート＆コミュニティ</h2>
+                <p data-i18n="contact.support_desc">MeCollageは無料でコミュニティに支えられたプロジェクトです。直接のメールサポートは提供していませんが、コミュニティチャネルを通じてつながることができます。</p>
+                <div class="support-options">
+                    <div class="contact-method">
+                        <a href="https://github.com/oogwaaay/mecollage/issues" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           class="contact-link">
+                            <i class="fab fa-github"></i>
+                            <div>
+                                <h3 data-i18n="contact.github_title">GitHub Issues</h3>
+                                <p data-i18n="contact.github_desc">GitHubリポジトリでバグの報告や機能のリクエストを行ってください</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Help Section -->
+            <section class="contact-section">
+                <h2 class="section-title" data-i18n="contact.quick_help_title">クイックヘルプ</h2>
+                <div class="quick-help">
+                    <p data-i18n="contact.quick_help_desc">すぐにお困りですか？これらのリソースを確認してください：</p>
+                    <div class="quick-help-links">
+                        <a href="/blog/" class="quick-help-link" data-i18n="contact.link_blog">ブログを見る</a>
+                        <a href="#faq" class="quick-help-link" data-i18n="contact.link_faq">FAQを読む</a>
+                        <a href="https://github.com/oogwaaay/mecollage/issues" target="_blank" rel="noopener noreferrer" class="quick-help-link" data-i18n="contact.link_bug">バグを報告</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Section -->
+            <section class="faq-section" id="faq">
+                <div class="faq-container">
+                    <h2 class="section-title" data-i18n="faq.title">よくある質問</h2>
+                    <div class="faq-items">
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q7">MeCollageは無料で使用できますか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a7">はい、MeCollageは完全無料で使用できます。透かし、登録要件、隠れた費用なしで、無制限にコラージュを作成できます。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q3">何枚の画像を追加できますか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a3">1つのコラージュにつき最大20枚の画像を追加できます。このツールはPNG、JPG、HEICなどのさまざまな形式をサポートしています。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q8">写真は保存されますか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a8">いいえ。すべての写真処理はブラウザ内でローカルに行われます。写真がデバイスを離れることはありません。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q9">どの画像形式がサポートされていますか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a9">PNG、JPG、HEIC形式をサポートしています。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q10">モバイルデバイスでMeCollageを使用できますか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a10">はい、MeCollageはスマートフォンやタブレットを含む、ウェブブラウザを搭載したあらゆるデバイスで動作します。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q11">コラージュがエクスポートできないのはなぜですか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a11">少なくとも2枚の写真をアップロードしていることを確認してください。別のブラウザを試すか、ブラウザのキャッシュをクリアしてみてください。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q12">MeCollageで作成したコラージュを商用利用できますか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a12">はい！作成したコラージュの所有権はあなたにあります。自由に使用してください。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q13">MeCollageは画像に透かしを追加しますか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a13">いいえ。MeCollageがコラージュに透かしを追加することはありません。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q14">アスペクト比を変更するにはどうすればよいですか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a14">サイドバーの「アスペクト比」ボタン（1:1、4:5、9:16、3:4、16:9）を使用してください。</p>
+                            </div>
+                        </div>
+                        <div class="faq-item">
+                            <button class="faq-question" aria-expanded="false">
+                                <span class="faq-question-text" data-i18n="faq.q15">データは安全ですか？</span>
+                                <i class="fas fa-chevron-down faq-icon"></i>
+                            </button>
+                            <div class="faq-answer" hidden>
+                                <p data-i18n="faq.a15">もちろんです。すべての処理はブラウザ内でローカルに行われます。個人データを収集または保存することはありません。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About This Project Section -->
+            <section class="contact-section">
+                <h2 class="section-title" data-i18n="contact.about_title">MeCollageについて</h2>
+                <div class="about-section">
+                    <p data-i18n="contact.about_p1">MeCollageはオープンソースのクライアントサイド写真コラージュツールです。私たちはプライバシー、シンプルさ、そしてクリエイティブツールへの自由なアクセスを信じています。</p>
+                    <p style="margin-top: 1rem;" data-i18n="contact.about_p2">私たちのミッションは、プライバシーを尊重し、作品を完全にコントロールできる、使いやすく強力なコラージュメーカーを提供することです。</p>
+                </div>
+            </section>
+
+            <footer>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">ホームに戻る</span></a> | <a href="/ja/about/" style="color: #8fd68f;"><span data-i18n="nav.about">について</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">ブログ</span></a> | <a href="/ja/contact/" style="color: #8fd68f;"><span data-i18n="footer.contact">お問い合わせ</span></a> | <a href="/ja/privacy/" style="color: #8fd68f;"><span data-i18n="footer.privacy">プライバシーポリシー</span></a> | <a href="/ja/terms/" style="color: #8fd68f;"><span data-i18n="footer.terms">利用規約</span></a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/assets/js/mecollage-main.js"></script>
+    <script src="/assets/js/i18n.js"></script>
+    <script>
+        // FAQ Toggle Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const isExpanded = question.getAttribute('aria-expanded') === 'true';
+                    const icon = question.querySelector('.faq-icon');
+                    
+                    question.setAttribute('aria-expanded', !isExpanded);
+                    answer.hidden = isExpanded;
+                    
+                    if (isExpanded) {
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

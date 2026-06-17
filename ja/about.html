@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Learn about MeCollage - a free online photo collage maker. Discover our mission, values, and commitment to privacy." />
+    <meta name="keywords" content="about, mission, values, company info" />
+    <meta name="author" content="MeCollage" />
+    <meta property="og:title" content="会社概要 - MeCollage" />
+    <meta property="og:description" content="MeCollageについて - 無料のオンライン画像コラージュメーカー。私たちの使命、価値観、プライバシーへの取り組みをご覧ください。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/ja/about/" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="会社概要 - MeCollage" />
+    <meta name="twitter:description" content="MeCollageについて - 無料のオンライン画像コラージュメーカー。私たちの使命、価値観、プライバシーへの取り組みをご覧ください。" />
+    <link rel="canonical" href="https://www.mecollage.top/ja/about/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/about/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/about/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/about/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/about/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/about/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/about/" />
+    <title>会社概要 - MeCollage</title>
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <style>
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* 应用容器 */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 工具容器样式 */
+        .collage-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* 工具导航 */
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        /* 关于页面特有样式 */
+        .about-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #8fd68f;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-section p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* What We Offer Section */
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .offer-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .offer-item:hover {
+            background: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .offer-item i {
+            font-size: 2.5rem;
+            color: #8fd68f;
+            margin-bottom: 1rem;
+        }
+
+        .offer-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Our Values Section */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .value-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .value-item:hover {
+            background: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .value-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #8fd68f;
+        }
+
+        /* Technology Section */
+        .tech-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .tech-list li {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tech-list li::before {
+            content: "✓";
+            color: #8fd68f;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: rgba(143, 214, 143, 0.4);
+            color: white;
+            text-decoration: none;
+            padding: 1.25rem 2.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(143, 214, 143, 0.6);
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .cta-btn:hover {
+            background: rgba(143, 214, 143, 0.6);
+            border-color: rgba(143, 214, 143, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .collage-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .about-section {
+                padding: 1.5rem;
+            }
+
+            .offer-grid,
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-btn {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    <!-- Google Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">ホーム</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">ブログ</a>
+                <a href="/ja/about/" class="nav-link" data-page="about" data-i18n="nav.about">について</a>
+                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">正方形画像</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="collage-tool-container">
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="about.title">私たちについて</h1>
+                <p class="page-subtitle" data-i18n="about.subtitle">MeCollageのミッション、価値観、ストーリーについて</p>
+            </header>
+
+            <nav class="tool-nav">
+                <div class="tool-nav-container">
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Collage Maker</a>
+                    <a href="/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
+                    <a href="/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
+                    <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
+                    <a href="/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                </div>
+            </nav>
+
+            <!-- Introduction Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.welcome_title">MeCollageへようこそ</h2>
+                <p data-i18n="about.welcome_p1">MeCollageは、美しく魅力的な写真コラージュを素早く簡単に作成できるように設計された無料のオンライン画像コラージュメーカーです。私たちのミッションは、誰もが写真を素晴らしいビジュアルストーリーに変えることができる、シンプルで強力、かつプライバシーを重視したツールを提供することです。</p>
+                <p data-i18n="about.welcome_p2">家族の思い出を保存したり、社交媒体コンテンツを作成したり、作品集をデザインしたりする場合でも、MeCollageは高価なソフトウェアの複雑さなしに、プロフェッショナルなコラージュを作成するためのツールを提供します。</p>
+            </section>
+
+            <!-- Our Story Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.story_title">私たちのストーリー</h2>
+                <p data-i18n="about.story_p1">MeCollageは、シンプルなアイデアから生まれました。美しい写真コラージュを作ることは、誰にとっても簡単で無料であるべきだということです。既存のツールの多くが複雑すぎたり、広告でいっぱいだったり、基本機能に高価なサブスクリプションが必要だったりすることに気付きました。</p>
+                <p data-i18n="about.story_p2">私たちはより良いソリューションの構築に着手しました。完全にブラウザ内で動作し、プライバシーを尊重し（写真がデバイスを離れることはありません）、急な学習曲線なしにプロ級の機能を提供するツールです。</p>
+                <p data-i18n="about.story_p3">現在、MeCollageはユーザーのフィードバックに基づいて進化を続けており、シンプルさ、パフォーマンス、プライバシーに焦点を当てています。私たちは、ツールを誰にとっても無料でアクセス可能な状態に保つことを約束します。</p>
+            </section>
+
+            <!-- What We Offer Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.offer_title">提供内容</h2>
+                <div class="offer-grid">
+                    <div class="offer-item">
+                        <i class="fas fa-images"></i>
+                        <h3 data-i18n="about.offer_20_photos_title">1コラージュあたり20枚の写真</h3>
+                        <p data-i18n="about.offer_20_photos_desc">最大20枚の写真でコラージュを作成。複数の思い出を展示するのに最適です。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <h3 data-i18n="about.offer_ratios_title">複数のアスペクト比</h3>
+                        <p data-i18n="about.offer_ratios_desc">あらゆるプラットフォームに対応する1:1、4:5、9:16、3:4、16:9の比率から選択。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-sliders-h"></i>
+                        <h3 data-i18n="about.offer_design_title">カスタマイズ可能なデザイン</h3>
+                        <p data-i18n="about.offer_design_desc">間隔、角丸、その他のデザイン要素を調整。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-magic"></i>
+                        <h3 data-i18n="about.offer_filters_title">写真フィルター</h3>
+                        <p data-i18n="about.offer_filters_desc">さまざまなフィルターやエフェクトで写真を強化。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-font"></i>
+                        <h3 data-i18n="about.offer_text_stickers_title">テキスト＆ステッカー</h3>
+                        <p data-i18n="about.offer_text_stickers_desc">テキストや楽しいステッカーを追加して、コラージュをパーソナライズ。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-lock"></i>
+                        <h3 data-i18n="about.offer_privacy_title">プライバシー重視</h3>
+                        <p data-i18n="about.offer_privacy_desc">すべての処理はブラウザ内でローカルに行われ、サーバーにデータが送信されることはありません。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Values Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.values_title">私たちの価値観</h2>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_privacy_title">プライバシー第一</h3>
+                        <p data-i18n="about.value_privacy_desc">私たちは、あなたの写真はあなたのものであると信じています。そのため、MeCollageはすべての画像をブラウザ内でローカルに処理します。サーバーに写真をアップロードすることはありません。</p>
+                    </div>
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_simplicity_title">シンプルさ</h3>
+                        <p data-i18n="about.value_simplicity_desc">強力なツールが複雑である必要はありません。直感的なインターフェースを設計し、ツールの使い方を学ぶことではなく、創造性に集中できるようにしました。</p>
+                    </div>
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_quality_title">品質</h3>
+                        <p data-i18n="about.value_quality_desc">プロフェッショナルな価格なしでプロ級の結果を。私たちはツールのあらゆる側面で卓越性を追求しています。</p>
+                    </div>
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_accessibility_title">アクセシビリティ</h3>
+                        <p data-i18n="about.value_accessibility_desc">いつでも、どこでも、誰でも無料。隠れた料金、透かし、登録は一切不要です。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technology Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.tech_title">最新技術で構築</h2>
+                <p data-i18n="about.tech_desc">MeCollageは、高速で信頼性が高く、安全な体験を保証するために、最先端のウェブ技術を使用して構築されています：</p>
+                <ul class="tech-list">
+                    <li data-i18n="about.tech_list_1">モダンなウェブ技術（HTML5、CSS3、JavaScript）で構築</li>
+                    <li data-i18n="about.tech_list_2">サーバー側の写真处理なし - すべてがブラウザ内で完結</li>
+                    <li data-i18n="about.tech_list_3">高速でレスポンシブなデザイン</li>
+                    <li data-i18n="about.tech_list_4">ウェブブラウザを搭載したすべてのデバイスで動作</li>
+                    <li data-i18n="about.tech_list_5">パフォーマンスの向上と新機能の追加のための定期的なアップデート</li>
+                </ul>
+            </section>
+
+            <!-- Call to Action Section -->
+            <section class="about-section cta-section">
+                <h2 class="section-title" data-i18n="about.cta_title">コラージュを作成する準備はできましたか？</h2>
+                <p data-i18n="about.cta_desc">MeCollageで簡単なコラージュ作成の喜びをすでに発見した何千人ものユーザーに加わりましょう。</p>
+                <a href="/" class="cta-btn" data-i18n="about.cta_btn">今すぐ作成を開始</a>
+            </section>
+
+            <footer>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">ホームに戻る</span></a> | <a href="/ja/about/" style="color: #8fd68f;"><span data-i18n="nav.about">について</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">ブログ</span></a> | <a href="/ja/contact/" style="color: #8fd68f;"><span data-i18n="footer.contact">お問い合わせ</span></a> | <a href="/ja/privacy/" style="color: #8fd68f;"><span data-i18n="footer.privacy">プライバシーポリシー</span></a> | <a href="/ja/terms/" style="color: #8fd68f;"><span data-i18n="footer.terms">利用規約</span></a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/assets/js/mecollage-main.js"></script>
+    <script src="/assets/js/i18n.js"></script>
+</body>
+</html>

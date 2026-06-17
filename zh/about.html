@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Learn about MeCollage - a free online photo collage maker. Discover our mission, values, and commitment to privacy." />
+    <meta name="keywords" content="about, mission, values, company info" />
+    <meta name="author" content="MeCollage" />
+    <meta property="og:title" content="关于我们 - MeCollage" />
+    <meta property="og:description" content="了解 MeCollage - 一个免费的在线图片拼图制作工具。探索我们的使命、价值观和对隐私的承诺。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/zh/about/" />
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="关于我们 - MeCollage" />
+    <meta name="twitter:description" content="了解 MeCollage - 一个免费的在线图片拼图制作工具。探索我们的使命、价值观和对隐私的承诺。" />
+    <link rel="canonical" href="https://www.mecollage.top/zh/about/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/about/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/about/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/about/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/about/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/about/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/about/" />
+    <title>关于我们 - MeCollage</title>
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <style>
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        /* 应用容器 */
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 工具容器样式 */
+        .collage-tool-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #8fd68f;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.25);
+            display: inline-block;
+            padding: 0.6rem 1.8rem;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+        }
+
+        /* 工具导航 */
+        .tool-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            margin-bottom: 2rem;
+        }
+
+        .tool-nav-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tool-nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tool-nav-link:hover {
+            background-color: rgba(143, 214, 143, 0.2);
+            border-color: rgba(143, 214, 143, 0.4);
+            color: #8fd68f;
+            transform: translateY(-2px);
+        }
+
+        .tool-nav-link.active {
+            background-color: rgba(143, 214, 143, 0.3);
+            border-color: rgba(143, 214, 143, 0.6);
+            color: #8fd68f;
+        }
+
+        /* 关于页面特有样式 */
+        .about-section {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #8fd68f;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-section p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        /* What We Offer Section */
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .offer-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .offer-item:hover {
+            background: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .offer-item i {
+            font-size: 2.5rem;
+            color: #8fd68f;
+            margin-bottom: 1rem;
+        }
+
+        .offer-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Our Values Section */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .value-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .value-item:hover {
+            background: rgba(143, 214, 143, 0.1);
+            border-color: rgba(143, 214, 143, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .value-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: #8fd68f;
+        }
+
+        /* Technology Section */
+        .tech-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .tech-list li {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tech-list li::before {
+            content: "✓";
+            color: #8fd68f;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: rgba(143, 214, 143, 0.4);
+            color: white;
+            text-decoration: none;
+            padding: 1.25rem 2.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(143, 214, 143, 0.6);
+            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+        }
+
+        .cta-btn:hover {
+            background: rgba(143, 214, 143, 0.6);
+            border-color: rgba(143, 214, 143, 0.8);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .collage-tool-container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+                padding: 0.5rem 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .about-section {
+                padding: 1.5rem;
+            }
+
+            .offer-grid,
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-btn {
+                padding: 1rem 2rem;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    <!-- Google Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Main Navigation -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">首页</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">博客</a>
+                <a href="/zh/about/" class="nav-link" data-page="about" data-i18n="nav.about">关于我们</a>
+                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">方形图片</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="collage-tool-container">
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="about.title">关于我们</h1>
+                <p class="page-subtitle" data-i18n="about.subtitle">了解 MeCollage 的使命、价值观 and 故事</p>
+            </header>
+
+            <nav class="tool-nav">
+                <div class="tool-nav-container">
+                    <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> Collage Maker</a>
+                    <a href="/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> Square Crop</a>
+                    <a href="/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> Rounded Corners</a>
+                    <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> Square Image</a>
+                    <a href="/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> Blurred Frame</a>
+                </div>
+            </nav>
+
+            <!-- Introduction Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.welcome_title">欢迎来到 MeCollage</h2>
+                <p data-i18n="about.welcome_p1">MeCollage 是一个免费的在线图片拼图制作工具，旨在帮助您快速轻松地创建精美的照片拼图。我们的使命是提供一个简单、强大且注重隐私的工具，任何人都可以使用它将照片转化为惊艳的视觉故事。</p>
+                <p data-i18n="about.welcome_p2">无论您是在保存家庭回忆、创作社交媒体内容还是设计作品集，MeCollage 都能为您提供创建专业级拼图所需的工具，而无需昂贵软件的复杂操作。</p>
+            </section>
+
+            <!-- Our Story Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.story_title">我们的故事</h2>
+                <p data-i18n="about.story_p1">我们在 2025 年推出了 MeCollage，目标很简单：让每个人都能轻松制作照片拼图。我们相信，每个人都应该能够精美地保存 and 分享他们的回忆，而无需昂贵的软件 or 技术专长。</p>
+                <p data-i18n="about.story_p2">我们注意到许多现有的拼图工具要么对普通用户来说太复杂，要么缺乏基本功能。有些需要下载，而另一些则有侵入性广告 or 隐私问题。我们着手创建一个解决所有这些问题的工具。</p>
+                <p data-i18n="about.story_p3">今天，MeCollage 根据用户反馈不断发展，专注于简单性、性能 and 隐私。我们致力于保持我们的工具免费并供所有人使用。</p>
+            </section>
+
+            <!-- What We Offer Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.offer_title">我们提供什么</h2>
+                <div class="offer-grid">
+                    <div class="offer-item">
+                        <i class="fas fa-images"></i>
+                        <h3 data-i18n="about.offer_20_photos_title">每个拼图支持 20 张照片</h3>
+                        <p data-i18n="about.offer_20_photos_desc">创建最多包含 20 张照片的拼图，非常适合展示多重回忆。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                        <h3 data-i18n="about.offer_ratios_title">多种纵横比</h3>
+                        <p data-i18n="about.offer_ratios_desc">为任何平台选择 1:1、4:5、9:16、3:4 and 16:9 比例。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-sliders-h"></i>
+                        <h3 data-i18n="about.offer_design_title">可自定义设计</h3>
+                        <p data-i18n="about.offer_design_desc">调整间距、圆角 and 其他设计元素。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-magic"></i>
+                        <h3 data-i18n="about.offer_filters_title">照片滤镜</h3>
+                        <p data-i18n="about.offer_filters_desc">通过各种滤镜 and 特效增强您的照片。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-font"></i>
+                        <h3 data-i18n="about.offer_text_stickers_title">文字 and 贴纸</h3>
+                        <p data-i18n="about.offer_text_stickers_desc">添加文字 and 有趣的贴纸来个性化您的拼图。</p>
+                    </div>
+                    <div class="offer-item">
+                        <i class="fas fa-lock"></i>
+                        <h3 data-i18n="about.offer_privacy_title">注重隐私</h3>
+                        <p data-i18n="about.offer_privacy_desc">所有处理都在您的浏览器中本地进行 - 不会向服务器发送任何数据。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Values Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.values_title">我们的价值观</h2>
+                <div class="values-grid">
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_privacy_title">隐私至上</h3>
+                        <p data-i18n="about.value_privacy_desc">所有处理都在您的浏览器中本地进行。您的照片永远不会离开您的设备，确保完全的隐私 and 安全。</p>
+                    </div>
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_simplicity_title">简单易用</h3>
+                        <p data-i18n="about.value_simplicity_desc">易于使用的界面，任何人都能在几分钟内掌握，同时不牺牲强大的功能。</p>
+                    </div>
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_quality_title">高质量</h3>
+                        <p data-i18n="about.value_quality_desc">专业级的结果，而无需支付专业级的价格。我们致力于在工具的每个方面追求卓越。</p>
+                    </div>
+                    <div class="value-item">
+                        <h3 data-i18n="about.value_accessibility_title">可访问性</h3>
+                        <p data-i18n="about.value_accessibility_desc">对每个人、每个地方都是免费的。无隐藏费用，无水印，无需注册。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technology Section -->
+            <section class="about-section">
+                <h2 class="section-title" data-i18n="about.tech_title">采用现代技术构建</h2>
+                <p data-i18n="about.tech_desc">MeCollage 使用最先进的网络技术构建，确保快速、可靠 and 安全的体验：</p>
+                <ul class="tech-list">
+                    <li data-i18n="about.tech_list_1">使用现代 Web 技术构建 (HTML5, CSS3, JavaScript)</li>
+                    <li data-i18n="about.tech_list_2">无服务器端照片处理 - 所有操作都在您的浏览器中完成</li>
+                    <li data-i18n="about.tech_list_3">快速且响应迅速的设计</li>
+                    <li data-i18n="about.tech_list_4">可在任何带有网络浏览器的设备上运行</li>
+                    <li data-i18n="about.tech_list_5">定期更新以提高性能 and 添加新功能</li>
+                </ul>
+            </section>
+
+            <!-- Call to Action Section -->
+            <section class="about-section cta-section">
+                <h2 class="section-title" data-i18n="about.cta_title">准备好创建您的拼图了吗？</h2>
+                <p data-i18n="about.cta_desc">加入成千上万已经发现使用 MeCollage 轻松创建拼图乐趣的用户。</p>
+                <a href="/" class="cta-btn" data-i18n="about.cta_btn">立即开始创建</a>
+            </section>
+
+            <footer>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. 保留所有权利。</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">返回首页</span></a> | <a href="/zh/about/" style="color: #8fd68f;"><span data-i18n="nav.about">关于我们</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">博客</span></a> | <a href="/zh/contact/" style="color: #8fd68f;"><span data-i18n="footer.contact">联系我们</span></a> | <a href="/zh/privacy/" style="color: #8fd68f;"><span data-i18n="footer.privacy">隐私政策</span></a> | <a href="/zh/terms/" style="color: #8fd68f;"><span data-i18n="footer.terms">服务条款</span></a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="/assets/js/mecollage-main.js"></script>
+    <script src="/assets/js/i18n.js"></script>
+</body>
+</html>

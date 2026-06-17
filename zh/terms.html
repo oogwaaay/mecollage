@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务条款 - MeCollage</title>
+    <meta name="description" content="MeCollage 服务条款 - 了解使用我们网站和服务的条款和条件。">
+    <link rel="canonical" href="https://www.mecollage.top/zh/terms/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/terms/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/terms/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/terms/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/terms/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/terms/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/terms/" />
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Early WebP detection -->
+    <script>
+        (function() {
+            const init = () => {
+                const webP = new Image();
+                webP.onload = webP.onerror = function() {
+                    const isSupported = webP.height === 2;
+                    if (isSupported) {
+                        document.documentElement.classList.add('webp-supported');
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.webp)');
+                    } else {
+                        document.documentElement.style.setProperty('--placeholder-icon-url', 'url(/placeholder-icon.png)');
+                    }
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
+                    } else {
+                        setBackgroundImage();
+                    }
+                };
+                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+            };
+
+            function setBackgroundImage() {
+                const bgElement = document.querySelector('.ghibli-background');
+                if (bgElement) {
+                    const isWebP = document.documentElement.classList.contains('webp-supported');
+                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
+                }
+            }
+
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(init);
+            } else {
+                window.addEventListener('load', init, { once: true });
+            }
+        })();
+    </script>
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+    <style>
+        /* Global styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navigation styles */
+        .ghibli-nav {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #8fd68f;
+        }
+
+        .nav-link.active {
+            color: #8fd68f;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .lang-selector {
+            position: relative;
+        }
+
+        .lang-selector-toggle {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.9);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-selector-toggle:hover {
+            background: rgba(143, 214, 143, 0.2);
+            color: #8fd68f;
+        }
+
+        /* Main content styles */
+        .policy-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            flex: 1;
+        }
+
+        .policy-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-align: center;
+            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
+                         0 0 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .policy-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        .policy-content {
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(18px);
+            border-radius: 30px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .policy-section {
+            margin-bottom: 2rem;
+        }
+
+        .policy-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #8fd68f;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .policy-section-subtitle {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .policy-text {
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .policy-list {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .policy-list li {
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Footer styles */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        footer a {
+            color: #8fd68f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #66BB6A;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .ghibli-nav {
+                padding: 1rem;
+            }
+
+            .nav-left {
+                gap: 1rem;
+            }
+
+            .policy-container {
+                padding: 1rem;
+            }
+
+            .policy-title {
+                font-size: 2rem;
+            }
+
+            .policy-subtitle {
+                font-size: 1rem;
+            }
+
+            .policy-content {
+                padding: 1.5rem;
+            }
+
+            .policy-section-title {
+                font-size: 1.3rem;
+            }
+
+            .policy-section-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    <!-- Google Adsense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
+      crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Ghibli Background -->
+    <div class="ghibli-background">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+        <div class="cloud cloud4"></div>
+        <div class="sun"></div>
+        <div class="bird bird1">🐦</div>
+        <div class="bird bird2">🐦</div>
+        <div class="tree tree1">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree2">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree3">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+        <div class="tree tree4">
+            <div class="tree-trunk"></div>
+            <div class="tree-foliage"></div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Navigation Bar -->
+        <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">首页</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">博客</a>
+                <a href="/zh/about/" class="nav-link" data-page="about" data-i18n="nav.about">关于我们</a>
+                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">方形图片</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="nav-link github-link" 
+                   title="View on GitHub">
+                    <i class="fab fa-github"></i> <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <div class="lang-selector" title="Switch Language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span>English</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <button type="button" class="lang-option" data-lang="en" role="menuitem">English</button>
+                        <button type="button" class="lang-option" data-lang="zh" role="menuitem">简体中文</button>
+                        <button type="button" class="lang-option" data-lang="zh-tw" role="menuitem">繁體中文</button>
+                        <button type="button" class="lang-option" data-lang="ja" role="menuitem">日本語</button>
+                        <button type="button" class="lang-option" data-lang="es" role="menuitem">Español</button>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="policy-container">
+            <h1 class="policy-title" data-i18n="policy.terms.title">服务条款</h1>
+            <p class="policy-subtitle" data-i18n="policy.last_updated">最后更新：2025 年 1 月 13 日</p>
+            
+            <div class="policy-content">
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.intro.title">1. 接受条款</h2>
+                    <p class="policy-text" data-i18n="policy.terms.intro.text">访问 or 使用 MeCollage 网站 and 服务，即表示您同意受这些服务条款 and 我们的隐私政策的约束。如果您不同意 these 条款，请不要使用我们的网站 or 服务。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.service.title">2. 服务描述</h2>
+                    <p class="policy-text" data-i18n="policy.terms.service.text">MeCollage 提供一个用于创建 and 编辑图片拼图的在线平台。我们的服务包括但不限于拼图创建、图片编辑 and 图片导出。我们 reserve 的权利随时修改、暂停 or 终止服务任何部分的权利，恕不另行通知。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.user.title">3. 用户责任</h2>
+                    <p class="policy-text" data-i18n="policy.terms.user.text">使用我们的服务时，您同意：</p>
+                    <ul class="policy-list">
+                        <li data-i18n="policy.terms.user.list.1">遵守所有适用的法律 and 法规</li>
+                        <li data-i18n="policy.terms.user.list.2">尊重他人的知识产权</li>
+                        <li data-i18n="policy.terms.user.list.3">不上传 or 传输任何非法、有害 or 侵犯他人权利的内容</li>
+                        <li data-i18n="policy.terms.user.list.4">未经我们事先书面同意，不将我们的服务用于任何商业目的</li>
+                        <li data-i18n="policy.terms.user.list.5">维护您账户的安全性 (如果适用)</li>
+                        <li data-i18n="policy.terms.user.list.6">不试图干扰我们服务的正常运行</li>
+                        <li data-i18n="policy.terms.user.list.7">不使用任何自动化手段访问我们的服务</li>
+                    </ul>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.ip.title">4. 知识产权</h2>
+                    <p class="policy-text" data-i18n="policy.terms.ip.text1">MeCollage 网站上的所有内容 and 材料，包括但不限于文字、图形、徽标、图标、图片 and 软件，均为 MeCollage or 其许可方的财产，并受版权、商标 and 其他知识产权法的保护。</p>
+                    <p class="policy-text" data-i18n="policy.terms.ip.text2">您保留您上传到我们服务的任何图片的所有权。通过上传图片，您授予我们一项非独占的、全球性的、免版税的许可，允许我们出于为您提供服务的目的使用、修改 and 展示您的图片。</p>
+                    <p class="policy-text" data-i18n="policy.terms.ip.text3">MeCollage 是一个开源项目。源代码可供查看 and 贡献。您使用 MeCollage 创建的拼图属于您，您拥有将其用于任何目的 (包括商业用途) 的全部权利。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.privacy.title">5. 隐私政策</h2>
+                    <p class="policy-text" data-i18n="policy.terms.privacy.text">您对我们服务的使用还受我们的隐私政策约束，该政策通过引用纳入这些服务条款。请查看我们的隐私政策，以了解我们如何收集、使用 and 保护您的信息。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.warranties.title">6. 免责声明</h2>
+                    <p class="policy-text" data-i18n="policy.terms.warranties.text1">我们的服务按“原样” and “可用”情况提供，不附带任何形式的明示 or 暗示保证。我们不保证我们的服务是不间断的、安全的 or 无误的。</p>
+                    <p class="policy-text" data-i18n="policy.terms.warranties.text2">我们不对网站上任何内容 or 材料的准确性、可靠性 or 完整性做出任何保证。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.liability.title">7. 责任限制</h2>
+                    <p class="policy-text" data-i18n="policy.terms.liability.text1">在任何情况下，MeCollage or 其董事、高级职员、员工 or 代理人均不对因您使用我们的服务而产生的任何间接的、偶然的、特殊的、后果性的 or 惩罚性损害赔偿承担责任，即使我们已被告知发生此类损害的可能性。</p>
+                    <p class="policy-text" data-i18n="policy.terms.liability.text2">我们对您因这些服务条款 or 我们的服务而产生的所有索赔的总责任不应超过您为使用我们的服务而支付的金额 (如果有)。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.indemnification.title">8. 赔偿</h2>
+                    <p class="policy-text" data-i18n="policy.terms.indemnification.text">您同意赔偿、捍卫并使 MeCollage 及其董事、高级职员、员工 and 代理人免受因您使用我们的服务、您违反这些服务条款 or 您侵犯任何第三方权利而产生的任何 and 所有索赔、损害、责任、成本 and 费用。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.termination.title">9. 终止</h2>
+                    <p class="policy-text" data-i18n="policy.terms.termination.text1">我们可能随时终止 or 暂停您对我们服务的访问，恕不另行通知 or 承担责任，原因包括但不限于您违反了这些服务条款。</p>
+                    <p class="policy-text" data-i18n="policy.terms.termination.text2">一旦终止，您使用服务的权利将立即终止。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.changes.title">10. 服务条款的变更</h2>
+                    <p class="policy-text" data-i18n="policy.terms.changes.text1">我们可能不时更新这些服务条款。我们将通过在此页面上发布新的服务条款来通知您任何变更。建议您定期查看这些服务条款以了解任何变更。</p>
+                    <p class="policy-text" data-i18n="policy.terms.changes.text2">您在发布变更后继续使用我们的服务即表示您接受修订后的服务条款。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.law.title">11. 适用法律</h2>
+                    <p class="policy-text" data-i18n="policy.terms.law.text">这些服务条款应受美国加利福尼亚州法律管辖并按其解释，不考虑其法律冲突原则。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.dispute.title">12. 争议解决</h2>
+                    <p class="policy-text" data-i18n="policy.terms.dispute.text">因这些服务条款 or 我们的服务而产生的任何争议应通过友好协商解决。如果协商失败，争议应提交至美国加利福尼亚州法院的专属管辖权。</p>
+                </div>
+
+                <div class="policy-section">
+                    <h2 class="policy-section-title" data-i18n="policy.terms.contact.title">联系方式</h2>
+                    <p class="policy-text">
+                        <span data-i18n="policy.terms.contact.text_pre_link">如需支持，请访问我们的 </span>
+                        <a href="https://github.com/oogwaaay/mecollage/issues" 
+                           target="_blank" 
+                           rel="noopener noreferrer" 
+                           style="color: #8fd68f;">
+                            <span data-i18n="policy.terms.contact.link_github">GitHub Issues 页面</span>
+                        </a>
+                        <span data-i18n="policy.terms.contact.text_post_link"> 报告错误 or 请求功能。</span>
+                    </p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. 保留所有权利。</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">返回首页</span></a> | <a href="/zh/about/" style="color: #8fd68f;"><span data-i18n="nav.about">关于我们</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">博客</span></a> | <a href="/zh/contact/" style="color: #8fd68f;"><span data-i18n="footer.contact">联系我们</span></a> | <a href="/zh/privacy/" style="color: #8fd68f;"><span data-i18n="footer.privacy">隐私政策</span></a> | <a href="/zh/terms/" style="color: #8fd68f;"><span data-i18n="footer.terms">服务条款</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub 问题</span></a></p>
+        </footer>
+    </div>
+    <script src="/assets/js/i18n.js"></script>
+</body>
+</html>
