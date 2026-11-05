@@ -100,6 +100,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 | `docs/phase-b/PHASE-B-SUMMARY.md` | Phase B 多语言/SEO 公开摘要 |
 | `docs/phase-f/PHASE-F-SUMMARY.md` | Phase F 功能真实性修复公开摘要（修复项、验证、剩余人工项） |
 | [`docs/phase-c/PHASE-C-SUMMARY.md`](docs/phase-c/PHASE-C-SUMMARY.md) | Phase C 内容质量整改公开摘要 |
+| [`docs/phase-d/PHASE-D-SUMMARY.md`](docs/phase-d/PHASE-D-SUMMARY.md) | Phase D square 工具意图区隔/独立页恢复摘要 |
 
 ## 6. 当前已知未关闭风险（截至 2026-11-05）
 
