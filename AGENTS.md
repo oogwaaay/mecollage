@@ -55,7 +55,7 @@
 | Phase B 多语言/SEO | 2026-11-05：i18n 路径推导+禁运行时覆盖；语言切换真实锚点+40 页语言 nav；sitemap 26→**94 URL**；hreflang/canonical 统一；robots 移除 `?lang=` Disallow；本地化内链 348 处；6 页非法 `lang=x-default`、100 个 meta 占位清理。SEO harness **20 PASS / 0 FAIL / 0 WARN**；功能回归 52/0/1；独立复核 0 FAIL；Preview 38/0/5；**已上线生产并验收 41/0/2 + 生产冒烟 PASS**，`main` 已合并 | `docs/phase-b/PHASE-B-SUMMARY.md`、`docs/decisions/ADR-0003-phase-b-i18n-seo.md`、`scripts/seo-audit/`、`audit/evidence/phase-b/` |
 | Phase C 内容质量 | 2026-11-06：32 薄本地化页 noindex+移出 sitemap/hreflang；sitemap 60；square/vertical 308 合并；3 篇博客扩写；60 页 JSON-LD；description≤160；本地化首页单一 H1；privacy/terms 5 语言修正。SEO harness **28 PASS/0 FAIL/0 WARN**；功能回归 52/0/1；独立复核 0 FAIL；Preview 38/0/5；**已上线生产并验收 41/0/2 + 生产冒烟 PASS**，`main` 已合并 | `docs/phase-c/PHASE-C-SUMMARY.md`、ADR-0004、`audit/evidence/phase-c/` |
 | Phase D 工具意图/独立页恢复 | 2026-11-06：square / squarecrop 不合并，按 fill/no-crop vs crop 做 title/H1/description/互链（5 语言）；恢复 /square-collage/ 独立页（sitemap 61、JSON-LD、首页内链）；无 square 301；harness v1.3.0 **32 PASS/0 FAIL/0 WARN**；Preview 38/0/5；**已上线生产并验收 41/0/2**，`main` 已合并 | `docs/phase-d/PHASE-D-SUMMARY.md`、ADR-0005、`audit/evidence/phase-d/` |
-| Phase E 内链/how-to/标题 | 2026-11-06：square/squarecrop 正文自然内链（全站 href 56/43、正文 25/30）；how-to 改 iPhone/Android/Windows/Mac 长尾并加 4 设备节；roundedcorners 标题/H1 改 “Rounded Corners: …”；8 blog + 首页双卡；vertical-collage 从 301 恢复独立页；Square Crop FAQ 真问答/JSON-LD 同步；sitemap 62；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2** | `docs/phase-e/PHASE-E-SUMMARY.md`、L-29、`audit/evidence/phase-e/` |
+| Phase E 内链/how-to/标题 | 2026-11-06：square/squarecrop 正文自然内链（全站 href 56/43、正文 25/30）；how-to 改 iPhone/Android/Windows/Mac 长尾并加 4 设备节；roundedcorners 标题/H1 改 “Rounded Corners: …”；8 blog + 首页双卡；vertical-collage 从 301 恢复独立页；Square Crop FAQ 真问答/JSON-LD 同步（生产端 5 语言逐条一致）；sitemap 62；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2** | `docs/phase-e/PHASE-E-SUMMARY.md`、L-29、`audit/evidence/phase-e/` |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -97,7 +97,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 | `audit/sections/*.md`、`audit/evidence/` | 审计分报告与原始证据（同上，可能未入库） |
 | `scripts/verify-site.mjs` | Phase A 起的零依赖部署验收脚本（HTTP/安全头/404/重定向） |
 | `scripts/functional-audit/` | Phase F 起的零依赖浏览器功能回归（CDP + 本地 Vercel 模拟；`node scripts/functional-audit/run-tests.mjs`） |
-| `scripts/seo-audit/` | Phase B 起的零依赖多语言/SEO 验收（v1.3.0 Phase D：32 检查、61 页可索引 + 32 noindex；`node scripts/seo-audit/run-seo-checks.mjs`） |
+| `scripts/seo-audit/` | Phase B 起的零依赖多语言/SEO 验收（v1.3.0 Phase E：32 检查、62 页可索引 + 32 noindex；`node scripts/seo-audit/run-seo-checks.mjs`） |
 | `docs/phase-b/PHASE-B-SUMMARY.md` | Phase B 多语言/SEO 公开摘要 |
 | `docs/phase-f/PHASE-F-SUMMARY.md` | Phase F 功能真实性修复公开摘要（修复项、验证、剩余人工项） |
 | [`docs/phase-c/PHASE-C-SUMMARY.md`](docs/phase-c/PHASE-C-SUMMARY.md) | Phase C 内容质量整改公开摘要 |

@@ -46,7 +46,7 @@
 | [L-20261105-24](L-20261105-24-multilingual-seo-single-source.md) | sitemap/hreflang/语言切换/内链必须同一映射生成 | closed（Phase B） | P0 | `sitemap.xml`、68 本地化页 | 2026-11-05 |
 | [L-20261105-25](L-20261105-25-static-meta-placeholders-and-invalid-lang.md) | SEO meta 必须静态真实文本；`html lang` 禁用 x-default | closed（Phase B） | P1 | 100 个 meta、6 个 html lang | 2026-11-05 |
 | [L-20261106-26](L-20261106-26-thin-content-stoploss-must-update-sitemap-hreflang-links.md) | 薄内容止损必须同步 sitemap/hreflang/内链 | closed（Phase C 生产验收） | P1 | `sitemap.xml`、32 本地化页、`vercel.json` | 2026-11-06 |
-| [L-20261106-27](L-20261106-27-jsonld-must-come-from-real-content-and-cover-same-class.md) | JSON-LD 必须由真实内容生成并覆盖同类页 | mitigated（Phase E FAQ 修正，Preview 待生产） | P3 | 60 可索引 HTML、`scripts/seo-audit` | 2026-11-06 |
+| [L-20261106-27](L-20261106-27-jsonld-must-come-from-real-content-and-cover-same-class.md) | JSON-LD 必须由真实内容生成并覆盖同类页 | closed（Phase E FAQ 修正，生产验收） | P3 | 60 可索引 HTML、`scripts/seo-audit` | 2026-11-06 |
 | [L-20261106-28](L-20261106-28-tool-merge-requires-feature-parity.md) | 工具页合并前必须验证功能对等；301 不能替代功能迁移 | closed（Phase D 意图区隔，生产验收） | P1 | `public/tools/square*`、ADR-0005 | 2026-11-06 |
 | [L-20261106-29](L-20261106-29-internal-link-targets-must-state-metric.md) | “站内入链 40+”必须先定义口径 | closed（Phase E 生产验收） | P3 | `audit/evidence/phase-e/link-counts.json` | 2026-11-06 |
 | [L-20261105-18](L-20261105-18-production-deploy-is-manual.md) | 生产部署不是 main push 自动上线；是手动 CLI/Dashboard，且 AI 执行需明确授权 | closed（Phase A 实测并已记录流程） | P2 | `docs/runbooks/preview-deploy.md`、`ADR-0001` | 2026-11-05 |
