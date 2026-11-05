@@ -72,6 +72,26 @@
       ],
       "destination": "/?lang=",
       "permanent": true
+    },
+    {
+      "source": "/square-collage/",
+      "destination": "/tools/square/",
+      "permanent": true
+    },
+    {
+      "source": "/square-collage",
+      "destination": "/tools/square/",
+      "permanent": true
+    },
+    {
+      "source": "/vertical-collage/",
+      "destination": "/instagram-story-collage/",
+      "permanent": true
+    },
+    {
+      "source": "/vertical-collage",
+      "destination": "/instagram-story-collage/",
+      "permanent": true
     }
   ],
   "headers": [
