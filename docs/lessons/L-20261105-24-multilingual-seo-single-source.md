@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-24 |
 | 日期 | 2026-11-05 |
-| 状态 | closed（Phase B 修复；SEO harness 20/0/0，BFS 94/94） |
+| 状态 | closed（Phase B 修复；SEO harness 20/0/0，BFS 94/94；生产验收 41/0/2） |
 | 严重度 | P0 |
 | 证据层 | 代码层 + 静态链接图 + 浏览器 |
 | 关联文件 | `sitemap.xml`、68 个本地化 HTML、`assets/js/i18n.js`（语言切换）、`robots.txt` |

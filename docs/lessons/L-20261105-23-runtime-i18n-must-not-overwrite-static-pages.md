@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-23 |
 | 日期 | 2026-11-05 |
-| 状态 | closed（Phase B 修复；SEO harness 20/0/0） |
+| 状态 | closed（Phase B 修复；SEO harness 20/0/0；生产验收 41/0/2 + 冒烟 PASS） |
 | 严重度 | P0 |
 | 证据层 | 代码层 + 浏览器渲染层 |
 | 关联文件 | `assets/js/i18n.js`（旧版 `:4` 默认 en、`:52` 改 lang、`:91` 覆盖 textContent、`:112-118` 覆盖 meta）；36 个本地化页加载该脚本 |

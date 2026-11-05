@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-25 |
 | 日期 | 2026-11-05 |
-| 状态 | closed（Phase B 修复；D3/A3 PASS） |
+| 状态 | closed（Phase B 修复；D3/A3 PASS；生产验收 41/0/2） |
 | 严重度 | P1 |
 | 证据层 | 静态 HTML + 浏览器渲染 |
 | 关联文件 | 100 个 `meta[data-i18n-content]` 标签；6 个 `<html lang="x-default">` 页面（about/blog/contact + 3 个工具页） |

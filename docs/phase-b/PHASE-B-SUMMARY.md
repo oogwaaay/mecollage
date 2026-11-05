@@ -1,6 +1,6 @@
 # Phase B 多语言与 SEO 结构收敛 — 公开摘要
 
-> 日期：2026-11-05｜分支：`phase-b/i18n-seo`（从 `main` 84fbd41 拉出，**未部署生产**）
+> 日期：2026-11-05｜分支：`phase-b/i18n-seo` → 已合并 `main` 并**上线生产**（维护者批准，手动部署）
 > 目标：让已有的 68 个本地化页**渲染正确、可被发现、可被索引**；不新增内容、不改 URL 结构。
 
 ## 修复前（审计结论）
@@ -25,6 +25,7 @@
 
 ## 验证结果
 
+- **生产部署与验收（2026-11-05）**：`mecollage-jmheu7trd-…` → Aliased `https://www.mecollage.top/`；部署层 **41 PASS / 0 FAIL / 2 WARN**；生产浏览器冒烟 **PASS**（各语言 lang/title/desc/i18n 正确、语言切换 `/zh/`→`/ja/` 生效、0 JS 异常）；sitemap 94 loc；H4 内部路径 404。
 - **Preview 部署层验收（最终 head `cda26f0`，deployment `7577990391`）**：`verify-site` **38 PASS / 0 FAIL / 5 WARN**（与 Phase A 部署面一致，无回归）；sitemap 94 loc、robots 无 `?lang=` Disallow、本地化 html lang/canonical 静态抽查通过。
 - **独立复核**（seo-audit，独立脚本/渲染快照）：**0 真实 FAIL**；29 页渲染 html lang/title/description/`i18n.currentLang` 全对、0 JS 异常；sitemap 94/canonical 94/hreflang 0 异常/BFS 94；本地化同语言内链 100%。
 
@@ -38,7 +39,7 @@
 - **内容质量决策**：25 个薄内容页、4 组关键词蚕食、低价值页 noindex/合并/重写（审计 §3.3.4/§9.2）仍需维护者产品决策；本轮 68 个本地化页全部保留索引以观察 GSC。
 - **结构化数据**（JSON-LD）、外链、CTR/内容优化属后续阶段。
 - **AdSense 合规、GA4、BackGone** 未在 Phase B 范围。
-- 生产部署需维护者批准（本分支只做 Preview 验收）。
+- 生产部署：2026-11-05 已上线（维护者批准；部署层 41/0/2 + 生产冒烟 PASS）。
 
 ## 关键文件
 

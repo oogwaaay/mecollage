@@ -2,7 +2,7 @@
 
 | 字段 | 值 |
 |---|---|
-| 状态 | **Proposed**（分支实现完成；本地 SEO 验收 20/0/0、功能回归 52/0/1；**Preview 部署层验收 38/0/5 PASS**（最终 head `cda26f0` / deployment `7577990391`）；独立复核 0 真实 FAIL；生产未部署，待维护者批准） |
+| 状态 | **Accepted**（2026-11-05 维护者批准；生产部署并验收 PASS：部署层 **41 PASS / 0 FAIL / 2 WARN** + 生产浏览器冒烟全绿） |
 | 日期 | 2026-11-05 |
 | 决策者 | 维护者（生产批准）+ 实施者（Lead/AI） |
 | 关联 | [ADR-0001](ADR-0001-phase-a-security-hardening.md)、[ADR-0002](ADR-0002-functional-integrity-fixes.md)、`audit/sections/seo.md` §3.2/§5、L-01、L-09、L-23~25 |
@@ -72,5 +72,5 @@
 
 ## 上线与回滚
 
-- H1/H2：分支 → Preview → 维护者批准 → 生产（手动 CLI，L-18）。
-- 回滚：`git revert` 对应提交；生产异常用 Dashboard 上一部署；SEO 改动不影响安全/404/重定向。
+- 2026-11-05 已上线生产（维护者批准；手动 CLI，L-18）。
+- 回滚：`git revert` 对应提交后重新部署；生产异常用 Vercel Dashboard 上一部署 Promote/Rollback；SEO 改动不影响安全/404/重定向。
