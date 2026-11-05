@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 多语言 / SEO 浏览器验收 harness（零依赖；Phase B 建立，Phase C 更新期望值）
+ * 多语言 / SEO 浏览器验收 harness（零依赖；Phase B 建立，Phase C/D 更新期望值）
  *
  * 复用 scripts/functional-audit/ 的 CDP 客户端（cdp.mjs）+ 本目录的 Vercel 模拟服务器（server.mjs）。
  *
@@ -109,8 +109,18 @@ const CORE_BASES = [
   '/tools/blurredframe/',
 ];
 
-/** 保留索引的 6 个英文专题页（square / vertical 已 301 移除） */
+/** Phase D：保留索引的 7 个英文专题页（square-collage 已恢复；vertical-collage 仍 301） */
 const EN_TOPIC_KEPT_BASES = [
+  '/birthday-collage-maker/',
+  '/christmas-collage-maker/',
+  '/free-collage-maker/',
+  '/how-to-make-a-collage/',
+  '/instagram-story-collage/',
+  '/square-collage/',
+  '/wedding-collage-maker/',
+];
+/** Phase C 已把语言导航改指语言首页的 6 个 root 专题页（square-collage 恢复后仍指向本地化版本，单独检查） */
+const ROOT_TOPIC_NAV_RETARGETED = [
   '/birthday-collage-maker/',
   '/christmas-collage-maker/',
   '/free-collage-maker/',
@@ -132,14 +142,23 @@ const LOCALIZED_NOINDEX_TOPIC_BASES = [
 ];
 const LOCALIZED_NOINDEX_LANGS = ['zh', 'tw', 'ja', 'es'];
 
-/** Phase C 301 重定向（vercel.json 中 permanent: true；本地服务器需实现） */
+/** Phase D：只保留 vertical-collage 的 2 条 301/308（square-collage 已恢复为独立索引页） */
 const LEGACY_REDIRECTS = [
-  { from: '/square-collage/', to: '/tools/square/' },
-  { from: '/square-collage', to: '/tools/square/' },
   { from: '/vertical-collage/', to: '/instagram-story-collage/' },
   { from: '/vertical-collage', to: '/instagram-story-collage/' },
 ];
-const LEGACY_PAGE_URLS = ['/square-collage/', '/vertical-collage/'];
+const LEGACY_PAGE_URLS = ['/vertical-collage/'];
+
+/** Phase D：工具意图区隔（square = fill/blur/color/resize 不裁剪；squarecrop = crop 1:1） */
+const TOOL_INTENT_BASES = { square: '/tools/square/', squarecrop: '/tools/squarecrop/' };
+const EN_TOOL_INTENT_SIGNALS = {
+  square: /(fill|blur|color|resize|no crop|without cropping)/i,
+  squarecrop: /crop/i,
+};
+/** Phase D：sitemap 中 square/squarecrop 10 页的 lastmod 期望 */
+const TOOL_LASTMOD_URLS = Object.values(TOOL_INTENT_BASES).flatMap((base) =>
+  LANGUAGES.map((lang) => langUrl(lang.key, base)),
+);
 
 /** 3 篇 Phase C 扩写 blog（URL 不变，不 301） */
 const BLOG_CONTENT_POSTS = [
@@ -476,6 +495,7 @@ let noindexSet = null; // 带 meta robots noindex 的页面
 let redirectedPageUrls = null; // 被 301 的旧页面（文件仍存在）
 let expectedSitemapSet = null; // Phase C 期望 sitemap 集合（60）
 let expectedNoindexSet = null; // Phase C 期望 noindex 集合（32）
+let siteLinkEdges = null; // E 检查构建的站内链接图（供 H3 统计入链）
 
 async function checkLocal(path) {
   if (!httpCache) httpCache = new Map();
@@ -956,6 +976,7 @@ function parseSitemapXml(xml) {
     const block = match[1];
     const loc = /<loc>\s*([^<\s]+)\s*<\/loc>/i.exec(block)?.[1] ?? null;
     if (!loc) continue;
+    const lastmod = /<lastmod>\s*([^<\s]+)\s*<\/lastmod>/i.exec(block)?.[1] ?? null;
     const alternates = [];
     for (const linkMatch of block.matchAll(/<xhtml:link\b[^>]*>/gi)) {
       const tag = linkMatch[0];
@@ -964,7 +985,7 @@ function parseSitemapXml(xml) {
       const href = attr(tag, 'href');
       if ((rel ?? '').toLowerCase() === 'alternate' && hreflang && href) alternates.push({ hreflang, href });
     }
-    entries.push({ loc, alternates });
+    entries.push({ loc, lastmod, alternates });
   }
   return entries;
 }
@@ -980,7 +1001,7 @@ async function runSitemapChecks() {
   await runCase({
     id: 'C1',
     group: 'C-sitemap',
-    name: `sitemap 解析：loc 去重数 = 期望可索引页（Phase C = ${expectedSitemapSet.size}）且集合完全一致`,
+    name: `sitemap 解析：loc 去重数 = 期望可索引页（Phase D = ${expectedSitemapSet.size}）且集合完全一致`,
     async fn(ctx) {
       const missing = [...expectedSitemapSet].filter((url) => !uniqueLocPaths.includes(url));
       const extra = uniqueLocPaths.filter((url) => !expectedSitemapSet.has(url));
@@ -1107,7 +1128,7 @@ async function runSitemapChecks() {
   await runCase({
     id: 'C6',
     group: 'C-sitemap',
-    name: 'sitemap 不含 noindex / 301 旧 URL',
+    name: 'sitemap 不含 noindex / 301 旧 URL（Phase D 仅 vertical-collage 为 301）',
     async fn(ctx) {
       const noindexInSitemap = uniqueLocPaths.filter((url) => noindexSet.has(url));
       const legacyInSitemap = uniqueLocPaths.filter((url) => LEGACY_PAGE_URLS.includes(url));
@@ -1115,6 +1136,24 @@ async function runSitemapChecks() {
       ctx.measure('legacyInSitemap', legacyInSitemap);
       ctx.check('sitemap 不含 noindex 页面', noindexInSitemap.length === 0, { actual: noindexInSitemap });
       ctx.check('sitemap 不含 301 旧 URL', legacyInSitemap.length === 0, { actual: legacyInSitemap });
+    },
+  });
+
+  await runCase({
+    id: 'C7',
+    group: 'C-sitemap',
+    name: 'sitemap lastmod：square / squarecrop 10 页 = 2026-11-06（Phase D 更新）',
+    async fn(ctx) {
+      const byPath = new Map(entries.map((entry) => [normalizeSlashes(new URL(entry.loc, PROD_ORIGIN).pathname), entry]));
+      const rows = TOOL_LASTMOD_URLS.map((url) => {
+        const entry = byPath.get(url);
+        return { url, lastmod: entry?.lastmod ?? null, inSitemap: Boolean(entry), ok: Boolean(entry) && entry.lastmod === '2026-11-06' };
+      });
+      const failed = rows.filter((row) => !row.ok);
+      ctx.measure('pages', rows);
+      ctx.check(`10 个 square/squarecrop 页 lastmod 均为 2026-11-06（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
+        actual: failed,
+      });
     },
   });
 }
@@ -1266,6 +1305,7 @@ async function runInternalLinkChecks() {
     edges.set(url, targets);
     contentEdges.set(url, contentTargets);
   }
+  siteLinkEdges = edges;
 
   const bfs = (start) => {
     const visited = new Set([start]);
@@ -1391,7 +1431,7 @@ async function runInternalLinkChecks() {
       // 英文链接指向本页自身（或首页）视为正常。
       const homepageTargets = new Set(['/', '/zh/', '/tw/', '/ja/', '/es/']);
       const rootTopicNav = [];
-      for (const base of EN_TOPIC_KEPT_BASES) {
+      for (const base of ROOT_TOPIC_NAV_RETARGETED) {
         const pageInfo = inventory.get(base);
         if (!pageInfo) continue;
         const html = readFileSync(join(ROOT, pageInfo.rel), 'utf8');
@@ -1528,7 +1568,7 @@ async function runPhaseCChecks() {
   await runCase({
     id: 'G2',
     group: 'G-phase-c',
-    name: '301/308 重定向：square/vertical（含无尾斜杠；记录跳转链，Vercel trailingSlash 先行导致的 2 跳不算 FAIL）',
+    name: '301/308 重定向：vertical-collage（含无尾斜杠；Phase D 已移除 square 301；Vercel trailingSlash 先行导致的 2 跳不判 FAIL）',
     async fn(ctx) {
       const rows = [];
       for (const redirect of LEGACY_REDIRECTS) {
@@ -1549,7 +1589,7 @@ async function runPhaseCChecks() {
       }
       ctx.measure('redirects', rows);
       const failed = rows.filter((row) => !row.ok);
-      ctx.check('4 个旧 URL 均以 301/308 收敛到正确目标（最终 200）', failed.length === 0, { actual: failed });
+      ctx.check('2 个 vertical 旧 URL 均以 301/308 收敛到正确目标（最终 200）', failed.length === 0, { actual: failed });
 
       // 规范 URL（带尾斜杠）应单跳 308 → 目标 200（Preview 实测）
       const canonicalHops = rows.filter((row) => row.from.endsWith('/'));
@@ -1574,7 +1614,7 @@ async function runPhaseCChecks() {
   await runCase({
     id: 'G3',
     group: 'G-phase-c',
-    name: `可索引页 JSON-LD：可解析 / 有 @graph / 类型符合（${expectedSitemapSet.size} 页）`,
+    name: `可索引页 JSON-LD：可解析 / 有 @graph / 类型符合（Phase D：${expectedSitemapSet.size} 页）`,
     async fn(ctx) {
       const rows = [];
       const idAudit = { checked: 0, nonAbsolute: [] };
@@ -1759,6 +1799,152 @@ async function runPhaseCChecks() {
 
 }
 
+// ---------------------------------------------------------------------------
+// 检查 H：Phase D 工具意图区隔 / square-collage 恢复
+// ---------------------------------------------------------------------------
+
+function findToolIntentSwitchTarget(html) {
+  const block = /<[^>]*class="[^"]*tool-intent-switch[^"]*"[^>]*>([\s\S]{0,1500}?)<\/div>/i.exec(html);
+  if (!block) return null;
+  const href = /<a\b[^>]*href="([^"]+)"/i.exec(block[1])?.[1] ?? null;
+  return href ? normalizeSlashes(canonicalPath(href) ?? href) : null;
+}
+
+async function runPhaseDChecks() {
+  // H1：两个工具 title/H1 意图区隔 + `.tool-intent-switch` 互链
+  await runCase({
+    id: 'H1',
+    group: 'H-phase-d',
+    name: 'square / squarecrop 意图区隔：title+H1 不重复、EN 各含 fill/no-crop vs crop 信号、两页互链',
+    async fn(ctx) {
+      const rows = [];
+      for (const lang of LANGUAGES) {
+        const squareUrl = langUrl(lang.key, TOOL_INTENT_BASES.square);
+        const squarecropUrl = langUrl(lang.key, TOOL_INTENT_BASES.squarecrop);
+        const square = renderedData.get(squareUrl);
+        const squarecrop = renderedData.get(squarecropUrl);
+        const problems = [];
+        if (!square || !squarecrop) problems.push('渲染数据缺失');
+        if (square && squarecrop) {
+          if (!square.title || !squarecrop.title) problems.push('title 为空');
+          if (normalizeText(square.title) === normalizeText(squarecrop.title)) problems.push('两个工具 title 重复');
+          const h1Square = normalizeText((square.h1s ?? [])[0] ?? '');
+          const h1Crop = normalizeText((squarecrop.h1s ?? [])[0] ?? '');
+          if (!h1Square || !h1Crop) problems.push('H1 为空');
+          if (h1Square === h1Crop) problems.push('两个工具 H1 重复');
+          if (lang.key === 'en') {
+            const squareText = `${square.title} ${h1Square}`;
+            const cropText = `${squarecrop.title} ${h1Crop}`;
+            if (!EN_TOOL_INTENT_SIGNALS.square.test(squareText)) problems.push('square title/H1 缺少 fill/blur/color/resize/no-crop 信号');
+            if (!EN_TOOL_INTENT_SIGNALS.squarecrop.test(cropText)) problems.push('squarecrop title/H1 缺少 crop 信号');
+            if (/^Square Image Converter/i.test(squarecrop.title) || /^Square Crop/i.test(square.title)) {
+              problems.push('两个工具 title 定位疑似混用');
+            }
+          }
+        }
+        rows.push({
+          lang: lang.key,
+          squareTitle: square?.title ?? null,
+          squareH1: normalizeText((square?.h1s ?? [])[0] ?? ''),
+          squarecropTitle: squarecrop?.title ?? null,
+          squarecropH1: normalizeText((squarecrop?.h1s ?? [])[0] ?? ''),
+          problems,
+          ok: problems.length === 0,
+        });
+      }
+      // `.tool-intent-switch` 互链：10 个页面均指向对应语言的另一个工具
+      const crossLinks = [];
+      for (const lang of LANGUAGES) {
+        for (const [toolKey, otherKey] of [['square', 'squarecrop'], ['squarecrop', 'square']]) {
+          const url = langUrl(lang.key, TOOL_INTENT_BASES[toolKey]);
+          const pageInfo = inventory.get(url);
+          const html = pageInfo ? readFileSync(join(ROOT, pageInfo.rel), 'utf8') : '';
+          const target = findToolIntentSwitchTarget(html);
+          const expected = langUrl(lang.key, TOOL_INTENT_BASES[otherKey]);
+          crossLinks.push({ url, expectedTarget: expected, actualTarget: target, ok: target === normalizeSlashes(expected) });
+        }
+      }
+      const failed = rows.filter((row) => !row.ok);
+      const linkFailed = crossLinks.filter((row) => !row.ok);
+      ctx.measure('tools', rows);
+      ctx.measure('crossLinks', crossLinks);
+      ctx.check(`10 个工具页 title/H1 意图区隔正确（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
+        actual: failed,
+      });
+      ctx.check(`两工具互链 .tool-intent-switch 正确（${crossLinks.length - linkFailed.length}/${crossLinks.length}）`, linkFailed.length === 0, {
+        actual: linkFailed,
+      });
+    },
+  });
+
+  // H2：/square-collage/ 恢复为独立可索引页（200，无 301；canonical/hreflang en+x-default；JSON-LD WebPage+Breadcrumb；语言 nav）
+  await runCase({
+    id: 'H2',
+    group: 'H-phase-d',
+    name: '/square-collage/ 恢复：200 无重定向 / 可索引 / canonical+hreflang(en+x-default) / JSON-LD WebPage+Breadcrumb / 语言 nav',
+    async fn(ctx) {
+      const url = '/square-collage/';
+      const pageInfo = inventory.get(url);
+      const parsed = pageInfo?.parsed;
+      const direct = await checkLocal(url);
+      const noSlash = await followLocalRedirects('/square-collage');
+      const expectedHreflangs = new Map([['en', url], ['x-default', url]]);
+      const actualHreflangs = new Map((parsed?.hreflangs ?? []).map((item) => [item.hreflang, canonicalPath(item.href)]));
+      const blocks = parseJsonLdBlocks(parsed ?? {});
+      const types = blocks.flatMap((block) => block.types ?? []);
+      const languageLinks = [...(pageInfo ? readFileSync(join(ROOT, pageInfo.rel), 'utf8').matchAll(/<a\b[^>]*class="[^"]*language-link[^"]*"[^>]*href="([^"]+)"/gi) : [])].map((match) => normalizeSlashes(canonicalPath(match[1]) ?? match[1]));
+      const problems = [];
+      if (!pageInfo) problems.push('页面不在清单');
+      if (!indexableSet.has(url)) problems.push('页面未被判定为可索引');
+      if (!expectedSitemapSet.has(url)) problems.push('页面不在 sitemap 期望集合');
+      if (direct.status !== 200 || direct.location) problems.push(`/square-collage/ 非 200（${direct.status} ${direct.location ?? ''}）`);
+      if (noSlash.finalStatus !== 200 || noSlash.finalPath !== normalizeSlashes(url) || noSlash.chain.length !== 1) {
+        problems.push(`/square-collage 无斜杠跳转异常：${JSON.stringify(noSlash.chain.map((hop) => hop.status))} → ${noSlash.finalPath}`);
+      }
+      if (canonicalPath(parsed?.canonical) !== url) problems.push(`canonical ${parsed?.canonical}`);
+      for (const [code, expected] of expectedHreflangs) {
+        if (normalizeSlashes(actualHreflangs.get(code) ?? '') !== expected) problems.push(`hreflang ${code} 缺失或错误（${actualHreflangs.get(code)}）`);
+      }
+      if (actualHreflangs.size !== expectedHreflangs.size) problems.push(`hreflang 数量 ${actualHreflangs.size} ≠ 2`);
+      if (!types.includes('WebPage') || !types.includes('BreadcrumbList')) problems.push(`JSON-LD 类型 ${types.join(',')} 缺少 WebPage+BreadcrumbList`);
+      if (languageLinks.length < 5) problems.push(`语言 nav 链接数量 ${languageLinks.length} < 5`);
+      ctx.measure('page', {
+        direct,
+        noSlashChain: noSlash.chain,
+        canonical: parsed?.canonical ?? null,
+        hreflangs: [...actualHreflangs.entries()],
+        jsonLdTypes: [...new Set(types)],
+        languageLinks,
+        indexable: indexableSet.has(url),
+        inSitemapExpected: expectedSitemapSet.has(url),
+      });
+      ctx.check('/square-collage/ 恢复后符合 Phase D 预期', problems.length === 0, { actual: problems });
+    },
+  });
+
+  // H3：首页 Square Collage 卡片内链恢复 + 页面有入链
+  await runCase({
+    id: 'H3',
+    group: 'H-phase-d',
+    name: '首页恢复 /square-collage/ 卡片内链，且该页有 ≥1 站内入链',
+    async fn(ctx) {
+      const homeInfo = inventory.get('/');
+      const homeHtml = homeInfo ? readFileSync(join(ROOT, homeInfo.rel), 'utf8') : '';
+      const homeHasLink = /<a\b[^>]*href="\/square-collage\/"/i.test(homeHtml);
+      const inlinks = (() => {
+        let count = 0;
+        for (const [, targets] of siteLinkEdges ?? []) if (targets.has('/square-collage/')) count += 1;
+        return count;
+      })();
+      const problems = [];
+      if (!homeHasLink) problems.push('首页静态 HTML 缺少 /square-collage/ 链接');
+      if (inlinks < 1) problems.push('清单内无页面链接到 /square-collage/');
+      ctx.measure('homeHasLink', homeHasLink);
+      ctx.measure('inlinkCount', inlinks);
+      ctx.check('首页卡片内链与入链检查通过', problems.length === 0, { actual: problems });
+    },
+  });
+}
 
 // ---------------------------------------------------------------------------
 // 报告
@@ -1786,6 +1972,7 @@ const GROUP_TITLES = {
   'E-internal-links': 'E. 内部链接可达性',
   'F-robots': 'F. robots.txt',
   'G-phase-c': 'G. Phase C 内容质量 / 结构化数据 / 301',
+  'H-phase-d': 'H. Phase D 工具意图区隔 / square-collage 恢复',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
 
@@ -1997,8 +2184,8 @@ async function main() {
       ctx.measure('chrome', meta.chrome);
       ctx.measure('server', meta.server);
       ctx.measure('blockedUrls', BLOCKED_URLS);
-      ctx.check('非 404 页面 = 94（60 可索引 + 32 noindex + 2 旧页）', meta.inventoryCount === 94, { actual: meta.inventoryCount });
-      ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase C sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
+      ctx.check('非 404 页面 = 94（61 可索引 + 32 noindex + 1 旧页）', meta.inventoryCount === 94, { actual: meta.inventoryCount });
+      ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase D sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
         actual: { indexable: indexableSet.size, expected: expectedSitemapSet.size },
       });
       const indexableDiff = [...expectedSitemapSet].filter((url) => !indexableSet.has(url)).concat([...indexableSet].filter((url) => !expectedSitemapSet.has(url)));
@@ -2008,7 +2195,7 @@ async function main() {
       });
       const noindexDiff = [...expectedNoindexSet].filter((url) => !noindexSet.has(url)).concat([...noindexSet].filter((url) => !expectedNoindexSet.has(url)));
       ctx.check('noindex 集合与期望一致', noindexDiff.length === 0, { actual: noindexDiff });
-      ctx.check('301 旧页 = 2（/square-collage/、/vertical-collage/）', meta.redirectedCount === 2, { actual: meta.redirectedCount });
+      ctx.check('301 旧页 = 1（仅 /vertical-collage/；Phase D square-collage 已恢复）', meta.redirectedCount === 1, { actual: meta.redirectedCount });
       ctx.check('工作区快照已记录（内容 digest）', meta.git.dirtyContentDigest.length === 12, { actual: meta.git });
     },
   });
@@ -2031,6 +2218,7 @@ async function main() {
   await runInternalLinkChecks();
   await runRobotsChecks();
   await runPhaseCChecks();
+  await runPhaseDChecks();
 
   // 渲染证据清单补入 ENV-01
   const envCase = results.find((result) => result.id === 'ENV-01');
@@ -2045,7 +2233,7 @@ async function main() {
   // 6) 报告
   const summary = summarize();
   meta.durationMs = Math.round(performance.now() - startedAt);
-  const report = { tool: 'seo-audit', version: '1.2.1', meta, summary, results };
+  const report = { tool: 'seo-audit', version: '1.3.0', meta, summary, results };
   writeFileSync(cli.jsonPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
   writeFileSync(cli.mdPath, renderMarkdown(report), 'utf8');
   if (cli.label) {
