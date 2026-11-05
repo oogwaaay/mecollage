@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261106-29 |
 | 日期 | 2026-11-06 |
-| 状态 | mitigated（Phase E 按全站 href 出现次数达标；Preview 待生产） |
+| 状态 | closed（Phase E 按全站 href 出现次数达标；生产验收 41/0/2） |
 | 严重度 | P3 |
 | 证据层 | 代码层 + 静态链接图 |
 | 关联文件 | `audit/evidence/phase-e/link-counts.json`、`docs/phase-e/PHASE-E-SUMMARY.md` |

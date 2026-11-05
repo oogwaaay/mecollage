@@ -1,6 +1,6 @@
 # Phase E：工具页内链 + how-to 长尾 + rounded corners 标题
 
-> 日期：2026-11-06｜分支：`content/tool-links`｜状态：**Preview 已验证，生产待批准**
+> 日期：2026-11-06｜分支：`content/tool-links`｜生产部署 `mecollage-3eofvcm23…`｜**已上线生产**（验收 41/0/2）
 
 ## 已实现
 
@@ -13,6 +13,7 @@
 | `/vertical-collage/` | `/tools/square/` | `make image square`；副标题后正文 |
 | `/tools/blurredframe/` | `/tools/square/` | `square image converter`；SEO 正文段 |
 | 8 篇 blog + blog index | `/tools/squarecrop/`、`/tools/square/` | 选画幅比例段落；5 篇 blog 额外补一条尾部 CTA |
+| `/vertical-collage/` | `/tools/square/` | `make image square`；**该页原为 Phase C 301，已恢复独立页** |
 | 首页工具入口区 | 两个工具 | 两张卡片，锚文本分别为 “Square Crop”“Square Image Converter” |
 
 补充（自然跨工具）：`birthday/christmas/free/wedding`、`about`、`blog/index`、`tools/square`、`tools/roundedcorners` 正文各加 1 条对应链接；不在页脚、不堆成一排。
@@ -47,7 +48,9 @@
 - SEO harness v1.3.0：**32 PASS / 0 FAIL / 0 WARN**（sitemap 61、32 noindex、H1–H3、C7、E4/E5 等）。
 - 功能回归：**52 PASS / 0 FAIL / 1 WARN**。
 - Preview：**38 PASS / 0 FAIL / 5 WARN**；how-to 标题/H1/4 设备节、rounded 标题/H1、指定锚文本、首页双卡、sitemap 61 均抽查通过。
-- Preview URL：https://mecollage-rmgudn04z-keeey-is-projects.vercel.app
+- 生产：`mecollage-3eofvcm23…`；**41 PASS / 0 FAIL / 2 WARN**；vertical 200 + anchor、sitemap **62**、canonical 自引用、H4 404。
+- 修正：Phase E 首次上线后发现 `/vertical-collage/` 仍是 Phase C 301，已恢复独立页并重新上线（sitemap 61→62，JSON-LD 62）。
+- Preview URL（修正前 preview）：https://mecollage-rmgudn04z-keeey-is-projects.vercel.app
 
 ## 未做
 
