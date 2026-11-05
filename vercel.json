@@ -19,7 +19,7 @@
           "value": "zh"
         }
       ],
-      "destination": "/zh/",
+      "destination": "/zh/?",
       "permanent": true
     },
     {
@@ -31,7 +31,7 @@
           "value": "es"
         }
       ],
-      "destination": "/es/",
+      "destination": "/es/?",
       "permanent": true
     },
     {
@@ -43,7 +43,7 @@
           "value": "ja"
         }
       ],
-      "destination": "/ja/",
+      "destination": "/ja/?",
       "permanent": true
     },
     {
@@ -55,7 +55,7 @@
           "value": "tw"
         }
       ],
-      "destination": "/tw/",
+      "destination": "/tw/?",
       "permanent": true
     },
     {
@@ -67,8 +67,41 @@
           "value": "en"
         }
       ],
-      "destination": "/",
+      "destination": "/?",
       "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+        {
+          "key": "Content-Security-Policy-Report-Only",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://esm.sh https://pagead2.googlesyndication.com https://www.googletagservices.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: blob: https:; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https://esm.sh https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://staticimgly.com https://pagead2.googlesyndication.com https://www.google-analytics.com https://region1.google-analytics.com; worker-src 'self' blob:; child-src 'self' blob:; frame-src 'self' blob: https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://www.googletagservices.com; manifest-src 'self'; media-src 'self' blob:; form-action 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/404",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/404/",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }]
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "mecollage.vercel.app"
+        }
+      ],
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ]
 }
