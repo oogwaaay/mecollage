@@ -2,7 +2,7 @@
 
 | 字段 | 值 |
 |---|---|
-| 状态 | **Proposed**（分支 `phase-b/i18n-seo` 实现完成；本地浏览器 SEO 验收 20 PASS / 0 FAIL / 0 WARN；Preview 待复验，生产未部署） |
+| 状态 | **Proposed**（分支实现完成；本地 SEO 验收 20/0/0、功能回归 52/0/1；**Preview 部署层验收 38/0/5 PASS**（deployment `7577633151` / head `6699dd8`）；生产未部署，待维护者批准） |
 | 日期 | 2026-11-05 |
 | 决策者 | 维护者（生产批准）+ 实施者（Lead/AI） |
 | 关联 | [ADR-0001](ADR-0001-phase-a-security-hardening.md)、[ADR-0002](ADR-0002-functional-integrity-fixes.md)、`audit/sections/seo.md` §3.2/§5、L-01、L-09、L-23~25 |
@@ -63,7 +63,8 @@
 
 ## 验证
 
-- `node scripts/seo-audit/run-seo-checks.mjs --label final`：**20 PASS / 0 FAIL / 0 WARN**（25 页真实渲染 + 94 页静态；A–F 六组）。
+- Preview（deployment `7577633151` / head `6699dd8`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**（与 Phase A 部署面一致）；sitemap 94 loc、robots 无 `?lang=`、本地化 html lang/canonical 静态抽查通过；内部 docs/scripts 仍 404。
+- 本地 SEO harness：`node scripts/seo-audit/run-seo-checks.mjs --label final`：**20 PASS / 0 FAIL / 0 WARN**（25 页真实渲染 + 94 页静态；A–F 六组）。
 - `node scripts/functional-audit/run-tests.mjs`：**52 PASS / 0 FAIL / 1 WARN**（i18n.js 改动未破坏工具页动态文案/导出）。
 - Preview/生产部署层仍用 `scripts/verify-site.mjs`（安全头/404/重定向不受本阶段影响，预期与 Phase A 一致 38/0/5 preview、41/0/2 prod）。
 - 证据：`audit/evidence/phase-b/`（seo-report-final、截图、渲染快照、独立复核）、`audit/evidence/phase-b/codemod-log.txt`。

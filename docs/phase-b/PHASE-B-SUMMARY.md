@@ -25,6 +25,8 @@
 
 ## 验证结果
 
+- **Preview 部署层验收**（head `6699dd8`，deployment `7577633151`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**（与 Phase A 部署面一致，无回归）；sitemap 94 loc、robots 无 `?lang=` Disallow、本地化 html lang/canonical 静态抽查通过。
+
 - **SEO/多语言 harness**：PASS 20 / FAIL 0 / WARN 0（`node scripts/seo-audit/run-seo-checks.mjs --label final`）。
   - A 渲染语言 3/3、B 切换器 2/2、C sitemap 5/5、D head 4/4、E 内链 4/4、F robots 1/1。
 - **功能回归**：PASS 52 / FAIL 0 / WARN 1（i18n.js 改动未影响工具页动态文案/导出）。
