@@ -17,7 +17,7 @@
  */
 
 import { createServer } from 'node:http';
-import { createReadStream } from 'node:fs';
+import { createReadStream, readFileSync } from 'node:fs';
 import { stat } from 'node:fs/promises';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 
@@ -53,6 +53,33 @@ const BASE_HEADERS = {
   'access-control-allow-origin': '*',
   'x-content-type-options': 'nosniff',
 };
+
+/** 从 vercel.json 读取精确路径重定向（忽略带 has/query 条件的规则），用于验收 301/308。 */
+function loadVercelRedirects(rootDir) {
+  try {
+    const config = JSON.parse(readFileSync(join(rootDir, 'vercel.json'), 'utf8'));
+    return (config.redirects ?? [])
+      .filter((rule) => !rule.has && typeof rule.source === 'string' && typeof rule.destination === 'string')
+      .map((rule) => ({
+        source: rule.source,
+        destination: rule.destination,
+        permanent: rule.permanent !== false,
+        regex: sourceToRegex(rule.source),
+      }));
+  } catch {
+    return [];
+  }
+}
+
+function sourceToRegex(source) {
+  const escaped = source.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = escaped.replace(/\\\(\\.\\*\\\)/g, '(.*)');
+  return new RegExp(`^${pattern}$`);
+}
+
+function redirectLocation(rule, match) {
+  return rule.destination.replace(/\$(\d+)/g, (_, index) => match[Number(index)] ?? '');
+}
 
 /** 解析 URL 路径，返回 {type:'file', file} | {type:'redirect', status, location} | {type:'404'} */
 async function resolveRequest(root, pathname) {
@@ -149,6 +176,7 @@ async function resolveRequest(root, pathname) {
  */
 export async function startStaticServer({ root, port = 0, host = '127.0.0.1', verbose = false }) {
   const rootAbs = resolve(root);
+  const vercelRedirects = loadVercelRedirects(rootAbs);
   const requests = [];
 
   const server = createServer(async (req, res) => {
@@ -162,6 +190,17 @@ export async function startStaticServer({ root, port = 0, host = '127.0.0.1', ve
         entry.status = 405;
         res.writeHead(405, BASE_HEADERS);
         res.end('Method Not Allowed');
+        return;
+      }
+
+      // 先应用 vercel.json 精确路径重定向（permanent → 308，与 Vercel 行为一致）
+      for (const rule of vercelRedirects) {
+        const match = rule.regex.exec(url.pathname);
+        if (!match) continue;
+        const location = redirectLocation(rule, match);
+        entry.status = rule.permanent ? 308 : 307;
+        res.writeHead(entry.status, { ...BASE_HEADERS, location });
+        res.end();
         return;
       }
 

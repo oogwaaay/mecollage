@@ -1,41 +1,38 @@
 #!/usr/bin/env node
 /**
- * Phase B-2：多语言 / SEO 浏览器验证 harness（零依赖）
+ * 多语言 / SEO 浏览器验收 harness（零依赖；Phase B 建立，Phase C 更新期望值）
  *
- * 复用 scripts/functional-audit/ 的 CDP 客户端与 Vercel 模拟静态服务器：
- *   - cdp.mjs   → headless Chrome + WebSocket（navigate / Runtime.evaluate / 截图）
- *   - server.mjs→ cleanUrls、trailingSlash、/tools/* rewrite、404.html
+ * 复用 scripts/functional-audit/ 的 CDP 客户端（cdp.mjs）+ 本目录的 Vercel 模拟服务器（server.mjs）。
  *
- * 检查矩阵（对本地静态服务器，渲染后 DOM + 静态 HTML + sitemap/robots）：
- *   A. 渲染后语言：<html lang>、可见正文语言（与英文对应页相似度 + CJK/假名/西语信号）、
- *      title/description 是否与静态 HTML 一致（不被 i18n.js 覆盖）。
- *   B. 语言切换器：a.lang-option 数量=5、href 非 #、hreflang 正确、目标本地 200；
- *      本地化页包含 en + 其它 4 语言。
- *   C. sitemap：loc 去重数=94、每个 loc 本地 200 且非重定向、68 个本地化 URL 齐全、
- *      hreflang alternates 与页面 head 一致且互指。
- *   D. head 元数据：canonical 自引用且 200、hreflang 集合=语言簇、无重复/无失效目标、
- *      静态 <html lang> 合法、canonical 唯一。
- *   E. 内部链接：从 / 做 BFS（<a href> 站内链接）；报告「严格全部可达」与
- *      「每个本地化页 ≥1 入链」两种判定；附同语言内链比例（参考）。
- *   F. robots.txt：无 `Disallow: /*?lang=`、Sitemap 行存在。
+ * 检查矩阵：
+ *   A. 渲染后语言：<html lang>、可见正文语言、title/description 是否与静态 HTML 一致（25 个渲染页）
+ *   B. 语言切换器：a.lang-option 数量=5 / href 非 # / hreflang 正确 / 目标本地 200
+ *   C. sitemap：loc 去重数 = 期望可索引页（Phase C = 60）、全部本地 200、无 noindex/301 URL、
+ *      hreflang alternates 与页面 head 一致且互指
+ *   D. head 元数据：可索引页 canonical 自引用且 200/唯一、hreflang 语言簇、静态 html lang 合法
+ *   E. 内部链接：从 / 做 BFS；每个本地化可索引页 ≥1 入链；同语言内容内链比例；
+ *      不得再链接 301 旧 URL（/square-collage/、/vertical-collage/）
+ *   F. robots.txt：无 `Disallow: /*?lang=`、Sitemap 行存在
+ *   G. Phase C 内容质量：32 个本地化专题页 noindex（无 hreflang/JSON-LD、200）、
+ *      301 重定向（square/vertical）、60 个可索引页 JSON-LD（@graph/类型）、
+ *      3 篇 blog 扩写（≥700 词/description ≤160/Article JSON-LD/首页卡片同步）、
+ *      全站 description ≤160、本地化首页单一 H1 且为本地语言
  *
  * 用法（仓库根目录）：
- *   node scripts/seo-audit/run-seo-checks.mjs [--label baseline|final] [--json path] [--md path]
+ *   node scripts/seo-audit/run-seo-checks.mjs --label phase-c-final --evidence-dir audit/evidence/phase-c
  *
- * 输出（默认）：
- *   audit/evidence/phase-b/seo-report.json / seo-report.md（最新一次）
- *   audit/evidence/phase-b/seo-report-<label>.{json,md}（带 label 时另存快照）
- *   audit/evidence/phase-b/shots/（渲染类 FAIL 截图）
- *   audit/evidence/phase-b/html/（渲染类 FAIL 快照 + 静态 FAIL 的 head 片段）
+ * 默认证据目录为 audit/evidence/phase-b（Phase B 历史）；Phase C 用 --evidence-dir 指向
+ * audit/evidence/phase-c，避免覆盖 Phase B 证据。
  *
+ * 输出：<evidence-dir>/seo-report.json / seo-report.md（+ label 快照）、shots/、html/
  * 退出码：0 = 无 FAIL（允许 WARN）；1 = 存在 FAIL；2 = 环境/运行错误。
  *
- * 约束：只读站点文件；不改站点、不 git 写操作、不部署；不为了变绿放宽断言。
+ * 约束：只读站点文件；不改站点、不 git 写操作、不部署；不为变绿放宽断言。
  */
 
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { performance } from 'node:perf_hooks';
 
@@ -45,13 +42,12 @@ import { startStaticServer } from './server.mjs';
 // ---------------------------------------------------------------------------
 // 常量
 // ---------------------------------------------------------------------------
-
 const ROOT = process.cwd();
-const EVIDENCE_DIR = resolve(ROOT, 'audit/evidence/phase-b');
-const SHOTS_DIR = join(EVIDENCE_DIR, 'shots');
-const HTML_SNAPSHOT_DIR = join(EVIDENCE_DIR, 'html');
-const DEFAULT_JSON = join(EVIDENCE_DIR, 'seo-report.json');
-const DEFAULT_MD = join(EVIDENCE_DIR, 'seo-report.md');
+let EVIDENCE_DIR = resolve(ROOT, 'audit/evidence/phase-b');
+let SHOTS_DIR = join(EVIDENCE_DIR, 'shots');
+let HTML_SNAPSHOT_DIR = join(EVIDENCE_DIR, 'html');
+let DEFAULT_JSON = null;
+let DEFAULT_MD = null;
 
 const PROD_ORIGIN = 'https://www.mecollage.top';
 const VIEWPORT = { width: 1280, height: 900 };
@@ -67,7 +63,7 @@ const LANGUAGES = [
 const LANGUAGE_BY_KEY = Object.fromEntries(LANGUAGES.map((lang) => [lang.key, lang]));
 const LANG_KEYS = LANGUAGES.map((lang) => lang.key);
 
-/** 浏览器测试页：5 个首页 + 4 工具页 × 5 语言 = 25 */
+/** 渲染检查页：5 个首页 + 4 工具页 × 5 语言 = 25 */
 const HOMEPAGE_URLS = ['/', '/zh/', '/es/', '/ja/', '/tw/'];
 const TOOL_BASES = ['/tools/square/', '/tools/squarecrop/', '/tools/roundedcorners/', '/tools/blurredframe/'];
 const RENDERED_URLS = [
@@ -75,7 +71,7 @@ const RENDERED_URLS = [
   ...TOOL_BASES.flatMap((base) => LANGUAGES.map((lang) => langUrl(lang.key, base))),
 ];
 
-/** 正文语言判定阈值（与 spec 对齐：相似度 <0.3 或 目标语言字符/词占比达标） */
+/** 正文语言判定阈值（相似度 <0.3 或 目标语言字符/词占比达标） */
 const SIMILARITY_THRESHOLD = 0.3;
 const SCRIPT_THRESHOLDS = { zh: 0.2, tw: 0.2, ja: 0.15, es: 0.1, en: 0 };
 
@@ -96,13 +92,77 @@ const BLOCKED_URLS = [
   '*://fonts.gstatic.com/*',
 ];
 
+// ---------------------------------------------------------------------------
+// Phase C 验收期望值（内容质量阶段；Phase B 的 94 页期望已作废）
+// ---------------------------------------------------------------------------
+
+/** 36 个本地化核心页 + 9 个英文核心页 = 45 个 5 语言簇页面 */
+const CORE_BASES = [
+  '/',
+  '/about/',
+  '/contact/',
+  '/privacy/',
+  '/terms/',
+  '/tools/square/',
+  '/tools/squarecrop/',
+  '/tools/roundedcorners/',
+  '/tools/blurredframe/',
+];
+
+/** 保留索引的 6 个英文专题页（square / vertical 已 301 移除） */
+const EN_TOPIC_KEPT_BASES = [
+  '/birthday-collage-maker/',
+  '/christmas-collage-maker/',
+  '/free-collage-maker/',
+  '/how-to-make-a-collage/',
+  '/instagram-story-collage/',
+  '/wedding-collage-maker/',
+];
+
+/** 32 个本地化专题页（8 专题 × 4 语言）→ noindex、无 hreflang、无 JSON-LD、不进 sitemap */
+const LOCALIZED_NOINDEX_TOPIC_BASES = [
+  '/birthday-collage-maker/',
+  '/christmas-collage-maker/',
+  '/free-collage-maker/',
+  '/how-to-make-a-collage/',
+  '/instagram-story-collage/',
+  '/square-collage/',
+  '/vertical-collage/',
+  '/wedding-collage-maker/',
+];
+const LOCALIZED_NOINDEX_LANGS = ['zh', 'tw', 'ja', 'es'];
+
+/** Phase C 301 重定向（vercel.json 中 permanent: true；本地服务器需实现） */
+const LEGACY_REDIRECTS = [
+  { from: '/square-collage/', to: '/tools/square/' },
+  { from: '/square-collage', to: '/tools/square/' },
+  { from: '/vertical-collage/', to: '/instagram-story-collage/' },
+  { from: '/vertical-collage', to: '/instagram-story-collage/' },
+];
+const LEGACY_PAGE_URLS = ['/square-collage/', '/vertical-collage/'];
+
+/** 3 篇 Phase C 扩写 blog（URL 不变，不 301） */
+const BLOG_CONTENT_POSTS = [
+  '/blog/custom-grid-layout-feature/',
+  '/blog/ai-powered-enhancements/',
+  '/blog/how-to-make-photo-collage/',
+];
+const BLOG_MIN_WORDS = 700;
+const DESCRIPTION_MAX = 160;
+
+/** 各页面类别 JSON-LD 必须包含的类型（全部要求有 @graph） */
+const JSONLD_REQUIRED_TYPES = {
+  home: ['WebSite', 'SoftwareApplication'],
+  tool: ['SoftwareApplication', 'FAQPage'],
+  blog: ['Article', 'BreadcrumbList'],
+  other: ['WebPage', 'BreadcrumbList'],
+};
+
 const sleep = (ms) => new Promise((resolvePromise) => setTimeout(resolvePromise, ms));
 const sha = (value) => createHash('sha256').update(value).digest('hex');
-
 // ---------------------------------------------------------------------------
 // CLI
 // ---------------------------------------------------------------------------
-
 function parseCli() {
   const args = process.argv.slice(2);
   const get = (flag) => {
@@ -110,20 +170,29 @@ function parseCli() {
     return index >= 0 ? args[index + 1] : null;
   };
   if (args.includes('--help') || args.includes('-h')) {
-    console.log(`用法：node scripts/seo-audit/run-seo-checks.mjs [--label <baseline|final>] [--json <path>] [--md <path>]`);
+    console.log(
+      '用法：node scripts/seo-audit/run-seo-checks.mjs [--label <name>] [--evidence-dir <dir>] [--json <path>] [--md <path>]',
+    );
     process.exit(0);
   }
+  const evidenceDirArg = get('--evidence-dir');
+  if (evidenceDirArg) {
+    EVIDENCE_DIR = resolve(ROOT, evidenceDirArg);
+    SHOTS_DIR = join(EVIDENCE_DIR, 'shots');
+    HTML_SNAPSHOT_DIR = join(EVIDENCE_DIR, 'html');
+  }
+  DEFAULT_JSON = join(EVIDENCE_DIR, 'seo-report.json');
+  DEFAULT_MD = join(EVIDENCE_DIR, 'seo-report.md');
   return {
     label: get('--label') || 'run',
+    evidenceDir: EVIDENCE_DIR,
     jsonPath: get('--json') || DEFAULT_JSON,
     mdPath: get('--md') || DEFAULT_MD,
   };
 }
-
 // ---------------------------------------------------------------------------
 // 页面清单 / URL 映射
 // ---------------------------------------------------------------------------
-
 function walkHtmlFiles(dir, out = []) {
   for (const entry of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
     if (entry.name.startsWith('.')) continue;
@@ -199,11 +268,9 @@ function normalizeHrefToPageUrl(href, fromUrl) {
   if (path.startsWith('/public/tools/')) path = path.replace('/public/tools/', '/tools/');
   return normalizeSlashes(path);
 }
-
 // ---------------------------------------------------------------------------
 // 静态 HTML 解析（零依赖，正则）
 // ---------------------------------------------------------------------------
-
 const HTML_ENTITIES = {
   amp: '&',
   lt: '<',
@@ -248,11 +315,11 @@ function parseStaticHtml(html) {
   const langValue = attr(htmlTag, 'lang');
 
   let description = null;
+  let robots = null;
   for (const metaTag of head.match(/<meta\b[^>]*>/gi) ?? []) {
-    if ((attr(metaTag, 'name') ?? '').toLowerCase() === 'description') {
-      description = attr(metaTag, 'content');
-      break;
-    }
+    const name = (attr(metaTag, 'name') ?? '').toLowerCase();
+    if (name === 'description') description = attr(metaTag, 'content');
+    if (name === 'robots') robots = attr(metaTag, 'content');
   }
 
   let canonical = null;
@@ -263,6 +330,20 @@ function parseStaticHtml(html) {
     if (rel.includes('alternate') && attr(linkTag, 'hreflang')) {
       hreflangs.push({ hreflang: attr(linkTag, 'hreflang'), href: attr(linkTag, 'href') });
     }
+  }
+
+  const h1s = [];
+  for (const match of html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)) {
+    h1s.push(
+      decodeEntities(match[1].replace(/<[^>]+>/g, ' '))
+        .replace(/\s+/g, ' ')
+        .trim(),
+    );
+  }
+
+  const jsonLdBlocks = [];
+  for (const match of html.matchAll(/<script\b[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
+    jsonLdBlocks.push(match[1].trim());
   }
 
   const anchors = [];
@@ -277,12 +358,17 @@ function parseStaticHtml(html) {
     });
   }
 
+  const robotsContent = (robots ?? '').toLowerCase();
   return {
     lang: langValue,
     title: titleMatch ? decodeEntities(titleMatch[1]).replace(/\s+/g, ' ').trim() : null,
     description,
+    robots,
+    noindex: robotsContent.includes('noindex'),
     canonical,
     hreflangs,
+    h1s,
+    jsonLdBlocks,
     anchors,
   };
 }
@@ -290,7 +376,6 @@ function parseStaticHtml(html) {
 // ---------------------------------------------------------------------------
 // 运行器与结果收集
 // ---------------------------------------------------------------------------
-
 const results = [];
 const failuresForSnapshot = [];
 let currentPage = null;
@@ -380,19 +465,21 @@ async function runCase(definition) {
 function safeName(text) {
   return String(text).replace(/[^A-Za-z0-9._-]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 90);
 }
-
 // ---------------------------------------------------------------------------
 // 静态检查辅助
 // ---------------------------------------------------------------------------
-
-let inventory = null; // Map<url, {rel, file, url, langKey, basePath, parsed}>
-let urlSet = null;
+let inventory = null; // Map<url, {rel,url,langKey,basePath,parsed}>
+let urlSet = null; // 全部非 404 页面
 let httpCache = null;
+let indexableSet = null; // 应索引页面（= sitemap 期望集合）
+let noindexSet = null; // 带 meta robots noindex 的页面
+let redirectedPageUrls = null; // 被 301 的旧页面（文件仍存在）
+let expectedSitemapSet = null; // Phase C 期望 sitemap 集合（60）
+let expectedNoindexSet = null; // Phase C 期望 noindex 集合（32）
 
 async function checkLocal(path) {
   if (!httpCache) httpCache = new Map();
-  const key = path;
-  if (httpCache.has(key)) return httpCache.get(key);
+  if (httpCache.has(path)) return httpCache.get(path);
   const promise = (async () => {
     try {
       const response = await fetch(`${server.url}${path}`, { redirect: 'manual' });
@@ -403,7 +490,7 @@ async function checkLocal(path) {
       return { status: 0, location: null, error: String(error?.message || error) };
     }
   })();
-  httpCache.set(key, promise);
+  httpCache.set(path, promise);
   return promise;
 }
 
@@ -411,15 +498,16 @@ function expectedHtmlLangs(langKey) {
   return LANGUAGE_BY_KEY[langKey].htmlLang.map((value) => value.toLowerCase());
 }
 
+/** 可索引语言簇里的期望 hreflang 映射（noindex / 301 页面不参与 alternates） */
 function expectedHreflangMapFor(url) {
   const base = basePathOf(url);
   const map = new Map();
   const enUrl = langUrl('en', base);
-  if (!urlSet.has(enUrl)) return map;
+  if (!indexableSet || !indexableSet.has(enUrl)) return map;
   map.set('x-default', enUrl);
   for (const lang of LANGUAGES) {
     const candidate = langUrl(lang.key, base);
-    if (urlSet.has(candidate)) map.set(lang.sitemapLang, candidate);
+    if (indexableSet.has(candidate)) map.set(lang.sitemapLang, candidate);
   }
   return map;
 }
@@ -434,10 +522,78 @@ function canonicalPath(value) {
   }
 }
 
+/** Phase C 期望 sitemap 集合：45 个核心 5 语言页 + 9 个英文 blog + 6 个保留英文专题 = 60 */
+function buildExpectedSitemapSet(inventoryMap) {
+  const set = new Set();
+  for (const base of CORE_BASES) {
+    for (const lang of LANGUAGES) {
+      const url = langUrl(lang.key, base);
+      if (inventoryMap.has(url)) set.add(url);
+    }
+  }
+  for (const url of inventoryMap.keys()) {
+    if (url === '/blog/' || /^\/blog\/[^/]+\/$/.test(url)) set.add(url);
+  }
+  for (const base of EN_TOPIC_KEPT_BASES) if (inventoryMap.has(base)) set.add(base);
+  return set;
+}
+
+/** Phase C 期望 noindex 集合：8 个本地化专题 × 4 语言 = 32 */
+function buildExpectedNoindexSet() {
+  const set = new Set();
+  for (const base of LOCALIZED_NOINDEX_TOPIC_BASES) {
+    for (const langKey of LOCALIZED_NOINDEX_LANGS) {
+      set.add(langUrl(langKey, base));
+    }
+  }
+  return set;
+}
+
+function isHomeUrl(url) {
+  return url === '/' || /^\/(zh|tw|ja|es)\/$/.test(url);
+}
+
+/** JSON-LD 页面类别：home / tool / blog / other */
+function jsonLdCategory(url) {
+  if (isHomeUrl(url)) return 'home';
+  if (url.includes('/tools/')) return 'tool';
+  if (url.startsWith('/blog/')) return 'blog';
+  return 'other';
+}
+
+/** 解析页面内全部 JSON-LD block（记录解析错误） */
+function parseJsonLdBlocks(parsed) {
+  return (parsed.jsonLdBlocks ?? []).map((raw) => {
+    try {
+      const object = JSON.parse(raw);
+      const graph = Array.isArray(object?.['@graph']) ? object['@graph'] : null;
+      const types = graph
+        ? graph.flatMap((node) => (Array.isArray(node?.['@type']) ? node['@type'] : [node?.['@type']])).filter(Boolean)
+        : [];
+      return { ok: true, object, hasGraph: Boolean(graph && graph.length > 0), graph, types };
+    } catch (error) {
+      return { ok: false, error: String(error?.message || error) };
+    }
+  });
+}
+
+/** 去标签后的可见文本（静态 HTML） */
+function staticVisibleText(html) {
+  const withoutHidden = html
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<!--[\s\S]*?-->/g, ' ');
+  const text = withoutHidden.replace(/<[^>]+>/g, ' ');
+  return decodeEntities(text).replace(/\s+/g, ' ').trim();
+}
+
+function countWords(text) {
+  return (String(text).match(/[A-Za-z0-9\u00C0-\u024F]+/g) ?? []).length;
+}
+
 // ---------------------------------------------------------------------------
 // 渲染页检查
 // ---------------------------------------------------------------------------
-
 let page = null;
 let server = null;
 let chrome = null;
@@ -465,6 +621,7 @@ const RENDER_SNIPPET = `(() => {
     canonical: canonical ? canonical.getAttribute('href') : null,
     headHreflangs,
     langAnchors,
+    h1s: [...document.querySelectorAll('h1')].map((el) => (el.textContent || '').replace(/\\s+/g, ' ').trim()),
     i18nPresent: Boolean(window.i18n),
     i18nLang: window.i18n ? window.i18n.currentLang : null,
     i18nTranslations: window.i18n && window.i18n.translations ? Object.keys(window.i18n.translations).length : 0,
@@ -490,7 +647,6 @@ async function renderUrl(url) {
   const data = await page.eval(RENDER_SNIPPET);
   data.exceptions = page.exceptions.map((exception) => exception.text).slice(0, 5);
   data.blockedRequests = page.failedRequests.filter((request) => request.blockedReason).length;
-  // 渲染证据：截图 + HTML 快照（失败页面在报告/JSON 中可直接定位）
   const slug = safeName(url || '/') || 'root';
   try {
     const shotPath = join(SHOTS_DIR, `rendered-${slug}.png`);
@@ -514,7 +670,6 @@ async function renderUrl(url) {
 // ---------------------------------------------------------------------------
 // 语言/文本分析
 // ---------------------------------------------------------------------------
-
 function latinTokens(text) {
   return new Set((String(text).toLowerCase().match(/[a-z0-9']{2,}/g) ?? []).slice(0, 4000));
 }
@@ -551,11 +706,9 @@ function languageSignalFor(langKey, signal) {
   if (langKey === 'es') return signal.spanishMarkerRatio;
   return 0;
 }
-
 // ---------------------------------------------------------------------------
 // 检查 A：渲染后语言 / title / description
 // ---------------------------------------------------------------------------
-
 async function runRenderedChecks() {
   const englishHomepage = await renderUrl('/');
 
@@ -699,11 +852,9 @@ function normalizeText(value) {
     .replace(/\s+/g, ' ')
     .trim();
 }
-
 // ---------------------------------------------------------------------------
 // 检查 B：语言切换器
 // ---------------------------------------------------------------------------
-
 async function runSwitcherChecks() {
   await runCase({
     id: 'B1',
@@ -796,11 +947,9 @@ async function runSwitcherChecks() {
     },
   });
 }
-
 // ---------------------------------------------------------------------------
 // 检查 C：sitemap
 // ---------------------------------------------------------------------------
-
 function parseSitemapXml(xml) {
   const entries = [];
   for (const match of xml.matchAll(/<url>([\s\S]*?)<\/url>/gi)) {
@@ -826,34 +975,34 @@ async function runSitemapChecks() {
   const entries = parseSitemapXml(sitemapText);
   const locPaths = entries.map((entry) => normalizeSlashes(new URL(entry.loc, PROD_ORIGIN).pathname));
   const uniqueLocPaths = [...new Set(locPaths)];
-  const localizedExpected = [...urlSet].filter((url) => languageOf(url) !== 'en');
+  const localizedIndexable = [...expectedSitemapSet].filter((url) => languageOf(url) !== 'en');
 
   await runCase({
     id: 'C1',
     group: 'C-sitemap',
-    name: 'sitemap 解析：loc 去重数=94 且与页面清单一致',
+    name: `sitemap 解析：loc 去重数 = 期望可索引页（Phase C = ${expectedSitemapSet.size}）且集合完全一致`,
     async fn(ctx) {
-      const missing = [...urlSet].filter((url) => !uniqueLocPaths.includes(url));
-      const extra = uniqueLocPaths.filter((url) => !urlSet.has(url));
+      const missing = [...expectedSitemapSet].filter((url) => !uniqueLocPaths.includes(url));
+      const extra = uniqueLocPaths.filter((url) => !expectedSitemapSet.has(url));
       ctx.measure('sitemapStatus', response.status);
       ctx.measure('entries', entries.length);
       ctx.measure('uniqueLocCount', uniqueLocPaths.length);
-      ctx.measure('expectedPageCount', urlSet.size);
-      ctx.measure('missing', missing.slice(0, 20));
-      ctx.measure('extra', extra.slice(0, 20));
+      ctx.measure('expectedCount', expectedSitemapSet.size);
+      ctx.measure('missing', missing);
+      ctx.measure('extra', extra);
       ctx.check('sitemap.xml 本地 200', response.status === 200, { actual: response });
-      ctx.check(`loc 去重数 = ${urlSet.size}（实际 ${uniqueLocPaths.length}）`, uniqueLocPaths.length === urlSet.size, {
-        actual: { uniqueLocCount: uniqueLocPaths.length, expected: urlSet.size },
+      ctx.check(`loc 去重数 = ${expectedSitemapSet.size}（实际 ${uniqueLocPaths.length}）`, uniqueLocPaths.length === expectedSitemapSet.size, {
+        actual: { uniqueLocCount: uniqueLocPaths.length, expected: expectedSitemapSet.size },
       });
-      ctx.check('sitemap 覆盖全部可索引页面（无缺漏）', missing.length === 0, { actual: missing.slice(0, 20) });
-      ctx.check('sitemap 不含清单外 URL', extra.length === 0, { actual: extra.slice(0, 20) });
+      ctx.check('sitemap 无缺失 URL', missing.length === 0, { actual: missing });
+      ctx.check('sitemap 无多余 URL', extra.length === 0, { actual: extra });
     },
   });
 
   await runCase({
     id: 'C2',
     group: 'C-sitemap',
-    name: 'sitemap 每个 loc 本地 200 且非重定向（无 404/308）',
+    name: 'sitemap 每个 loc 本地 200 且非重定向（无 404/3xx）',
     async fn(ctx) {
       const failures = [];
       for (const path of uniqueLocPaths) {
@@ -869,13 +1018,18 @@ async function runSitemapChecks() {
   await runCase({
     id: 'C3',
     group: 'C-sitemap',
-    name: '68 个本地化 URL 全部出现在 sitemap',
+    name: `本地化可索引 URL 全部在 sitemap（${localizedIndexable.length} 个核心页）`,
     async fn(ctx) {
-      const missing = localizedExpected.filter((url) => !uniqueLocPaths.includes(url));
-      ctx.measure('localizedExpectedCount', localizedExpected.length);
+      const missing = localizedIndexable.filter((url) => !uniqueLocPaths.includes(url));
+      const localizedUnexpected = uniqueLocPaths.filter((url) => languageOf(url) !== 'en' && !localizedIndexable.includes(url));
+      ctx.measure('localizedExpectedCount', localizedIndexable.length);
       ctx.measure('missingLocalized', missing);
-      ctx.check(`本地化 URL 齐全（${localizedExpected.length - missing.length}/${localizedExpected.length}）`, missing.length === 0, {
+      ctx.measure('localizedUnexpected', localizedUnexpected);
+      ctx.check(`本地化 URL 齐全（${localizedIndexable.length - missing.length}/${localizedIndexable.length}）`, missing.length === 0, {
         actual: missing,
+      });
+      ctx.check('sitemap 不含计划外的本地化 URL（noindex 专题页等）', localizedUnexpected.length === 0, {
+        actual: localizedUnexpected,
       });
     },
   });
@@ -883,7 +1037,7 @@ async function runSitemapChecks() {
   await runCase({
     id: 'C4',
     group: 'C-sitemap',
-    name: 'sitemap hreflang alternates 与页面 head 一致（全量 94）',
+    name: 'sitemap hreflang alternates 与页面 head 一致（全量 sitemap）',
     async fn(ctx) {
       const rows = [];
       for (const entry of entries) {
@@ -891,31 +1045,22 @@ async function runSitemapChecks() {
         const page = inventory.get(url);
         if (!page) continue;
         const headMap = new Map(
-          page.parsed.hreflangs
-            .map((item) => [item.hreflang, canonicalPath(item.href)])
-            .filter(([code, path]) => code && path),
+          page.parsed.hreflangs.map((item) => [item.hreflang, canonicalPath(item.href)]).filter(([code, path]) => code && path),
         );
         const sitemapMap = new Map(
-          entry.alternates
-            .map((item) => [item.hreflang, canonicalPath(item.href)])
-            .filter(([code, path]) => code && path),
+          entry.alternates.map((item) => [item.hreflang, canonicalPath(item.href)]).filter(([code, path]) => code && path),
         );
         const diffs = [];
         for (const [code, path] of headMap) {
           if (!sitemapMap.has(code)) diffs.push(`sitemap 缺少 head 中的 ${code}`);
-          else if (normalizeSlashes(sitemapMap.get(code)) !== normalizeSlashes(path)) {
-            diffs.push(`${code}: sitemap ${sitemapMap.get(code)} ≠ head ${path}`);
-          }
+          else if (normalizeSlashes(sitemapMap.get(code)) !== normalizeSlashes(path)) diffs.push(`${code}: sitemap ${sitemapMap.get(code)} ≠ head ${path}`);
         }
-        for (const code of sitemapMap.keys()) {
-          if (!headMap.has(code)) diffs.push(`sitemap 多出 head 中没有的 ${code}`);
-        }
-        rows.push({ url, headHreflangs: [...headMap.entries()], sitemapHreflangs: [...sitemapMap.entries()], ok: diffs.length === 0, diffs });
+        for (const code of sitemapMap.keys()) if (!headMap.has(code)) diffs.push(`sitemap 多出 head 中没有的 ${code}`);
+        rows.push({ url, ok: diffs.length === 0, diffs });
         if (diffs.length > 0) ctx.detail({ url, diffs });
       }
       const failed = rows.filter((row) => !row.ok);
       ctx.measure('checked', rows.length);
-      ctx.measure('failedCount', failed.length);
       ctx.check(`sitemap alternates 与 head 一致（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
         actual: failed.slice(0, 12),
       });
@@ -930,17 +1075,15 @@ async function runSitemapChecks() {
       const alternatesByUrl = new Map();
       for (const entry of entries) {
         const url = normalizeSlashes(new URL(entry.loc, PROD_ORIGIN).pathname);
-        const map = new Map(
-          entry.alternates
-            .map((item) => [item.hreflang, normalizeSlashes(canonicalPath(item.href) ?? '')])
-            .filter(([code, path]) => code && path),
+        alternatesByUrl.set(
+          url,
+          new Map(entry.alternates.map((item) => [item.hreflang, normalizeSlashes(canonicalPath(item.href) ?? '')]).filter(([code, path]) => code && path)),
         );
-        alternatesByUrl.set(url, map);
       }
       const problems = [];
       for (const [url, map] of alternatesByUrl) {
-        const xDefault = map.get('x-default');
         const enUrl = langUrl('en', basePathOf(url));
+        const xDefault = map.get('x-default');
         if (!xDefault) problems.push({ url, problem: '缺少 x-default' });
         else if (xDefault !== enUrl) problems.push({ url, problem: `x-default 指向 ${xDefault}，期望 ${enUrl}` });
         for (const [code, target] of map) {
@@ -950,20 +1093,28 @@ async function runSitemapChecks() {
             continue;
           }
           const targetLang = LANGUAGES.find((lang) => lang.sitemapLang === code)?.key;
-          const sourceLang = languageOf(url);
-          const targetMap = alternatesByUrl.get(target);
-          const back = targetMap.get(LANGUAGE_BY_KEY[sourceLang].sitemapLang);
-          if (back !== url) {
-            problems.push({ url, problem: `${code} 目标 ${target} 未回指本页（回指 ${back ?? '缺失'}）` });
-          }
           if (!targetLang) problems.push({ url, problem: `非法 hreflang 代码 ${code}` });
+          const sourceLang = languageOf(url);
+          const back = alternatesByUrl.get(target).get(LANGUAGE_BY_KEY[sourceLang].sitemapLang);
+          if (back !== url) problems.push({ url, problem: `${code} 目标 ${target} 未回指本页（回指 ${back ?? '缺失'}）` });
         }
       }
       ctx.measure('checked', alternatesByUrl.size);
-      ctx.measure('problemCount', problems.length);
-      ctx.check('sitemap hreflang 互指且 x-default 指向英文版本', problems.length === 0, {
-        actual: problems.slice(0, 15),
-      });
+      ctx.check('sitemap hreflang 互指且 x-default 指向英文版本', problems.length === 0, { actual: problems.slice(0, 15) });
+    },
+  });
+
+  await runCase({
+    id: 'C6',
+    group: 'C-sitemap',
+    name: 'sitemap 不含 noindex / 301 旧 URL',
+    async fn(ctx) {
+      const noindexInSitemap = uniqueLocPaths.filter((url) => noindexSet.has(url));
+      const legacyInSitemap = uniqueLocPaths.filter((url) => LEGACY_PAGE_URLS.includes(url));
+      ctx.measure('noindexInSitemap', noindexInSitemap);
+      ctx.measure('legacyInSitemap', legacyInSitemap);
+      ctx.check('sitemap 不含 noindex 页面', noindexInSitemap.length === 0, { actual: noindexInSitemap });
+      ctx.check('sitemap 不含 301 旧 URL', legacyInSitemap.length === 0, { actual: legacyInSitemap });
     },
   });
 }
@@ -971,33 +1122,30 @@ async function runSitemapChecks() {
 // ---------------------------------------------------------------------------
 // 检查 D：head 元数据（静态，全量 94）
 // ---------------------------------------------------------------------------
-
 async function runHeadChecks() {
+  const indexableUrls = [...expectedSitemapSet];
   await runCase({
     id: 'D1',
     group: 'D-head',
-    name: 'canonical 自引用（全量 94）且目标本地 200',
+    name: `canonical 自引用（可索引 ${indexableUrls.length} 页）且目标本地 200`,
     async fn(ctx) {
       const rows = [];
-      for (const [url, pageInfo] of inventory) {
-        const canonical = pageInfo.parsed.canonical;
+      for (const url of indexableUrls) {
+        const pageInfo = inventory.get(url);
+        const canonical = pageInfo?.parsed.canonical;
         const expected = normalizeSlashes(url);
         const actualPath = canonicalPath(canonical);
-        const ok = actualPath !== null && normalizeSlashes(actualPath) === expected && canonical && canonical.startsWith(`${PROD_ORIGIN}/`);
+        const ok = actualPath !== null && normalizeSlashes(actualPath) === expected && Boolean(canonical && canonical.startsWith(`${PROD_ORIGIN}/`));
         rows.push({ url, canonical, expectedCanonicalPath: expected, ok });
-        ctx.detail(rows[rows.length - 1]);
       }
       const failed = rows.filter((row) => !row.ok);
       ctx.measure('pages', rows);
-      ctx.measure('failedCount', failed.length);
-      ctx.check(`canonical 自引用（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
-        actual: failed.slice(0, 15),
-      });
-
+      ctx.check(`canonical 自引用（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, { actual: failed.slice(0, 15) });
       const httpFailures = [];
-      for (const row of rows) if (row.ok) {
+      for (const row of rows) {
+        if (!row.ok) continue;
         const result = await checkLocal(normalizeSlashes(row.expectedCanonicalPath));
-        if (result.status !== 200) httpFailures.push({ url: row.url, canonical: row.canonical, status: result.status, location: result.location });
+        if (result.status !== 200) httpFailures.push({ url: row.url, status: result.status, location: result.location });
       }
       ctx.check('canonical 目标本地 200', httpFailures.length === 0, { actual: httpFailures.slice(0, 15) });
     },
@@ -1006,27 +1154,24 @@ async function runHeadChecks() {
   await runCase({
     id: 'D2',
     group: 'D-head',
-    name: 'hreflang 集合=该页语言簇（en/zh-CN/zh-TW/ja/es + x-default，全量 94）',
+    name: 'hreflang 集合 = 可索引语言簇（en/zh-CN/zh-TW/ja/es + x-default；noindex/301 不参与）',
     async fn(ctx) {
       const rows = [];
-      for (const [url, pageInfo] of inventory) {
+      for (const url of indexableUrls) {
+        const pageInfo = inventory.get(url);
         const expectedMap = expectedHreflangMapFor(url);
         const actualMap = new Map();
         const duplicateCodes = [];
         for (const item of pageInfo.parsed.hreflangs) {
-          const code = item.hreflang;
-          const path = canonicalPath(item.href);
-          if (actualMap.has(code)) duplicateCodes.push(code);
-          actualMap.set(code, path);
+          if (actualMap.has(item.hreflang)) duplicateCodes.push(item.hreflang);
+          actualMap.set(item.hreflang, canonicalPath(item.href));
         }
         const missing = [];
         const extra = [];
         const wrongTarget = [];
         for (const [code, expectedPath] of expectedMap) {
           if (!actualMap.has(code)) missing.push(code);
-          else if (normalizeSlashes(actualMap.get(code) ?? '') !== normalizeSlashes(expectedPath)) {
-            wrongTarget.push({ code, actual: actualMap.get(code), expected: expectedPath });
-          }
+          else if (normalizeSlashes(actualMap.get(code) ?? '') !== normalizeSlashes(expectedPath)) wrongTarget.push({ code, actual: actualMap.get(code), expected: expectedPath });
         }
         for (const code of actualMap.keys()) if (!expectedMap.has(code)) extra.push(code);
         const ok = missing.length === 0 && extra.length === 0 && wrongTarget.length === 0 && duplicateCodes.length === 0;
@@ -1035,63 +1180,53 @@ async function runHeadChecks() {
       }
       const failed = rows.filter((row) => !row.ok);
       ctx.measure('checked', rows.length);
-      ctx.measure('failedCount', failed.length);
-      ctx.check(`hreflang 语言簇完整/正确（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
-        actual: failed.slice(0, 12),
-      });
-      const targetCheckFailures = [];
+      ctx.check(`hreflang 语言簇完整/正确（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, { actual: failed.slice(0, 12) });
+      const targetFailures = [];
       for (const row of rows) {
         for (const [, path] of row.actual) {
           if (!path) {
-            targetCheckFailures.push({ url: row.url, problem: 'hreflang href 无法解析' });
+            targetFailures.push({ url: row.url, problem: 'hreflang href 无法解析' });
             continue;
           }
           const normalized = normalizeSlashes(path);
-          if (!urlSet.has(normalized)) targetCheckFailures.push({ url: row.url, target: normalized, problem: '目标不在页面清单' });
+          if (!indexableSet.has(normalized)) targetFailures.push({ url: row.url, target: normalized, problem: '目标不是可索引页面' });
           else {
             const result = await checkLocal(normalized);
-            if (result.status !== 200) targetCheckFailures.push({ url: row.url, target: normalized, status: result.status });
+            if (result.status !== 200) targetFailures.push({ url: row.url, target: normalized, status: result.status });
           }
         }
       }
-      ctx.check('hreflang 目标均存在且本地 200', targetCheckFailures.length === 0, {
-        actual: targetCheckFailures.slice(0, 15),
-      });
+      ctx.check('hreflang 目标均可索引且本地 200', targetFailures.length === 0, { actual: targetFailures.slice(0, 15) });
     },
   });
 
   await runCase({
     id: 'D3',
     group: 'D-head',
-    name: '静态 <html lang> 合法（全量 94）+ x-default 不作为 html lang',
+    name: '静态 <html lang> 与目录语言一致（全部非 404 页面）',
     async fn(ctx) {
-      const validCodes = new Set(['en', 'en-US', 'zh', 'zh-CN', 'zh-TW', 'zh-Hant', 'ja', 'ja-JP', 'es', 'es-ES', 'es-419']);
       const rows = [];
       for (const [url, pageInfo] of inventory) {
         const langKey = languageOf(url);
-        const value = pageInfo.parsed.lang;
         const allowed = expectedHtmlLangs(langKey);
+        const value = pageInfo.parsed.lang;
         const ok = Boolean(value) && allowed.includes(value.toLowerCase());
-        rows.push({ url, expectedLang: langKey, allowed, actual: value, validCode: validCodes.has(value ?? ''), ok });
-        ctx.detail(rows[rows.length - 1]);
+        rows.push({ url, expectedLang: langKey, allowed, actual: value, ok });
       }
       const failed = rows.filter((row) => !row.ok);
-      ctx.measure('pages', rows);
-      ctx.measure('failedCount', failed.length);
-      ctx.check(`静态 html lang 与目录语言一致（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
-        actual: failed.slice(0, 15),
-      });
+      ctx.measure('pages', rows.length);
+      ctx.check(`静态 html lang 合法（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, { actual: failed.slice(0, 15) });
     },
   });
 
   await runCase({
     id: 'D4',
     group: 'D-head',
-    name: 'canonical 唯一（无两页共用同一 canonical）',
+    name: 'canonical 唯一（可索引页无两页共用同一 canonical）',
     async fn(ctx) {
       const byCanonical = new Map();
-      for (const [url, pageInfo] of inventory) {
-        const path = canonicalPath(pageInfo.parsed.canonical);
+      for (const url of indexableUrls) {
+        const path = canonicalPath(inventory.get(url).parsed.canonical);
         if (!byCanonical.has(path)) byCanonical.set(path, []);
         byCanonical.get(path).push(url);
       }
@@ -1105,47 +1240,39 @@ async function runHeadChecks() {
 // ---------------------------------------------------------------------------
 // 检查 E：内部链接 BFS
 // ---------------------------------------------------------------------------
-
 async function runInternalLinkChecks() {
-  const allTokens = new Map(); // url -> Set<token>（用于同语言链接语义分析，可选）
-  const edges = new Map(); // from -> Set<to>
-  /**
-   * 语言切换链接判定（不是内容内链，不计入 E4 内容入链/同语言比例）：
-   *  1) 旧语言切换器：a.lang-option
-   *  2) Phase B 语言导航：a.language-link / [data-language-nav]
-   *  3) 语义兜底：指向「同一页面」的另一语言版本（跨语言 + 同 base path）
-   */
+  const edges = new Map();
+  const contentEdges = new Map();
   const isLanguageSwitchLink = (anchor, sourceUrl, targetUrl) => {
     if (/(?:^|\s)(?:lang-option|language-link)(?:\s|$)/i.test(anchor.className)) return true;
     if (anchor.dataLanguageNav === true) return true;
     return languageOf(targetUrl) !== languageOf(sourceUrl) && basePathOf(targetUrl) === basePathOf(sourceUrl);
   };
 
-  const contentEdges = new Map(); // 排除语言切换链接后的内容边
   let languageSwitchAnchorCount = 0;
+  const legacyLinks = [];
   for (const [url, pageInfo] of inventory) {
     const targets = new Set();
     const contentTargets = new Set();
     for (const anchor of pageInfo.parsed.anchors) {
       const target = normalizeHrefToPageUrl(anchor.href, url);
-      if (!target || !urlSet.has(target) || target === url) continue;
+      if (!target) continue;
+      if (LEGACY_PAGE_URLS.includes(target)) legacyLinks.push({ page: url, href: anchor.href, target });
+      if (!urlSet.has(target) || target === url) continue;
       targets.add(target);
-      if (isLanguageSwitchLink(anchor, url, target)) {
-        languageSwitchAnchorCount += 1;
-      } else {
-        contentTargets.add(target);
-      }
+      if (isLanguageSwitchLink(anchor, url, target)) languageSwitchAnchorCount += 1;
+      else contentTargets.add(target);
     }
     edges.set(url, targets);
     contentEdges.set(url, contentTargets);
   }
 
-  const bfs = (start, graph) => {
+  const bfs = (start) => {
     const visited = new Set([start]);
     const queue = [start];
     while (queue.length > 0) {
       const current = queue.shift();
-      for (const next of graph.get(current) ?? []) {
+      for (const next of edges.get(current) ?? []) {
         if (!visited.has(next)) {
           visited.add(next);
           queue.push(next);
@@ -1154,30 +1281,29 @@ async function runInternalLinkChecks() {
     }
     return visited;
   };
-
-  const reachable = bfs('/', edges);
-  const unreachable = [...urlSet].filter((url) => !reachable.has(url));
+  const reachable = bfs('/');
+  const unreachableIndexable = [...expectedSitemapSet].filter((url) => !reachable.has(url));
 
   const inlinksAll = new Map([...urlSet].map((url) => [url, 0]));
   const inlinksContent = new Map([...urlSet].map((url) => [url, 0]));
-  for (const [, targets] of edges) for (const target of targets) inlinksAll.set(target, inlinksAll.get(target) + 1);
-  for (const [, targets] of contentEdges) for (const target of targets) inlinksContent.set(target, inlinksContent.get(target) + 1);
+  for (const [, targets] of edges) for (const target of targets) inlinksAll.set(target, (inlinksAll.get(target) ?? 0) + 1);
+  for (const [, targets] of contentEdges) for (const target of targets) inlinksContent.set(target, (inlinksContent.get(target) ?? 0) + 1);
 
-  const localizedUrls = [...urlSet].filter((url) => languageOf(url) !== 'en');
-  const localizedWithoutInlinks = localizedUrls.filter((url) => inlinksAll.get(url) === 0);
-  const localizedWithoutContentInlinks = localizedUrls.filter((url) => inlinksContent.get(url) === 0);
+  const localizedIndexable = [...expectedSitemapSet].filter((url) => languageOf(url) !== 'en');
+  const localizedWithoutInlinks = localizedIndexable.filter((url) => inlinksAll.get(url) === 0);
+  const localizedWithoutContentInlinks = localizedIndexable.filter((url) => inlinksContent.get(url) === 0);
 
   await runCase({
     id: 'E1',
     group: 'E-internal-links',
-    name: '从 / 做 BFS：严格全部 94 页可达（严格判定，报告用）',
+    name: `从 / 做 BFS：可索引 ${expectedSitemapSet.size} 页是否全部可达（严格判定，报告用）`,
     async fn(ctx) {
       ctx.measure('reachableCount', reachable.size);
-      ctx.measure('expectedCount', urlSet.size);
-      ctx.measure('unreachable', unreachable.slice(0, 40));
-      ctx.check(`BFS 可达全部 ${urlSet.size} 页（严格；实际 ${reachable.size}/${urlSet.size}）`, unreachable.length === 0, {
+      ctx.measure('expectedIndexableCount', expectedSitemapSet.size);
+      ctx.measure('unreachableIndexable', unreachableIndexable);
+      ctx.check(`BFS 可达全部 ${expectedSitemapSet.size} 个可索引页（严格）`, unreachableIndexable.length === 0, {
         level: 'WARN',
-        actual: { reachable: reachable.size, unreachable: unreachable.slice(0, 40) },
+        actual: { reachable: reachable.size, unreachable: unreachableIndexable },
       });
     },
   });
@@ -1185,13 +1311,13 @@ async function runInternalLinkChecks() {
   await runCase({
     id: 'E2',
     group: 'E-internal-links',
-    name: '每个本地化页 ≥1 入链（含语言切换器链接；最低验收判定）',
+    name: `每个本地化可索引页 ≥1 入链（${localizedIndexable.length} 页；最低验收判定）`,
     async fn(ctx) {
-      ctx.measure('localizedCount', localizedUrls.length);
+      ctx.measure('localizedCount', localizedIndexable.length);
       ctx.measure('localizedWithoutInlinks', localizedWithoutInlinks);
-      ctx.measure('inlinkCounts', localizedUrls.map((url) => ({ url, inlinks: inlinksAll.get(url) })));
+      ctx.measure('inlinkCounts', localizedIndexable.map((url) => ({ url, inlinks: inlinksAll.get(url) })));
       ctx.check(
-        `每个本地化页至少有 1 个站内入链（${localizedUrls.length - localizedWithoutInlinks.length}/${localizedUrls.length}）`,
+        `每个本地化可索引页至少 1 个站内入链（${localizedIndexable.length - localizedWithoutInlinks.length}/${localizedIndexable.length}）`,
         localizedWithoutInlinks.length === 0,
         { actual: localizedWithoutInlinks },
       );
@@ -1201,11 +1327,11 @@ async function runInternalLinkChecks() {
   await runCase({
     id: 'E3',
     group: 'E-internal-links',
-    name: '内容型入链（排除语言切换器链接）覆盖（辅助项）',
+    name: '内容型入链（排除语言切换链接）覆盖（辅助项）',
     async fn(ctx) {
       ctx.measure('localizedWithoutContentInlinks', localizedWithoutContentInlinks);
       ctx.check(
-        `排除语言切换器后每个本地化页仍有 ≥1 内容型入链（${localizedUrls.length - localizedWithoutContentInlinks.length}/${localizedUrls.length}）`,
+        `排除语言切换链接后每个本地化可索引页仍有 ≥1 内容型入链（${localizedIndexable.length - localizedWithoutContentInlinks.length}/${localizedIndexable.length}）`,
         localizedWithoutContentInlinks.length === 0,
         { level: 'WARN', actual: localizedWithoutContentInlinks },
       );
@@ -1215,16 +1341,11 @@ async function runInternalLinkChecks() {
   await runCase({
     id: 'E4',
     group: 'E-internal-links',
-    name: '本地化页内链同语言比例（参考项，Phase B 背景目标）',
+    name: '本地化可索引页同语言内容内链比例（参考项）',
     async fn(ctx) {
       const rows = [];
-      for (const url of localizedUrls) {
+      for (const url of localizedIndexable) {
         const langKey = languageOf(url);
-        const targets = [...edges.get(url) ?? []];
-        if (targets.length === 0) {
-          rows.push({ url, langKey, internalLinks: 0, sameLanguageLinks: 0, ratio: null });
-          continue;
-        }
         const contentTargets = [...contentEdges.get(url) ?? []];
         const sameLanguage = contentTargets.filter((target) => languageOf(target) === langKey);
         rows.push({
@@ -1236,15 +1357,26 @@ async function runInternalLinkChecks() {
         });
       }
       const measurable = rows.filter((row) => row.ratio !== null);
-      ctx.measure('languageSwitchAnchorsExcluded', languageSwitchAnchorCount);
       const averageRatio = measurable.length > 0 ? measurable.reduce((sum, row) => sum + row.ratio, 0) / measurable.length : 0;
+      ctx.measure('languageSwitchAnchorsExcluded', languageSwitchAnchorCount);
       ctx.measure('pages', rows);
       ctx.measure('averageSameLanguageRatio', Number(averageRatio.toFixed(3)));
-      ctx.check(
-        `本地化页内容内链同语言平均比例 ≥ 0.8（实际 ${averageRatio.toFixed(3)}）`,
-        averageRatio >= 0.8,
-        { level: 'WARN', actual: measurable.filter((row) => row.ratio < 0.8).slice(0, 20) },
-      );
+      ctx.check(`本地化页内容内链同语言平均比例 ≥ 0.8（实际 ${averageRatio.toFixed(3)}）`, averageRatio >= 0.8, {
+        level: 'WARN',
+        actual: measurable.filter((row) => row.ratio < 0.8).slice(0, 20),
+      });
+    },
+  });
+
+  await runCase({
+    id: 'E5',
+    group: 'E-internal-links',
+    name: '站内链接不再指向 301 旧 URL（/square-collage/、/vertical-collage/）',
+    async fn(ctx) {
+      ctx.measure('legacyLinks', legacyLinks);
+      ctx.check('站内无指向 /square-collage/ 或 /vertical-collage/ 的链接', legacyLinks.length === 0, {
+        actual: legacyLinks.slice(0, 20),
+      });
     },
   });
 }
@@ -1252,7 +1384,6 @@ async function runInternalLinkChecks() {
 // ---------------------------------------------------------------------------
 // 检查 F：robots.txt
 // ---------------------------------------------------------------------------
-
 async function runRobotsChecks() {
   await runCase({
     id: 'F1',
@@ -1291,11 +1422,241 @@ async function runRobotsChecks() {
     },
   });
 }
+// ---------------------------------------------------------------------------
+// 检查 G：Phase C 内容质量 / 结构化数据 / 301
+// ---------------------------------------------------------------------------
+async function runPhaseCChecks() {
+  // G1：32 个本地化专题页 noindex
+  await runCase({
+    id: 'G1',
+    group: 'G-phase-c',
+    name: `本地化专题页 noindex（期望 ${expectedNoindexSet.size} 页：无 hreflang/JSON-LD、本地 200）`,
+    async fn(ctx) {
+      const rows = [];
+      for (const url of expectedNoindexSet) {
+        const pageInfo = inventory.get(url);
+        const parsed = pageInfo?.parsed;
+        const robots = (parsed?.robots ?? '').toLowerCase();
+        const local = await checkLocal(url);
+        const ok =
+          Boolean(pageInfo) &&
+          parsed.noindex === true &&
+          robots.includes('noindex') &&
+          robots.includes('follow') &&
+          (parsed.hreflangs?.length ?? -1) === 0 &&
+          (parsed.jsonLdBlocks?.length ?? -1) === 0 &&
+          local.status === 200;
+        const row = {
+          url,
+          exists: Boolean(pageInfo),
+          robots: parsed?.robots ?? null,
+          noindex: parsed?.noindex ?? false,
+          hreflangCount: parsed?.hreflangs?.length ?? null,
+          jsonLdCount: parsed?.jsonLdBlocks?.length ?? null,
+          httpStatus: local.status,
+          ok,
+        };
+        rows.push(row);
+        ctx.detail(row);
+      }
+      const failed = rows.filter((row) => !row.ok);
+      const missing = [...expectedNoindexSet].filter((url) => !noindexSet.has(url));
+      const unexpected = [...noindexSet].filter((url) => !expectedNoindexSet.has(url));
+      ctx.measure('pages', rows);
+      ctx.measure('failedCount', failed.length);
+      ctx.measure('missing', missing);
+      ctx.measure('unexpected', unexpected);
+      ctx.check(`32 个本地化专题页均 noindex,follow（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
+        actual: failed.slice(0, 12),
+      });
+      ctx.check('noindex 集合无缺失', missing.length === 0, { actual: missing });
+      ctx.check('无计划外的 noindex 页面', unexpected.length === 0, { actual: unexpected });
+    },
+  });
+
+  // G2：301 重定向
+  await runCase({
+    id: 'G2',
+    group: 'G-phase-c',
+    name: '301/308 重定向：/square-collage/ → /tools/square/、/vertical-collage/ → /instagram-story-collage/（含无尾斜杠）',
+    async fn(ctx) {
+      const rows = [];
+      for (const redirect of LEGACY_REDIRECTS) {
+        const result = await checkLocal(redirect.from);
+        const target = await checkLocal(redirect.to);
+        const locationPath = canonicalPath(result.location);
+        const ok =
+          (result.status === 301 || result.status === 308) &&
+          locationPath === normalizeSlashes(redirect.to) &&
+          target.status === 200;
+        const row = { from: redirect.from, expectedTarget: redirect.to, status: result.status, location: result.location, targetStatus: target.status, ok };
+        rows.push(row);
+        ctx.detail(row);
+      }
+      const failed = rows.filter((row) => !row.ok);
+      ctx.measure('redirects', rows);
+      ctx.check('4 个旧 URL 均 301/308 到正确目标（目标 200）', failed.length === 0, { actual: failed });
+    },
+  });
+
+  // G3：60 个可索引页 JSON-LD
+  await runCase({
+    id: 'G3',
+    group: 'G-phase-c',
+    name: `可索引页 JSON-LD：可解析 / 有 @graph / 类型符合（${expectedSitemapSet.size} 页）`,
+    async fn(ctx) {
+      const rows = [];
+      for (const url of expectedSitemapSet) {
+        const parsed = inventory.get(url)?.parsed;
+        const blocks = parseJsonLdBlocks(parsed ?? {});
+        const category = jsonLdCategory(url);
+        const required = JSONLD_REQUIRED_TYPES[category];
+        const types = blocks.flatMap((block) => block.types ?? []);
+        const problems = [];
+        if (blocks.length === 0) problems.push('缺少 JSON-LD');
+        if (blocks.some((block) => !block.ok)) problems.push(`JSON 解析失败：${blocks.find((block) => !block.ok)?.error}`);
+        if (blocks.length > 0 && blocks.some((block) => !block.hasGraph)) problems.push('存在无 @graph 的 JSON-LD block');
+        for (const requiredType of required) {
+          if (!types.includes(requiredType)) problems.push(`缺少类型 ${requiredType}`);
+        }
+        const row = { url, category, blockCount: blocks.length, types: [...new Set(types)], required, problems, ok: problems.length === 0 };
+        rows.push(row);
+        if (!row.ok) ctx.detail(row);
+      }
+      const failed = rows.filter((row) => !row.ok);
+      ctx.measure('checked', rows.length);
+      ctx.measure('failedCount', failed.length);
+      ctx.measure('categoryCounts', rows.reduce((acc, row) => {
+        acc[row.category] = (acc[row.category] ?? 0) + 1;
+        return acc;
+      }, {}));
+      ctx.check(`JSON-LD 全部合格（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
+        actual: failed.slice(0, 12),
+      });
+    },
+  });
+
+  // G4：3 篇 blog 扩写 + 首页卡片同步
+  await runCase({
+    id: 'G4',
+    group: 'G-phase-c',
+    name: `Phase C blog 扩展：3 篇 ≥${BLOG_MIN_WORDS} 词 / description ≤${DESCRIPTION_MAX} / Article JSON-LD / blog 首页卡片同步`,
+    async fn(ctx) {
+      const blogIndexInfo = inventory.get('/blog/');
+      const blogIndexHtml = blogIndexInfo ? readFileSync(join(ROOT, blogIndexInfo.rel), 'utf8') : '';
+      const cards = new Map();
+      for (const match of blogIndexHtml.matchAll(/<article class="blog-post-card">([\s\S]*?)<\/article>/gi)) {
+        const block = match[1];
+        const href = /href="([^"]+)"/i.exec(block)?.[1];
+        const title = /<h2[^>]*>([\s\S]*?)<\/h2>/i.exec(block)?.[1];
+        const excerpt = /<p class="blog-post-excerpt"[^>]*>([\s\S]*?)<\/p>/i.exec(block)?.[1];
+        if (!href) continue;
+        cards.set(normalizeSlashes(href), {
+          title: normalizeText(decodeEntities((title ?? '').replace(/<[^>]+>/g, ' '))),
+          excerpt: normalizeText(decodeEntities((excerpt ?? '').replace(/<[^>]+>/g, ' '))),
+        });
+      }
+      const rows = [];
+      for (const url of BLOG_CONTENT_POSTS) {
+        const pageInfo = inventory.get(url);
+        const html = pageInfo ? readFileSync(join(ROOT, pageInfo.rel), 'utf8') : '';
+        const words = countWords(staticVisibleText(html));
+        const description = pageInfo?.parsed.description ?? null;
+        const descriptionOk = Boolean(description) && description.length <= DESCRIPTION_MAX;
+        const blocks = parseJsonLdBlocks(pageInfo?.parsed ?? {});
+        const types = blocks.flatMap((block) => block.types ?? []);
+        const articleOk = types.includes('Article');
+        const postTitle = normalizeText((pageInfo?.parsed.title ?? '').split('|')[0]);
+        const card = cards.get(url);
+        const titleSimilarity = card ? jaccard(latinTokens(postTitle), latinTokens(card.title)) : 0;
+        const excerptSimilarity = card ? jaccard(latinTokens(description ?? ''), latinTokens(card.excerpt)) : 0;
+        const titleSynced = Boolean(card) && (normalizeText(card.title) === postTitle || titleSimilarity >= 0.8);
+        const excerptSynced = Boolean(card) && excerptSimilarity >= 0.3;
+        const problems = [];
+        if (words < BLOG_MIN_WORDS) problems.push(`正文 ${words} 词 < ${BLOG_MIN_WORDS}`);
+        if (!descriptionOk) problems.push(`description 缺失或 >${DESCRIPTION_MAX}（${description?.length ?? 'null'}）`);
+        if (!articleOk) problems.push('缺少 Article JSON-LD');
+        if (!titleSynced) problems.push('blog 首页卡片标题未同步');
+        if (!excerptSynced) problems.push(`blog 首页卡片摘要相似度 ${excerptSimilarity.toFixed(2)} < 0.3`);
+        const row = {
+          url,
+          words,
+          descriptionLength: description?.length ?? null,
+          articleJsonLd: articleOk,
+          cardTitleSimilarity: Number(titleSimilarity.toFixed(3)),
+          cardExcerptSimilarity: Number(excerptSimilarity.toFixed(3)),
+          problems,
+          ok: problems.length === 0,
+        };
+        rows.push(row);
+        ctx.detail(row);
+      }
+      const failed = rows.filter((row) => !row.ok);
+      ctx.measure('posts', rows);
+      ctx.check(`3 篇扩写 blog 全部合格（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, { actual: failed });
+    },
+  });
+
+  // G5：全站 description ≤160
+  await runCase({
+    id: 'G5',
+    group: 'G-phase-c',
+    name: `全站 description 存在且 ≤${DESCRIPTION_MAX} 字符（全部非 404 页面）`,
+    async fn(ctx) {
+      const rows = [];
+      for (const [url, pageInfo] of inventory) {
+        const description = pageInfo.parsed.description;
+        const ok = Boolean(description) && description.length <= DESCRIPTION_MAX;
+        rows.push({ url, length: description?.length ?? null, ok });
+      }
+      const failed = rows.filter((row) => !row.ok);
+      ctx.measure('pages', rows.length);
+      ctx.measure('failedCount', failed.length);
+      ctx.measure('overLimit', rows.filter((row) => (row.length ?? 0) > DESCRIPTION_MAX));
+      ctx.check(`description 长度全部合格（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
+        actual: failed.slice(0, 15),
+      });
+    },
+  });
+
+  // G6：本地化首页单一 H1 + 本地语言
+  await runCase({
+    id: 'G6',
+    group: 'G-phase-c',
+    name: '首页（含 4 个本地化首页）单一 H1 且 H1 为本地语言',
+    async fn(ctx) {
+      const englishH1 = normalizeText((renderedData.get('/')?.h1s ?? [])[0] ?? '');
+      const rows = [];
+      for (const url of HOMEPAGE_URLS) {
+        const data = renderedData.get(url);
+        const h1s = data?.h1s ?? [];
+        const langKey = languageOf(url);
+        const h1 = normalizeText(h1s[0] ?? '');
+        const signal = textSignal(h1);
+        const problems = [];
+        if (h1s.length !== 1) problems.push(`h1 数量 ${h1s.length} ≠ 1`);
+        if (!h1) problems.push('H1 为空');
+        if (langKey !== 'en') {
+          if (h1 === englishH1) problems.push('H1 与英文首页相同');
+          const threshold = SCRIPT_THRESHOLDS[langKey];
+          const signalValue = languageSignalFor(langKey, signal);
+          if (signalValue < threshold) problems.push(`H1 语言信号 ${signalValue.toFixed(2)} < ${threshold}`);
+        }
+        const row = { url, expectedLang: langKey, h1, h1Count: h1s.length, signal: { cjkRatio: Number(signal.cjkRatio.toFixed(3)), kanaCjkRatio: Number(signal.kanaCjkRatio.toFixed(3)), spanishMarkerRatio: Number(signal.spanishMarkerRatio.toFixed(3)) }, problems, ok: problems.length === 0 };
+        rows.push(row);
+        ctx.detail(row);
+      }
+      const failed = rows.filter((row) => !row.ok);
+      ctx.measure('pages', rows);
+      ctx.measure('englishHomepageH1', englishH1);
+      ctx.check(`首页 H1 全部合格（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, { actual: failed });
+    },
+  });
+}
 
 // ---------------------------------------------------------------------------
 // 报告
 // ---------------------------------------------------------------------------
-
 function summarize() {
   const byGroup = {};
   const totals = { PASS: 0, FAIL: 0, WARN: 0, total: 0 };
@@ -1318,13 +1679,14 @@ const GROUP_TITLES = {
   'D-head': 'D. head 元数据（canonical / hreflang）',
   'E-internal-links': 'E. 内部链接可达性',
   'F-robots': 'F. robots.txt',
+  'G-phase-c': 'G. Phase C 内容质量 / 结构化数据 / 301',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
 
 function renderMarkdown(report) {
   const out = [];
   const totals = report.summary.totals;
-  out.push(`# Phase B-2：多语言 / SEO 浏览器验证报告（${report.meta.label}）`);
+  out.push(`# 多语言 / SEO 浏览器验收报告（${report.meta.label}）`);
   out.push('');
   out.push('> 自动生成：`node scripts/seo-audit/run-seo-checks.mjs`（零依赖：Chrome headless + CDP WebSocket + 本地 Vercel 模拟服务器）。');
   out.push('> 被测对象 = 当前工作区站点文件；渲染检查通过本地静态服务器加载（URL 与线上路径一致）。本工具只读站点文件。');
@@ -1335,17 +1697,20 @@ function renderMarkdown(report) {
   out.push('|---|---|');
   out.push(`| 生成时间 | ${report.meta.generatedAt} |`);
   out.push(`| 标签 | \`${report.meta.label}\` |`);
+  out.push(`| 证据目录 | \`${report.meta.evidenceDir}\` |`);
   out.push(`| 分支 / HEAD | \`${report.meta.git.branch}\` / \`${report.meta.git.head.slice(0, 12)}\` |`);
   out.push(
-    `| 工作区状态 | dirty 文件 ${report.meta.git.dirtyFiles} 个；路径 digest \`${report.meta.git.dirtyDigest}\`；内容 digest \`${report.meta.git.dirtyContentDigest}\`（diff ${report.meta.git.dirtyDiffBytes} B）${report.meta.git.dirtyFiles > 0 ? '（被测状态 = 未提交工作区）' : ''} |`,
+    `| 工作区状态 | dirty 文件 ${report.meta.git.dirtyFiles} 个；路径 digest \`${report.meta.git.dirtyDigest}\`；内容 digest \`${report.meta.git.dirtyContentDigest}\`（diff ${report.meta.git.dirtyDiffBytes} B） |`,
   );
   out.push(`| Chrome | ${report.meta.chrome} |`);
   out.push(`| Node / 平台 | ${report.meta.node} / ${report.meta.platform} |`);
-  out.push(`| 本地服务 | \`${report.meta.server}\`（Vercel 路由模拟） |`);
-  out.push(`| 页面清单 | 可索引 ${report.meta.pageCount} 页（本地化 ${report.meta.localizedCount} + 英文 ${report.meta.enCount}）；渲染检查 ${report.meta.renderedCount} 页 |`);
+  out.push(`| 本地服务 | \`${report.meta.server}\`（Vercel 路由模拟 + vercel.json 301） |`);
+  out.push(
+    `| 页面清单 | 非 404 页面 ${report.meta.inventoryCount}；可索引 ${report.meta.indexableCount}；noindex ${report.meta.noindexCount}；301 旧页 ${report.meta.redirectedCount}；渲染检查 ${report.meta.renderedCount} |`,
+  );
   out.push(`| 运行时长 | ${(report.meta.durationMs / 1000).toFixed(1)} s |`);
   out.push('');
-  out.push(`## 2. 结论摘要`);
+  out.push('## 2. 结论摘要');
   out.push('');
   out.push(`**总体：${totals.verdict}** —— PASS ${totals.PASS} / FAIL ${totals.FAIL} / WARN ${totals.WARN}（共 ${totals.total} 个用例）`);
   out.push('');
@@ -1371,16 +1736,6 @@ function renderMarkdown(report) {
     }
     if (failure.screenshots.length > 0) out.push(`- 截图：${failure.screenshots.map((path) => `[\`${path.split('/').pop()}\`](../${path})`).join('、')}`);
     if (failure.htmlSnapshots.length > 0) out.push(`- HTML 快照：${failure.htmlSnapshots.map((path) => `[\`${path.split('/').pop()}\`](../${path})`).join('、')}`);
-    // 只输出前 10 条 per-page 细节，避免报告过长
-    const detailEntries = Array.isArray(failure.measurements?.pages)
-      ? failure.measurements.pages.filter((row) => row.ok === false).slice(0, 10)
-      : [];
-    if (detailEntries.length > 0) {
-      out.push('- 失败页面（前 10 条）：');
-      for (const entry of detailEntries) {
-        out.push(`  - \`${entry.url ?? entry.path ?? '?'}\`：${formatActual(entry.problems ?? entry)}`);
-      }
-    }
     out.push('');
   }
 
@@ -1423,20 +1778,23 @@ function renderMarkdown(report) {
   out.push('## 7. 复跑方式');
   out.push('');
   out.push('```bash');
-  out.push('# 在本仓库根目录直接运行（自动启停 headless Chrome + 本地服务器，清理临时 profile）');
-  out.push('node scripts/seo-audit/run-seo-checks.mjs --label baseline   # 基线（当前工作区状态）');
-  out.push('node scripts/seo-audit/run-seo-checks.mjs --label final      # Lead 宣布实现完成后复跑');
+  out.push('# Phase C 最终验收（证据写入 evidence/phase-c，不覆盖 Phase B）');
+  out.push('node scripts/seo-audit/run-seo-checks.mjs --label phase-c-final --evidence-dir audit/evidence/phase-c');
+  out.push('');
+  out.push('# Phase B 历史证据复现（默认 evidence 目录）');
+  out.push('node scripts/seo-audit/run-seo-checks.mjs --label final');
   out.push('```');
   out.push('');
   out.push('退出码：`0` = 无 FAIL（允许 WARN）；`1` = 存在 FAIL；`2` = 环境/运行错误。');
   out.push('');
   out.push('## 8. 已知限制');
   out.push('');
-  out.push('- 可见正文语言判定为启发式：相似度（拉丁 token Jaccard）<0.3 **或** 目标语言字符/西语词占比阈值；局部未翻译段落不单独判 FAIL（属内容质量，非本 harness 范围）。');
-  out.push('- 只覆盖 sitemap 声明的 94 个可索引页面与任务列出的 25 个渲染检查页；其他页面仅静态检查。');
-  out.push('- 本地服务器模拟 Vercel 路由（cleanUrls/trailingSlash/tools rewrite/404），与线上 Cloudflare 边缘行为可能存在差异；本阶段不上线验证。');
-  out.push('- 不检查线上 Cloudflare/Vercel 实际响应、GA/AdSense、内容质量/翻译准确性。');
-  out.push('- 工作区可能正在被 Lead 修改：报告头部记录了 dirty 文件数与 digest；基线结论以该快照为准。');
+  out.push('- 可见正文语言为启发式判定（相似度 / 字符-词占比）；局部未翻译段落不单独判 FAIL（内容质量定性由人工判断）。');
+  out.push('- 真实渲染只覆盖任务列出的 25 个页面；其余页面为静态 HTML 检查（canonical/hreflang/lang/sitemap/JSON-LD/description/链接图）。');
+  out.push('- blog 字数按「去 script/style/标签后的静态可见文本」的拉丁词数统计（不含导航/页脚以外无法区分；与人工字数可能有 ±数词差异）。');
+  out.push('- 本地服务器模拟 Vercel 路由（cleanUrls/trailingSlash/tools rewrite/404）+ vercel.json 精确路径 301；与线上 Cloudflare 边缘行为可能有差异，本阶段不部署。');
+  out.push('- 不检查线上响应头/AdSense/GA、翻译质量/薄内容定性、关键词蚕食、结构化数据富结果资格。');
+  out.push('- 工作区可能正被 Lead 修改：报告头部记录 dirty 文件数与内容 digest；以同快照复跑结果为准。');
   out.push('');
   return out.join('\n');
 }
@@ -1444,11 +1802,10 @@ function renderMarkdown(report) {
 // ---------------------------------------------------------------------------
 // 主流程
 // ---------------------------------------------------------------------------
-
 async function main() {
   const cli = parseCli();
   const startedAt = performance.now();
-  mkdirSync(EVIDENCE_DIR, { recursive: true });
+  mkdirSync(cli.evidenceDir, { recursive: true });
   rmSync(SHOTS_DIR, { recursive: true, force: true });
   rmSync(HTML_SNAPSHOT_DIR, { recursive: true, force: true });
   mkdirSync(SHOTS_DIR, { recursive: true });
@@ -1456,46 +1813,49 @@ async function main() {
 
   if (!existsSync(join(ROOT, 'index.html'))) throw new Error(`不是 MeCollage 仓库根目录：${ROOT}`);
 
-  // 1) 页面清单 / 静态解析
+  // 1) 页面清单与静态解析
   const relFiles = walkHtmlFiles(ROOT).filter((rel) => rel.split(sep).join('/') !== '404.html');
   inventory = new Map();
   for (const rel of relFiles) {
     const url = urlForFile(rel);
     if (inventory.has(url)) throw new Error(`URL 映射冲突：${rel} → ${url}`);
     const html = readFileSync(join(ROOT, rel), 'utf8');
-    inventory.set(url, {
-      rel,
-      url,
-      langKey: languageOf(url),
-      basePath: basePathOf(url),
-      parsed: parseStaticHtml(html),
-    });
+    inventory.set(url, { rel, url, langKey: languageOf(url), basePath: basePathOf(url), parsed: parseStaticHtml(html) });
   }
   urlSet = new Set(inventory.keys());
-  console.log(`[setup] 页面清单：${inventory.size} 个可索引页面（本地化 ${[...urlSet].filter((url) => languageOf(url) !== 'en').length}）`);
+  redirectedPageUrls = new Set(LEGACY_PAGE_URLS.filter((url) => inventory.has(url)));
+  noindexSet = new Set([...inventory.entries()].filter(([, info]) => info.parsed.noindex).map(([url]) => url));
+  indexableSet = new Set([...inventory.keys()].filter((url) => !noindexSet.has(url) && !redirectedPageUrls.has(url)));
+  expectedSitemapSet = buildExpectedSitemapSet(inventory);
+  expectedNoindexSet = buildExpectedNoindexSet();
+  console.log(
+    `[setup] 非 404 页面 ${inventory.size}：可索引 ${indexableSet.size}（期望 ${expectedSitemapSet.size}）· noindex ${noindexSet.size}（期望 ${expectedNoindexSet.size}）· 301 旧页 ${redirectedPageUrls.size}`,
+  );
 
   // 2) 快照信息
   const gitHead = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
   const gitBranch = execFileSync('git', ['rev-parse', '--abbrev-ref', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).trim();
   const gitStatus = execFileSync('git', ['status', '--porcelain=v1'], { cwd: ROOT, encoding: 'utf8' });
-  const gitDiff = execFileSync('git', ['diff'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 100 * 1024 * 1024 });
+  const gitDiff = execFileSync('git', ['diff'], { cwd: ROOT, encoding: 'utf8', maxBuffer: 200 * 1024 * 1024 });
   const dirtyFiles = gitStatus.split('\n').filter((line) => line.trim().length > 0).length;
-  const dirtyDigest = sha(gitStatus).slice(0, 12);
-  const dirtyContentDigest = sha(gitDiff).slice(0, 12);
   const meta = {
     label: cli.label,
     generatedAt: new Date().toISOString(),
+    evidenceDir: relative(ROOT, cli.evidenceDir),
     git: {
       head: gitHead,
       branch: gitBranch,
       dirtyFiles,
-      dirtyDigest,
-      dirtyContentDigest,
+      dirtyDigest: sha(gitStatus).slice(0, 12),
+      dirtyContentDigest: sha(gitDiff).slice(0, 12),
       dirtyDiffBytes: Buffer.byteLength(gitDiff),
     },
-    pageCount: inventory.size,
-    localizedCount: [...urlSet].filter((url) => languageOf(url) !== 'en').length,
-    enCount: [...urlSet].filter((url) => languageOf(url) === 'en').length,
+    inventoryCount: inventory.size,
+    indexableCount: indexableSet.size,
+    noindexCount: noindexSet.size,
+    redirectedCount: redirectedPageUrls.size,
+    expectedSitemapCount: expectedSitemapSet.size,
+    expectedNoindexCount: expectedNoindexSet.size,
     renderedCount: RENDERED_URLS.length,
     chrome: null,
     node: process.version,
@@ -1517,32 +1877,56 @@ async function main() {
   await runCase({
     id: 'ENV-01',
     group: 'env',
-    name: '环境与快照信息',
+    name: '环境 / 快照 / 页面分类一致性',
     async fn(ctx) {
       ctx.measure('git', meta.git);
-      ctx.measure('pageCount', meta.pageCount);
-      ctx.measure('localizedCount', meta.localizedCount);
-      ctx.measure('enCount', meta.enCount);
-      ctx.measure('renderedCount', meta.renderedCount);
+      ctx.measure('counts', {
+        inventory: meta.inventoryCount,
+        indexable: meta.indexableCount,
+        noindex: meta.noindexCount,
+        redirected: meta.redirectedCount,
+        expectedSitemap: meta.expectedSitemapCount,
+        expectedNoindex: meta.expectedNoindexCount,
+      });
       ctx.measure('chrome', meta.chrome);
       ctx.measure('server', meta.server);
       ctx.measure('blockedUrls', BLOCKED_URLS);
-      ctx.check('页面清单 = 94 个可索引页面', meta.pageCount === 94, { actual: meta.pageCount });
-      ctx.check('语言目录页面 = 68 个', meta.localizedCount === 68, { actual: meta.localizedCount });
-      ctx.check('工作区快照已记录（dirty 文件数/digest）', meta.git.dirtyDigest.length === 12, { actual: meta.git });
+      ctx.check('非 404 页面 = 94（60 可索引 + 32 noindex + 2 旧页）', meta.inventoryCount === 94, { actual: meta.inventoryCount });
+      ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase C sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
+        actual: { indexable: indexableSet.size, expected: expectedSitemapSet.size },
+      });
+      const indexableDiff = [...expectedSitemapSet].filter((url) => !indexableSet.has(url)).concat([...indexableSet].filter((url) => !expectedSitemapSet.has(url)));
+      ctx.check('可索引集合与 sitemap 期望集合一致', indexableDiff.length === 0, { actual: indexableDiff });
+      ctx.check(`noindex 页面 = ${expectedNoindexSet.size}`, noindexSet.size === expectedNoindexSet.size, {
+        actual: { noindex: noindexSet.size, expected: expectedNoindexSet.size },
+      });
+      const noindexDiff = [...expectedNoindexSet].filter((url) => !noindexSet.has(url)).concat([...noindexSet].filter((url) => !expectedNoindexSet.has(url)));
+      ctx.check('noindex 集合与期望一致', noindexDiff.length === 0, { actual: noindexDiff });
+      ctx.check('301 旧页 = 2（/square-collage/、/vertical-collage/）', meta.redirectedCount === 2, { actual: meta.redirectedCount });
+      ctx.check('工作区快照已记录（内容 digest）', meta.git.dirtyContentDigest.length === 12, { actual: meta.git });
     },
   });
 
-  // 4) 渲染检查（A/B 使用）
+  // 4) 渲染检查（A/B/G6 使用）
   console.log(`[run] 渲染 ${RENDERED_URLS.length} 个页面…`);
+  for (const url of RENDERED_URLS) {
+    try {
+      await renderUrl(url);
+    } catch (error) {
+      console.error(`[warn] 渲染失败 ${url}：${error.message}`);
+    }
+  }
+
+  // 5) 检查
   await runRenderedChecks();
   await runSwitcherChecks();
   await runSitemapChecks();
   await runHeadChecks();
   await runInternalLinkChecks();
   await runRobotsChecks();
+  await runPhaseCChecks();
 
-  // 渲染证据清单（截图 + HTML 快照）补入 ENV-01 的 measurements（供报告/JSON 定位）
+  // 渲染证据清单补入 ENV-01
   const envCase = results.find((result) => result.id === 'ENV-01');
   if (envCase) {
     envCase.measurements.renderedEvidence = [...renderedData.values()].map((data) => ({
@@ -1552,17 +1936,10 @@ async function main() {
     }));
   }
 
-  // 5) 报告
+  // 6) 报告
   const summary = summarize();
   meta.durationMs = Math.round(performance.now() - startedAt);
-  // 清理单次运行内过大的重复数据（页面明细保留在 measurements 中）
-  const report = {
-    tool: 'seo-audit',
-    version: '1.0.0',
-    meta,
-    summary,
-    results,
-  };
+  const report = { tool: 'seo-audit', version: '1.1.0', meta, summary, results };
   writeFileSync(cli.jsonPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
   writeFileSync(cli.mdPath, renderMarkdown(report), 'utf8');
   if (cli.label) {
@@ -1572,7 +1949,7 @@ async function main() {
 
   console.log('');
   console.log('='.repeat(72));
-  console.log(`Phase B-2 SEO 检查完成：PASS ${summary.totals.PASS} / FAIL ${summary.totals.FAIL} / WARN ${summary.totals.WARN}（共 ${summary.totals.total}）`);
+  console.log(`SEO 检查完成：PASS ${summary.totals.PASS} / FAIL ${summary.totals.FAIL} / WARN ${summary.totals.WARN}（共 ${summary.totals.total}）`);
   for (const failure of results.filter((result) => result.status === 'FAIL')) console.log(`  ❌ ${failure.id} ${failure.name}`);
   console.log(`报告：${relative(ROOT, cli.mdPath)}`);
   console.log(`JSON：${relative(ROOT, cli.jsonPath)}`);
@@ -1595,7 +1972,6 @@ try {
   }
   if (chrome) {
     await chrome.close().catch(() => {});
-    // 兜底：即使连接异常/进程树逃逸也按 profile 路径清理（防止残留 headless Chrome）
     try {
       spawnSync('pkill', ['-9', '-f', chrome.profileDir]);
     } catch {
