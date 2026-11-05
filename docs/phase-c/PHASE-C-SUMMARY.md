@@ -1,6 +1,6 @@
 # Phase C：内容质量整改摘要
 
-> 日期：2026-11-05/06｜分支：`phase-c/content-quality`｜源提交：`8f13eaf`｜状态：**Preview 已验证，生产待批准**
+> 日期：2026-11-05/06｜分支：`phase-c/content-quality`｜源提交：`def0e29`｜Preview：`mecollage-3ba9jck2m…`｜状态：**Preview 已验证，生产待批准**
 
 ## 做了什么
 
@@ -17,8 +17,8 @@
 ## 验证
 
 - 本地 SEO harness：**28 PASS / 0 FAIL / 0 WARN**（`scripts/seo-audit/` v1.2.0）。
-- Preview（head `8f13eaf`，deployment `mecollage-470l033ft…`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**；sitemap 60；重定向单跳 308→200（规范 URL）；32 页 noindex；JSON-LD 可解析；H4 内部文件 404。
-- 独立复核：待 seo-audit 最终报告；本地预跑仅 blurredframe FAQPage 一项 FAIL，已修复后 harness 28/0/0。
+- Preview（head `def0e29`，deployment `mecollage-3ba9jck2m…`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**；sitemap 60；重定向单跳 308→200（规范 URL）；32 页 noindex；JSON-LD 可解析；privacy/terms 旧文案清除；H4 内部文件 404。
+- 独立复核（内容 `8f13eaf`）：**0 真实 FAIL**（seo-audit 独立脚本/渲染/Preview 抽查）；其后 privacy/terms 修正已由 Preview 抽查确认。
 
 ## 仍需后续处理（不在本阶段阻塞）
 

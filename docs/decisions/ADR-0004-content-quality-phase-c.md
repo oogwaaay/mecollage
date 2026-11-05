@@ -1,6 +1,7 @@
 # ADR-0004: 内容质量整改（Phase C）— 薄页止损、蚕食合并、博客扩写与结构化数据
 
 - 状态：**Proposed**（Preview 已验证；生产未部署，待维护者批准）
+- Preview 部署：`mecollage-3ba9jck2m…`（内容 head `def0e29`）
 - 日期：2026-11-05/06
 - 分支：`phase-c/content-quality`
 - 源提交：`8f13eaf`（基于 `main` `65199c7`）
@@ -75,8 +76,8 @@ Phase B 修复了多语言/SEO 结构，但审计划出的内容质量项仍未�
 ## 验证
 
 - 本地 `node scripts/seo-audit/run-seo-checks.mjs --label phase-c-final --evidence-dir audit/evidence/phase-c`：**28 PASS / 0 FAIL / 0 WARN**（v1.2.0：sitemap=60、32 noindex、4 个重定向变体、60 页 JSON-LD、博客扩写、description≤160、H1、E4/E5）。
-- Preview（`mecollage-470l033ft…`，head `8f13eaf`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**；sitemap 60；`/square-collage/`、`/vertical-collage/` 308→200 单跳；无斜杠变体因 Vercel `trailingSlash` 为 2 跳（最终 200、无循环）；32 页 noindex、JSON-LD、H4 404 均抽查通过。
-- 独立复核（seo-audit）：待最终报告；预期 0 FAIL。
+- Preview（最终 `mecollage-3ba9jck2m…`，内容 head `def0e29`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**；sitemap 60；`/square-collage/`、`/vertical-collage/` 308→200 单跳；无斜杠变体因 Vercel `trailingSlash` 为 2 跳（最终 200、无循环）；32 页 noindex、JSON-LD、H4 404、privacy/terms 旧文案清除均抽查通过。
+- 独立复核（seo-audit，内容 head `8f13eaf`）：**0 真实 FAIL**，见 `audit/evidence/phase-c/independent-audit.md`；privacy/terms 修正在其之后完成，已由 Preview 抽查确认。
 
 ## 回滚
 

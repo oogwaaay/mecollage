@@ -109,7 +109,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 - 流程：**Phase A 已按 branch → Preview（38 PASS）→ 维护者批准 → 生产部署 → 生产验收（41 PASS/0/2）完整走通**（L-12）；生产部署方式为手动 CLI/Dashboard，不是 main push 自动上线。
 - Phase F：功能真实性修复**已上线生产并验证**（浏览器回归 52/0/1；部署层 41/0/2；生产冒烟 PASS；`main` 已合并）；本次未改安全头/404/重定向/Publisher ID/广告/GA4。
 - Phase B：多语言/SEO 结构修复**已上线生产并验证**（SEO harness 20/0/0、功能 52/0/1、生产部署层 41/0/2、生产冒烟 PASS；`main` 已合并）。
-- Phase C：内容质量整改分支 `phase-c/content-quality`（sitemap 60、32 noindex、308 合并、3 博客扩写、60 JSON-LD）**Preview 已验证，待维护者生产批准**；privacy/terms 文案、本地化薄页重写等仍未做。
+- Phase C：内容质量整改分支 `phase-c/content-quality`（sitemap 60、32 noindex、308 合并、3 博客扩写、60 JSON-LD、privacy/terms 修正）**Preview 已验证，待维护者生产批准**；本地化薄页重写/28 条本地化首页卡片内链/lastmod 等非阻断项未做。
 
 ## 7. 会话结束前自检（逐条勾）
 
