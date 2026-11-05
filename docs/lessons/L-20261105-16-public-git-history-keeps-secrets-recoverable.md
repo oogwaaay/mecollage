@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-16 |
 | 日期 | 2026-11-05 |
-| 状态 | open（preset 待维护者关闭） |
+| 状态 | mitigated（本案例 preset 已由维护者删除 2026-11-05；通用规则仍有效：公开历史保留字符串，需账户侧失效化） |
 | 严重度 | P2 |
 | 证据层 | 代码层（git 历史）+ 平台层（Cloudinary 控制台，未验证） |
 | 关联文件 | `assets/js/index-CurY6_0Y.js`（已在 `b2a3924` 从 HEAD 删除）；`git log --all` 历史；`origin/gh-pages` 分支（33 个文件） |
@@ -64,6 +64,6 @@ git ls-tree -r --name-only origin/gh-pages | head -50
 
 ## 后续动作与关闭条件
 
-- [ ] 维护者关闭/删除 Cloudinary `public_works_unsigned` preset（控制台，人工，禁止上传测试）。
+- [x] 维护者删除 Cloudinary `public_works_unsigned` preset（2026-11-05；截图归档；删除后可选列表复核/curl 400 未做）。
 - [ ] 评估是否清理 `gh-pages` 分支（H10：需维护者批准；不影响当前生产）。
-- [ ] 关闭条件：preset 已关闭/确认无效 + 结论与截图时间记录 + 部署面 404 验证完成。
+- [x] 关闭条件：preset 已删除 + 截图归档 + 部署面 404 验证完成（2026-11-05）。

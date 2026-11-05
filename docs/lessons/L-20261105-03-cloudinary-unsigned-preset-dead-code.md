@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-03 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated（代码侧 `b2a3924` 已上线并验证 404；preset 关闭仍需维护者；公开历史见 L-16） |
+| 状态 | **closed**（维护者 2026-11-05 已在 Cloudinary Console 删除 `public_works_unsigned`；截图证据 `audit/evidence/phase-a/cloudinary/`；代码/线上零引用） |
 | 严重度 | P1（preset 若仍有效则 P0） |
 | 证据层 | 代码层 + 线上层 + 平台层（Cloudinary 控制台待人工确认） |
 | 关联文件 | `assets/js/index-CurY6_0Y.js:1517`（`const ve="dztbpf6ke", xe="public_works_unsigned"`）；同文件上传函数 POST `https://api.cloudinary.com/v1_1/dztbpf6ke/image/upload`（`.backup` 经解码核实为同文件尾部片段，**不含** Cloudinary 配置；删除建议不变） |
@@ -75,13 +75,14 @@ done
 ## 后续动作与关闭条件
 
 - [x] Phase A：删除 `assets/js/index-CurY6_0Y.js` 与 `.backup`（`b2a3924`），`.vercelignore` 已排除 `*.backup` 作为双保险。
-- [ ] 维护者：Cloudinary 控制台关闭/删除 `public_works_unsigned`；部署后验证两文件 404。
-- [ ] 维护者：登录 Cloudinary → Settings → Upload presets，确认/关闭 `public_works_unsigned`；把结论与截图时间记录到 `audit/evidence/phase-a/cloudinary/`（人工步骤，不在本阶段代码内）。
-- [ ] 复验：线上死文件 404；全站 grep 无 upload preset。
-- [ ] 关闭条件：代码面删除 + 线上 404 + 维护者确认 preset 已关闭（或确认无效并记录）。
+- [x] 维护者：Cloudinary 控制台删除 `public_works_unsigned`（2026-11-05 23:00，删除确认截图已归档）；线上旧文件 404。
+- [x] 维护者：登录 Cloudinary → Settings → Upload presets → 删除 `public_works_unsigned`；截图与结论记录到 `audit/evidence/phase-a/cloudinary/`（人工步骤）。
+- [x] 复验：线上死文件 404；当前 tracked 代码 grep 无 upload preset（仅历史文档引用）。
+- [x] 关闭条件：代码面删除 + 线上 404 + 维护者确认 preset 已删除（截图归档）。
 
 ## 变更记录
 
 - 2026-11-05 open：审计发现；Phase A 代码删除与 `.vercelignore` 已在分支计划中，Cloudinary 账户操作待维护者。
+- 2026-11-05 closed：维护者在 Cloudinary Console 删除 `public_works_unsigned`（删除确认截图，sha256 `e28b10bb…`）；匿名上传面消除。可选加验（删除后列表/curl 400）未做，不阻塞。
 - 2026-11-05 进展（部分关闭）：分支 `phase-a/security-hardening` 提交 `b2a3924` 删除 `index-CurY6_0Y.js` 与 `.backup`；`.vercelignore` 排除 `*.backup`；另删除 0 引用的 `upload-icon.png/.webp`。仍待：维护者关闭 preset、Preview/生产 404 验证。
 - 2026-11-05 更正：经 UTF-16LE 解码核实，`.backup` **不含** Cloudinary 配置（只是死 bundle 尾部片段）；删除它是因为死文件暴露面，不是因为凭据。

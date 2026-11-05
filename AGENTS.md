@@ -100,7 +100,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 > 这些不是"待办清单"，而是**下一次会话最可能再犯的坑**。处理前先读对应教训；不要在未读的情况下重复"修复"。
 
 - P0：i18n 渲染成英文（L-01）、本地化页孤岛（L-09）、AdSense 合规前置与 ID 归属（L-10）、404 广告/跳转（L-04；**已上线生产并验证 PASS：404 状态/无广告/无跳转/noindex**）。
-- P1：Cloudinary unsigned preset（L-03；**代码已删、Preview/生产均 404；preset 关闭仍需维护者；公开 git 历史仍含代码，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**已上线生产，6 项头全部下发并验收 PASS**）、超大图片（L-08）、AGPL/许可（L-15）。
+- P1：Cloudinary unsigned preset（L-03；**已闭环：代码/生产均无引用，维护者 2026-11-05 已在 Console 删除 `public_works_unsigned`（截图归档 `audit/evidence/phase-a/cloudinary/`）；公开 git 历史仍含字符串但匿名上传面已消除，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**已上线生产，6 项头全部下发并验收 PASS**）、超大图片（L-08）、AGPL/许可（L-15）。
 - P2/回归：`?lang=` 循环（L-05，**已上线生产并验证：5 条均单跳、最终 URL 无 `?lang=`、无循环**）、默认 vercel.app 域可索引（L-13；**已上线生产，实测 `x-robots-tag: noindex, nofollow`**）、内部文件公开（L-14；**已上线生产并验证 10/10 遗留文件 404、9/9 关键资产 200**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16，preset 仍待关闭）、死资源判定口径（L-17）。
 - 流程：**Phase A 已按 branch → Preview（38 PASS）→ 维护者批准 → 生产部署 → 生产验收（41 PASS/0/2）完整走通**（L-12）；生产部署方式为手动 CLI/Dashboard，不是 main push 自动上线。
 - Phase F：功能真实性修复**已上线生产并验证**（浏览器回归 52/0/1；部署层 41/0/2；生产冒烟 PASS；`main` 已合并）；本次未改安全头/404/重定向/Publisher ID/广告/GA4。

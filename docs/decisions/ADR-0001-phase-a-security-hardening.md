@@ -162,7 +162,7 @@ location: https://vercel.com/sso-api?url=...   # Protected by Vercel Authenticat
 2. 维护者用已登录的 Vercel 凭据/`vercel curl` 代跑验收，把输出交回；
 3. 临时放宽 Preview 保护（不推荐，用完恢复）。
 
-**2026-11-05 更新**：Preview HTTP 验收已完成（38 PASS/0 FAIL/5 WARN）。生产批准前仍需：浏览器功能 QA、Cloudinary preset 关闭、默认域 301（Dashboard）、维护者明确批准。
+**2026-11-05 更新**：Preview HTTP 验收已完成（38 PASS/0 FAIL/5 WARN）；生产已上线并验收 41 PASS/0/2。Cloudinary preset 已由维护者删除；剩余：浏览器功能 QA、默认域 Dashboard 301（可选）。
 
 ## 3. 后果
 
@@ -179,7 +179,7 @@ location: https://vercel.com/sso-api?url=...   # Protected by Vercel Authenticat
 
 - 引入一条很长的 CSP-Report-Only 字符串，后续维护需要逐域更新；Report-Only 期间没有实际阻断收益。
 - `.vercelignore` 增加部署面维护点：新增顶层目录必须同步更新并验证。
-- 删除 `assets/js/index-CurY6_0Y.js`、`.backup`、`test-section.html`、根 `zh-tw.json` 后，git 历史仍保留（公开仓库），Cloudinary preset 风险不因删除代码而消除。
+- 删除 `assets/js/index-CurY6_0Y.js`、`.backup`、`test-section.html`、根 `zh-tw.json` 后，git 历史仍保留（公开仓库），Cloudinary preset 风险不因删除代码而消除。**2026-11-05 更新：维护者已删除该 preset，风险消除；历史字符串保留但不再构成匿名上传面（L-03/L-16）。**
 - `/404/` 仍返回 200（软 404 残余），只能 noindex 缓解。
 - `robots.txt` 的 `?lang=` Disallow 与重定向策略仍不一致（本阶段不改）。
 
@@ -192,7 +192,7 @@ location: https://vercel.com/sso-api?url=...   # Protected by Vercel Authenticat
 | `.vercelignore` 误排关键资源 | 低 | 站点功能/多语言损坏 | 验收：内部文件 404 + 关键资产 200 双矩阵 |
 | `/404/` 200 被误当普通页 | 中 | 软 404 | noindex + 不进 sitemap + 验收脚本断言 |
 | Preview 受保护导致无法验收 | **高（已发生）** | 无法完成门禁 | 维护者提供 bypass/代跑；未完成不得上线 |
-| Cloudinary preset 仍有效 | 中 | 第三方账号滥用 | 维护者控制台关闭；本轮代码删除不替代该动作 |
+| ~~Cloudinary preset 仍有效~~ | ~~中~~ | 第三方账号滥用 | **已关闭（2026-11-05）**：维护者删除 `public_works_unsigned`，截图 `audit/evidence/phase-a/cloudinary/`；代码/线上零引用；公开历史仍含字符串但已无匿名上传面 |
 | CSP Report-Only 观察不足就上 enforce | 中 | 工具/广告/AI 功能被阻断 | 收紧前 1–2 周观察 + 全功能 QA + ADR 更新 |
 
 ## 4. 备选方案（未采纳摘要）
@@ -253,7 +253,7 @@ curl -sI https://mecollage.vercel.app/ | grep -iE '^(HTTP/|x-robots-tag|location
 
 - [ ] **Preview 验收阻塞**：Vercel Authentication 保护导致未认证 302。需维护者提供 bypass/代跑，或授权临时放宽；完成后补 `audit/evidence/phase-a/verification/`。
 - [ ] **生产部署方式确认**：GitHub Deployments 目前只见 `environment=Preview` 记录（sha `b2a3924`/`afd3be4`）；生产触发/提升路径需维护者 Dashboard 确认并写入 runbook（当前标"不确定"）。
-- [ ] **Cloudinary preset**：维护者控制台确认/关闭 `public_works_unsigned`；结论入库（本轮不做账户操作）。
+- [x] **Cloudinary preset**：维护者在控制台删除 `public_works_unsigned`（2026-11-05；删除确认截图归档）；结论入库。
 - [ ] **默认域 Dashboard 301**：维护者执行并截图；仓库层 noindex 生产复验。
 - [ ] **CSP 观察**：报告期收集违规，1–2 周后评估收紧；任何 enforce 需新 ADR 更新本文件 D2。
 - [ ] **robots.txt 与 `?lang=`**：Phase B 决策（删除 Disallow 或移除重定向），见 L-05。

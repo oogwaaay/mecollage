@@ -28,7 +28,7 @@
 |---|---|---|---|---|---|
 | [L-20261105-01](L-20261105-01-i18n-runtime-default-language.md) | i18n 运行时默认语言写死 `en`，本地化页渲染成英文 | open | P0 | `assets/js/i18n.js:4,52,91,112-118` | 2026-11-05 |
 | [L-20261105-02](L-20261105-02-handwritten-static-pages.md) | 96 个静态页手写复制、无构建，已产生漂移 | open | P1 | 96 个 `*.html`、`assets/js/index-CurY6_0Y.js` | 2026-11-05 |
-| [L-20261105-03](L-20261105-03-cloudinary-unsigned-preset-dead-code.md) | 死代码 bundle 含 Cloudinary unsigned preset 且线上可下载 | mitigated（代码删除；preset 待维护者） | P1 | `assets/js/index-CurY6_0Y.js:1517`、`.backup` | 2026-11-05 |
+| [L-20261105-03](L-20261105-03-cloudinary-unsigned-preset-dead-code.md) | 死代码 bundle 含 Cloudinary unsigned preset 且线上可下载 | **closed**（preset 已删除，截图归档） | P1 | `assets/js/index-CurY6_0Y.js:1517`、`.backup` | 2026-11-05 |
 | [L-20261105-04](L-20261105-04-404-ad-and-auto-redirect.md) | 404 页挂 AdSense + JS 自动跳转，`/404/` 200 软 404 | closed（Preview+生产验证） | P1 | `404.html`、`vercel.json` | 2026-11-05 |
 | [L-20261105-05](L-20261105-05-lang-redirect-query-loop.md) | `?lang=` 重定向保留 query 造成自循环，且同类配置曾清理后回归 | closed（Preview+生产验证） | P2 | `vercel.json`、`robots.txt:4` | 2026-11-05 |
 | [L-20261105-06](L-20261105-06-htaccess-ineffective-on-vercel.md) | `.htaccess` 安全头/缓存在 Vercel 不生效 | closed（`vercel.json` 已上线并验证） | P1 | `.htaccess`、`vercel.json` | 2026-11-05 |

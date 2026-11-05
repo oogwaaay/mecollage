@@ -16,7 +16,7 @@
 | 死代码清理 | 删除 0 引用的旧 Vite bundle 与 `.backup`、内部测试页 `test-section.html`、重复 `zh-tw.json`；删除 0 引用的 `upload-icon.png/.webp` | `b2a3924`、`b2ad3dc` |
 | 治理体系 | `AGENTS.md`、`GOVERNANCE.md`、17 条教训（`docs/lessons/`）、ADR-0001、Preview runbook、零依赖验收脚本 `scripts/verify-site.mjs` | `b2ad3dc` |
 
-**未做**（不在 Phase A 范围）：多语言重构、GA4、AdSense 变更/Publisher ID、SEO 内容优化、Cloudinary 账户操作、生产部署。
+**未做**（不在 Phase A 代码范围）：多语言重构、GA4、AdSense 变更/Publisher ID、SEO 内容优化、生产部署。Cloudinary preset 的账户级删除已于 2026-11-05 由维护者完成（代码/线上无引用，截图归档）。
 
 ## 验证结果（分三层）
 
@@ -37,7 +37,7 @@
 ## 上线后剩余事项
 
 1. 浏览器人工 QA：拼图编辑器、4 工具页、AI 去背景、导出、5 语言、移动端（HTTP 矩阵已 PASS，但交互/渲染需真人确认）；
-2. 维护者在 Cloudinary 控制台关闭/删除旧的第三方上传 preset（代码已删除并在生产验证 404，但公开 git 历史仍可取得，见 L-16）；
+2. ✅ 维护者已在 Cloudinary 控制台**删除** `public_works_unsigned`（2026-11-05；删除确认截图归档；代码/线上无引用，公开历史仍含字符串但匿名上传面已消除，见 L-03/L-16）；
 3. 可选加固：Vercel Dashboard 默认域 301 → 主域（生产已实测 host 级 `x-robots-tag: noindex, nofollow`，301 非必需）；
 4. 清理验收临时凭据：`vercel curl` 可能自动生成项目级 bypass secret（Dashboard 复核/撤销）；按需 `npx vercel logout`。
 
