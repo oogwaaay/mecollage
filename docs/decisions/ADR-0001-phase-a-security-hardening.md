@@ -2,13 +2,15 @@
 
 | 字段 | 值 |
 |---|---|
-| 状态 | **Proposed**（分支已实现；**Preview HTTP 验收 PASS：38 PASS / 0 FAIL / 5 WARN**，2026-11-05；生产未部署，待浏览器功能 QA + 维护者明确批准后转 Accepted） |
+| 状态 | **Accepted**（2026-11-05 维护者批准上线；Preview 38 PASS/0/5；**生产部署并验收 PASS：41 PASS / 0 FAIL / 2 WARN**） |
 | 日期 | 2026-11-05（Asia/Shanghai） |
 | 决策者 | 维护者（生产批准 / 账户级操作）；Lead（实施）；审计者（发现与复验） |
 | 分支 | `phase-a/security-hardening` |
 | 已实施提交 | `460c39a`（.vercelignore/.gitignore）、`9b950c5`（404）、`1f9ad4c`（响应头 + `?lang=` 重定向）、`7391c5b`（`?lang=` 改为空参数清除 query，循环安全）、`b2a3924`（删除死 bundle/备份/test-section/重复 zh-tw.json）；后续 cleanup/docs 提交见 `git log main..HEAD` |
 | Preview | 已生成（Vercel Git 集成）；查询：`gh api repos/oogwaaay/mecollage/deployments?sha=$(git rev-parse HEAD)`。最终代码 head `987680b` → deployment `7570549183`（state success）。未认证访问 302 到 Vercel SSO，见 §6 |
 | Preview 验收 | **38 PASS / 0 FAIL / 5 WARN（exit 0）**，2026-11-05；方式：`vercel login` + `vercel curl` 自动 bypass → `_vercel_jwt` cookie（7d）→ `verify-site.mjs --header "Cookie: …"`（值脱敏）。证据 `audit/evidence/phase-a/verification/preview.{json,md}` |
+| 生产部署 | 2026-11-05，维护者批准后 `npx vercel deploy --prod --yes`（生产 deployment `mecollage-cf88q7qp6-…`，Aliased `www.mecollage.top`）；main push 只产生 Preview，不自动上线 |
+| 生产验收 | **41 PASS / 0 FAIL / 2 WARN（exit 0）**；WARN = `/404`、`/404/` 软 404 状态记录；证据 `audit/evidence/phase-a/verification/post-release-prod.{json,md}` |
 | 关联审计 | `audit/AUDIT-REPORT.md` §1.5、§2.5、§7.1、§8.1；`audit/sections/tech-architecture.md` §4；`audit/sections/adsense.md` A-07 |
 | 关联教训 | [L-20261105-03](../lessons/L-20261105-03-cloudinary-unsigned-preset-dead-code.md)、[L-04](../lessons/L-20261105-04-404-ad-and-auto-redirect.md)、[L-05](../lessons/L-20261105-05-lang-redirect-query-loop.md)、[L-06](../lessons/L-20261105-06-htaccess-ineffective-on-vercel.md)、[L-12](../lessons/L-20261105-12-preview-before-production.md)、[L-13](../lessons/L-20261105-13-default-vercel-domain-indexable.md)、[L-14](../lessons/L-20261105-14-gitignore-is-not-deploy-ignore.md) |
 | 写范围 | `404.html`、`vercel.json`、`.vercelignore`、`.gitignore`、已确认无引用的死文件；**不含**代码逻辑、i18n 系统、多语言页面内容、AdSense/Publisher ID、GA4、Cloudinary 账户 |

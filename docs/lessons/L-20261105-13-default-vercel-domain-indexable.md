@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-13 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated（分支 `1f9ad4c` 加 host noindex；Preview 无法验证 host 条件；Dashboard 301 待维护者；生产复验） |
+| 状态 | **closed**（生产实测 `x-robots-tag: noindex, nofollow` 生效；Dashboard 301 为可选加固） |
 | 严重度 | P2 |
 | 证据层 | 线上层 + 平台层 |
 | 关联文件 | 无仓库配置（默认域名由 Vercel 项目层控制）；GitHub 仓库 `homepage` 字段指向 `https://mecollage.vercel.app` |

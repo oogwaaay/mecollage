@@ -25,7 +25,7 @@
 
 | # | 规则 | 如何检查 / 执行 |
 |---|---|---|
-| H1 | **生产部署必须维护者明确批准**（书面或明确消息；沉默/默认/历史批准都不算）。AI 不得执行 `vercel --prod`、Dashboard promote/rollback、或 merge 到 `main` 触发生产。 | 交付说明里写"等待维护者批准"；批准记录（消息/issue）附到证据目录。 |
+| H1 | **生产部署必须维护者明确批准**（书面或明确消息；沉默/默认/历史批准都不算）。默认由维护者执行；若维护者**明确要求/授权 AI 执行**生产部署，AI 必须记录批准原话、源 commit、回滚方式，且只执行一次。AI 不得自行执行 `vercel --prod`、Dashboard promote/rollback，或自行 merge 到 `main` 触发生产。 | 批准记录（消息/issue）与部署证据附到证据目录；见 ADR-0001 与 `audit/evidence/phase-a/approval.md`。 |
 | H2 | **所有改动先分支 + Preview**；禁止直接改 `main`/直接推 `main`。分支命名：`phase-a/...`、`fix/<topic>`、`docs/<topic>`、`chore/<topic>`。 | `git branch --show-current` 不得为 `main`；Preview 记录见 §4。 |
 | H3 | **不得把 API key / 凭据 / 第三方上传 preset 写进前端或仓库**（含注释、备份、sourcemap、测试文件）。发现疑似凭据：只做静态取证，**不做上传/登录/验证性请求**，立即报告维护者。 | `git grep -nE 'api[_-]?key|secret|token|upload_preset|Bearer|PRIVATE KEY'`；`client_secret.json` 不得入库。 |
 | H4 | **不得把内部文档/备份/工具脚本暴露到部署**；新增内部目录必须在同一变更更新 `.vercelignore` 并验证线上 404。 | 见 [L-20261105-14](docs/lessons/L-20261105-14-gitignore-is-not-deploy-ignore.md) 的 404 矩阵命令。 |
@@ -49,8 +49,8 @@
 | 部署链路 | 用户 → **Cloudflare**（DNS/CDN 代理）→ **Vercel** 静态托管 → 仓库 `main` HEAD；生产域 `https://www.mecollage.top/`；默认域 `mecollage.vercel.app`（需 noindex/301） | `audit/sections/tech-architecture.md` §2/§3；`.vercel/project.json` |
 | 路由配置 | `vercel.json`：`cleanUrls`、`trailingSlash`、`/tools/* → /public/tools/*` rewrite、`/public/tools/* → /tools/*` 308、`?lang=` 重定向（有循环，见 L-05） | `vercel.json` |
 | 仓库 | `oogwaaay/mecollage`（public）；Phase A 分支 `phase-a/security-hardening`：`460c39a` .vercelignore → `9b950c5` 404 → `1f9ad4c` 响应头+`?lang=` → `7391c5b` `?lang=` 空参数 → `b2a3924` 删除死文件 → 后续 cleanup/docs 提交；HEAD 以 `git log main..HEAD` 为准；**未部署生产** | `git log main..HEAD`；GitHub API |
-| 部署方式 | Vercel Git 集成已确认存在：GitHub Deployments 有 `vercel[bot]`、`environment=Preview` 记录（2026-11-05 用 `gh api` 核实）；**生产触发/提升方式待维护者 Dashboard 确认（不确定）** | `gh api repos/oogwaaay/mecollage/deployments` |
-| Preview 访问 | Vercel Git 集成已确认。Phase A 最终代码 head `987680b` → deployment `7570549183`（state success）。Preview 默认受 **Vercel Authentication** 保护（未认证 302 → `vercel.com/sso-api`）；**2026-11-05 已用 `npx vercel login` + `npx vercel curl` 自动 bypass → `_vercel_jwt` cookie 完成完整验收：38 PASS / 0 FAIL / 5 WARN（exit 0）**。证据：`audit/evidence/phase-a/verification/preview.{json,md}`（本机）。后续部署用 `gh api repos/oogwaaay/mecollage/deployments?sha=$(git rev-parse HEAD)` 查 URL | 2026-11-05 实测；见 runbook §3 方式 D |
+| 部署方式 | **2026-11-05 实测：Vercel Git 集成只产生 Preview**（push main 后 GitHub Deployment 仍为 environment=Preview，生产未自动更新）；**生产部署为手动**：维护者登录后 `npx vercel deploy --prod --yes`（或 Dashboard Promote/Deploy）。Phase A 已按此上线并验收 PASS 41/0/2 | `npx vercel whoami`；`gh api repos/oogwaaay/mecollage/deployments`；`audit/evidence/phase-a/production-deploy.txt` |
+| Preview / 生产 | Phase A **已上线生产**（2026-11-05，维护者批准）。Preview 验收 38 PASS/0/5；生产验收 **41 PASS / 0 FAIL / 2 WARN（exit 0）**。Preview 默认受 Vercel Authentication 保护，已用 `npx vercel login` + `npx vercel curl` 自动 bypass 完成验收（runbook §3 方式 D）。证据：`audit/evidence/phase-a/verification/preview*.{json,md}`、`post-release-prod.{json,md}`、`audit/evidence/phase-a/production-deploy.txt` | 2026-11-05 实测 |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -96,15 +96,15 @@ check → branch → change → verify → preview → evidence → maintainer a
 
 > 这些不是"待办清单"，而是**下一次会话最可能再犯的坑**。处理前先读对应教训；不要在未读的情况下重复"修复"。
 
-- P0：i18n 渲染成英文（L-01）、本地化页孤岛（L-09）、AdSense 合规前置与 ID 归属（L-10）、404 广告/跳转（L-04；**`9b950c5`，Preview 验证 PASS：404 状态/无广告/无跳转/noindex，待生产批准**）。
-- P1：Cloudinary unsigned preset（L-03；**branch 已删文件 `b2a3924` + `upload-icon.*`（Preview 验证 404）；preset 关闭仍需维护者；公开 git 历史仍含代码，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**`1f9ad4c`，Preview 验证 6 项头全部下发，待生产复验**）、超大图片（L-08）、AGPL/许可（L-15）。
-- P2/回归：`?lang=` 循环（L-05，**`7391c5b`，Preview 验证 PASS：5 条均单跳、最终 URL 无 `?lang=`、无循环，待生产复验**）、默认 vercel.app 域可索引（L-13；**`1f9ad4c` 已加 host noindex，待生产验证**）、内部文件公开（L-14；**`460c39a`+`b2a3924`，Preview 验证 10/10 遗留文件 404，待生产复验**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16）、死资源判定口径（L-17）。
-- 流程：**Preview 先行已首次完整走通**（L-12）：branch → Preview（受保护）→ `vercel login` + `vercel curl` 自动 bypass → 38 PASS 证据 → **等待维护者生产批准**。
+- P0：i18n 渲染成英文（L-01）、本地化页孤岛（L-09）、AdSense 合规前置与 ID 归属（L-10）、404 广告/跳转（L-04；**已上线生产并验证 PASS：404 状态/无广告/无跳转/noindex**）。
+- P1：Cloudinary unsigned preset（L-03；**代码已删、Preview/生产均 404；preset 关闭仍需维护者；公开 git 历史仍含代码，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**已上线生产，6 项头全部下发并验收 PASS**）、超大图片（L-08）、AGPL/许可（L-15）。
+- P2/回归：`?lang=` 循环（L-05，**已上线生产并验证：5 条均单跳、最终 URL 无 `?lang=`、无循环**）、默认 vercel.app 域可索引（L-13；**已上线生产，实测 `x-robots-tag: noindex, nofollow`**）、内部文件公开（L-14；**已上线生产并验证 10/10 遗留文件 404、9/9 关键资产 200**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16，preset 仍待关闭）、死资源判定口径（L-17）。
+- 流程：**Phase A 已按 branch → Preview（38 PASS）→ 维护者批准 → 生产部署 → 生产验收（41 PASS/0/2）完整走通**（L-12）；生产部署方式为手动 CLI/Dashboard，不是 main push 自动上线。
 
 ## 7. 会话结束前自检（逐条勾）
 
 - [ ] 写范围之外的文件**没有**被修改（`git status --short` 对照任务范围）。
-- [ ] 没有执行生产部署、没有动 `main`、没有 git 历史操作。
+- [ ] 若执行了生产部署：已有维护者明确授权记录 + 源 commit + 回滚方式，且已跑生产验收并归档；未授权时不得执行。没有动 git 历史。
 - [ ] 没有引入密钥/凭据/上传 preset；没有新增未登记的第三方依赖。
 - [ ] 关键结论都有证据；不确定项已标注；没有把推断写成事实。
 - [ ] 相关 `L-*` 已检查；新教训已回灌或已报告"待分配编号"。

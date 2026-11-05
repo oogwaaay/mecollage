@@ -22,7 +22,7 @@
 | Vercel 的 deployment 记录中 **`ref` 是完整 commit sha，不是分支名** | `deployments?ref=main` 只返回旧的 `github-pages` 部署；用 `?sha=$(git rev-parse HEAD)` 才能查到本次部署 |
 | Preview URL 受 **Vercel Authentication** 保护 | 未认证 `curl -sI <preview-url>` → `HTTP/2 302`、`location: https://vercel.com/sso-api?...`（"Protected by Vercel Authentication"） |
 | 验收脚本会识别认证阻断 | `scripts/verify-site.mjs` 遇到 302→SSO / 401 时判为 **BLOCKED**，退出码 **2**，不伪造 PASS/FAIL |
-| 生产发布触发方式 | GitHub Deployments 目前只见 `environment=Preview` 记录；生产是 main 自动部署还是 Dashboard promote **待维护者确认**（在 §6.1 回填） |
+| 生产发布触发方式 | **2026-11-05 实测：main push 只产生 Preview（GitHub Deployment environment=Preview），生产不会自动更新；生产为手动**：维护者登录后 `npx vercel deploy --prod --yes`（或 Dashboard Promote/Deploy）。Phase A 已按此上线并验收 PASS 41/0/2（见 L-20261105-18） |
 | 本机无 Vercel CLI | `vercel` command not found；本机也没有 `VERCEL_AUTOMATION_BYPASS_SECRET` |
 
 > 结论：**拿不到 Preview 访问权就无法完成验收；未完成验收不得请求生产批准。**
@@ -199,6 +199,8 @@ node scripts/verify-site.mjs --base "$PREVIEW_URL" --label preview \
 
 2026-11-05 对**当前生产**跑脚本的基线：`PASS=22 / FAIL=21 / WARN=0`，退出码 1。这些 FAIL 正是 Phase A 要修的项（安全头缺失、`?lang=` 循环/query 残留、404 广告/跳转、遗留文件 200、默认域无 noindex），**不是回归**。Phase A 部署后生产验收应全部消除（`/404` 与 `/404/` 的 200 状态记为 WARN，可接受）。
 
+**2026-11-05 Phase A 上线后实测**：`PASS=41 / FAIL=0 / WARN=2`，退出码 0；6 项安全头下发、5 条 `?lang=` 单跳无循环、404/遗留文件/默认域 noindex 全部符合预期。证据 `audit/evidence/phase-a/verification/post-release-prod.{json,md}`。
+
 ### 4.5 手工抽查（脚本之外，最少 3 个）
 
 ```bash
@@ -221,12 +223,12 @@ curl -sI "$BASE/404/" | grep -i x-robots-tag
 - [ ] ADR/教训状态已更新；本次变更没有重复已知教训。
 - [ ] 回滚方式已写明：revert 哪个 commit；Preview 上一版本 reference。
 - [ ] **维护者明确批准**（消息/issue 链接 + 时间）；生产执行人已确定。
-- [ ] 生产发布方式确认（见 §6.1；若仍不确定，先问维护者，不要猜）。
+- [ ] 生产发布方式确认（见 §1 与 §5.2；本项目为手动 CLI/Dashboard，不要假设 main push 自动上线）。
 
 ### 5.2 上线中（维护者执行）
 
-- 方式一（若为 Git 集成）：维护者把分支 merge 到 `main`（或按维护者批准的 PR 流程）→ Vercel 自动生产部署。
-- 方式二：维护者用 Vercel Dashboard 把已验证的 Preview **Promote to Production**。
+- **方式一（本项目不可用）**：merge 到 `main` 只产生 Preview，不会自动生产部署（2026-11-05 实测，见 L-20261105-18）。
+- **方式二（本项目已验证）**：维护者登录 Vercel CLI 后 `npx vercel deploy --prod --yes`（Aliased 到 `www.mecollage.top`）；或 Vercel Dashboard 把已验证的 Preview **Promote to Production**。
 - 记录：操作人、时间、目标 sha、部署 ID、任何 Dashboard 操作（域名 301、保护设置等）。
 
 ### 5.3 上线后（1 小时内）
@@ -241,7 +243,7 @@ node scripts/verify-site.mjs --base https://www.mecollage.top/ --label productio
 echo "exit=$?"
 ```
 
-- [ ] 退出码 `0`（`/404`、`/404/` 软 404 WARN 可接受并记录）。
+- [ ] 退出码 `0`（`/404`、`/404/` 软 404 WARN 可接受并记录）。Phase A 实测：41 PASS / 0 FAIL / 2 WARN。
 - [ ] 默认域检查（生产模式才判定）：`curl -sI https://mecollage.vercel.app/ | grep -i x-robots-tag` → 含 `noindex`（或 301 到主域）。
 - [ ] 关键页/工具页/语言页 200；`?lang=` 单跳且最终 URL 干净。
 - [ ] 内部文件 404 矩阵通过；`/ads.txt`、`/sitemap.xml`、`/robots.txt`、`/i18n/zh.json` 200。

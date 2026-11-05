@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-03 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated（代码侧 `b2a3924` 已删除死文件；preset 关闭仍需维护者；部署验收待 Preview bypass） |
+| 状态 | mitigated（代码侧 `b2a3924` 已上线并验证 404；preset 关闭仍需维护者；公开历史见 L-16） |
 | 严重度 | P1（preset 若仍有效则 P0） |
 | 证据层 | 代码层 + 线上层 + 平台层（Cloudinary 控制台待人工确认） |
 | 关联文件 | `assets/js/index-CurY6_0Y.js:1517`（`const ve="dztbpf6ke", xe="public_works_unsigned"`）；同文件上传函数 POST `https://api.cloudinary.com/v1_1/dztbpf6ke/image/upload`（`.backup` 经解码核实为同文件尾部片段，**不含** Cloudinary 配置；删除建议不变） |

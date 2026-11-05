@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-14 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated + **Preview 验证 PASS**（`460c39a`+`b2a3924`；10/10 遗留文件 404、9/9 关键资产 200，证明 `.vercelignore` 对 Git 集成部署生效；待生产复验） |
+| 状态 | **closed**（Preview + 生产均验证：10/10 遗留文件 404、9/9 关键资产 200；2026-11-05） |
 | 严重度 | P2 |
 | 证据层 | 代码层 + 线上层 |
 | 关联文件 | `.gitignore`（只影响 git，不影响 Vercel 部署）；线上 200 的 `design-system.md`、`需求理解确认.txt`、`.htaccess`、`.nojekyll`、`check_keys.js`、`sync_keys.js`、`zh-tw.json`、`assets/js/index-CurY6_0Y.js.backup`、`test-section.html`；本治理体系新增的 `AGENTS.md`、`GOVERNANCE.md`、`docs/`、`scripts/` |

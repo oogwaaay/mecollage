@@ -24,26 +24,28 @@
    - `vercel.json` 合法；18/18 配置断言 PASS（安全头、5 条 lang 规则、`/404` noindex、host noindex、CSP 语法）；
    - 404 页：`data-404-page` 标记、`noindex`、0 广告引用、0 自动跳转；缺失 URL 返回 404；`/404/` 200 + noindex（Vercel 静态站约定）；
    - 删除文件全站引用 0；关键资源（ads.txt/sitemap/robots/i18n/JS/CSS/图片）未改。
-2. **生产未受影响（已完成）**
-   - 分支提交后生产复跑验收：22 PASS / 21 FAIL / 0 WARN，与分支前基线 **43/43 项无差异**（生产仍是旧行为，符合"未上线"）。
+2. **生产上线（已完成，2026-11-05，维护者批准）**
+   - 生产部署：`npx vercel deploy --prod --yes`（main push 只产生 Preview，**不自动上线**；实测记录见 L-18）；部署 URL `https://mecollage-3fnk9uo4k-keeey-is-projects.vercel.app` / 最新 `mecollage-cf88q7qp6-…`，Aliased `https://www.mecollage.top/`；
+   - 生产验收：**41 PASS / 0 FAIL / 2 WARN（exit 0）**；6 项安全头、5 条 `?lang=` 单跳无循环、404 页、10/10 遗留文件 404、9/9 关键资产 200、默认域 `x-robots-tag: noindex, nofollow` 全部通过；WARN 为 `/404`、`/404/` 软 404 状态记录；
+   - 证据：`audit/evidence/phase-a/verification/post-release-prod.{json,md}`、`audit/evidence/phase-a/production-deploy.txt`。
 3. **Preview 运行时（已完成，PASS）**
    - Vercel Git Integration 已生成 Preview 并构建成功（最终代码 head `987680b`：deployment `7570549183`，`https://mecollage-df9hlp6l3-keeey-is-projects.vercel.app`）；
    - Preview 默认受 **Vercel Authentication** 保护；本次用 `npx vercel login` + `npx vercel curl` 自动带 bypass token，再以 `x-vercel-set-bypass-cookie: true` 换取 7 天有效的 `_vercel_jwt` cookie 传给验收脚本（**无需人工查看/传递 secret**；cookie 值不写入报告）；
    - 结果：**38 PASS / 0 FAIL / 5 WARN（exit 0）**——6 项安全头、5 条 `?lang=` 单跳且最终 URL 无 `?lang=`、404 页（404 状态/无广告/无跳转/noindex）、10/10 遗留文件 404、9/9 关键资产 200 全部通过；WARN 为 `/404` 软 404 状态记录 ×2 + 跨主机 N/A ×3。
    - 证据：`audit/evidence/phase-a/verification/preview.{json,md}`（本机，未入库）。
 
-## 上线前必须完成
+## 上线后剩余事项
 
 1. 浏览器人工 QA：拼图编辑器、4 工具页、AI 去背景、导出、5 语言、移动端（HTTP 矩阵已 PASS，但交互/渲染需真人确认）；
-2. 维护者在 Cloudinary 控制台关闭/删除旧的第三方上传 preset（代码已删除，但公开 git 历史仍可取得，见 L-16）；
-3. 维护者在 Vercel Dashboard 配置默认域 301 → 主域（或确认 host noindex 生效；Preview 无法验证 host 条件）；
-4. 维护者书面批准生产上线（AGENTS H1）；上线后立即用同一脚本跑生产验收（预期 41 PASS / 2 WARN / 0 FAIL）并归档。
+2. 维护者在 Cloudinary 控制台关闭/删除旧的第三方上传 preset（代码已删除并在生产验证 404，但公开 git 历史仍可取得，见 L-16）；
+3. 可选加固：Vercel Dashboard 默认域 301 → 主域（生产已实测 host 级 `x-robots-tag: noindex, nofollow`，301 非必需）；
+4. 清理验收临时凭据：`vercel curl` 可能自动生成项目级 bypass secret（Dashboard 复核/撤销）；按需 `npx vercel logout`。
 
 ## 关键风险与限制
 
-- **Preview 保护已解决**：用 `vercel login` + `vercel curl` 自动 bypass（无需人工 secret）；验收已 PASS。注意 `vercel curl` 可能自动生成一个项目级 bypass secret，验收后可在 Dashboard 复核/撤销；本机登录态可按需 `vercel logout`。
-- 空参数 `?lang=` 的清除行为需在可访问环境实测；若不生效，回退方案为删除 `en` 规则并记录（不会循环）。
-- host 条件 `X-Robots-Tag` 只能在生产复验；Dashboard 301 是更稳的兜底。
+- **Preview 保护已解决 + 生产已上线**：用 `vercel login` + `vercel curl` 自动 bypass；Preview 38 PASS、生产 41 PASS。`vercel curl` 可能自动生成项目级 bypass secret，建议在 Dashboard 复核/撤销；本机登录态可按需 `vercel logout`。
+- 空参数 `?lang=` 已在 Preview + 生产实测：Vercel 移除空参数，最终 URL 干净、单跳、无循环。
+- host 条件 `X-Robots-Tag` 已在生产实测生效（`mecollage.vercel.app` 返回 `noindex, nofollow`）；Dashboard 301 为可选加固。
 - `/404/` 仍返回 200（Vercel 静态站约定），已用 meta + header noindex 缓解；严格 404 需后续评估路由中间件。
 - `robots.txt` 的 `?lang=` Disallow 与重定向策略仍不一致，Phase B 一起决策。
 

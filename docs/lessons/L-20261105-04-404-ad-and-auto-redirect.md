@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-04 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated + **Preview 验证 PASS**（`9b950c5`；2026-11-05；待生产复验） |
+| 状态 | **closed**（`9b950c5`；Preview 38 PASS + 生产验收 41 PASS，2026-11-05） |
 | 严重度 | P1 |
 | 证据层 | 代码层 + 线上层 |
 | 关联文件 | `404.html:8-27`（`location.replace('/index.html'…)`；`:27` AdSense 脚本）；`vercel.json` 的 `cleanUrls`/`trailingSlash` 行为 |

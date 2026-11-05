@@ -29,19 +29,20 @@
 | [L-20261105-01](L-20261105-01-i18n-runtime-default-language.md) | i18n 运行时默认语言写死 `en`，本地化页渲染成英文 | open | P0 | `assets/js/i18n.js:4,52,91,112-118` | 2026-11-05 |
 | [L-20261105-02](L-20261105-02-handwritten-static-pages.md) | 96 个静态页手写复制、无构建，已产生漂移 | open | P1 | 96 个 `*.html`、`assets/js/index-CurY6_0Y.js` | 2026-11-05 |
 | [L-20261105-03](L-20261105-03-cloudinary-unsigned-preset-dead-code.md) | 死代码 bundle 含 Cloudinary unsigned preset 且线上可下载 | mitigated（代码删除；preset 待维护者） | P1 | `assets/js/index-CurY6_0Y.js:1517`、`.backup` | 2026-11-05 |
-| [L-20261105-04](L-20261105-04-404-ad-and-auto-redirect.md) | 404 页挂 AdSense + JS 自动跳转，`/404/` 200 软 404 | mitigated + Preview PASS（待生产） | P1 | `404.html:8-27`、`vercel.json` | 2026-11-05 |
-| [L-20261105-05](L-20261105-05-lang-redirect-query-loop.md) | `?lang=` 重定向保留 query 造成自循环，且同类配置曾清理后回归 | mitigated + Preview PASS（待生产） | P2 | `vercel.json`、`robots.txt:4` | 2026-11-05 |
-| [L-20261105-06](L-20261105-06-htaccess-ineffective-on-vercel.md) | `.htaccess` 安全头/缓存在 Vercel 不生效 | open | P1 | `.htaccess:7,62,74-75` | 2026-11-05 |
+| [L-20261105-04](L-20261105-04-404-ad-and-auto-redirect.md) | 404 页挂 AdSense + JS 自动跳转，`/404/` 200 软 404 | closed（Preview+生产验证） | P1 | `404.html`、`vercel.json` | 2026-11-05 |
+| [L-20261105-05](L-20261105-05-lang-redirect-query-loop.md) | `?lang=` 重定向保留 query 造成自循环，且同类配置曾清理后回归 | closed（Preview+生产验证） | P2 | `vercel.json`、`robots.txt:4` | 2026-11-05 |
+| [L-20261105-06](L-20261105-06-htaccess-ineffective-on-vercel.md) | `.htaccess` 安全头/缓存在 Vercel 不生效 | closed（`vercel.json` 已上线并验证） | P1 | `.htaccess`、`vercel.json` | 2026-11-05 |
 | [L-20261105-07](L-20261105-07-cloudflare-rum-injection.md) | Cloudflare RUM 边缘注入，默认 curl 不可见 | mitigated | P1 | 平台层；`audit/evidence/tech/02_page_weight.txt` | 2026-11-05 |
 | [L-20261105-08](L-20261105-08-oversized-images.md) | 3 个 1.19MB 相同图标 + 6 张 >1MB PNG 占仓库 73% | open | P1 | `favicon*.png`、`apple-touch-icon.png`、`wallImage.png` 等 | 2026-11-05 |
 | [L-20261105-09](L-20261105-09-localized-orphan-pages.md) | 68 个本地化页不在 sitemap、52 页零入链、切换器非链接 | open | P0 | `sitemap.xml`、`index.html:1043-1055`、`i18n.js:145-161` | 2026-11-05 |
 | [L-20261105-10](L-20261105-10-adsense-script-without-inventory.md) | AdSense 55 页有脚本 0 广告位，ID 归属未验证，合规前置缺失 | open | P0 | `ads.txt`、55 个 HTML、`privacy.html` | 2026-11-05 |
 | [L-20261105-11](L-20261105-11-evidence-layers.md) | 审计结论必须区分代码层/线上层/平台层证据 | mitigated | P1 | `audit/AUDIT-REPORT.md` §10 | 2026-11-05 |
-| [L-20261105-12](L-20261105-12-preview-before-production.md) | 所有生产变更必须 Preview 先行并留验收证据 | mitigated（Phase A 首次完整走通；生产待批准） | P0 | `scripts/verify-site.mjs`、`docs/runbooks/preview-deploy.md` | 2026-11-05 |
-| [L-20261105-13](L-20261105-13-default-vercel-domain-indexable.md) | 默认域名 `mecollage.vercel.app` 可索引，重复内容 | mitigated（`1f9ad4c`；Dashboard 301 待维护者；仅生产可验） | P2 | Vercel 项目层；`vercel.json` | 2026-11-05 |
-| [L-20261105-14](L-20261105-14-gitignore-is-not-deploy-ignore.md) | `.gitignore` ≠ 部署忽略，内部文档/备份线上可下载 | mitigated + Preview PASS（待生产复验） | P2 | `.gitignore`、`.vercelignore` | 2026-11-05 |
+| [L-20261105-12](L-20261105-12-preview-before-production.md) | 所有生产变更必须 Preview 先行并留验收证据 | closed（Phase A 完整走通） | P0 | `scripts/verify-site.mjs`、`docs/runbooks/preview-deploy.md` | 2026-11-05 |
+| [L-20261105-13](L-20261105-13-default-vercel-domain-indexable.md) | 默认域名 `mecollage.vercel.app` 可索引，重复内容 | closed（生产实测 noindex 生效） | P2 | Vercel 项目层；`vercel.json` | 2026-11-05 |
+| [L-20261105-14](L-20261105-14-gitignore-is-not-deploy-ignore.md) | `.gitignore` ≠ 部署忽略，内部文档/备份线上可下载 | closed（Preview+生产验证） | P2 | `.gitignore`、`.vercelignore` | 2026-11-05 |
 | [L-20261105-16](L-20261105-16-public-git-history-keeps-secrets-recoverable.md) | 公开仓库的 git 历史/分支会让已删除代码继续可得 | open（preset 待维护者关闭） | P2 | git history、`origin/gh-pages` | 2026-11-05 |
 | [L-20261105-17](L-20261105-17-dead-asset-reference-methodology.md) | 死资源判定：CSS class 名 ≠ 文件引用，WebP fallback ≠ 死资源 | mitigated（Phase A 采用并删除 2 个真死资源） | P3 | `upload-icon.png/.webp`、`wallImage.png` | 2026-11-05 |
+| [L-20261105-18](L-20261105-18-production-deploy-is-manual.md) | 生产部署不是 main push 自动上线；是手动 CLI/Dashboard，且 AI 执行需明确授权 | closed（Phase A 实测并已记录流程） | P2 | `docs/runbooks/preview-deploy.md`、`ADR-0001` | 2026-11-05 |
 | [L-20261105-15](L-20261105-15-agpl-and-missing-license.md) | AGPL-3.0 依赖 + 无 LICENSE/第三方声明 | open | P1 | `assets/js/mecollage-main.js:2236`、根目录许可证文件 | 2026-11-05 |
 
 ## 4. 新增流程（必须）

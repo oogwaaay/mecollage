@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-05 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated + **Preview 验证 PASS**（`7391c5b`；5 条均单跳、最终 URL 无 `?lang=`、无循环；2026-11-05；待生产复验） |
+| 状态 | **closed**（`7391c5b`；Preview + 生产均验证：5 条单跳、最终 URL 无 `?lang=`、无循环；2026-11-05） |
 | 严重度 | P2 |
 | 证据层 | 代码层 + 线上层 |
 | 关联文件 | `vercel.json:62-72`（`?lang=en` → `destination: "/"`）；`vercel.json:13-60`（zh/es/ja/tw 4 条）；`robots.txt:4`（`Disallow: /*?lang=`） |

@@ -167,7 +167,7 @@ Vercel Dashboard → Project → Settings → Deployment Protection → 临时�
 | 场景 | 预期汇总 | 说明 |
 |---|---|---|
 | Preview（bypass 后） | `PASS 38 / FAIL 0 / WARN 5`，退出码 0 | WARN = 软 404 状态记录 ×2 + 跨主机 N/A ×3 |
-| 生产（上线后复跑） | `PASS 41 / FAIL 0 / WARN 2`，退出码 0 | WARN = 软 404 状态记录 ×2；跨主机项参与判定 |
+| 生产（上线后复跑） | ✅ **实测 2026-11-05：PASS 41 / FAIL 0 / WARN 2，exit 0** | WARN = 软 404 状态记录 ×2；跨主机项参与判定；证据 `audit/evidence/phase-a/verification/post-release-prod.{json,md}` |
 
 > 若出现新的 FAIL，即为回归；按证据中的 URL/跳转链/响应头定位，不要直接改判定。
 
