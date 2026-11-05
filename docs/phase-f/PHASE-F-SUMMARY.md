@@ -37,6 +37,7 @@
 | **合计** | **42 / 7 / 4** | **52 / 0 / 1（exit 0）** |
 
 - 回归命令：`node scripts/functional-audit/run-tests.mjs`（零依赖，Chrome headless + 本地 Vercel 模拟）。
+- Preview 部署级验收：分支 `fix/functional-integrity` @ `5aa864a` → 部署层 **38 PASS / 0 FAIL / 5 WARN**（与 Phase A 一致），功能层浏览器回归 **52 PASS / 0 FAIL / 1 WARN**。
 - 仍有 1 个 WARN：AI 成功路径、真实下载产物、触屏手势、真实指针拖拽、跨浏览器观感等需人工/真机确认。
 
 ## 规格变化

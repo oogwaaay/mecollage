@@ -4,6 +4,8 @@
 |---|---|
 | 状态 | **Proposed**（分支已实现并通过浏览器回归 52 PASS / 0 FAIL / 1 WARN；生产未部署，待维护者批准后转 Accepted） |
 | 日期 | 2026-11-05 |
+| Preview 分支部署 | `fix/functional-integrity` @ `5aa864a` → `https://mecollage-ehvuw4gb4-keeey-is-projects.vercel.app`（state success） |
+| Preview 验收 | 部署层：**38 PASS / 0 FAIL / 5 WARN**（与 Phase A 一致：安全头/404/重定向/遗留文件/资产）；功能层：浏览器回归 **52 PASS / 0 FAIL / 1 WARN**。证据：`audit/evidence/phase-f/verification/preview.{md,json}` + browser-regression-final |
 | 决策者 | 维护者（批准）+ 实施者（Lead/AI） |
 | 关联 | [ADR-0001](ADR-0001-phase-a-security-hardening.md)、`audit/PHASE-F-REPORT.md`、`docs/lessons/L-20261105-19..22` |
 
