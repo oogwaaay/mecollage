@@ -22,7 +22,7 @@
 
 ## 仍需后续处理（不在本阶段阻塞）
 
-1. `privacy/terms` 及本地化版仍提注册/账号/邮件订阅（P3，需法务/内容复核）。
+1. ~~`privacy/terms` 及本地化版仍提注册/账号/邮件订阅~~：**已修正**（10 页 ×5 语言；Last updated 2026-11-06）。
 2. 本地化首页仍有 28 条卡片指向 noindex 本地化专题页（UX 保留；重写后恢复索引）。
 3. `christmas-collage-maker`（750 字符）、`wedding-collage-maker`（894）仍偏薄；`free-collage-maker` 可继续扩写。
 4. sitemap lastmod 全为 2026-11-05；blog index 用 Article 类型（P3）。

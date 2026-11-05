@@ -65,7 +65,7 @@ Phase B 修复了多语言/SEO 结构，但审计划出的内容质量项仍未�
 
 ## 未在本 ADR 范围
 
-- `privacy.html`/`terms.html` 及本地化版仍提“注册账号/邮件订阅”等站内不存在功能（审计 P3；内容/法务复核后再改，避免误改法律文本）。
+- ~~`privacy.html`/`terms.html` 及本地化版仍提“注册账号/邮件订阅”等站内不存在功能~~：**已在 Phase C 末尾修正**（10 页 ×5 语言：改为无需账号、图片本地处理不上传、联系我们时才收集邮箱；删除 account 条款；Last updated 2026-11-06）。
 - 本地化首页仍有卡片指向 noindex 的本地化专题页（28 条，UX 保留；后续重写后恢复）。
 - `christmas-collage-maker`（750 字符）、`wedding-collage-maker`（894）仍偏薄；`free-collage-maker` 已重定位但可继续扩写。
 - sitemap `lastmod` 60/60 为 2026-11-05（本轮确有改动；后续建议按真实 mtime）。
