@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-19 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated（Phase F 已修复 4 处；回归 52/0/1） |
+| 状态 | closed（生产验证 2026-11-05） |
 | 严重度 | P0 |
 | 证据层 | 代码层 + 浏览器实测 |
 | 关联文件 | `public/tools/squarecrop/index.html`、`public/tools/square/index.html`、`public/tools/blurredframe/index.html`、`assets/js/mecollage-main.js` |

@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-22 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated（Phase F 已修复首页撤销/重做与文字/贴纸容器残留） |
+| 状态 | closed（生产验证 2026-11-05） |
 | 严重度 | P1 |
 | 证据层 | 代码层 + 浏览器实测 |
 | 关联文件 | `assets/js/mecollage-main.js`（`renderTextLayers/renderStickerLayers/saveState/startDrag`） |

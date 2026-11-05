@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-20 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated（Phase F 已修复首页与 blurredframe；回归通过） |
+| 状态 | closed（生产验证 2026-11-05） |
 | 严重度 | P0 |
 | 证据层 | 代码层 + 浏览器实测 |
 | 关联文件 | `index.html`（`.collage-grid`）、`assets/js/mecollage-main.js`（`renderCollage/exportCollage`）、`public/tools/blurredframe/index.html` |

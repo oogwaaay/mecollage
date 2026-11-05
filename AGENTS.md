@@ -51,7 +51,7 @@
 | 仓库 | `oogwaaay/mecollage`（public）；Phase A 分支 `phase-a/security-hardening`：`460c39a` .vercelignore → `9b950c5` 404 → `1f9ad4c` 响应头+`?lang=` → `7391c5b` `?lang=` 空参数 → `b2a3924` 删除死文件 → 后续 cleanup/docs 提交；HEAD 以 `git log main..HEAD` 为准；**未部署生产** | `git log main..HEAD`；GitHub API |
 | 部署方式 | **2026-11-05 实测：Vercel Git 集成只产生 Preview**（push main 后 GitHub Deployment 仍为 environment=Preview，生产未自动更新）；**生产部署为手动**：维护者登录后 `npx vercel deploy --prod --yes`（或 Dashboard Promote/Deploy）。Phase A 已按此上线并验收 PASS 41/0/2 | `npx vercel whoami`；`gh api repos/oogwaaay/mecollage/deployments`；`audit/evidence/phase-a/production-deploy.txt` |
 | Preview / 生产 | Phase A **已上线生产**（2026-11-05，维护者批准）。Preview 验收 38 PASS/0/5；生产验收 **41 PASS / 0 FAIL / 2 WARN（exit 0）**。Preview 默认受 Vercel Authentication 保护，已用 `npx vercel login` + `npx vercel curl` 自动 bypass 完成验收（runbook §3 方式 D）。证据：`audit/evidence/phase-a/verification/preview*.{json,md}`、`post-release-prod.{json,md}`、`audit/evidence/phase-a/production-deploy.txt` | 2026-11-05 实测 |
-| Phase F 功能修复 | 2026-11-05：修复首页比例/网格/导出/撤销/贴纸/AI 人脸、4 个工具页 6 个 P0、文案夸大；浏览器回归 **52 PASS / 0 FAIL / 1 WARN**。分支 `fix/functional-integrity`（未合并/未部署生产） | `audit/PHASE-F-REPORT.md`、`docs/phase-f/PHASE-F-SUMMARY.md`、`scripts/functional-audit/`、ADR-0002 |
+| Phase F 功能修复 | 2026-11-05：修复首页比例/网格/导出/撤销/贴纸/AI 人脸、4 个工具页 6 个 P0、文案夸大；浏览器回归 **52 PASS / 0 FAIL / 1 WARN**；**已上线生产并验收**（部署层 41/0/2 + 生产冒烟 PASS），`main` 已合并 | `audit/PHASE-F-REPORT.md`、`docs/phase-f/PHASE-F-SUMMARY.md`、`scripts/functional-audit/`、ADR-0002 |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -103,7 +103,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 - P1：Cloudinary unsigned preset（L-03；**代码已删、Preview/生产均 404；preset 关闭仍需维护者；公开 git 历史仍含代码，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**已上线生产，6 项头全部下发并验收 PASS**）、超大图片（L-08）、AGPL/许可（L-15）。
 - P2/回归：`?lang=` 循环（L-05，**已上线生产并验证：5 条均单跳、最终 URL 无 `?lang=`、无循环**）、默认 vercel.app 域可索引（L-13；**已上线生产，实测 `x-robots-tag: noindex, nofollow`**）、内部文件公开（L-14；**已上线生产并验证 10/10 遗留文件 404、9/9 关键资产 200**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16，preset 仍待关闭）、死资源判定口径（L-17）。
 - 流程：**Phase A 已按 branch → Preview（38 PASS）→ 维护者批准 → 生产部署 → 生产验收（41 PASS/0/2）完整走通**（L-12）；生产部署方式为手动 CLI/Dashboard，不是 main push 自动上线。
-- Phase F：功能真实性修复分支 `fix/functional-integrity`（浏览器回归 52/0/1，`scripts/functional-audit/`）**待预览验收 + 维护者生产批准**；本次未改安全头/404/重定向/Publisher ID/广告/GA4。
+- Phase F：功能真实性修复**已上线生产并验证**（浏览器回归 52/0/1；部署层 41/0/2；生产冒烟 PASS；`main` 已合并）；本次未改安全头/404/重定向/Publisher ID/广告/GA4。
 
 ## 7. 会话结束前自检（逐条勾）
 

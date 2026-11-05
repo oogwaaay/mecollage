@@ -1,6 +1,6 @@
 # Phase F 功能真实性审查与修复 — 公开摘要
 
-> 日期：2026-11-05｜分支：`fix/functional-integrity`（从已上线 `main` 拉出，**未部署生产**）
+> 日期：2026-11-05｜分支：`fix/functional-integrity` → 已合并 `main` 并**上线生产**（维护者批准，手动部署）
 > 一句话：把“宣称但没真正可用”的功能逐项验证并修复；真实浏览器回归 **42 PASS / 7 FAIL → 52 PASS / 0 FAIL**。
 
 ## 为什么做
@@ -38,6 +38,7 @@
 
 - 回归命令：`node scripts/functional-audit/run-tests.mjs`（零依赖，Chrome headless + 本地 Vercel 模拟）。
 - Preview 部署级验收：分支 `fix/functional-integrity` @ `5aa864a` → 部署层 **38 PASS / 0 FAIL / 5 WARN**（与 Phase A 一致），功能层浏览器回归 **52 PASS / 0 FAIL / 1 WARN**。
+- **生产上线**（2026-11-05，维护者批准）：`fix/functional-integrity` @ `debfffe` → `mecollage-o89utzktl-…`，Aliased `https://www.mecollage.top/`；生产部署验收 **41 PASS / 0 FAIL / 2 WARN**；生产浏览器冒烟 **PASS**（首页 1:1/4:3 比例、square 纯色背景、squarecrop 拖拽不露底、rounded 1080×810、blurredframe 16:9→1200×675，0 未捕获异常）。
 - 仍有 1 个 WARN：AI 成功路径、真实下载产物、触屏手势、真实指针拖拽、跨浏览器观感等需人工/真机确认。
 
 ## 规格变化
@@ -52,7 +53,7 @@
 - Phase B：i18n 默认语言 bug、本地化页孤岛/内链/sitemap/SEO 内容结构；
 - AdSense 合规（CMP/隐私）、GA4、Cloudinary preset 关闭、BackGone 联动；
 - 完整 undo 历史（目前仅覆盖拖拽/文字/贴纸增删）、移动端拖拽排序、JPG/分辨率导出选项；
-- 生产部署：需维护者批准（本分支只做 Preview 验收）。
+- 生产部署：已于 2026-11-05 上线（维护者批准；部署方式为手动 CLI）。
 
 ## 证据
 

@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-21 |
 | 日期 | 2026-11-05 |
-| 状态 | mitigated（Phase F 已修正 26 个站点文件的 HEIC 等文案与 5 语言 i18n 值） |
+| 状态 | closed（生产验证 2026-11-05） |
 | 严重度 | P1 |
 | 证据层 | 代码层 + 页面文案 + 浏览器实测 |
 | 关联文件 | `index.html`、`i18n/*.json`、`public/tools/*/index.html`、`how-to-make-a-collage.html`、`contact.html` |

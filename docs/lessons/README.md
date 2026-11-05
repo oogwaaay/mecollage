@@ -43,10 +43,10 @@
 | [L-20261105-16](L-20261105-16-public-git-history-keeps-secrets-recoverable.md) | 公开仓库的 git 历史/分支会让已删除代码继续可得 | open（preset 待维护者关闭） | P2 | git history、`origin/gh-pages` | 2026-11-05 |
 | [L-20261105-17](L-20261105-17-dead-asset-reference-methodology.md) | 死资源判定：CSS class 名 ≠ 文件引用，WebP fallback ≠ 死资源 | mitigated（Phase A 采用并删除 2 个真死资源） | P3 | `upload-icon.png/.webp`、`wallImage.png` | 2026-11-05 |
 | [L-20261105-18](L-20261105-18-production-deploy-is-manual.md) | 生产部署不是 main push 自动上线；是手动 CLI/Dashboard，且 AI 执行需明确授权 | closed（Phase A 实测并已记录流程） | P2 | `docs/runbooks/preview-deploy.md`、`ADR-0001` | 2026-11-05 |
-| [L-20261105-19](L-20261105-19-preview-export-shared-transform.md) | 预览与导出禁止各写一套几何公式 | mitigated（Phase F 修复 4 处，回归 52/0/1） | P0 | `public/tools/*/index.html`、`mecollage-main.js` | 2026-11-05 |
-| [L-20261105-20](L-20261105-20-css-clamp-vs-js-sizing.md) | CSS max-height/min-height/box-sizing 会静默覆盖 JS 尺寸与比例 | mitigated（Phase F 修复） | P0 | `index.html`、`mecollage-main.js` | 2026-11-05 |
-| [L-20261105-21](L-20261105-21-claims-must-match-implementation.md) | 功能文案必须与实现逐条核对（HEIC/模板/JPG/unlimited/控件语义） | mitigated（Phase F 修正 26+ 文件与 5 语言） | P1 | `i18n/*.json`、`index.html`、工具页 FAQ | 2026-11-05 |
-| [L-20261105-22](L-20261105-22-rerender-cleanup-and-history.md) | 重渲染必须清理容器；撤销必须在变更前快照 | mitigated（Phase F 修复撤销/贴纸绑定） | P1 | `mecollage-main.js` | 2026-11-05 |
+| [L-20261105-19](L-20261105-19-preview-export-shared-transform.md) | 预览与导出禁止各写一套几何公式 | closed（生产验证） | P0 | `public/tools/*/index.html`、`mecollage-main.js` | 2026-11-05 |
+| [L-20261105-20](L-20261105-20-css-clamp-vs-js-sizing.md) | CSS max-height/min-height/box-sizing 会静默覆盖 JS 尺寸与比例 | closed（生产验证） | P0 | `index.html`、`mecollage-main.js` | 2026-11-05 |
+| [L-20261105-21](L-20261105-21-claims-must-match-implementation.md) | 功能文案必须与实现逐条核对（HEIC/模板/JPG/unlimited/控件语义） | closed（生产验证） | P1 | `i18n/*.json`、`index.html`、工具页 FAQ | 2026-11-05 |
+| [L-20261105-22](L-20261105-22-rerender-cleanup-and-history.md) | 重渲染必须清理容器；撤销必须在变更前快照 | closed（生产验证） | P1 | `mecollage-main.js` | 2026-11-05 |
 | [L-20261105-15](L-20261105-15-agpl-and-missing-license.md) | AGPL-3.0 依赖 + 无 LICENSE/第三方声明 | open | P1 | `assets/js/mecollage-main.js:2236`、根目录许可证文件 | 2026-11-05 |
 
 ## 4. 新增流程（必须）

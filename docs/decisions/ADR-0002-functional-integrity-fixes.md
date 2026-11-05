@@ -2,10 +2,12 @@
 
 | 字段 | 值 |
 |---|---|
-| 状态 | **Proposed**（分支已实现并通过浏览器回归 52 PASS / 0 FAIL / 1 WARN；生产未部署，待维护者批准后转 Accepted） |
+| 状态 | **Accepted**（2026-11-05 维护者批准；生产部署并验收 PASS：部署层 41/0/2 + 浏览器冒烟全绿） |
 | 日期 | 2026-11-05 |
 | Preview 分支部署 | `fix/functional-integrity` @ `5aa864a` → `https://mecollage-ehvuw4gb4-keeey-is-projects.vercel.app`（state success） |
 | Preview 验收 | 部署层：**38 PASS / 0 FAIL / 5 WARN**（与 Phase A 一致：安全头/404/重定向/遗留文件/资产）；功能层：浏览器回归 **52 PASS / 0 FAIL / 1 WARN**。证据：`audit/evidence/phase-f/verification/preview.{md,json}` + browser-regression-final |
+| 生产部署 | `fix/functional-integrity` @ `debfffe` → `mecollage-o89utzktl-…`，Aliased `https://www.mecollage.top/`（2026-11-05，维护者批准后手动 CLI） |
+| 生产验收 | 部署层 **41 PASS / 0 FAIL / 2 WARN**（Phase A 行为无回归）；生产浏览器冒烟 **PASS**：首页 1:1=600×600、4:3=600×450；square 纯色背景可见；squarecrop 拖拽不露底；rounded 1080 横图 1080×810；blurredframe 16:9 导出 1200×675；0 未捕获异常 |
 | 决策者 | 维护者（批准）+ 实施者（Lead/AI） |
 | 关联 | [ADR-0001](ADR-0001-phase-a-security-hardening.md)、`audit/PHASE-F-REPORT.md`、`docs/lessons/L-20261105-19..22` |
 
