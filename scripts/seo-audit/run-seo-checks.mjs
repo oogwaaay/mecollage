@@ -1371,11 +1371,44 @@ async function runInternalLinkChecks() {
   await runCase({
     id: 'E5',
     group: 'E-internal-links',
-    name: '站内链接不再指向 301 旧 URL（/square-collage/、/vertical-collage/）',
+    name: '站内链接：无 301 旧 URL；记录 noindex 内链与 root 专题页语言导航',
     async fn(ctx) {
       ctx.measure('legacyLinks', legacyLinks);
       ctx.check('站内无指向 /square-collage/ 或 /vertical-collage/ 的链接', legacyLinks.length === 0, {
         actual: legacyLinks.slice(0, 20),
+      });
+
+      // Phase C 最终改动抽查：可索引页 → noindex 页内链数量（仅记录）
+      const linksToNoindex = [];
+      for (const [source, targets] of edges) {
+        if (!indexableSet.has(source)) continue;
+        for (const target of targets) if (noindexSet.has(target)) linksToNoindex.push({ source, target });
+      }
+      ctx.measure('linksToNoindexCount', linksToNoindex.length);
+      ctx.measure('linksToNoindex', linksToNoindex);
+
+      // Phase C 最终改动抽查：root 英文专题页 `.language-links` 的 4 个本地化链接应指向语言首页；
+      // 英文链接指向本页自身（或首页）视为正常。
+      const homepageTargets = new Set(['/', '/zh/', '/tw/', '/ja/', '/es/']);
+      const rootTopicNav = [];
+      for (const base of EN_TOPIC_KEPT_BASES) {
+        const pageInfo = inventory.get(base);
+        if (!pageInfo) continue;
+        const html = readFileSync(join(ROOT, pageInfo.rel), 'utf8');
+        const block = /<nav class="language-links"[^>]*>([\s\S]*?)<\/nav>/i.exec(html);
+        const hrefs = block ? [...block[1].matchAll(/<a\b[^>]*href="([^"]+)"/gi)].map((match) => normalizeSlashes(match[1])) : [];
+        const localizedHrefs = hrefs.filter((href) => /^\/(zh|tw|ja|es)\//.test(href));
+        const nonHomepageLocalized = localizedHrefs.filter((href) => !homepageTargets.has(href));
+        const toNoindex = hrefs.filter((href) => noindexSet.has(href));
+        rootTopicNav.push({ url: base, languageLinks: hrefs, localizedHrefs, nonHomepageLocalized, toNoindex });
+      }
+      ctx.measure('rootTopicLanguageNav', rootTopicNav);
+      const navProblems = rootTopicNav.filter(
+        (row) => row.localizedHrefs.length < 4 || row.nonHomepageLocalized.length > 0 || row.toNoindex.length > 0,
+      );
+      ctx.check('root 英文专题页语言导航：4 个本地化链接均指向语言首页且不指向 noindex 页（Phase C 最终改动抽查）', navProblems.length === 0, {
+        level: 'WARN',
+        actual: navProblems,
       });
     },
   });
@@ -1425,6 +1458,23 @@ async function runRobotsChecks() {
 // ---------------------------------------------------------------------------
 // 检查 G：Phase C 内容质量 / 结构化数据 / 301
 // ---------------------------------------------------------------------------
+async function followLocalRedirects(startPath, maxHops = 5) {
+  const chain = [];
+  let current = startPath;
+  for (let hop = 0; hop < maxHops; hop += 1) {
+    const result = await checkLocal(current);
+    if (result.status === 301 || result.status === 308) {
+      const to = canonicalPath(result.location);
+      chain.push({ from: current, status: result.status, to });
+      if (!to || to === current) return { chain, finalStatus: null, finalPath: current, loop: true, tooMany: false };
+      current = to;
+      continue;
+    }
+    return { chain, finalStatus: result.status, finalPath: current, loop: false, tooMany: false };
+  }
+  return { chain, finalStatus: null, finalPath: current, loop: false, tooMany: true };
+}
+
 async function runPhaseCChecks() {
   // G1：32 个本地化专题页 noindex
   await runCase({
@@ -1474,38 +1524,61 @@ async function runPhaseCChecks() {
     },
   });
 
-  // G2：301 重定向
+  // G2：301/308 重定向（跟随完整链；规范 URL 单跳、无斜杠 URL 允许 2 跳——Vercel trailingSlash 先行，实测行为不判 FAIL）
   await runCase({
     id: 'G2',
     group: 'G-phase-c',
-    name: '301/308 重定向：/square-collage/ → /tools/square/、/vertical-collage/ → /instagram-story-collage/（含无尾斜杠）',
+    name: '301/308 重定向：square/vertical（含无尾斜杠；记录跳转链，Vercel trailingSlash 先行导致的 2 跳不算 FAIL）',
     async fn(ctx) {
       const rows = [];
       for (const redirect of LEGACY_REDIRECTS) {
-        const result = await checkLocal(redirect.from);
-        const target = await checkLocal(redirect.to);
-        const locationPath = canonicalPath(result.location);
-        const ok =
-          (result.status === 301 || result.status === 308) &&
-          locationPath === normalizeSlashes(redirect.to) &&
-          target.status === 200;
-        const row = { from: redirect.from, expectedTarget: redirect.to, status: result.status, location: result.location, targetStatus: target.status, ok };
-        rows.push(row);
-        ctx.detail(row);
+        const result = await followLocalRedirects(redirect.from);
+        const expectedFinal = normalizeSlashes(redirect.to);
+        const finalTargetOk = result.finalPath === expectedFinal && result.finalStatus === 200;
+        const statusesOk = result.chain.length > 0 && result.chain.every((hop) => hop.status === 301 || hop.status === 308);
+        const hopsOk = !result.tooMany && !result.loop && result.chain.length >= 1;
+        rows.push({
+          from: redirect.from,
+          expectedTarget: redirect.to,
+          hops: result.chain.length,
+          chain: result.chain,
+          finalStatus: result.finalStatus,
+          finalPath: result.finalPath,
+          ok: finalTargetOk && statusesOk && hopsOk,
+        });
       }
-      const failed = rows.filter((row) => !row.ok);
       ctx.measure('redirects', rows);
-      ctx.check('4 个旧 URL 均 301/308 到正确目标（目标 200）', failed.length === 0, { actual: failed });
+      const failed = rows.filter((row) => !row.ok);
+      ctx.check('4 个旧 URL 均以 301/308 收敛到正确目标（最终 200）', failed.length === 0, { actual: failed });
+
+      // 规范 URL（带尾斜杠）应单跳 308 → 目标 200（Preview 实测）
+      const canonicalHops = rows.filter((row) => row.from.endsWith('/'));
+      const canonicalSingleHop = canonicalHops.every((row) => row.hops === 1);
+      ctx.check(
+        '规范 URL（带尾斜杠）单跳 308 → 200',
+        canonicalSingleHop,
+        { actual: canonicalHops.map((row) => ({ from: row.from, hops: row.hops, chain: row.chain })) },
+      );
+      // 无斜杠 URL：Vercel trailingSlash 先规范化，实测 2 跳；只记录，不判 FAIL
+      const noSlashHops = rows.filter((row) => !row.from.endsWith('/')).map((row) => ({ from: row.from, hops: row.hops, chain: row.chain }));
+      ctx.measure('noSlashRedirectChains', noSlashHops);
+      ctx.check(
+        '无斜杠 URL 的跳转链符合 Vercel trailingSlash 行为（1–2 跳；仅记录，不判 FAIL）',
+        noSlashHops.every((row) => row.hops >= 1 && row.hops <= 2),
+        { level: 'WARN', actual: noSlashHops },
+      );
     },
   });
 
-  // G3：60 个可索引页 JSON-LD
+  // G3：60 个可索引页 JSON-LD（含 Phase C 最终改动抽查：@id 绝对 URL / 本地化首页 WebSite 无 inLanguage）
   await runCase({
     id: 'G3',
     group: 'G-phase-c',
     name: `可索引页 JSON-LD：可解析 / 有 @graph / 类型符合（${expectedSitemapSet.size} 页）`,
     async fn(ctx) {
       const rows = [];
+      const idAudit = { checked: 0, nonAbsolute: [] };
+      const localizedHomeWebsiteInLanguage = [];
       for (const url of expectedSitemapSet) {
         const parsed = inventory.get(url)?.parsed;
         const blocks = parseJsonLdBlocks(parsed ?? {});
@@ -1519,6 +1592,25 @@ async function runPhaseCChecks() {
         for (const requiredType of required) {
           if (!types.includes(requiredType)) problems.push(`缺少类型 ${requiredType}`);
         }
+        // Phase C 最终改动抽查：FAQPage / Article 的 @id 必须是绝对 URL
+        for (const block of blocks) {
+          for (const node of block.graph ?? []) {
+            if (node?.['@type'] === 'FAQPage' || node?.['@type'] === 'Article') {
+              idAudit.checked += 1;
+              if (!/^https?:\/\//i.test(String(node['@id'] ?? ''))) idAudit.nonAbsolute.push({ url, type: node['@type'], id: node['@id'] ?? null });
+            }
+          }
+        }
+        // Phase C 最终改动抽查：本地化首页 WebSite 不带 inLanguage
+        if (isHomeUrl(url) && languageOf(url) !== 'en') {
+          for (const block of blocks) {
+            for (const node of block.graph ?? []) {
+              if (node?.['@type'] === 'WebSite' && Object.prototype.hasOwnProperty.call(node, 'inLanguage')) {
+                localizedHomeWebsiteInLanguage.push({ url, inLanguage: node.inLanguage });
+              }
+            }
+          }
+        }
         const row = { url, category, blockCount: blocks.length, types: [...new Set(types)], required, problems, ok: problems.length === 0 };
         rows.push(row);
         if (!row.ok) ctx.detail(row);
@@ -1530,8 +1622,18 @@ async function runPhaseCChecks() {
         acc[row.category] = (acc[row.category] ?? 0) + 1;
         return acc;
       }, {}));
+      ctx.measure('jsonLdIdAudit', idAudit);
+      ctx.measure('localizedHomeWebsiteInLanguage', localizedHomeWebsiteInLanguage);
       ctx.check(`JSON-LD 全部合格（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
         actual: failed.slice(0, 12),
+      });
+      ctx.check('FAQPage / Article 的 @id 均为绝对 URL（Phase C 最终改动抽查）', idAudit.nonAbsolute.length === 0, {
+        level: 'WARN',
+        actual: idAudit.nonAbsolute.slice(0, 10),
+      });
+      ctx.check('本地化首页 WebSite JSON-LD 不含 inLanguage（Phase C 最终改动抽查）', localizedHomeWebsiteInLanguage.length === 0, {
+        level: 'WARN',
+        actual: localizedHomeWebsiteInLanguage,
       });
     },
   });
@@ -1578,7 +1680,7 @@ async function runPhaseCChecks() {
         if (!articleOk) problems.push('缺少 Article JSON-LD');
         if (!titleSynced) problems.push('blog 首页卡片标题未同步');
         if (!excerptSynced) problems.push(`blog 首页卡片摘要相似度 ${excerptSimilarity.toFixed(2)} < 0.3`);
-        const row = {
+        rows.push({
           url,
           words,
           descriptionLength: description?.length ?? null,
@@ -1587,9 +1689,7 @@ async function runPhaseCChecks() {
           cardExcerptSimilarity: Number(excerptSimilarity.toFixed(3)),
           problems,
           ok: problems.length === 0,
-        };
-        rows.push(row);
-        ctx.detail(row);
+        });
       }
       const failed = rows.filter((row) => !row.ok);
       ctx.measure('posts', rows);
@@ -1606,13 +1706,11 @@ async function runPhaseCChecks() {
       const rows = [];
       for (const [url, pageInfo] of inventory) {
         const description = pageInfo.parsed.description;
-        const ok = Boolean(description) && description.length <= DESCRIPTION_MAX;
-        rows.push({ url, length: description?.length ?? null, ok });
+        rows.push({ url, length: description?.length ?? null, ok: Boolean(description) && description.length <= DESCRIPTION_MAX });
       }
       const failed = rows.filter((row) => !row.ok);
       ctx.measure('pages', rows.length);
       ctx.measure('failedCount', failed.length);
-      ctx.measure('overLimit', rows.filter((row) => (row.length ?? 0) > DESCRIPTION_MAX));
       ctx.check(`description 长度全部合格（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
         actual: failed.slice(0, 15),
       });
@@ -1642,9 +1740,15 @@ async function runPhaseCChecks() {
           const signalValue = languageSignalFor(langKey, signal);
           if (signalValue < threshold) problems.push(`H1 语言信号 ${signalValue.toFixed(2)} < ${threshold}`);
         }
-        const row = { url, expectedLang: langKey, h1, h1Count: h1s.length, signal: { cjkRatio: Number(signal.cjkRatio.toFixed(3)), kanaCjkRatio: Number(signal.kanaCjkRatio.toFixed(3)), spanishMarkerRatio: Number(signal.spanishMarkerRatio.toFixed(3)) }, problems, ok: problems.length === 0 };
-        rows.push(row);
-        ctx.detail(row);
+        rows.push({
+          url,
+          expectedLang: langKey,
+          h1,
+          h1Count: h1s.length,
+          signal: { cjkRatio: Number(signal.cjkRatio.toFixed(3)), kanaCjkRatio: Number(signal.kanaCjkRatio.toFixed(3)), spanishMarkerRatio: Number(signal.spanishMarkerRatio.toFixed(3)) },
+          problems,
+          ok: problems.length === 0,
+        });
       }
       const failed = rows.filter((row) => !row.ok);
       ctx.measure('pages', rows);
@@ -1652,7 +1756,9 @@ async function runPhaseCChecks() {
       ctx.check(`首页 H1 全部合格（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, { actual: failed });
     },
   });
+
 }
+
 
 // ---------------------------------------------------------------------------
 // 报告
@@ -1939,7 +2045,7 @@ async function main() {
   // 6) 报告
   const summary = summarize();
   meta.durationMs = Math.round(performance.now() - startedAt);
-  const report = { tool: 'seo-audit', version: '1.1.0', meta, summary, results };
+  const report = { tool: 'seo-audit', version: '1.2.1', meta, summary, results };
   writeFileSync(cli.jsonPath, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
   writeFileSync(cli.mdPath, renderMarkdown(report), 'utf8');
   if (cli.label) {

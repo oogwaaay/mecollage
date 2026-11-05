@@ -193,7 +193,25 @@ export async function startStaticServer({ root, port = 0, host = '127.0.0.1', ve
         return;
       }
 
-      // 先应用 vercel.json 精确路径重定向（permanent → 308，与 Vercel 行为一致）
+      // Vercel trailingSlash 先行：无尾斜杠的页面 URL 先 308 规范化（再匹配 redirects），
+      // 因此 /square-collage → /square-collage/ → /tools/square/ 为 2 跳（与 Preview 实测一致）。
+      const lastSegment = url.pathname.split('/').filter(Boolean).pop() ?? '';
+      if (!url.pathname.endsWith('/') && lastSegment && !lastSegment.includes('.')) {
+        const relativeClean = url.pathname.replace(/^\/+/, '');
+        const pageCandidate = join(rootAbs, `${relativeClean}.html`);
+        const dirCandidate = join(rootAbs, relativeClean, 'index.html');
+        const isPage =
+          (await stat(pageCandidate).then((info) => info.isFile()).catch(() => false)) ||
+          (await stat(dirCandidate).then((info) => info.isFile()).catch(() => false));
+        if (isPage) {
+          entry.status = 308;
+          res.writeHead(308, { ...BASE_HEADERS, location: `${url.pathname}/` });
+          res.end();
+          return;
+        }
+      }
+
+      // 再应用 vercel.json 精确路径重定向（permanent → 308，与 Vercel 行为一致）
       for (const rule of vercelRedirects) {
         const match = rule.regex.exec(url.pathname);
         if (!match) continue;
