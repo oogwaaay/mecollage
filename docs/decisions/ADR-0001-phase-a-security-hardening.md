@@ -2,12 +2,13 @@
 
 | 字段 | 值 |
 |---|---|
-| 状态 | **Proposed**（分支已实现并部署 Preview；生产未部署，待验收 + 维护者明确批准后转 Accepted） |
+| 状态 | **Proposed**（分支已实现；**Preview HTTP 验收 PASS：38 PASS / 0 FAIL / 5 WARN**，2026-11-05；生产未部署，待浏览器功能 QA + 维护者明确批准后转 Accepted） |
 | 日期 | 2026-11-05（Asia/Shanghai） |
 | 决策者 | 维护者（生产批准 / 账户级操作）；Lead（实施）；审计者（发现与复验） |
 | 分支 | `phase-a/security-hardening` |
 | 已实施提交 | `460c39a`（.vercelignore/.gitignore）、`9b950c5`（404）、`1f9ad4c`（响应头 + `?lang=` 重定向）、`7391c5b`（`?lang=` 改为空参数清除 query，循环安全）、`b2a3924`（删除死 bundle/备份/test-section/重复 zh-tw.json）；后续 cleanup/docs 提交见 `git log main..HEAD` |
-| Preview | 已生成（Vercel Git 集成）；查询：`gh api repos/oogwaaay/mecollage/deployments?sha=$(git rev-parse HEAD)`。首条为 deployment `7570103062` / `b2a3924`（2026-11-05T09:36:33Z）。**未认证访问 302 到 Vercel SSO**，见 §6 |
+| Preview | 已生成（Vercel Git 集成）；查询：`gh api repos/oogwaaay/mecollage/deployments?sha=$(git rev-parse HEAD)`。最终代码 head `987680b` → deployment `7570549183`（state success）。未认证访问 302 到 Vercel SSO，见 §6 |
+| Preview 验收 | **38 PASS / 0 FAIL / 5 WARN（exit 0）**，2026-11-05；方式：`vercel login` + `vercel curl` 自动 bypass → `_vercel_jwt` cookie（7d）→ `verify-site.mjs --header "Cookie: …"`（值脱敏）。证据 `audit/evidence/phase-a/verification/preview.{json,md}` |
 | 关联审计 | `audit/AUDIT-REPORT.md` §1.5、§2.5、§7.1、§8.1；`audit/sections/tech-architecture.md` §4；`audit/sections/adsense.md` A-07 |
 | 关联教训 | [L-20261105-03](../lessons/L-20261105-03-cloudinary-unsigned-preset-dead-code.md)、[L-04](../lessons/L-20261105-04-404-ad-and-auto-redirect.md)、[L-05](../lessons/L-20261105-05-lang-redirect-query-loop.md)、[L-06](../lessons/L-20261105-06-htaccess-ineffective-on-vercel.md)、[L-12](../lessons/L-20261105-12-preview-before-production.md)、[L-13](../lessons/L-20261105-13-default-vercel-domain-indexable.md)、[L-14](../lessons/L-20261105-14-gitignore-is-not-deploy-ignore.md) |
 | 写范围 | `404.html`、`vercel.json`、`.vercelignore`、`.gitignore`、已确认无引用的死文件；**不含**代码逻辑、i18n 系统、多语言页面内容、AdSense/Publisher ID、GA4、Cloudinary 账户 |
@@ -96,7 +97,7 @@ CSP-Report-Only 的 allowlist（完整字符串以 `vercel.json:82-84` 为唯一
 
 **实施**：`1f9ad4c` → `7391c5b`（最终写法）。**备选**：删除全部规则（旧链接无法落到正确语言，不采纳）；删除 en 规则（可作为兜底，见风险表）；用前端 JS 跳转（SEO 不友好，不采纳）。
 
-**风险（需 Preview 实测）**：空参数是否被 Vercel 完全移除、以及最终状态码/跳数，尚未在可访问的 Preview 上验证（Preview 被 Vercel Authentication 阻断）；上线前必须用 bypass 或维护者代跑全量矩阵。
+**实测结果（Preview，head `987680b`，2026-11-05）**：5 条 `?lang=` 规则全部**单跳 308 → 200**，最终 URL **不含 `?lang=`**（空参数被 Vercel 移除），**无循环**；`?lang=xx`/`?lang=` 返回 200 无跳转。证据 `audit/evidence/phase-a/verification/preview.md` §c。
 
 **残余问题（不在 Phase A 写范围）**：`robots.txt:4` 的 `Disallow: /*?lang=` 未改。修复后源 URL `/?lang=zh` 仍被 robots 屏蔽，但落地 URL 已干净；Google 侧的可发现性不是本阶段目标。该配置一致性问题记入 [L-05](../lessons/L-20261105-05-lang-redirect-query-loop.md) 后续项，Phase B 再决策（删除 Disallow 或彻底移除重定向）。
 
@@ -159,7 +160,7 @@ location: https://vercel.com/sso-api?url=...   # Protected by Vercel Authenticat
 2. 维护者用已登录的 Vercel 凭据/`vercel curl` 代跑验收，把输出交回；
 3. 临时放宽 Preview 保护（不推荐，用完恢复）。
 
-**验收未完成前，不得声称"Preview 已验证"或请求生产批准。**
+**2026-11-05 更新**：Preview HTTP 验收已完成（38 PASS/0 FAIL/5 WARN）。生产批准前仍需：浏览器功能 QA、Cloudinary preset 关闭、默认域 301（Dashboard）、维护者明确批准。
 
 ## 3. 后果
 

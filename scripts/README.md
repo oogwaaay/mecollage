@@ -171,6 +171,13 @@ Vercel Dashboard → Project → Settings → Deployment Protection → 临时�
 
 > 若出现新的 FAIL，即为回归；按证据中的 URL/跳转链/响应头定位，不要直接改判定。
 
+### 实测记录（2026-11-05）
+
+| 环境 | 结果 | 方式 |
+|---|---|---|
+| 生产（Phase A 未上线） | PASS 22 / FAIL 21 / WARN 0（基线，符合预期） | 直接请求 |
+| Preview（head `987680b`，deployment `7570549183`） | **PASS 38 / FAIL 0 / WARN 5，exit 0** | `npx vercel login` + `npx vercel curl` 自动 bypass → `_vercel_jwt` cookie → `--header "Cookie: …"`（值脱敏）；证据 `audit/evidence/phase-a/verification/preview.{json,md}` |
+
 ## 8. 已知限制与不确定项
 
 - **手动跟随只认 `Location` 响应头，不执行页面 JS**：404 自动跳转通过响应体中的 `location.replace(` 文本检测（不执行脚本，避免触发站点逻辑）。
@@ -180,7 +187,7 @@ Vercel Dashboard → Project → Settings → Deployment Protection → 临时�
 - 跨主机检查的域名是硬编码生产域（`mecollage.top`、`mecollage.vercel.app`），不适用于其他站点。
 - 脚本带 `cache-control: no-cache`；HTML 在 Cloudflare 侧为 `DYNAMIC` 不缓存，但静态资产可能命中边缘缓存（对状态/字节校验影响低）。
 - `本地仓库 HEAD` 字段只是**当前工作目录的 git HEAD**，用于把证据与提交对应，**不是线上部署证明**；生产内容是否已更新需另行确认（截至 baseline，生产仍为 `main` HEAD `afd3be4`）。
-- Preview 认证无法由零依赖脚本绕过；方式 B（浏览器/CLI）只能人工核对，不能产出本脚本的 JSON 证据。
+- Preview 认证由 Vercel CLI（`vercel curl`）在请求层绕过，脚本本身不处理认证；使用 runbook 方式 D 可产出完整 JSON 证据（cookie 通过 `--header` 传入，值在证据中脱敏）。
 - 不检查渲染层 i18n、GA4/AdSense 业务逻辑、性能/CWV、HTML 语义等（属其他阶段范围）。
 
 ## 9. 维护记录

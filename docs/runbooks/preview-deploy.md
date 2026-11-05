@@ -103,7 +103,7 @@ curl -sI "$PREVIEW_URL/" | head -6
 
 ## 3. Preview 被 Vercel Authentication 保护时的三种验收方式
 
-> 实测：所有 Preview URL 都返回 302 到 Vercel SSO。**脚本不会也不应绕过认证**；必须由维护者配合。禁止把 bypass secret 写进仓库/脚本/报告/命令行历史。
+> 实测（2026-11-05）：**未认证**访问所有 Preview URL 均 302 到 Vercel SSO。**已用下方「方式 D」完成一次完整验收（38 PASS / 0 FAIL / 5 WARN）**；脚本本身不处理认证，bypass 由 `vercel curl` 在请求层完成。禁止把 bypass secret/JWT 写进仓库/脚本/报告/命令行历史。
 
 ### 方式 A（推荐）：Protection Bypass for Automation
 
@@ -127,12 +127,36 @@ unset VERCEL_AUTOMATION_BYPASS_SECRET
 - 维护者在浏览器打开 `environment_url`，按 §5.2 手工矩阵截图/记录；或用其本机已登录的 `vercel curl <deployment-url>` 执行 §5.2 的命令，把原始输出回传。
 - 证据由实施者整理进 `audit/evidence/phase-a/verification/`，并标注"由维护者代跑、时间、方式"。
 
+### 方式 D（2026-11-05 实测可行，本项目推荐）：`vercel login` + `vercel curl` 自动 bypass
+
+无需人工查看/传递 secret：
+
+```bash
+cd /Users/keyi/mecollage
+npx vercel login   # 维护者本人交互式登录（浏览器/GitHub/邮箱）
+PREVIEW_URL="https://<deployment>.vercel.app"
+
+# 1) 换取 7 天有效的 _vercel_jwt cookie（CLI 自动加 x-vercel-protection-bypass）
+npx vercel curl / -H "x-vercel-set-bypass-cookie: true" -D /tmp/pv-h.txt -o /dev/null --deployment "$PREVIEW_URL"
+COOKIE=$(grep -i '^set-cookie:' /tmp/pv-h.txt | head -1 | sed 's/^[Ss]et-[Cc]ookie: //' | cut -d';' -f1 | tr -d '\r')
+
+# 2) 用 cookie 跑完整矩阵（--header 值在证据中脱敏）
+node scripts/verify-site.mjs --base "$PREVIEW_URL/" --label preview \
+  --header "Cookie: $COOKIE" \
+  --json audit/evidence/phase-a/verification/preview.json \
+  --md audit/evidence/phase-a/verification/preview.md
+rm -f /tmp/pv-h.txt
+```
+
+- 注意：`vercel curl` 首次使用可能自动生成一个项目级 bypass secret；验收后可在 Dashboard 复核/撤销。
+- `npx vercel logout` 可清理本机登录态（按需）。
+
 ### 方式 C（不推荐）：临时放宽 Preview 保护
 
 - 维护者在 Deployment Protection 临时调整为可公开访问 → 立即跑验收 → **验收后立刻恢复原设置**。
 - 风险：窗口期内站点可被外部访问；必须记录起止时间与恢复确认。
 
-> 三种方式都不行 → 验收 **BLOCKED**，退出码 2；在交付说明中写"Preview 验收未完成（认证阻断）"，不得请求生产批准。
+> 四种方式都不行 → 验收 **BLOCKED**，退出码 2；在交付说明中写"Preview 验收未完成（认证阻断）"，不得请求生产批准。
 
 ---
 

@@ -50,7 +50,7 @@
 | 路由配置 | `vercel.json`：`cleanUrls`、`trailingSlash`、`/tools/* → /public/tools/*` rewrite、`/public/tools/* → /tools/*` 308、`?lang=` 重定向（有循环，见 L-05） | `vercel.json` |
 | 仓库 | `oogwaaay/mecollage`（public）；Phase A 分支 `phase-a/security-hardening`：`460c39a` .vercelignore → `9b950c5` 404 → `1f9ad4c` 响应头+`?lang=` → `7391c5b` `?lang=` 空参数 → `b2a3924` 删除死文件 → 后续 cleanup/docs 提交；HEAD 以 `git log main..HEAD` 为准；**未部署生产** | `git log main..HEAD`；GitHub API |
 | 部署方式 | Vercel Git 集成已确认存在：GitHub Deployments 有 `vercel[bot]`、`environment=Preview` 记录（2026-11-05 用 `gh api` 核实）；**生产触发/提升方式待维护者 Dashboard 确认（不确定）** | `gh api repos/oogwaaay/mecollage/deployments` |
-| Preview 访问 | Vercel Git 集成已确认；Phase A 首条 Preview：deployment `7570103062` / sha `b2a3924`，URL `https://mecollage-9fibvzr1t-keeey-is-projects.vercel.app`。**所有 Preview URL 受 Vercel Authentication 保护**（未认证 302 到 `vercel.com/sso-api`）；验收需维护者提供 Protection Bypass 或代跑。最新 head 的 Preview 用 `gh api repos/oogwaaay/mecollage/deployments?sha=$(git rev-parse HEAD)` 查询 | 2026-11-05 实测；见 runbook + `scripts/README.md` |
+| Preview 访问 | Vercel Git 集成已确认。Phase A 最终代码 head `987680b` → deployment `7570549183`（state success）。Preview 默认受 **Vercel Authentication** 保护（未认证 302 → `vercel.com/sso-api`）；**2026-11-05 已用 `npx vercel login` + `npx vercel curl` 自动 bypass → `_vercel_jwt` cookie 完成完整验收：38 PASS / 0 FAIL / 5 WARN（exit 0）**。证据：`audit/evidence/phase-a/verification/preview.{json,md}`（本机）。后续部署用 `gh api repos/oogwaaay/mecollage/deployments?sha=$(git rev-parse HEAD)` 查 URL | 2026-11-05 实测；见 runbook §3 方式 D |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -96,10 +96,10 @@ check → branch → change → verify → preview → evidence → maintainer a
 
 > 这些不是"待办清单"，而是**下一次会话最可能再犯的坑**。处理前先读对应教训；不要在未读的情况下重复"修复"。
 
-- P0：i18n 渲染成英文（L-01）、本地化页孤岛（L-09）、AdSense 合规前置与 ID 归属（L-10）、404 广告/跳转（L-04；**分支已改 `9b950c5`，Preview 验收 BLOCKED，待 bypass/生产批准**）。
-- P1：Cloudinary unsigned preset（L-03；**branch 已删文件 `b2a3924` + `upload-icon.*`，preset 关闭仍需维护者；公开 git 历史仍含代码，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**分支 `1f9ad4c` 已加头，待验收**）、超大图片（L-08）、AGPL/许可（L-15）。
-- P2/回归：`?lang=` 循环（L-05，**分支 `7391c5b` 空参数写法，待 bypass 矩阵验收**）、默认 vercel.app 域可索引（L-13；**分支 `1f9ad4c` 已加 host noindex，待生产验证**）、内部文件公开（L-14；**分支 `460c39a` + `b2a3924`，待 404 矩阵**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16）、死资源判定口径（L-17）。
-- 流程：Preview 先行尚未首次完整走通（L-12）；**Preview deployment `7570103062` 已生成但受 Vercel Authentication 保护（302 SSO），验收 BLOCKED**，先按 runbook §3 解决访问方式。
+- P0：i18n 渲染成英文（L-01）、本地化页孤岛（L-09）、AdSense 合规前置与 ID 归属（L-10）、404 广告/跳转（L-04；**`9b950c5`，Preview 验证 PASS：404 状态/无广告/无跳转/noindex，待生产批准**）。
+- P1：Cloudinary unsigned preset（L-03；**branch 已删文件 `b2a3924` + `upload-icon.*`（Preview 验证 404）；preset 关闭仍需维护者；公开 git 历史仍含代码，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**`1f9ad4c`，Preview 验证 6 项头全部下发，待生产复验**）、超大图片（L-08）、AGPL/许可（L-15）。
+- P2/回归：`?lang=` 循环（L-05，**`7391c5b`，Preview 验证 PASS：5 条均单跳、最终 URL 无 `?lang=`、无循环，待生产复验**）、默认 vercel.app 域可索引（L-13；**`1f9ad4c` 已加 host noindex，待生产验证**）、内部文件公开（L-14；**`460c39a`+`b2a3924`，Preview 验证 10/10 遗留文件 404，待生产复验**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16）、死资源判定口径（L-17）。
+- 流程：**Preview 先行已首次完整走通**（L-12）：branch → Preview（受保护）→ `vercel login` + `vercel curl` 自动 bypass → 38 PASS 证据 → **等待维护者生产批准**。
 
 ## 7. 会话结束前自检（逐条勾）
 

@@ -1,6 +1,7 @@
 # Phase A 整改摘要（安全止血与线上遗留问题）
 
 > 日期：2026-11-05｜分支：`phase-a/security-hardening`（未合并 `main`、未部署生产）
+> **Preview 验收：PASS（38 PASS / 0 FAIL / 5 WARN，exit 0）**；生产待维护者批准。
 > 完整报告（本机、不入库）：`audit/PHASE-A-REPORT.md`；流程：[AGENTS.md](../../AGENTS.md)、[GOVERNANCE.md](../../GOVERNANCE.md)
 
 ## 做了什么
@@ -25,23 +26,22 @@
    - 删除文件全站引用 0；关键资源（ads.txt/sitemap/robots/i18n/JS/CSS/图片）未改。
 2. **生产未受影响（已完成）**
    - 分支提交后生产复跑验收：22 PASS / 21 FAIL / 0 WARN，与分支前基线 **43/43 项无差异**（生产仍是旧行为，符合"未上线"）。
-3. **Preview 运行时（BLOCKED）**
-   - Vercel Git Integration 已生成 Preview 并构建成功（例：`b2ad3dc` → `https://mecollage-87azkotzy-keeey-is-projects.vercel.app`）；
-   - 但 Preview 受 **Vercel Authentication** 保护：未认证请求（含 `/robots.txt`）302 → `vercel.com/sso-api`；
-   - 验收脚本判定 **BLOCKED（exit 2）**，不产生虚假 PASS/FAIL。**安全头 / 重定向 / 404 / `.vercelignore` 的运行时行为尚未验证。**
+3. **Preview 运行时（已完成，PASS）**
+   - Vercel Git Integration 已生成 Preview 并构建成功（最终代码 head `987680b`：deployment `7570549183`，`https://mecollage-df9hlp6l3-keeey-is-projects.vercel.app`）；
+   - Preview 默认受 **Vercel Authentication** 保护；本次用 `npx vercel login` + `npx vercel curl` 自动带 bypass token，再以 `x-vercel-set-bypass-cookie: true` 换取 7 天有效的 `_vercel_jwt` cookie 传给验收脚本（**无需人工查看/传递 secret**；cookie 值不写入报告）；
+   - 结果：**38 PASS / 0 FAIL / 5 WARN（exit 0）**——6 项安全头、5 条 `?lang=` 单跳且最终 URL 无 `?lang=`、404 页（404 状态/无广告/无跳转/noindex）、10/10 遗留文件 404、9/9 关键资产 200 全部通过；WARN 为 `/404` 软 404 状态记录 ×2 + 跨主机 N/A ×3。
+   - 证据：`audit/evidence/phase-a/verification/preview.{json,md}`（本机，未入库）。
 
 ## 上线前必须完成
 
-1. 维护者提供 `VERCEL_AUTOMATION_BYPASS_SECRET`（或代跑/浏览器人工验收），使
-   `node scripts/verify-site.mjs --base <preview-url>` 达到 0 FAIL（预期 38 PASS / 0 FAIL / 5 WARN）；
-2. 浏览器人工 QA：拼图编辑器、4 工具页、AI 去背景、导出、5 语言、移动端；
-3. 维护者在 Cloudinary 控制台关闭/删除旧的第三方上传 preset（代码已删除，但公开 git 历史仍可取得，见 L-16）；
-4. 维护者在 Vercel Dashboard 配置默认域 301 → 主域（或确认 host noindex 生效）；
-5. 维护者书面批准生产上线（AGENTS H1）；上线后立即用同一脚本跑生产验收（预期 41 PASS / 2 WARN / 0 FAIL）并归档。
+1. 浏览器人工 QA：拼图编辑器、4 工具页、AI 去背景、导出、5 语言、移动端（HTTP 矩阵已 PASS，但交互/渲染需真人确认）；
+2. 维护者在 Cloudinary 控制台关闭/删除旧的第三方上传 preset（代码已删除，但公开 git 历史仍可取得，见 L-16）；
+3. 维护者在 Vercel Dashboard 配置默认域 301 → 主域（或确认 host noindex 生效；Preview 无法验证 host 条件）；
+4. 维护者书面批准生产上线（AGENTS H1）；上线后立即用同一脚本跑生产验收（预期 41 PASS / 2 WARN / 0 FAIL）并归档。
 
 ## 关键风险与限制
 
-- **Preview 保护是当前唯一验收阻塞点**：不是代码失败；解决方式见 `scripts/README.md` §6 与 `docs/runbooks/preview-deploy.md`。
+- **Preview 保护已解决**：用 `vercel login` + `vercel curl` 自动 bypass（无需人工 secret）；验收已 PASS。注意 `vercel curl` 可能自动生成一个项目级 bypass secret，验收后可在 Dashboard 复核/撤销；本机登录态可按需 `vercel logout`。
 - 空参数 `?lang=` 的清除行为需在可访问环境实测；若不生效，回退方案为删除 `en` 规则并记录（不会循环）。
 - host 条件 `X-Robots-Tag` 只能在生产复验；Dashboard 301 是更稳的兜底。
 - `/404/` 仍返回 200（Vercel 静态站约定），已用 meta + header noindex 缓解；严格 404 需后续评估路由中间件。

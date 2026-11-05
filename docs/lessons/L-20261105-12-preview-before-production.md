@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-12 |
 | 日期 | 2026-11-05 |
-| 状态 | open（首次完整应用 = Phase A；当前验收 BLOCKED：Preview 受 Vercel Authentication 保护） |
+| 状态 | mitigated（Phase A 首次完整走通：branch → Preview → `vercel curl` bypass → 38 PASS 证据；生产待批准） |
 | 严重度 | P0（流程门禁） |
 | 证据层 | 平台层 + 线上层 |
 | 关联文件 | `vercel.json`、`404.html`、`.vercelignore`；`scripts/verify-site.mjs`（Phase A 工具）；`docs/runbooks/preview-deploy.md` |
