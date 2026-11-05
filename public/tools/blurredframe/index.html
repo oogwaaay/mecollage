@@ -8,10 +8,10 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="tool.blurred_frame.title">Blur Photo Edges &amp; Background Border Online Free | Instagram Blurred Frame</title>
-    <meta name="description" data-i18n-content="tool.blurred_frame.meta.description" content="Free blurred frame tool — blur image background border for Instagram without cropping. Add blurred edges to photo instantly. Adjust frame width and blur intensity. No signup.">
+    <meta name="description" data-i18n-content="tool.blurred_frame.meta.description" content="Free blurred frame tool — blur image background border for Instagram without cropping. Add blurred edges to photo instantly. Adjust image scale and blur intensity. No signup.">
     <meta name="keywords" data-i18n-content="tool.blurred_frame.meta.keywords" content="blur image background border, add blurred edges to photo, instagram blurred background photo, photo with blurry border, blur photo edges for instagram, blurred frame, cinematic blurred frame online">
     <meta property="og:title" content="Blur Photo Edges &amp; Background Border Online Free | Instagram Blurred Frame | MeCollage" />
-    <meta property="og:description" content="Add beautiful blurred borders around your images for free. Perfect for Instagram, stories, and social media posts. Adjust frame width and blur intensity with simple sliders." />
+    <meta property="og:description" content="Add beautiful blurred borders around your images for free. Perfect for Instagram, stories, and social media posts. Adjust image scale and blur intensity with simple sliders." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.mecollage.top/tools/blurredframe/" />
     <meta property="og:image" content="https://www.mecollage.top/favicon-192.png" />
@@ -742,7 +742,7 @@
 
                     <div class="setting-group">
                         <label class="setting-label"><span data-i18n="tool.blurred_frame.main_scale">Main Image Scale</span> <span id="mainScaleValue">100%</span></label>
-                        <input type="range" id="mainScaleSlider" min="50" max="200" value="100" class="quality-slider">
+                        <input type="range" id="mainScaleSlider" min="50" max="200" value="80" class="quality-slider">
                     </div>
 
                     <div class="setting-group">
@@ -931,7 +931,7 @@
             image: null,
             canvas: null,
             ctx: null,
-            mainScale: 100,
+            mainScale: 80,
             bgScale: 150,
             blurIntensity: 30,
             aspectRatio: 'original',
@@ -950,12 +950,8 @@
             
             // Calculate container size based on viewport
             const calculateContainerSize = () => {
-                const maxSize = Math.min(window.innerWidth - 40, window.innerHeight - 300, 800);
-                state.containerSize = maxSize;
-                state.canvas.width = state.containerSize;
-                state.canvas.height = state.containerSize;
-                document.getElementById('canvasContainer').style.width = `${state.containerSize}px`;
-                document.getElementById('canvasContainer').style.height = `${state.containerSize}px`;
+                state.containerSize = Math.min(window.innerWidth - 40, window.innerHeight - 300, 800);
+                if (state.image) drawBlurredFrame();
             };
 
             calculateContainerSize();
@@ -980,6 +976,7 @@
             if (file) {
                 loadImage(file);
             }
+            e.target.value = '';
         });
 
         // Drag and drop support
@@ -1031,12 +1028,16 @@
                     const imgRatio = img.width / img.height;
                     state.fitScale = imgRatio > 1 ? state.containerSize / img.width : state.containerSize / img.height;
                     
-                    state.mainScale = 100;
+                    state.mainScale = 80;
                     state.bgScale = 150;
                     state.blurIntensity = 30;
                     state.aspectRatio = 'original';
                     state.pan = { x: 0, y: 0 };
                     
+                    const aspectSelect = document.getElementById('aspectRatio');
+                    if (aspectSelect) aspectSelect.value = 'original';
+                    const customAspect = document.getElementById('customAspectRatioGroup');
+                    if (customAspect) customAspect.style.display = 'none';
                     updateSettingsSliders();
                     drawBlurredFrame();
                     showEditor();
@@ -1086,69 +1087,105 @@
             document.getElementById('blurIntensityValue').textContent = window.i18n ? window.i18n.t('tool.common.value_pixels', { value: state.blurIntensity }) : `${state.blurIntensity}px`;
         }
 
+        // --- Unified layout helpers (preview & export share the same math) ---
+        function getTargetRatio() {
+            if (!state.image) return 1;
+            if (state.aspectRatio === 'custom') {
+                const w = parseInt(document.getElementById('aspectRatioWidth').value) || 16;
+                const h = parseInt(document.getElementById('aspectRatioHeight').value) || 9;
+                return w / h;
+            }
+            if (state.aspectRatio !== 'original') {
+                const parts = state.aspectRatio.split(':').map(Number);
+                if (parts.length === 2 && parts[0] > 0 && parts[1] > 0) return parts[0] / parts[1];
+            }
+            return state.image.width / state.image.height;
+        }
+
+        function computeFrameSize(longestSide, ratio) {
+            const side = Math.max(1, Math.round(longestSide));
+            if (ratio >= 1) return { w: side, h: Math.max(1, Math.round(side / ratio)) };
+            return { w: Math.max(1, Math.round(side * ratio)), h: side };
+        }
+
+        function clampPan(canvasW, canvasH) {
+            if (!state.image) return;
+            const ratio = getTargetRatio();
+            const maxFrame = (ratio >= 1 ? canvasW : canvasH) * (state.mainScale / 100);
+            let fw, fh;
+            if (ratio >= 1) { fw = Math.min(canvasW, maxFrame); fh = fw / ratio; }
+            else { fh = Math.min(canvasH, maxFrame); fw = fh * ratio; }
+            const maxX = Math.max(0, (canvasW - fw) / 2);
+            const maxY = Math.max(0, (canvasH - fh) / 2);
+            state.pan.x = Math.max(-maxX, Math.min(maxX, state.pan.x));
+            state.pan.y = Math.max(-maxY, Math.min(maxY, state.pan.y));
+        }
+
+        // Draw the full scene (blurred background + main image) into any 2D context.
+        // previewW is used to normalize pan offsets so export matches the preview.
+        function drawScene(ctx, W, H, previewW) {
+            const img = state.image;
+            if (!img) return;
+            const ratio = getTargetRatio();
+            const panScale = W / Math.max(1, previewW);
+
+            // Background: cover the whole canvas, then blur it (normalized strength).
+            const bgScale = Math.max(W / img.width, H / img.height) * Math.max(1, state.bgScale / 100);
+            const bgW = img.width * bgScale;
+            const bgH = img.height * bgScale;
+            const bgX = (W - bgW) / 2 + state.pan.x * panScale;
+            const bgY = (H - bgH) / 2 + state.pan.y * panScale;
+            const bgCanvas = document.createElement('canvas');
+            bgCanvas.width = W;
+            bgCanvas.height = H;
+            const bgCtx = bgCanvas.getContext('2d');
+            bgCtx.fillStyle = '#0f172a';
+            bgCtx.fillRect(0, 0, W, H);
+            bgCtx.drawImage(img, bgX, bgY, bgW, bgH);
+
+            const ds = 0.35;
+            const sw = Math.max(1, Math.round(W * ds));
+            const sh = Math.max(1, Math.round(H * ds));
+            const small = document.createElement('canvas');
+            small.width = sw;
+            small.height = sh;
+            small.getContext('2d').drawImage(bgCanvas, 0, 0, sw, sh);
+            const blurPx = Math.max(0.5, (state.blurIntensity / 100) * Math.min(W, H) * 0.12);
+            ctx.save();
+            ctx.filter = `blur(${blurPx}px)`;
+            ctx.drawImage(small, 0, 0, W, H);
+            ctx.restore();
+            ctx.filter = 'none';
+
+            // Main image: frame follows the selected aspect ratio, image keeps its own ratio (contain).
+            const maxFrame = (ratio >= 1 ? W : H) * (state.mainScale / 100);
+            let fw, fh;
+            if (ratio >= 1) { fw = Math.min(W, maxFrame); fh = fw / ratio; }
+            else { fh = Math.min(H, maxFrame); fw = fh * ratio; }
+            const fx = (W - fw) / 2 + state.pan.x * panScale;
+            const fy = (H - fh) / 2 + state.pan.y * panScale;
+            const fit = Math.min(fw / img.width, fh / img.height);
+            const dw = img.width * fit;
+            const dh = img.height * fit;
+            ctx.drawImage(img, fx + (fw - dw) / 2, fy + (fh - dh) / 2, dw, dh);
+        }
+
         // Draw blurred frame image on canvas
         function drawBlurredFrame() {
             if (!state.image || !state.ctx) return;
-            
-            // Use requestAnimationFrame to optimize rendering performance
             if (state.isDrawing) return;
-            
             state.isDrawing = true;
             requestAnimationFrame(() => {
-                // Clear canvas
-                state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
-
-                // Calculate image dimensions for main image and background
-                const imgRatio = state.image.width / state.image.height;
-                let targetRatio = imgRatio;
-                
-                // Handle custom aspect ratio
-                if (state.aspectRatio === 'custom') {
-                    const width = parseInt(document.getElementById('aspectRatioWidth').value) || 16;
-                    const height = parseInt(document.getElementById('aspectRatioHeight').value) || 9;
-                    targetRatio = width / height;
-                } else if (state.aspectRatio !== 'original') {
-                    // Handle predefined aspect ratios
-                    const [width, height] = state.aspectRatio.split(':').map(Number);
-                    targetRatio = width / height;
-                }
-                
-                let mainWidth, mainHeight, bgWidth, bgHeight;
-
-                // Calculate main image size based on scale and target aspect ratio
-                if (targetRatio > 1) {
-                    // Landscape or square aspect ratio
-                    mainWidth = state.containerSize * (state.mainScale / 100);
-                    mainHeight = mainWidth / targetRatio;
-                } else {
-                    // Portrait aspect ratio
-                    mainHeight = state.containerSize * (state.mainScale / 100);
-                    mainWidth = mainHeight * targetRatio;
-                }
-
-                // Calculate background size based on scale and target aspect ratio
-                if (targetRatio > 1) {
-                    // Landscape or square aspect ratio
-                    bgWidth = state.containerSize * (state.bgScale / 100);
-                    bgHeight = bgWidth / targetRatio;
-                } else {
-                    // Portrait aspect ratio
-                    bgHeight = state.containerSize * (state.bgScale / 100);
-                    bgWidth = bgHeight * targetRatio;
-                }
-
-                // Calculate center positions
-                const mainX = (state.containerSize - mainWidth) / 2 + state.pan.x;
-                const mainY = (state.containerSize - mainHeight) / 2 + state.pan.y;
-                const bgX = (state.containerSize - bgWidth) / 2;
-                const bgY = (state.containerSize - bgHeight) / 2;
-
-                // Draw blurred background
-                drawBlurredBackground(bgX, bgY, bgWidth, bgHeight);
-
-                // Draw main image with the correct aspect ratio
-                state.ctx.drawImage(state.image, mainX, mainY, mainWidth, mainHeight);
-                
+                const ratio = getTargetRatio();
+                const size = computeFrameSize(state.containerSize, ratio);
+                state.canvas.width = size.w;
+                state.canvas.height = size.h;
+                const container = document.getElementById('canvasContainer');
+                container.style.width = `${size.w}px`;
+                container.style.height = `${size.h}px`;
+                clampPan(size.w, size.h);
+                state.ctx.clearRect(0, 0, size.w, size.h);
+                drawScene(state.ctx, size.w, size.h, size.w);
                 state.isDrawing = false;
             });
         }
@@ -1255,6 +1292,7 @@
             
             state.pan.x += dx;
             state.pan.y += dy;
+            clampPan(state.canvas.width, state.canvas.height);
             
             state.lastMousePos = { x: e.offsetX, y: e.offsetY };
             
@@ -1293,6 +1331,7 @@
                 
                 state.pan.x += dx;
                 state.pan.y += dy;
+                clampPan(state.canvas.width, state.canvas.height);
                 
                 state.lastMousePos = { x: currentX, y: currentY };
                 
@@ -1317,122 +1356,56 @@
         function downloadImage() {
             if (!state.image) return;
 
-            // Get settings
             const format = document.getElementById('outputFormat').value;
             const sizeOption = document.getElementById('outputSize').value;
-            let quality = 0.9; // Default quality
+            const quality = 0.9;
 
-            // Calculate output size
-            let outputSize;
+            let longestSide;
             if (sizeOption === 'original') {
-                outputSize = Math.min(state.image.width, state.image.height);
+                longestSide = Math.max(state.image.width, state.image.height);
             } else if (sizeOption === 'custom') {
-                outputSize = parseInt(document.getElementById('customSizeInput').value);
+                const custom = parseInt(document.getElementById('customSizeInput').value);
+                longestSide = Number.isFinite(custom) ? Math.max(64, Math.min(10000, custom)) : Math.max(state.image.width, state.image.height);
             } else {
-                outputSize = parseInt(sizeOption);
+                longestSide = parseInt(sizeOption);
             }
 
-            // Create temporary canvas for download
+            const ratio = getTargetRatio();
+            const size = computeFrameSize(longestSide, ratio);
             const tempCanvas = document.createElement('canvas');
-            tempCanvas.width = outputSize;
-            tempCanvas.height = outputSize;
+            tempCanvas.width = size.w;
+            tempCanvas.height = size.h;
             const tempCtx = tempCanvas.getContext('2d');
 
-            // Calculate image dimensions for main image and background
-            const imgRatio = state.image.width / state.image.height;
-            let mainWidth, mainHeight, bgWidth, bgHeight;
+            const previewW = state.canvas ? state.canvas.width : size.w;
+            const previewH = state.canvas ? state.canvas.height : size.h;
+            const previewPanX = state.pan.x;
+            const previewPanY = state.pan.y;
+            // Reuse the preview pan (normalized by preview width/height) at export resolution.
+            state.pan.x = previewPanX * (size.w / previewW);
+            state.pan.y = previewPanY * (size.h / previewH);
+            drawScene(tempCtx, size.w, size.h, size.w);
+            state.pan.x = previewPanX;
+            state.pan.y = previewPanY;
 
-            // Calculate main image size based on scale
-            if (imgRatio > 1) {
-                // Landscape image
-                mainWidth = outputSize * (state.mainScale / 100);
-                mainHeight = mainWidth / imgRatio;
-            } else {
-                // Portrait or square image
-                mainHeight = outputSize * (state.mainScale / 100);
-                mainWidth = mainHeight * imgRatio;
-            }
-
-            // Calculate background size
-            if (imgRatio > 1) {
-                bgWidth = outputSize * (state.bgScale / 100);
-                bgHeight = bgWidth / imgRatio;
-            } else {
-                bgHeight = outputSize * (state.bgScale / 100);
-                bgWidth = bgHeight * imgRatio;
-            }
-
-            // Calculate center positions
-            const mainX = (outputSize - mainWidth) / 2;
-            const mainY = (outputSize - mainHeight) / 2;
-            const bgX = (outputSize - bgWidth) / 2;
-            const bgY = (outputSize - bgHeight) / 2;
-
-            // Create a temporary canvas for the blurred background
-            const bgTempCanvas = document.createElement('canvas');
-            bgTempCanvas.width = bgWidth;
-            bgTempCanvas.height = bgHeight;
-            const bgTempCtx = bgTempCanvas.getContext('2d');
-
-            // Draw image to background temp canvas
-            bgTempCtx.drawImage(state.image, 0, 0, bgWidth, bgHeight);
-
-            // Apply blur effect to background
-            // Use CSS filter for better performance
-            bgTempCanvas.style.filter = `blur(${state.blurIntensity / 20}px)`;
-            
-            // Apply blur using the same optimized approach as in drawBlurredBackground
-            const scale = 0.5;
-            const scaledCanvas = document.createElement('canvas');
-            scaledCanvas.width = bgWidth * scale;
-            scaledCanvas.height = bgHeight * scale;
-            const scaledCtx = scaledCanvas.getContext('2d');
-            
-            // Draw the image at reduced size
-            scaledCtx.drawImage(bgTempCanvas, 0, 0, scaledCanvas.width, scaledCanvas.height);
-            
-            // Apply blur to the smaller canvas
-            tempCtx.filter = `blur(${state.blurIntensity / 10}px)`;
-            
-            // Draw the blurred scaled image back to the original canvas, scaling it up
-            tempCtx.drawImage(scaledCanvas, bgX, bgY, bgWidth, bgHeight);
-            
-            // Reset filter
-            tempCtx.filter = 'none';
-
-            // Draw main image
-            tempCtx.drawImage(state.image, mainX, mainY, mainWidth, mainHeight);
-
-            // Download
             let fileName = `${window.i18n ? window.i18n.t('tool.blurred_frame.default_filename') : 'blurred-frame'}.${format}`;
-            
-            // Determine MIME type based on format
             let mimeType;
             switch (format) {
-                case 'png':
-                    mimeType = 'image/png';
-                    break;
-                case 'webp':
-                    mimeType = 'image/webp';
-                    break;
+                case 'png': mimeType = 'image/png'; break;
+                case 'webp': mimeType = 'image/webp'; break;
                 case 'jpg':
-                default:
-                    mimeType = 'image/jpeg';
-                    break;
+                default: mimeType = 'image/jpeg'; break;
             }
-
-            // Convert canvas to blob and download
             tempCanvas.toBlob((blob) => {
-                if (blob) {
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = fileName;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                }
+                if (!blob) return;
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             }, mimeType, quality);
         }
 

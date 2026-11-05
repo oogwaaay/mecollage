@@ -756,7 +756,7 @@
                     <li>Upload your image (JPG, PNG, or WEBP)</li>
                     <li>Use the corner radius slider to adjust rounding (0% = square, 50% = circle)</li>
                     <li>Preview the result in real-time</li>
-                    <li>Download as PNG with transparent corners, or JPG/WEBP with solid background</li>
+                    <li>Download as PNG or WEBP with transparent corners (JPG does not support transparency)</li>
                 </ol>
                 <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 1rem; color: #8fd68f;">Why Use Our Rounded Corners Tool?</h3>
                 <ul style="color: rgba(255, 255, 255, 0.85); line-height: 1.8; padding-left: 1.5rem;">
@@ -801,7 +801,7 @@
                     </div>
                     <div class="faq-item">
                         <h3 class="faq-question">Why does my rounded corner PNG look square on some websites?</h3>
-                        <p class="faq-answer">Some platforms compress uploaded images and may add a background color to transparent PNGs. Your rounded corners can appear as solid squares if the platform doesn't preserve transparency. <strong>Fix</strong>: Download with a solid background color that matches where you'll use it — our color picker lets you choose exact hex codes. For Instagram posts, white (#FFFFFF) or black (#000000) backgrounds work well. For websites, pick a color that matches the page background.</p>
+                        <p class="faq-answer">Some platforms compress uploaded images and may add a background color to transparent PNGs. Your rounded corners can appear as solid squares if the platform doesn't preserve transparency. <strong>Fix</strong>: Use PNG or WEBP when you need transparency (JPG will fill transparent corners with black). Check the platform's upload requirements before posting.</p>
                     </div>
                 </div>
             </section>
@@ -831,6 +831,7 @@
             const calculateContainerSize = () => {
                 const maxSize = Math.min(window.innerWidth - 40, window.innerHeight - 300, 800);
                 state.containerSize = maxSize;
+                if (state.image) drawRoundedImage();
             };
 
             calculateContainerSize();
@@ -843,6 +844,7 @@
             if (file) {
                 loadImage(file);
             }
+            e.target.value = '';
         });
 
         // Drag and drop support
@@ -1108,20 +1110,22 @@
                 outputWidth = state.image.width;
                 outputHeight = state.image.height;
             } else if (sizeOption === '1080') {
-                // 1080px max dimension
+                // 1080px on the longest side (never force 16:9)
                 if (imgRatio > 1) {
-                    outputWidth = 1920; // 16:9 aspect ratio for 1080p
-                    outputHeight = 1080;
+                    outputWidth = 1080;
+                    outputHeight = 1080 / imgRatio;
                 } else {
                     outputHeight = 1080;
-                    outputWidth = 1080 / imgRatio;
+                    outputWidth = 1080 * imgRatio;
                 }
+                outputWidth = Math.round(outputWidth);
+                outputHeight = Math.round(outputHeight);
             } else if (sizeOption === 'custom') {
                 // Get custom width and height from inputs
                 const customWidth = parseInt(document.getElementById('customWidth').value);
                 const customHeight = parseInt(document.getElementById('customHeight').value);
-                outputWidth = isNaN(customWidth) ? state.image.width : customWidth;
-                outputHeight = isNaN(customHeight) ? state.image.height : customHeight;
+                outputWidth = Number.isFinite(customWidth) ? Math.max(1, Math.min(10000, customWidth)) : state.image.width;
+                outputHeight = Number.isFinite(customHeight) ? Math.max(1, Math.min(10000, customHeight)) : state.image.height;
             } else {
                 const size = parseInt(sizeOption);
                 if (imgRatio > 1) {

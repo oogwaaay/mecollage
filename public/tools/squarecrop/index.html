@@ -662,7 +662,7 @@
                                     <span class="zoom-value" id="zoomValue">100%</span>
                                 </div>
                                 <div class="zoom-slider">
-                                    <input type="range" id="zoomSlider" min="10" max="300" value="100">
+                                    <input type="range" id="zoomSlider" min="100" max="300" value="100">
                                 </div>
                             </div>
 
@@ -827,6 +827,11 @@
                 state.canvas.height = state.containerSize;
                 document.getElementById('canvasContainer').style.width = `${state.containerSize}px`;
                 document.getElementById('canvasContainer').style.height = `${state.containerSize}px`;
+                if (state.image) {
+                    state.fitScale = Math.max(state.containerSize / state.image.width, state.containerSize / state.image.height);
+                    clampPan();
+                    drawImage();
+                }
             };
 
             calculateContainerSize();
@@ -855,6 +860,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (file) {
                     loadImage(file);
                 }
+                e.target.value = '';
             });
             
             uploadContainer.addEventListener('dragover', (e) => {
@@ -900,7 +906,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Calculate fitScale to make image fit perfectly at 100% zoom
                     const imgRatio = img.width / img.height;
-                    state.fitScale = imgRatio > 1 ? state.containerSize / img.width : state.containerSize / img.height;
+                    state.fitScale = Math.max(state.containerSize / img.width, state.containerSize / img.height);
                     
                     state.zoom = 100;
                     state.pan = { x: 0, y: 0 };
@@ -935,8 +941,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Draw image on canvas
+        function clampPan() {
+            if (!state.image || !state.canvas) return;
+            const scale = (state.zoom / 100) * state.fitScale;
+            const drawW = state.image.width * scale;
+            const drawH = state.image.height * scale;
+            const maxX = Math.max(0, (drawW - state.canvas.width) / 2);
+            const maxY = Math.max(0, (drawH - state.canvas.height) / 2);
+            state.pan.x = Math.max(-maxX, Math.min(maxX, state.pan.x));
+            state.pan.y = Math.max(-maxY, Math.min(maxY, state.pan.y));
+        }
+
         function drawImage() {
             if (!state.image || !state.ctx) return;
+            clampPan();
 
             // Clear canvas
             state.ctx.clearRect(0, 0, state.canvas.width, state.canvas.height);
@@ -956,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Zoom functions
         function zoomImage(delta) {
-            state.zoom = Math.max(10, Math.min(300, state.zoom + delta));
+            state.zoom = Math.max(100, Math.min(300, state.zoom + delta));
             if (state.zoom === 100) {
                 state.pan = { x: 0, y: 0 };
             }
@@ -984,6 +1002,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             state.pan.x += dx;
             state.pan.y += dy;
+            clampPan();
             
             state.lastMousePos = { x: e.offsetX, y: e.offsetY };
             
@@ -1022,6 +1041,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 state.pan.x += dx;
                 state.pan.y += dy;
+                clampPan();
                 
                 state.lastMousePos = { x: currentX, y: currentY };
                 
@@ -1066,31 +1086,15 @@ document.addEventListener('DOMContentLoaded', () => {
             tempCanvas.height = outputSize;
             const tempCtx = tempCanvas.getContext('2d');
 
-            // Calculate scale for output
-            const scale = (state.zoom / 100) * state.fitScale;
-            const imgWidth = state.image.width * scale;
-            const imgHeight = state.image.height * scale;
+            // Reproduce the exact preview transform at the requested output size (WYSIWYG).
+            const outScale = Math.max(outputSize / state.image.width, outputSize / state.image.height) * (state.zoom / 100);
+            const imgWidth = state.image.width * outScale;
+            const imgHeight = state.image.height * outScale;
+            const panScale = outputSize / state.canvas.width;
+            const centerX = (outputSize - imgWidth) / 2 + state.pan.x * panScale;
+            const centerY = (outputSize - imgHeight) / 2 + state.pan.y * panScale;
 
-            // Calculate position with pan offset
-            const centerX = (state.canvas.width - imgWidth) / 2 + state.pan.x;
-            const centerY = (state.canvas.height - imgHeight) / 2 + state.pan.y;
-
-            // Calculate source rectangle for cropping
-            const sourceX = (-centerX / state.canvas.width) * imgWidth;
-            const sourceY = (-centerY / state.canvas.height) * imgHeight;
-
-            // Draw scaled and cropped image to temp canvas
-            tempCtx.drawImage(
-                state.image,
-                sourceX,
-                sourceY,
-                imgWidth,
-                imgHeight,
-                0,
-                0,
-                outputSize,
-                outputSize
-            );
+            tempCtx.drawImage(state.image, centerX, centerY, imgWidth, imgHeight);
 
             // Download
             let fileName = `${window.i18n ? window.i18n.t('tool.square_crop.default_filename') : 'square-crop'}.${format}`;
@@ -1145,7 +1149,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const zoomSlider = document.getElementById('zoomSlider');
             if (zoomSlider) {
                 zoomSlider.addEventListener('input', (e) => {
-                    state.zoom = parseInt(e.target.value);
+                    state.zoom = Math.max(100, parseInt(e.target.value));
                     if (state.zoom === 100) {
                         state.pan = { x: 0, y: 0 };
                     }

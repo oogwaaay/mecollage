@@ -856,7 +856,7 @@
                                     <div class="zoom-control">
                                         <label class="option-label" data-i18n="tool.square.controls.zoom">Zoom</label>
                                         <div class="zoom-slider-container">
-                                            <input type="range" id="zoomSlider" min="50" max="200" value="100" class="zoom-slider">
+                                            <input type="range" id="zoomSlider" min="100" max="300" value="100" class="zoom-slider">
                                             <span class="zoom-value" id="zoomValue">100%</span>
                                         </div>
                                     </div>
@@ -1121,6 +1121,7 @@
                     
                     state.pan.x += (currentX - state.dragStart.x);
                     state.pan.y += (currentY - state.dragStart.y);
+                    clampCropPan();
                     
                     state.dragStart.x = currentX;
                     state.dragStart.y = currentY;
@@ -1151,7 +1152,7 @@
                     e.preventDefault();
                     const zoomSpeed = 5;
                     const delta = e.deltaY > 0 ? -zoomSpeed : zoomSpeed;
-                    state.zoom = Math.max(50, Math.min(200, state.zoom + delta));
+                    state.zoom = Math.max(100, Math.min(300, state.zoom + delta));
                     document.getElementById('zoomSlider').value = state.zoom;
                     document.getElementById('zoomValue').textContent = window.i18n ? window.i18n.t('tool.common.value_percent', { value: state.zoom }) : `${state.zoom}%`;
                     drawSquareImage();
@@ -1164,6 +1165,7 @@
             const file = e.target.files[0];
             if (file) {
                 loadImage(file);
+                    e.target.value = '';
             }
         });
 
@@ -1440,18 +1442,18 @@
             
             state.ctx.drawImage(blurCanvas, offsetX, offsetY, scaledWidth, scaledHeight);
             
-            // Draw the original image in the center
+            // Draw the original image in the center, fully visible (contain)
             const imgRatio = state.image.width / state.image.height;
             let drawWidth, drawHeight;
             
             if (imgRatio > 1) {
-                // Landscape image
-                drawHeight = squareSize;
-                drawWidth = drawHeight * imgRatio;
-            } else {
-                // Portrait or square image
+                // Landscape image: fit width
                 drawWidth = squareSize;
                 drawHeight = drawWidth / imgRatio;
+            } else {
+                // Portrait or square image: fit height
+                drawHeight = squareSize;
+                drawWidth = drawHeight * imgRatio;
             }
             
             const imgOffsetX = (squareSize - drawWidth) / 2;
@@ -1466,18 +1468,18 @@
             state.ctx.fillStyle = state.options.backgroundColor;
             state.ctx.fillRect(0, 0, squareSize, squareSize);
             
-            // Draw the original image in the center
+            // Draw the original image in the center, fully visible (contain)
             const imgRatio = state.image.width / state.image.height;
             let drawWidth, drawHeight;
             
             if (imgRatio > 1) {
-                // Landscape image
-                drawHeight = squareSize;
-                drawWidth = drawHeight * imgRatio;
-            } else {
-                // Portrait or square image
+                // Landscape image: fit width
                 drawWidth = squareSize;
                 drawHeight = drawWidth / imgRatio;
+            } else {
+                // Portrait or square image: fit height
+                drawHeight = squareSize;
+                drawWidth = drawHeight * imgRatio;
             }
             
             const imgOffsetX = (squareSize - drawWidth) / 2;
@@ -1488,46 +1490,30 @@
 
         // Draw resized image
         function drawResized(squareSize) {
-            if (state.options.resizeFit === 'contain') {
-                // Contain - fit entire image within square
-                const imgRatio = state.image.width / state.image.height;
-                let drawWidth, drawHeight;
-                
-                if (imgRatio > 1) {
-                    drawWidth = squareSize;
-                    drawHeight = drawWidth / imgRatio;
-                } else {
-                    drawHeight = squareSize;
-                    drawWidth = drawHeight * imgRatio;
-                }
-                
-                const imgOffsetX = (squareSize - drawWidth) / 2;
-                const imgOffsetY = (squareSize - drawHeight) / 2;
-                
-                state.ctx.fillStyle = '#ffffff';
-                state.ctx.fillRect(0, 0, squareSize, squareSize);
-                state.ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
-            } else {
-                // Cover - fill square, crop if needed
-                const imgRatio = state.image.width / state.image.height;
-                let srcX = 0, srcY = 0, srcWidth = state.image.width, srcHeight = state.image.height;
-                
-                if (imgRatio > 1) {
-                    // Landscape image - crop sides
-                    srcWidth = state.image.height;
-                    srcX = (state.image.width - srcWidth) / 2;
-                } else {
-                    // Portrait image - crop top/bottom
-                    srcHeight = state.image.width;
-                    srcY = (state.image.height - srcHeight) / 2;
-                }
-                
-                state.ctx.drawImage(state.image, srcX, srcY, srcWidth, srcHeight, 0, 0, squareSize, squareSize);
-            }
+            // "Resize" mode: stretch/shrink the whole photo to exactly fill the square.
+            state.ctx.fillStyle = '#ffffff';
+            state.ctx.fillRect(0, 0, squareSize, squareSize);
+            state.ctx.drawImage(state.image, 0, 0, squareSize, squareSize);
+        }
+
+        // Keep the crop viewport covered by the image (no transparent gutters)
+        function clampCropPan() {
+            if (!state.image || !state.canvas) return;
+            const size = state.canvas.width || state.containerSize;
+            const zoomFactor = state.zoom / 100;
+            const baseScale = Math.max(size / state.image.width, size / state.image.height);
+            const scale = baseScale * zoomFactor;
+            const drawWidth = state.image.width * scale;
+            const drawHeight = state.image.height * scale;
+            const maxX = Math.max(0, (drawWidth - size) / 2);
+            const maxY = Math.max(0, (drawHeight - size) / 2);
+            state.pan.x = Math.max(-maxX, Math.min(maxX, state.pan.x));
+            state.pan.y = Math.max(-maxY, Math.min(maxY, state.pan.y));
         }
 
         // Draw cropped image with zoom and pan
         function drawCropped(squareSize) {
+            clampCropPan();
             // Calculate zoom factor
             const zoomFactor = state.zoom / 100;
             
@@ -1620,6 +1606,12 @@
                         downloadBlob(blob, fileName);
                     }
                 }, 'image/png');
+            } else if (format === 'webp') {
+                tempCanvas.toBlob((blob) => {
+                    if (blob) {
+                        downloadBlob(blob, fileName);
+                    }
+                }, 'image/webp', quality);
             } else {
                 tempCanvas.toBlob((blob) => {
                     if (blob) {
@@ -1653,11 +1645,11 @@
             let drawWidth, drawHeight;
             
             if (imgRatio > 1) {
-                drawHeight = size;
-                drawWidth = drawHeight * imgRatio;
-            } else {
                 drawWidth = size;
                 drawHeight = drawWidth / imgRatio;
+            } else {
+                drawHeight = size;
+                drawWidth = drawHeight * imgRatio;
             }
             
             const imgOffsetX = (size - drawWidth) / 2;
@@ -1674,11 +1666,11 @@
             let drawWidth, drawHeight;
             
             if (imgRatio > 1) {
-                drawHeight = size;
-                drawWidth = drawHeight * imgRatio;
-            } else {
                 drawWidth = size;
                 drawHeight = drawWidth / imgRatio;
+            } else {
+                drawHeight = size;
+                drawWidth = drawHeight * imgRatio;
             }
             
             const imgOffsetX = (size - drawWidth) / 2;
@@ -1688,78 +1680,25 @@
         }
 
         function drawResizedToCanvas(canvas, ctx, size) {
-            if (state.options.resizeFit === 'contain') {
-                ctx.fillStyle = '#ffffff';
-                ctx.fillRect(0, 0, size, size);
-                
-                const imgRatio = state.image.width / state.image.height;
-                let drawWidth, drawHeight;
-                
-                if (imgRatio > 1) {
-                    drawWidth = size;
-                    drawHeight = drawWidth / imgRatio;
-                } else {
-                    drawHeight = size;
-                    drawWidth = drawHeight * imgRatio;
-                }
-                
-                const imgOffsetX = (size - drawWidth) / 2;
-                const imgOffsetY = (size - drawHeight) / 2;
-                
-                ctx.drawImage(state.image, imgOffsetX, imgOffsetY, drawWidth, drawHeight);
-            } else {
-                const imgRatio = state.image.width / state.image.height;
-                let srcX = 0, srcY = 0, srcWidth = state.image.width, srcHeight = state.image.height;
-                
-                if (imgRatio > 1) {
-                    srcWidth = state.image.height;
-                    srcX = (state.image.width - srcWidth) / 2;
-                } else {
-                    srcHeight = state.image.width;
-                    srcY = (state.image.height - srcHeight) / 2;
-                }
-                
-                ctx.drawImage(state.image, srcX, srcY, srcWidth, srcHeight, 0, 0, size, size);
-            }
+            // Keep preview and export identical: stretch the whole photo to fill the square.
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, size, size);
+            ctx.drawImage(state.image, 0, 0, size, size);
         }
 
         function drawCroppedToCanvas(canvas, ctx, size) {
-            // Calculate zoom factor
+            // Reuse the exact preview transform (uniform cover scale + zoom + pan),
+            // then scale it to the requested output size. This guarantees WYSIWYG.
             const zoomFactor = state.zoom / 100;
-            
-            // Determine image dimensions for cropping
-            const imgRatio = state.image.width / state.image.height;
-            let srcX = 0, srcY = 0, srcWidth = state.image.width, srcHeight = state.image.height;
-            
-            if (imgRatio > 1) {
-                // Landscape image - calculate source dimensions based on zoom
-                srcHeight = state.image.height;
-                srcWidth = srcHeight * imgRatio;
-                const scale = (srcWidth / srcHeight) * zoomFactor;
-                const cropSize = srcHeight / scale;
-                
-                // Calculate source position based on pan
-                const panX = (state.pan.x / canvas.width) * srcWidth;
-                srcX = (srcWidth - cropSize) / 2 - panX;
-                srcWidth = cropSize;
-            } else {
-                // Portrait image - calculate source dimensions based on zoom
-                srcWidth = state.image.width;
-                srcHeight = srcWidth / imgRatio;
-                const scale = (srcHeight / srcWidth) * zoomFactor;
-                const cropSize = srcWidth / scale;
-                
-                // Calculate source position based on pan
-                const panY = (state.pan.y / canvas.height) * srcHeight;
-                srcY = (srcHeight - cropSize) / 2 - panY;
-                srcHeight = cropSize;
-            }
-            
-            // Ensure source coordinates are within bounds
-            srcX = Math.max(0, Math.min(srcX, state.image.width - srcWidth));
-            srcY = Math.max(0, Math.min(srcY, state.image.height - srcHeight));
-            
-            ctx.drawImage(state.image, srcX, srcY, srcWidth, srcHeight, 0, 0, size, size);
+            const baseScale = Math.max(size / state.image.width, size / state.image.height);
+            const scale = baseScale * zoomFactor;
+            const drawWidth = state.image.width * scale;
+            const drawHeight = state.image.height * scale;
+            const previewSize = state.canvas ? state.canvas.width : size;
+            const panScale = size / previewSize;
+            const offsetX = (size - drawWidth) / 2 + state.pan.x * panScale;
+            const offsetY = (size - drawHeight) / 2 + state.pan.y * panScale;
+            ctx.drawImage(state.image, offsetX, offsetY, drawWidth, drawHeight);
         }
 
         // Helper function to download blob

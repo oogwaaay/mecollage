@@ -269,6 +269,8 @@ class MeCollagePro {
   handleFileSelect(e) {
     const files = Array.from(e.target.files);
     this.processFiles(files);
+    // 允许再次选择同一文件（否则 change 不会触发）
+    e.target.value = '';
   }
 
   /**
@@ -310,10 +312,20 @@ class MeCollagePro {
   processFiles(files) {
     // 限制最多20张图片
     const remainingSlots = this.maxImages - this.images.length;
+    if (remainingSlots <= 0) {
+      alert(`You can add up to ${this.maxImages} images per collage.`);
+      return;
+    }
+    if (files.length > remainingSlots) {
+      alert(`Only ${remainingSlots} more image(s) can be added (max ${this.maxImages}).`);
+    }
     const filesToProcess = files.slice(0, remainingSlots);
-    
+
     filesToProcess.forEach(file => {
       const reader = new FileReader();
+      reader.onerror = () => {
+        alert(`Could not read "${file.name}". Please try another image.`);
+      };
       reader.onload = (e) => {
         const img = new Image();
         img.onload = () => {
@@ -327,6 +339,10 @@ class MeCollagePro {
           this.updateImageCount();
           this.renderCollage();
           this.showCollageCanvas();
+        };
+        img.onerror = () => {
+          // HEIC/损坏文件在多数浏览器无法解码：给出明确反馈，避免“选了文件没反应”
+          alert(`Could not decode "${file.name}". Supported formats: PNG, JPG, WEBP.`);
         };
         img.src = e.target.result;
       };
@@ -470,148 +486,34 @@ class MeCollagePro {
    * 根据图片数量和纵横比计算网格布局
    */
   calculateGridLayout() {
-    // 如果使用自定义网格，直接返回自定义的行列数
+    // 自定义网格：容量校验已在 applyCustomGrid() 完成
     if (this.useCustomGrid) {
-      return {
-        rows: this.customGridRows,
-        cols: this.customGridCols
-      };
+      return { rows: this.customGridRows, cols: this.customGridCols };
     }
 
-    // 考虑添加图片按钮，需要为其预留位置
     const imageCount = this.images.length;
-    const totalItems = imageCount + 1; // +1 是添加图片按钮
+    if (imageCount <= 1) return { rows: 1, cols: 1 };
 
-    if (totalItems === 0) return { rows: 1, cols: 1 };
-    
-    // 根据纵横比和总项目数（图片+添加按钮）计算最佳网格
-    const aspectRatio = this.currentAspectRatio.split(':').map(Number);
-    const ratio = aspectRatio[0] / aspectRatio[1];
-    
-    // 网格计算逻辑，确保添加图片按钮始终有位置
-    let cols, rows;
-    
-    if (totalItems === 1) {
-      // 只有添加按钮
-      cols = 1;
-      rows = 1;
-    } else if (totalItems === 2) {
-      // 1张图片 + 1个添加按钮
-      // 对于1张图片，让它占据整个画布空间，按照所选比例显示
-      cols = 1;
-      rows = 1;
-    } else if (totalItems === 3) {
-      // 2张图片 + 1个添加按钮
-      // 根据纵横比调整布局
-      if (ratio >= 1) {
-        // 横向或正方形比例，2列1行
-        cols = 2;
-        rows = 1;
-      } else {
-        // 纵向比例，1列2行
-        cols = 1;
-        rows = 2;
+    // 需要为“+”按钮预留一个格子（20 张时没有按钮）
+    const hasAdd = imageCount < this.maxImages;
+    const items = imageCount + (hasAdd ? 1 : 0);
+
+    const ratioParts = this.currentAspectRatio.split(':').map(Number);
+    const ratio = (ratioParts[0] || 1) / (ratioParts[1] || 1);
+
+    // 在 1..8 行列内搜索：容量必须 >= items；尽量少空格、单元格接近正方形
+    let best = null;
+    for (let rows = 1; rows <= 8; rows++) {
+      for (let cols = 1; cols <= 8; cols++) {
+        const capacity = rows * cols;
+        if (capacity < items) continue;
+        const empty = capacity - items;
+        const cellAspect = (ratio * rows) / cols;
+        const score = empty * 0.8 + Math.pow(Math.log(cellAspect), 2) * 2 + Math.abs(rows - cols) * 0.01;
+        if (!best || score < best.score) best = { rows, cols, score };
       }
-    } else if (totalItems === 4) {
-      // 3张图片 + 1个添加按钮
-      // 根据纵横比调整布局
-      if (ratio > 1) {
-        // 横向比例，3列1行，添加按钮在第4个位置
-        cols = 4;
-        rows = 1;
-      } else {
-        // 纵向或正方形比例，2列2行
-        cols = 2;
-        rows = 2;
-      }
-    } else if (totalItems === 5) {
-      // 4张图片 + 1个添加按钮
-      // 根据纵横比调整布局
-      if (ratio > 1.5) {
-        // 宽屏比例，5列1行
-        cols = 5;
-        rows = 1;
-      } else if (ratio > 1) {
-        // 横向比例，3列2行
-        cols = 3;
-        rows = 2;
-      } else {
-        // 纵向或正方形比例，2列3行
-        cols = 2;
-        rows = 3;
-      }
-    } else if (totalItems <= 7) {
-      // 5-6张图片 + 1个添加按钮
-      if (ratio > 1.5) {
-        // 宽屏比例，4列2行
-        cols = 4;
-        rows = 2;
-      } else if (ratio > 1) {
-        // 横向比例，3列2行
-        cols = 3;
-        rows = 2;
-      } else {
-        // 纵向或正方形比例，3列2行
-        cols = 3;
-        rows = 2;
-      }
-    } else if (totalItems <= 10) {
-      // 7-9张图片 + 1个添加按钮
-      if (ratio > 1.5) {
-        // 宽屏比例，5列2行
-        cols = 5;
-        rows = 2;
-      } else if (ratio > 1) {
-        // 横向比例，3列3行
-        cols = 3;
-        rows = 3;
-      } else {
-        // 纵向或正方形比例，3列3行
-        cols = 3;
-        rows = 3;
-      }
-    } else if (totalItems <= 13) {
-      // 10-12张图片 + 1个添加按钮
-      if (ratio > 1.5) {
-        // 宽屏比例，5列3行
-        cols = 5;
-        rows = 3;
-      } else if (ratio > 1) {
-        // 横向比例，4列3行
-        cols = 4;
-        rows = 3;
-      } else {
-        // 纵向或正方形比例，4列3行
-        cols = 4;
-        rows = 3;
-      }
-    } else if (totalItems <= 17) {
-      // 13-16张图片 + 1个添加按钮
-      if (ratio > 1.5) {
-        // 宽屏比例，5列4行
-        cols = 5;
-        rows = 4;
-      } else if (ratio > 1) {
-        // 横向比例，4列4行
-        cols = 4;
-        rows = 4;
-      } else {
-        // 纵向或正方形比例，4列4行
-        cols = 4;
-        rows = 4;
-      }
-    } else if (totalItems <= 21) {
-      // 17-20张图片 + 1个添加按钮
-      // 固定使用5x4网格，确保所有图片都能显示
-      cols = 5;
-      rows = 4;
-    } else {
-      // 超过20个项目（包括添加按钮），使用5x4网格
-      cols = 5;
-      rows = 4;
     }
-    
-    return { rows, cols };
+    return best ? { rows: best.rows, cols: best.cols } : { rows: Math.ceil(items / 5), cols: 5 };
   }
 
   /**
@@ -619,92 +521,99 @@ class MeCollagePro {
    */
   renderCollage() {
     const collageGrid = document.getElementById('collageGrid');
+    const collageCanvas = document.getElementById('collageCanvas');
+    if (!collageGrid || !collageCanvas) return;
+
+    // 清理上一次单独渲染的“+”容器（1 张图时放在网格外）
+    collageCanvas.querySelectorAll('.standalone-add-container').forEach(el => el.remove());
+
     let { rows, cols } = this.calculateGridLayout();
-    
-    // 应用纵横比并限制最大尺寸
-    const aspectRatio = this.currentAspectRatio.split(':').map(Number);
-    const widthRatio = aspectRatio[0];
-    const heightRatio = aspectRatio[1];
-    
-    // 计算准确的宽高比
-    const exactRatio = widthRatio / heightRatio;
-    
-    // 设置最大尺寸
-    const maxWidth = 600;
-    const maxHeight = 600;
-    
-    // 计算合适的尺寸，确保严格按照所选比例
+
+    const ratioParts = this.currentAspectRatio.split(':').map(Number);
+    const exactRatio = (ratioParts[0] || 1) / (ratioParts[1] || 1);
+
+    // 依据视口计算画布尺寸：既严格保持所选比例，又保证移动端不被裁切
+    const viewportW = Math.max(240, window.innerWidth - 48);
+    const viewportH = Math.max(240, window.innerHeight - 260);
+    const maxW = Math.min(600, viewportW);
+    const maxH = Math.min(600, viewportH);
     let targetWidth, targetHeight;
-    if (exactRatio > 1) {
-        // 横向比例，以宽度为基准
-        targetWidth = Math.min(600, maxWidth);
-        targetHeight = Math.round(targetWidth / exactRatio);
+    if (exactRatio >= 1) {
+      targetWidth = maxW;
+      targetHeight = Math.round(maxW / exactRatio);
+      if (targetHeight > maxH) {
+        targetHeight = maxH;
+        targetWidth = Math.round(maxH * exactRatio);
+      }
     } else {
-        // 纵向或正方形比例，以高度为基准
-        targetHeight = Math.min(600, maxHeight);
-        targetWidth = Math.round(targetHeight * exactRatio);
+      targetHeight = maxH;
+      targetWidth = Math.round(maxH * exactRatio);
+      if (targetWidth > maxW) {
+        targetWidth = maxW;
+        targetHeight = Math.round(maxW / exactRatio);
+      }
     }
-    
-    // 确保画布尺寸严格按照所选比例
+    targetWidth = Math.max(120, targetWidth);
+    targetHeight = Math.max(120, targetHeight);
+
+    // 覆盖 .collage-grid 的 max-height:500px / padding:1rem（否则比例会被截断、内容区比例偏移）
+    collageGrid.style.maxHeight = 'none';
+    collageGrid.style.padding = '0';
     collageGrid.style.width = `${targetWidth}px`;
     collageGrid.style.height = `${targetHeight}px`;
-    collageGrid.style.aspectRatio = `${widthRatio} / ${heightRatio}`;
-    
-    // 清空画布
+    collageGrid.style.aspectRatio = `${ratioParts[0]} / ${ratioParts[1]}`;
     collageGrid.innerHTML = '';
-    
-    // 根据图片数量调整网格布局
+
+    const hasAdd = this.images.length < this.maxImages;
+
     if (this.images.length === 1) {
-      // 1张图片，让它占据整个画布
-      cols = 1;
+      // 单图：铺满整个画布；“+”按钮放到网格外，避免占用一行导致图片被压扁
       rows = 1;
-      collageGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
-      collageGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-      
-      // 渲染图片
+      cols = 1;
+      collageGrid.style.gridTemplateRows = '1fr';
+      collageGrid.style.gridTemplateColumns = '1fr';
       const imageContainer = this.createImageContainer(0);
+      imageContainer.style.width = '100%';
+      imageContainer.style.height = '100%';
       collageGrid.appendChild(imageContainer);
-      
-      // 渲染添加图片按钮在新的一行
-      if (this.images.length < this.maxImages) {
+
+      if (hasAdd) {
         const addBtn = this.createAddImageButton();
-        // 创建一个新的容器来放置添加按钮，避免影响图片比例
-        const addBtnContainer = document.createElement('div');
-        addBtnContainer.style.gridColumn = '1 / -1';
-        addBtnContainer.style.display = 'flex';
-        addBtnContainer.style.justifyContent = 'center';
-        addBtnContainer.style.alignItems = 'center';
-        addBtnContainer.style.height = '100px';
-        addBtnContainer.appendChild(addBtn);
-        collageGrid.appendChild(addBtnContainer);
+        const wrap = document.createElement('div');
+        wrap.className = 'standalone-add-container';
+        wrap.style.cssText = 'display:flex;justify-content:center;align-items:center;width:100%;height:84px;margin-top:12px;';
+        addBtn.style.width = '64px';
+        addBtn.style.height = '64px';
+        addBtn.style.minWidth = '64px';
+        addBtn.style.minHeight = '64px';
+        wrap.appendChild(addBtn);
+        collageCanvas.appendChild(wrap);
       }
     } else {
-      // 多张图片的情况
       collageGrid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
       collageGrid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
-      
-      // 渲染图片
       for (let i = 0; i < this.images.length; i++) {
-        const imageContainer = this.createImageContainer(i);
-        collageGrid.appendChild(imageContainer);
+        collageGrid.appendChild(this.createImageContainer(i));
       }
-      
-      // 渲染添加图片按钮（如果还有空间）
-      if (this.images.length < this.maxImages) {
+      if (hasAdd) {
         const addBtn = this.createAddImageButton();
+        addBtn.style.width = '100%';
+        addBtn.style.height = '100%';
+        addBtn.style.minWidth = '100%';
+        addBtn.style.minHeight = '100%';
         collageGrid.appendChild(addBtn);
       }
     }
-    
-    // 渲染文字图层
+
+    // 记录单元格宽高比，供 AI 人脸居中计算 object-position
+    this._cellAspect = (targetWidth / cols) / (targetHeight / rows);
+
+    // 渲染文字/贴纸图层
     this.renderTextLayers();
-    // 渲染贴纸图层
     this.renderStickerLayers();
-    
-    // 更新所有删除按钮的位置
     this.updateDeleteButtonsPosition();
   }
-  
+
   /**
    * 更新所有删除按钮的位置
    */
@@ -802,8 +711,7 @@ class MeCollagePro {
       this.currentDragLayer = null;
       this.currentDragType = null;
       
-      // 保存当前状态到撤销栈
-      this.saveState();
+      // 拖拽前已在 startDrag() 记录快照，这里只做清理
       
       // 隐藏实时位置反馈
       const positionFeedback = document.getElementById('positionFeedback');
@@ -816,9 +724,9 @@ class MeCollagePro {
    */
   handleKeyDown(e) {
     // 撤销/重做功能
-    if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
       e.preventDefault();
-      this.undo();
+      if (e.shiftKey) this.redo(); else this.undo();
     } else if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
       e.preventDefault();
       this.redo();
@@ -828,24 +736,21 @@ class MeCollagePro {
   /**
    * 保存当前状态到撤销栈
    */
-  saveState() {
-    // 保存当前状态
-    const state = {
-      images: [...this.images],
+  snapshot() {
+    return {
+      images: this.images.map(img => ({ ...img })),
       textLayers: JSON.parse(JSON.stringify(this.textLayers)),
       stickerLayers: JSON.parse(JSON.stringify(this.stickerLayers)),
       currentAspectRatio: this.currentAspectRatio,
       gutter: this.gutter,
       radius: this.radius
     };
-    
-    this.undoStack.push(state);
+  }
+
+  saveState() {
+    this.undoStack.push(this.snapshot());
     this.redoStack = []; // 清空重做栈
-    
-    // 限制撤销栈大小
-    if (this.undoStack.length > 20) {
-      this.undoStack.shift();
-    }
+    if (this.undoStack.length > 20) this.undoStack.shift();
   }
   
   /**
@@ -855,14 +760,7 @@ class MeCollagePro {
     if (this.undoStack.length === 0) return;
     
     // 保存当前状态到重做栈
-    this.redoStack.push({
-      images: [...this.images],
-      textLayers: JSON.parse(JSON.stringify(this.textLayers)),
-      stickerLayers: JSON.parse(JSON.stringify(this.stickerLayers)),
-      currentAspectRatio: this.currentAspectRatio,
-      gutter: this.gutter,
-      radius: this.radius
-    });
+    this.redoStack.push(this.snapshot());
     
     // 恢复上一个状态
     const prevState = this.undoStack.pop();
@@ -884,14 +782,7 @@ class MeCollagePro {
     if (this.redoStack.length === 0) return;
     
     // 保存当前状态到撤销栈
-    this.undoStack.push({
-      images: [...this.images],
-      textLayers: JSON.parse(JSON.stringify(this.textLayers)),
-      stickerLayers: JSON.parse(JSON.stringify(this.stickerLayers)),
-      currentAspectRatio: this.currentAspectRatio,
-      gutter: this.gutter,
-      radius: this.radius
-    });
+    this.undoStack.push(this.snapshot());
     
     // 恢复下一个状态
     const nextState = this.redoStack.pop();
@@ -910,6 +801,8 @@ class MeCollagePro {
    * 开始拖拽元素
    */
   startDrag(element, layer, type, e) {
+    // 记录拖拽前的状态，保证第一次 Ctrl+Z 能回到拖拽前
+    this.saveState();
     this.isDragging = true;
     this.draggedElement = element;
     this.currentDragLayer = layer;
@@ -936,6 +829,32 @@ class MeCollagePro {
   }
 
   /**
+   * 计算 object-position（%），把检测到的人脸中心放到单元格中心。
+   * cover 模式下：faceFraction 在可视窗口中心 → p = (f - visible/2) / (1 - visible)
+   */
+  computeObjectPosition(image, cellAspect) {
+    const face = image.faceCenter;
+    if (!face) return '50% 50%';
+    const imgW = image.width || 1;
+    const imgH = image.height || 1;
+    const imgAspect = imgW / imgH;
+    const ac = cellAspect > 0 ? cellAspect : 1;
+    const fx = Math.max(0, Math.min(1, face.x / 100));
+    const fy = Math.max(0, Math.min(1, face.y / 100));
+    let posX = 50, posY = 50;
+    if (imgAspect > ac) {
+      const visible = ac / imgAspect;
+      if (visible < 1) posX = ((fx - visible / 2) / (1 - visible)) * 100;
+    } else if (imgAspect < ac) {
+      const visible = imgAspect / ac;
+      if (visible < 1) posY = ((fy - visible / 2) / (1 - visible)) * 100;
+    }
+    posX = Math.max(0, Math.min(100, posX));
+    posY = Math.max(0, Math.min(100, posY));
+    return `${posX}% ${posY}%`;
+  }
+
+  /**
    * 创建图片容器
    */
   createImageContainer(index) {
@@ -944,6 +863,7 @@ class MeCollagePro {
     outerContainer.className = 'image-outer-container';
     outerContainer.style.position = 'relative';
     outerContainer.style.display = 'inline-block';
+    outerContainer.style.minHeight = '0';
     outerContainer.draggable = true;
     
     // 创建内层容器，用于显示图片和应用圆角
@@ -967,7 +887,7 @@ class MeCollagePro {
     
     // 应用智能人脸居中
     if (image.faceCenter) {
-      img.style.objectPosition = `${image.faceCenter.x}% ${image.faceCenter.y}%`;
+      img.style.objectPosition = this.computeObjectPosition(image, this._cellAspect || 1);
     }
     
     // 应用滤镜
@@ -1013,6 +933,10 @@ class MeCollagePro {
     removeBtn.style.pointerEvents = 'none';
     removeBtn.style.userSelect = 'none';
     
+    if (window.matchMedia && window.matchMedia('(hover: none)').matches) {
+      removeBtn.style.opacity = '1';
+      removeBtn.style.pointerEvents = 'auto';
+    }
     removeBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       this.removeImage(index);
@@ -1117,7 +1041,7 @@ class MeCollagePro {
     innerContainer.style.position = 'relative';
     innerContainer.style.overflow = 'hidden';
     innerContainer.style.borderRadius = `var(--radius, 0px)`;
-    innerContainer.style.minHeight = '100px';
+    innerContainer.style.minHeight = '0';
     innerContainer.style.backgroundColor = '#f1f5f9';
     
     // 创建添加按钮
@@ -1413,6 +1337,7 @@ class MeCollagePro {
    * 添加文字图层
    */
   addTextLayer() {
+    this.saveState();
     // 计算新文本的位置，避免重叠
     let x, y;
     if (this.textLayers.length === 0) {
@@ -1461,6 +1386,9 @@ class MeCollagePro {
    * 绑定贴纸事件
    */
   bindStickerEvents() {
+    // 只绑定一次，避免每次切到贴纸工具都重复叠加监听器
+    if (this._stickerEventsBound) return;
+    this._stickerEventsBound = true;
     const stickerBtns = document.querySelectorAll('.sticker-btn');
     stickerBtns.forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -1474,6 +1402,7 @@ class MeCollagePro {
    * 添加贴纸图层
    */
   addStickerLayer(sticker) {
+    this.saveState();
     const stickerLayer = {
       id: `sticker-${Date.now()}`,
       content: sticker,
@@ -1493,9 +1422,8 @@ class MeCollagePro {
     const collageCanvas = document.getElementById('collageCanvas');
     const collageGrid = document.getElementById('collageGrid');
     
-    // 移除现有的文字图层
-    const existingTextLayers = collageCanvas.querySelectorAll('.text-layer');
-    existingTextLayers.forEach(layer => layer.remove());
+    // 移除现有文字图层容器（只删 .text-layer 会残留 .text-wrapper，导致坐标/事件读到旧节点）
+    collageCanvas.querySelectorAll('.text-layers-container').forEach(container => container.remove());
     
     // 获取网格的实际位置和尺寸
     const gridRect = collageGrid.getBoundingClientRect();
@@ -1553,6 +1481,9 @@ class MeCollagePro {
         pointer-events: all;
       `;
       
+      if (window.matchMedia && window.matchMedia('(hover: none)').matches) {
+        deleteBtn.style.opacity = '1';
+      }
       // 删除按钮事件
       deleteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -1610,9 +1541,8 @@ class MeCollagePro {
     const collageCanvas = document.getElementById('collageCanvas');
     const collageGrid = document.getElementById('collageGrid');
     
-    // 移除现有的贴纸图层
-    const existingStickerLayers = collageCanvas.querySelectorAll('.sticker-layer');
-    existingStickerLayers.forEach(layer => layer.remove());
+    // 移除现有贴纸图层容器（避免残留旧 wrapper）
+    collageCanvas.querySelectorAll('.sticker-layers-container').forEach(container => container.remove());
     
     // 获取网格的实际位置和尺寸
     const gridRect = collageGrid.getBoundingClientRect();
@@ -1654,6 +1584,22 @@ class MeCollagePro {
       });
       
       stickerContainer.appendChild(stickerElement);
+
+      // 删除按钮（挂在容器上，不放进 stickerElement，避免污染贴纸文本内容）
+      const delBtn = document.createElement('button');
+      delBtn.className = 'sticker-delete-btn';
+      delBtn.innerHTML = '&times;';
+      delBtn.style.cssText = `position:absolute;left:${gridLeft + layer.x * gridRect.width + 18}px;top:${gridTop + layer.y * gridRect.height - 18}px;width:22px;height:22px;background:#ef4444;color:#fff;border:none;border-radius:50%;font-size:14px;font-weight:bold;cursor:pointer;opacity:0;transition:opacity .2s;display:flex;align-items:center;justify-content:center;z-index:12;pointer-events:auto;`;
+      delBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.removeStickerLayer(layer.id);
+      });
+      if (window.matchMedia && window.matchMedia('(hover: none)').matches) {
+        delBtn.style.opacity = '1';
+      }
+      stickerElement.addEventListener('mouseenter', () => { delBtn.style.opacity = '1'; });
+      stickerElement.addEventListener('mouseleave', () => { delBtn.style.opacity = '0'; });
+      stickerContainer.appendChild(delBtn);
     });
     
     collageCanvas.appendChild(stickerContainer);
@@ -1665,7 +1611,17 @@ class MeCollagePro {
   removeTextLayer(layerId) {
     const layerIndex = this.textLayers.findIndex(l => l.id === layerId);
     if (layerIndex !== -1) {
+      this.saveState();
       this.textLayers.splice(layerIndex, 1);
+      this.renderCollage();
+    }
+  }
+
+  removeStickerLayer(layerId) {
+    const layerIndex = this.stickerLayers.findIndex(l => l.id === layerId);
+    if (layerIndex !== -1) {
+      this.saveState();
+      this.stickerLayers.splice(layerIndex, 1);
       this.renderCollage();
     }
   }
@@ -1886,178 +1842,70 @@ class MeCollagePro {
    * 导出拼图
    */
   exportCollage() {
-    // 获取画布容器
     const collageCanvas = document.getElementById('collageCanvas');
     const collageGrid = document.getElementById('collageGrid');
-    
-    // 检查元素是否存在
     if (!collageGrid || !collageCanvas) {
-      alert(window.i18n.t('error.canvas_not_found'));
+      alert(window.i18n ? window.i18n.t('error.canvas_not_found') : 'Canvas not found');
       return;
     }
-    
-    // 使用html2canvas库（假设已加载）
-    if (typeof html2canvas !== 'undefined') {
-      // 先隐藏底部工具栏和照片计数器，避免被捕获
-      const bottomToolbar = document.querySelector('.bottom-toolbar');
-      const bottomToolbarDisplay = bottomToolbar ? bottomToolbar.style.display : '';
-      const photoCounter = document.getElementById('photoCounter');
-      const photoCounterDisplay = photoCounter ? photoCounter.style.display : '';
-      
-      if (bottomToolbar) bottomToolbar.style.display = 'none';
-      if (photoCounter) photoCounter.style.display = 'none';
-      
-      // 创建一个临时容器来组合所有可见内容
-      const tempContainer = document.createElement('div');
-      tempContainer.style.position = 'absolute';
-      tempContainer.style.top = '0';
-      tempContainer.style.left = '0';
-      tempContainer.style.zIndex = '9999';
-      tempContainer.style.background = '#ffffff';
-      tempContainer.style.padding = '20px';
-      tempContainer.style.borderRadius = '0.75rem';
-      
-      // 复制collageGrid的样式
-      const gridRect = collageGrid.getBoundingClientRect();
-      tempContainer.style.width = `${gridRect.width}px`;
-      tempContainer.style.height = `${gridRect.height}px`;
-      
-      // 复制collageGrid内容，但排除添加图片按钮
-      const gridClone = collageGrid.cloneNode(true);
-      gridClone.style.position = 'static';
-      gridClone.style.margin = '0';
-      
-      // 移除添加图片按钮
-      const addBtnClone = gridClone.querySelector('.add-image-btn');
-      if (addBtnClone) {
-        addBtnClone.parentElement.parentElement.remove();
-      }
-      
-      // 将临时容器添加到body
-      document.body.appendChild(tempContainer);
-      tempContainer.appendChild(gridClone);
-      
-      // 重新应用滤镜效果到克隆的图片上
-      const clonedImages = gridClone.querySelectorAll('.image-inner-container img');
-      clonedImages.forEach((img, index) => {
-        if (index < this.images.length) {
-          const image = this.images[index];
-          const filterStyle = this.getFilterStyle(image.filter);
-          img.style.filter = filterStyle;
-          img.style.webkitFilter = filterStyle;
-        }
-      });
-      
-      // 重新创建文字图层，确保位置准确
-      const textContainer = document.createElement('div');
-      textContainer.className = 'text-layers-container';
-      textContainer.style.position = 'absolute';
-      textContainer.style.top = '0';
-      textContainer.style.left = '0';
-      textContainer.style.width = `${gridRect.width}px`;
-      textContainer.style.height = `${gridRect.height}px`;
-      textContainer.style.pointerEvents = 'none';
-      
-      // 渲染每个文字图层到临时容器
-      this.textLayers.forEach(layer => {
-        const textWrapper = document.createElement('div');
-        textWrapper.className = 'text-wrapper';
-        textWrapper.style.position = 'absolute';
-        textWrapper.style.left = `${layer.x * gridRect.width}px`;
-        textWrapper.style.top = `${layer.y * gridRect.height}px`;
-        textWrapper.style.transform = 'translate(-50%, -50%)';
-        textWrapper.style.pointerEvents = 'all';
-        textWrapper.style.zIndex = '10';
-        textWrapper.style.display = 'inline-block';
-        
-        // 文本元素
-        const textElement = document.createElement('div');
-        textElement.className = 'text-layer';
-        textElement.textContent = layer.content;
-        textElement.style.position = 'relative';
-        textElement.style.fontSize = `${layer.fontSize}px`;
-        textElement.style.color = layer.color;
-        textElement.style.fontWeight = layer.fontWeight;
-        textElement.style.userSelect = 'none';
-        
-        textWrapper.appendChild(textElement);
-        textContainer.appendChild(textWrapper);
-      });
-      
-      tempContainer.appendChild(textContainer);
-      
-      // 重新创建贴纸图层，确保位置准确
-      const stickerContainer = document.createElement('div');
-      stickerContainer.className = 'sticker-layers-container';
-      stickerContainer.style.position = 'absolute';
-      stickerContainer.style.top = '0';
-      stickerContainer.style.left = '0';
-      stickerContainer.style.width = `${gridRect.width}px`;
-      stickerContainer.style.height = `${gridRect.height}px`;
-      stickerContainer.style.pointerEvents = 'none';
-      
-      // 渲染每个贴纸图层到临时容器
-      this.stickerLayers.forEach(layer => {
-        const stickerElement = document.createElement('div');
-        stickerElement.className = 'sticker-layer';
-        stickerElement.textContent = layer.content;
-        stickerElement.style.position = 'absolute';
-        stickerElement.style.left = `${layer.x * gridRect.width}px`;
-        stickerElement.style.top = `${layer.y * gridRect.height}px`;
-        stickerElement.style.transform = 'translate(-50%, -50%)';
-        stickerElement.style.fontSize = `${layer.fontSize}px`;
-        stickerElement.style.pointerEvents = 'all';
-        
-        stickerContainer.appendChild(stickerElement);
-      });
-      
-      tempContainer.appendChild(stickerContainer);
-      
-      // 2. 使用html2canvas捕获临时容器，这是最可靠的方案
-      html2canvas(tempContainer, {
-        backgroundColor: '#ffffff',
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: true,
-        scrollX: 0,
-        scrollY: 0,
-        // 启用foreignObject渲染以支持CSS滤镜
-        foreignObjectRendering: true,
-        // 确保所有元素都被正确捕获
-        ignoreElements: (element) => {
-          return element.classList.contains('remove-btn') || 
-                 element.classList.contains('drag-handle') ||
-                 element.classList.contains('image-menu-btn') ||
-                 element.classList.contains('add-image-btn');
-        }
-      }).then(canvas => {
-        // 3. 恢复原始样式
-        if (bottomToolbar) bottomToolbar.style.display = bottomToolbarDisplay;
-        if (photoCounter) photoCounter.style.display = photoCounterDisplay;
-        
-        // 4. 移除临时容器
-        document.body.removeChild(tempContainer);
-        
-        // 5. 创建下载链接
-        const link = document.createElement('a');
-        link.download = `mecollage-${Date.now()}.png`;
-        link.href = canvas.toDataURL('image/png', 1.0);
-        link.click();
-      }).catch(error => {
-        // 6. 发生错误时也要恢复原始样式和清理
-        if (bottomToolbar) bottomToolbar.style.display = bottomToolbarDisplay;
-        if (photoCounter) photoCounter.style.display = photoCounterDisplay;
-        
-        // 7. 移除临时容器
-        document.body.removeChild(tempContainer);
-        
-        console.error('Export failed:', error);
-        alert('Export failed. Please try again. Error: ' + error.message);
-      });
-    } else {
+    if (typeof html2canvas === 'undefined') {
       alert('Export feature requires html2canvas library');
+      return;
     }
+
+    const gridRect = collageGrid.getBoundingClientRect();
+    if (!gridRect.width || !gridRect.height) return;
+
+    // 只捕获确定尺寸的离屏容器，避免 padding/border-box 导致裁切与比例错误
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = `position:fixed;left:0;top:0;width:${gridRect.width}px;height:${gridRect.height}px;background:#ffffff;overflow:hidden;z-index:-1;pointer-events:none;`;
+
+    const gridClone = collageGrid.cloneNode(true);
+    gridClone.style.width = '100%';
+    gridClone.style.height = '100%';
+    gridClone.style.margin = '0';
+    gridClone.style.maxHeight = 'none';
+    gridClone.querySelectorAll('.add-image-outer-container, .add-image-btn, .remove-btn, .drag-handle, .image-menu-btn, .text-delete-btn, .sticker-delete-btn').forEach(el => el.remove());
+    wrapper.appendChild(gridClone);
+
+    // 文字图层（位置与预览一致：相对网格左上角，x/y 为 0-1 比例）
+    this.textLayers.forEach(layer => {
+      const el = document.createElement('div');
+      el.className = 'text-layer';
+      el.textContent = layer.content;
+      el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;color:${layer.color};font-weight:${layer.fontWeight};pointer-events:none;white-space:nowrap;z-index:10;`;
+      wrapper.appendChild(el);
+    });
+    // 贴纸图层
+    this.stickerLayers.forEach(layer => {
+      const el = document.createElement('div');
+      el.className = 'sticker-layer';
+      el.textContent = layer.content;
+      el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;pointer-events:none;white-space:nowrap;z-index:11;`;
+      wrapper.appendChild(el);
+    });
+
+    document.body.appendChild(wrapper);
+    const cleanup = () => { if (wrapper.parentNode) wrapper.parentNode.removeChild(wrapper); };
+
+    html2canvas(wrapper, {
+      backgroundColor: '#ffffff',
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      foreignObjectRendering: true
+    }).then(canvas => {
+      cleanup();
+      const link = document.createElement('a');
+      link.download = `mecollage-${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png', 1.0);
+      link.click();
+    }).catch(error => {
+      cleanup();
+      console.error('Export failed:', error);
+      alert('Export failed. Please try again.');
+    });
   }
 
   /**
@@ -2078,8 +1926,8 @@ class MeCollagePro {
       customGridInputs.style.display = this.useCustomGrid ? 'block' : 'none';
     }
 
-    // 重新渲染拼图
-    if (this.images.length > 0) {
+    // 切到 Custom 时只展开输入框，等用户点 Apply 再应用；切回 Auto 立即恢复自动布局
+    if (!this.useCustomGrid && this.images.length > 0) {
       this.renderCollage();
     }
   }
@@ -2102,10 +1950,11 @@ class MeCollagePro {
       return;
     }
 
-    // 验证网格容量
-    const gridCapacity = rows * cols - 1; // -1 是为了给添加按钮留空间
-    if (this.images.length > gridCapacity) {
-      alert(`Current grid (${rows}×${cols}) can only hold ${gridCapacity} photos. You have ${this.images.length} photos.`);
+    // 验证网格容量（只有还能加图时才需要为“+”预留一格）
+    const addNeeded = this.images.length < this.maxImages ? 1 : 0;
+    const gridCapacity = rows * cols;
+    if (this.images.length + addNeeded > gridCapacity) {
+      alert(`Current grid (${rows}×${cols}) can only hold ${gridCapacity - addNeeded} photos. You have ${this.images.length} photos.`);
       return;
     }
 
@@ -2177,6 +2026,8 @@ class MeCollagePro {
     this.isProcessingAi = true;
     this.updateAiBtnState(true);
     
+    let processed = 0;
+    let detected = 0;
     try {
       for (let i = 0; i < this.images.length; i++) {
         const image = this.images[i];
@@ -2184,10 +2035,17 @@ class MeCollagePro {
         
         const img = new Image();
         img.src = image.url;
-        await new Promise(resolve => img.onload = resolve);
+        try {
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = () => reject(new Error('image decode failed'));
+          });
+        } catch (e) {
+          continue;
+        }
         
         const detections = await faceapi.detectAllFaces(img, new faceapi.TinyFaceDetectorOptions());
-        
+        processed++;
         if (detections.length > 0) {
           // 找到最大的脸
           const largestFace = detections.reduce((prev, current) => 
@@ -2198,12 +2056,19 @@ class MeCollagePro {
           const centerY = (largestFace.box.y + largestFace.box.height / 2) / img.height * 100;
           
           image.faceCenter = { x: centerX, y: centerY };
+          detected++;
         }
       }
       
       this.renderCollage();
+      if (detected === 0) {
+        alert(window.i18n ? window.i18n.t('ai.no_face') : 'No faces detected in some photos.');
+      } else {
+        alert(window.i18n ? window.i18n.t('ai.face_detected') : 'Faces detected and centered!');
+      }
     } catch (error) {
       console.error('Face centering failed:', error);
+      alert('Face centering failed. Please try again.');
     } finally {
       this.isProcessingAi = false;
       this.updateAiBtnState(false);
