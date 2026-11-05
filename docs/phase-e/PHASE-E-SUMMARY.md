@@ -61,3 +61,11 @@
 ## 回滚
 
 `git revert` 本分支；或 Vercel 上一生产部署 Promote/Rollback。无 URL 结构变更。
+
+### 5) Square Crop FAQ / JSON-LD 真问答修正（本轮追加）
+
+- 实际页面：英文 8 条 FAQ，本地化各 6 条（不是 12 条）。
+- 将英文 `Easy to use`、`High-quality output`、`Free and unlimited` 改为真问题：`Is Square Crop free to use?`、`Does it work without signing up?`、`Which file formats can I download?`；本地化页的“Perfect for social media / 易用 / 高质量 / 免费无限制”也改为对应真问题。
+- `Crop when : … Fill when : …` 改为完整句子；`What pixel size…` 答案清理。
+- 重新从可见 FAQ 生成 FAQPage JSON-LD；英文 8/8、4 个本地化页各 6/6，可见问答与 JSON-LD 完全一致。
+- Preview：**38 PASS / 0 FAIL / 5 WARN**；本修正待生产批准。

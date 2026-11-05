@@ -49,3 +49,8 @@ node scripts/seo-audit/run-seo-checks.mjs --label phase-c-final --evidence-dir a
 
 - [x] blurredframe 5 页补 FAQPage；JSON-LD 60/60。
 - [ ] 生产部署后复跑 G1–G6；新增工具/页面时按同类矩阵生成并校验。
+
+## 变更记录
+
+- 2026-11-06 Phase C：blurredframe 5 页补 FAQPage，harness 28/0/0。
+- 2026-11-06 Phase E：发现 `/tools/squarecrop/` 把 `Easy to use`/`High-quality output`/`Free and unlimited` 等卖点写成 FAQ；改为真问题，重写 `Crop when/Fill when` 为完整句子，并从可见 FAQ 重新生成 JSON-LD；英文 8/8、本地化 6/6 匹配。
