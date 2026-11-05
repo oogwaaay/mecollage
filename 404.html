@@ -3,32 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MeCollage - Image Collage Maker</title>
-    <script>
-        // GitHub Pages 404 redirect for SPA
-        // This file is served when a route doesn't exist
-        // We redirect to index.html which will handle the routing
-        
-        const path = window.location.pathname;
-        const search = window.location.search;
-        const hash = window.location.hash;
-        
-        // Redirect to index.html, preserving the path
-        // The router will then handle the path from window.location.pathname
-        if (path !== '/index.html' && path !== '/') {
-            // Use replace to avoid adding to history
-            window.location.replace('/index.html' + search + hash);
-        } else {
-            // If already on index.html, just redirect to home
-            window.location.replace('/');
+    <meta name="robots" content="noindex, follow">
+    <meta name="description" content="The page you requested could not be found. Browse MeCollage's free collage tools, guides, and blog instead.">
+    <title>Page not found - MeCollage</title>
+    <style>
+        :root { color-scheme: dark; }
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+            background: #101512;
+            color: #f2f7f3;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
         }
-    </script>
-    <!-- Google Adsense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
-      crossorigin="anonymous"></script>
+        main { width: 100%; max-width: 720px; }
+        .brand {
+            display: inline-block;
+            margin-bottom: 28px;
+            color: #8fd68f;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-decoration: none;
+        }
+        .code {
+            color: #8fd68f;
+            font-size: 4.5rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.04em;
+        }
+        h1 { margin: 10px 0 12px; font-size: 2rem; line-height: 1.2; }
+        h2 { margin: 0 0 12px; font-size: 1.05rem; color: #cfe8d1; }
+        p { margin: 0 0 24px; color: #b9c9bc; max-width: 60ch; }
+        a { color: #8fd68f; }
+        .links, .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+        .links { margin: 0 0 30px; }
+        .links a, .chips a {
+            display: inline-block;
+            padding: 10px 16px;
+            border: 1px solid rgba(143, 214, 143, 0.35);
+            border-radius: 10px;
+            background: rgba(143, 214, 143, 0.08);
+            color: #f2f7f3;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .links a:hover, .chips a:hover { background: rgba(143, 214, 143, 0.18); }
+        .links a.primary { background: #8fd68f; border-color: #8fd68f; color: #101512; font-weight: 600; }
+        section { margin-bottom: 30px; }
+        .chips a { padding: 7px 12px; font-size: 0.88rem; }
+        .hint { margin: 0; font-size: 0.9rem; color: #93a497; }
+    </style>
 </head>
-<body>
-    <p>Redirecting...</p>
+<body data-404-page>
+    <main>
+        <a class="brand" href="/">MeCollage</a>
+        <div class="code" aria-hidden="true">404</div>
+        <h1>Page not found</h1>
+        <p>The page you requested doesn’t exist, was moved, or was removed. It may be an old link from another site — nothing is broken on your side.</p>
+
+        <div class="links">
+            <a class="primary" href="/">Go to homepage</a>
+            <a href="/blog/">Read the blog</a>
+            <a href="/contact/">Contact support</a>
+        </div>
+
+        <section aria-labelledby="tools-heading">
+            <h2 id="tools-heading">Free collage tools</h2>
+            <div class="chips">
+                <a href="/tools/square/">Square image</a>
+                <a href="/tools/squarecrop/">Crop to square</a>
+                <a href="/tools/roundedcorners/">Rounded corners</a>
+                <a href="/tools/blurredframe/">Blurred frame</a>
+                <a href="/free-collage-maker/">Collage maker</a>
+                <a href="/instagram-story-collage/">Instagram story</a>
+            </div>
+        </section>
+
+        <section aria-labelledby="lang-heading">
+            <h2 id="lang-heading">Choose your language</h2>
+            <div class="chips">
+                <a href="/">English</a>
+                <a href="/zh/">简体中文</a>
+                <a href="/tw/">繁體中文</a>
+                <a href="/ja/">日本語</a>
+                <a href="/es/">Español</a>
+            </div>
+        </section>
+
+        <p class="hint">If you followed a link from a tutorial or search result, the page may have been renamed.</p>
+    </main>
 </body>
 </html>
-
