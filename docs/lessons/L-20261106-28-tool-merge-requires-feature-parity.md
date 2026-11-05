@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261106-28 |
 | 日期 | 2026-11-06 |
-| 状态 | mitigated（Phase D 选择不合并；Preview 32/0/0） |
+| 状态 | closed（Phase D 选择意图区隔；生产验收 41/0/2） |
 | 严重度 | P1 |
 | 证据层 | 代码层 + 功能层 + 线上层 |
 | 关联文件 | `public/tools/square/index.html`（1,729 行/4 模式）、`public/tools/squarecrop/index.html`（1,173 行/仅 crop）、ADR-0005 |

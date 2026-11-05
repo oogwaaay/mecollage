@@ -1,6 +1,6 @@
 # Phase D：square 工具意图区隔 + square-collage 恢复摘要
 
-> 日期：2026-11-06｜分支：`fix/square-intent`｜站点提交 `b5c238a`｜状态：**Preview 已验证，生产待批准**
+> 日期：2026-11-06｜分支：`fix/square-intent`｜站点提交 `b5c238a`｜生产部署 `mecollage-5wnar1xon…`｜**已上线生产**（验收 41/0/2）
 
 ## 背景与审计结论
 
@@ -27,6 +27,7 @@
 
 - SEO harness v1.3.0：**32 PASS / 0 FAIL / 0 WARN**（sitemap 61、intent 区隔、square-collage 恢复、JSON-LD 61、32 noindex、vertical 301）。
 - Preview（`mecollage-3ffd9d88g…`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**；`/square-collage/` 200、两个工具 200、sitemap 61、H4 404。
+- 生产（`mecollage-5wnar1xon…`）：`verify-site` **41 PASS / 0 FAIL / 2 WARN**；跳转矩阵与 canonical 实测通过（见 `audit/evidence/phase-d/production.{md,json}`）。
 - 未做 GSC 重新提交与排名观察（维护者账户操作）。
 
 ## 未做/后续

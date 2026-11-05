@@ -1,9 +1,10 @@
 # ADR-0005: square / squarecrop 意图区隔与 /square-collage/ 恢复
 
-- 状态：**Proposed**（Preview 已验证；生产未部署，待维护者批准）
+- 状态：**Accepted**（2026-11-06 维护者要求上线并复查；生产部署验收 PASS：部署层 41/0/2）
 - 日期：2026-11-06
 - 分支：`fix/square-intent`
 - 站点提交：`b5c238a`（harness v1.3.0 `ec9753e`）
+- 生产部署：`mecollage-5wnar1xon…` → Aliased `https://www.mecollage.top/`（源 `fix/square-intent` @ `fb55584`）
 - 关联：`audit/sections/seo.md` §6.2、用户 2026-11-06 的合并方案审计、Phase C / ADR-0004、L-21/L-26/L-28
 
 ## 背景
@@ -57,6 +58,7 @@
 
 - 本地 SEO harness v1.3.0：**32 PASS / 0 FAIL / 0 WARN**（sitemap 61、intent 区隔 H1/H2/H3、square-collage 恢复、JSON-LD 61、32 noindex、vertical 301）。
 - Preview（`mecollage-3ffd9d88g…`，head `ec9753e` / 站点 `b5c238a`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**；`/square-collage/` 200、`/square-collage` 308→200；两个工具 200；sitemap 61；H4 404。
+- 生产验收（2026-11-06）：`verify-site` **41 PASS / 0 FAIL / 2 WARN**；`/square-collage/` **200（不再 301）**；`/square-collage` 308→带斜杠；`/tools/square/`、`/tools/squarecrop/` 均 200；`/vertical-collage/` 308→`/instagram-story-collage/`；sitemap 61；canonical 各自自引用（square-collage hreflang en+x-default，两工具 6 条 hreflang）；H4 404。
 
 ## 备选（未采用）
 
