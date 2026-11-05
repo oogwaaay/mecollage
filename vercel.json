@@ -72,16 +72,6 @@
       ],
       "destination": "/?lang=",
       "permanent": true
-    },
-    {
-      "source": "/vertical-collage/",
-      "destination": "/instagram-story-collage/",
-      "permanent": true
-    },
-    {
-      "source": "/vertical-collage",
-      "destination": "/instagram-story-collage/",
-      "permanent": true
     }
   ],
   "headers": [

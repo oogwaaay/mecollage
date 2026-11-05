@@ -117,6 +117,7 @@ const EN_TOPIC_KEPT_BASES = [
   '/how-to-make-a-collage/',
   '/instagram-story-collage/',
   '/square-collage/',
+  '/vertical-collage/',
   '/wedding-collage-maker/',
 ];
 /** Phase C 已把语言导航改指语言首页的 6 个 root 专题页（square-collage 恢复后仍指向本地化版本，单独检查） */
@@ -143,11 +144,8 @@ const LOCALIZED_NOINDEX_TOPIC_BASES = [
 const LOCALIZED_NOINDEX_LANGS = ['zh', 'tw', 'ja', 'es'];
 
 /** Phase D：只保留 vertical-collage 的 2 条 301/308（square-collage 已恢复为独立索引页） */
-const LEGACY_REDIRECTS = [
-  { from: '/vertical-collage/', to: '/instagram-story-collage/' },
-  { from: '/vertical-collage', to: '/instagram-story-collage/' },
-];
-const LEGACY_PAGE_URLS = ['/vertical-collage/'];
+const LEGACY_REDIRECTS = [];
+const LEGACY_PAGE_URLS = [];
 
 /** Phase D：工具意图区隔（square = fill/blur/color/resize 不裁剪；squarecrop = crop 1:1） */
 const TOOL_INTENT_BASES = { square: '/tools/square/', squarecrop: '/tools/squarecrop/' };
@@ -2195,7 +2193,7 @@ async function main() {
       });
       const noindexDiff = [...expectedNoindexSet].filter((url) => !noindexSet.has(url)).concat([...noindexSet].filter((url) => !expectedNoindexSet.has(url)));
       ctx.check('noindex 集合与期望一致', noindexDiff.length === 0, { actual: noindexDiff });
-      ctx.check('301 旧页 = 1（仅 /vertical-collage/；Phase D square-collage 已恢复）', meta.redirectedCount === 1, { actual: meta.redirectedCount });
+      ctx.check('301 旧页 = 0（Phase E 已恢复 square-collage 与 vertical-collage）', meta.redirectedCount === 0, { actual: meta.redirectedCount });
       ctx.check('工作区快照已记录（内容 digest）', meta.git.dirtyContentDigest.length === 12, { actual: meta.git });
     },
   });
