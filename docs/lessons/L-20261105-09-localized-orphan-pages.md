@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-09 |
 | 日期 | 2026-11-05 |
-| 状态 | open |
+| 状态 | **closed**（Phase B：语言切换锚点 + 68 页 sitemap + 本地化内链 + 语言 nav；BFS 94/94） |
 | 严重度 | P0（多语言投入无效） |
 | 证据层 | 代码层 + 线上层 |
 | 关联文件 | `index.html:1043-1055`（`<button data-lang=...>` 语言切换器）；`assets/js/i18n.js:145-161`（只改内存/localStorage，不改 URL）；`sitemap.xml`（26 条 `<loc>`）；`es/ja/tw/zh` 各 17 页 |
@@ -96,10 +96,11 @@ PY
 
 ## 后续动作与关闭条件
 
-- [ ] Phase B：语言切换器改 `<a href>`；本地化内链；sitemap 按决策补齐或 noindex；BFS 验收（实施者）。
-- [ ] 维护者决策：32 个本地化专题页 noindex/删除 vs 重写。
-- [ ] 关闭条件：可索引页全部有入口、sitemap/hreflang/内链一致、BFS 通过、证据归档。
+- [x] Phase B：语言切换器改 `<a href>`；本地化内链 348 处；sitemap 94 URL；BFS 94/94 可达（2026-11-05）。
+- [ ] 维护者决策：32 个本地化专题页 noindex/删除 vs 重写（本轮先全部保留索引，观察 GSC；属内容质量阶段）。
+- [x] 关闭条件达成（2026-11-05）：可索引页全部有入口、sitemap/hreflang/内链一致、BFS 94/94、证据归档；内容质量决策另列。
 
 ## 变更记录
 
 - 2026-11-05 open：审计发现（P0-2）。
+- 2026-11-05 closed：语言切换锚点 + 语言 nav + 94 URL sitemap + 本地化内链；SEO harness C/D/E 全 PASS。

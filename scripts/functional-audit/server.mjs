@@ -129,6 +129,19 @@ async function resolveRequest(root, pathname) {
     }
   }
 
+  // 带尾斜杠的 clean URL：/about/ → about.html
+  if (hasTrailingSlash && !isRoot) {
+    const noSlash = resolve(root, safePath.replace(/\/+$/, ''));
+    for (const candidate of [join(noSlash, 'index.html'), `${noSlash}.html`]) {
+      try {
+        const info = await stat(candidate);
+        if (info.isFile()) return { type: 'file', file: candidate };
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+
   return { type: '404' };
 }
 
@@ -181,7 +194,7 @@ export async function startStaticServer({ root, port = 0, host = '127.0.0.1', ve
         else if (await stat(notFoundPage).then((s) => s.isFile()).catch(() => false)) {
           const info = await stat(notFoundPage);
           res.setHeader('content-length', info.size);
-          createReadStream(notFoundPage).pipe(res);
+          createReadStream(notFoundPage).on('error', () => { try { res.destroy(); } catch {} }).pipe(res);
         } else res.end('404 Not Found');
         return;
       }
@@ -196,12 +209,16 @@ export async function startStaticServer({ root, port = 0, host = '127.0.0.1', ve
       if (req.method === 'HEAD') {
         res.end();
       } else {
-        createReadStream(file).pipe(res);
+        createReadStream(file).on('error', () => { try { res.destroy(); } catch {} }).pipe(res);
       }
     } catch (error) {
       entry.status = 500;
-      res.writeHead(500, BASE_HEADERS);
-      res.end(`Internal error: ${error.message}`);
+      if (!res.headersSent) {
+        res.writeHead(500, BASE_HEADERS);
+        res.end(`Internal error: ${error.message}`);
+      } else {
+        try { res.end(); } catch {}
+      }
     } finally {
       entry.durationMs = Date.now() - startedAt;
       if (verbose) console.log(`[server] ${entry.method} ${entry.path} → ${entry.status} (${entry.durationMs}ms)`);

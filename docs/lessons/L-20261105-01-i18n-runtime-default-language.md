@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261105-01 |
 | 日期 | 2026-11-05 |
-| 状态 | open |
+| 状态 | **closed**（Phase B 修复；SEO harness 20/0/0；L-23） |
 | 严重度 | P0 |
 | 证据层 | 代码层 + 线上渲染层 |
 | 关联文件 | `assets/js/i18n.js:4`、`:10-12`、`:52`、`:91`、`:112-118`；36 个本地化页加载该脚本（如 `zh/index.html:1371`）；`index.html:31`、`public/tools/square/index.html:10` |
@@ -72,10 +72,11 @@ done
 
 ## 后续动作与关闭条件
 
-- [ ] Phase B：按 URL 推导语言；本地化页移除运行时覆盖；meta 脱离 i18n（负责人：实施者；工时 4–6h）。
-- [ ] 回归：`es/ja/tw/zh` 首页与对应工具页渲染后 `lang` 正确、正文为该语言、相似度 <0.2；记录到 `audit/evidence/phase-b/`。
-- [ ] 关闭条件：上述渲染检查全部通过，且 5 语言抽样截图/快照入库。
+- [x] Phase B：按 URL 推导语言；本地化页移除运行时覆盖；meta 脱离 i18n（2026-11-05 完成）。
+- [x] 回归：25 页真实渲染 A1/A2/A3 全 PASS（相似度 zh 0.168 / es 0.113 / ja 0.187 / tw 0.159）；`audit/evidence/phase-b/`。
+- [x] 关闭条件：渲染检查全部通过，25 张截图 + 25 份渲染快照入库（2026-11-05）。
 
 ## 变更记录
 
 - 2026-11-05 open：审计发现（`audit/AUDIT-REPORT.md` P0-1），Phase A 不修复，仅记录。
+- 2026-11-05 closed：Phase B 重写 i18n.js（路径推导 + 禁用 DOM/title/meta 覆盖），SEO harness 20/0/0。
