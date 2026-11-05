@@ -6,3 +6,6 @@ dist/
 .env.local
 client_secret.json
 .vercel
+
+# Local audit evidence (large, reproducible; report/sections stay tracked)
+audit/evidence/

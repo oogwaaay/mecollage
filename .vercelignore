@@ -1,0 +1,30 @@
+# Files that must never be publicly served from the MeCollage deployment.
+# Vercel applies this to CLI and Git-based deployments.
+# Keep site assets (HTML/CSS/JS/i18n/images) out of this list.
+
+# Audit artifacts and governance/docs tooling
+audit/
+docs/
+scripts/
+AGENTS.md
+GOVERNANCE.md
+
+# Internal project notes and legacy server config (not used by Vercel)
+design-system.md
+需求理解确认.txt
+.htaccess
+.nojekyll
+.trae/
+
+# Developer-only helper scripts (not runtime assets)
+check_keys.js
+sync_keys.js
+
+# Backups of generated bundles
+*.backup
+
+# Local tooling / OS metadata
+.vercel/
+.vercelignore
+.gitignore
+.DS_Store
