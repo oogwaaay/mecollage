@@ -25,7 +25,8 @@
 
 ## 验证结果
 
-- **Preview 部署层验收**（head `6699dd8`，deployment `7577633151`）：`verify-site` **38 PASS / 0 FAIL / 5 WARN**（与 Phase A 部署面一致，无回归）；sitemap 94 loc、robots 无 `?lang=` Disallow、本地化 html lang/canonical 静态抽查通过。
+- **Preview 部署层验收（最终 head `cda26f0`，deployment `7577990391`）**：`verify-site` **38 PASS / 0 FAIL / 5 WARN**（与 Phase A 部署面一致，无回归）；sitemap 94 loc、robots 无 `?lang=` Disallow、本地化 html lang/canonical 静态抽查通过。
+- **独立复核**（seo-audit，独立脚本/渲染快照）：**0 真实 FAIL**；29 页渲染 html lang/title/description/`i18n.currentLang` 全对、0 JS 异常；sitemap 94/canonical 94/hreflang 0 异常/BFS 94；本地化同语言内链 100%。
 
 - **SEO/多语言 harness**：PASS 20 / FAIL 0 / WARN 0（`node scripts/seo-audit/run-seo-checks.mjs --label final`）。
   - A 渲染语言 3/3、B 切换器 2/2、C sitemap 5/5、D head 4/4、E 内链 4/4、F robots 1/1。
