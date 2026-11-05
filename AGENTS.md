@@ -54,6 +54,7 @@
 | Phase F 功能修复 | 2026-11-05：修复首页比例/网格/导出/撤销/贴纸/AI 人脸、4 个工具页 6 个 P0、文案夸大；浏览器回归 **52 PASS / 0 FAIL / 1 WARN**；**已上线生产并验收**（部署层 41/0/2 + 生产冒烟 PASS），`main` 已合并 | `audit/PHASE-F-REPORT.md`、`docs/phase-f/PHASE-F-SUMMARY.md`、`scripts/functional-audit/`、ADR-0002 |
 | Phase B 多语言/SEO | 2026-11-05：i18n 路径推导+禁运行时覆盖；语言切换真实锚点+40 页语言 nav；sitemap 26→**94 URL**；hreflang/canonical 统一；robots 移除 `?lang=` Disallow；本地化内链 348 处；6 页非法 `lang=x-default`、100 个 meta 占位清理。SEO harness **20 PASS / 0 FAIL / 0 WARN**；功能回归 52/0/1；独立复核 0 FAIL；Preview 38/0/5；**已上线生产并验收 41/0/2 + 生产冒烟 PASS**，`main` 已合并 | `docs/phase-b/PHASE-B-SUMMARY.md`、`docs/decisions/ADR-0003-phase-b-i18n-seo.md`、`scripts/seo-audit/`、`audit/evidence/phase-b/` |
 | Phase C 内容质量 | 2026-11-06：32 薄本地化页 noindex+移出 sitemap/hreflang；sitemap 60；square/vertical 308 合并；3 篇博客扩写；60 页 JSON-LD；description≤160；本地化首页单一 H1；privacy/terms 5 语言修正。SEO harness **28 PASS/0 FAIL/0 WARN**；功能回归 52/0/1；独立复核 0 FAIL；Preview 38/0/5；**已上线生产并验收 41/0/2 + 生产冒烟 PASS**，`main` 已合并 | `docs/phase-c/PHASE-C-SUMMARY.md`、ADR-0004、`audit/evidence/phase-c/` |
+| Phase D 工具意图/独立页恢复 | 2026-11-06：square / squarecrop 不合并，按 fill/no-crop vs crop 做 title/H1/description/互链（5 语言）；恢复 /square-collage/ 独立页（sitemap 61、JSON-LD、首页内链）；无 square 301；harness v1.3.0 **32 PASS/0 FAIL/0 WARN**；Preview 38/0/5；**待维护者生产批准** | `docs/phase-d/PHASE-D-SUMMARY.md`、ADR-0005、`audit/evidence/phase-d/` |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -89,13 +90,13 @@ check → branch → change → verify → preview → evidence → maintainer a
 | [`GOVERNANCE.md`](GOVERNANCE.md) | 变更分级/审批、发布检查单、回滚、教训回灌、证据标准、角色与不可逆操作 |
 | [`docs/lessons/README.md`](docs/lessons/README.md) | 教训库索引 + 新增流程 + 状态机 |
 | [`docs/lessons/TEMPLATE.md`](docs/lessons/TEMPLATE.md) | 新教训模板 |
-| [`docs/decisions/`](docs/decisions/) | ADR；Phase A [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md)、Phase F [ADR-0002](docs/decisions/ADR-0002-functional-integrity-fixes.md)、Phase B [ADR-0003](docs/decisions/ADR-0003-phase-b-i18n-seo.md)、Phase C [ADR-0004](docs/decisions/ADR-0004-content-quality-phase-c.md) |
+| [`docs/decisions/`](docs/decisions/) | ADR；Phase A [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md)、Phase F [ADR-0002](docs/decisions/ADR-0002-functional-integrity-fixes.md)、Phase B [ADR-0003](docs/decisions/ADR-0003-phase-b-i18n-seo.md)、Phase C [ADR-0004](docs/decisions/ADR-0004-content-quality-phase-c.md)、Phase D [ADR-0005](docs/decisions/ADR-0005-square-tool-intent-and-collage-restore.md) |
 | [`docs/runbooks/preview-deploy.md`](docs/runbooks/preview-deploy.md) | 分支 → Preview → 验收 → 生产/回滚 操作手册 |
 | `audit/AUDIT-REPORT.md` | 2026-11-05 全面审计（**本机产物，不入库**：公开仓库安全考虑；含优先级、阶段计划、不确定项） |
 | `audit/sections/*.md`、`audit/evidence/` | 审计分报告与原始证据（同上，可能未入库） |
 | `scripts/verify-site.mjs` | Phase A 起的零依赖部署验收脚本（HTTP/安全头/404/重定向） |
 | `scripts/functional-audit/` | Phase F 起的零依赖浏览器功能回归（CDP + 本地 Vercel 模拟；`node scripts/functional-audit/run-tests.mjs`） |
-| `scripts/seo-audit/` | Phase B 起的零依赖多语言/SEO 验收（v1.2.0 Phase C：28 检查、60 页可索引 + 32 noindex；`node scripts/seo-audit/run-seo-checks.mjs`） |
+| `scripts/seo-audit/` | Phase B 起的零依赖多语言/SEO 验收（v1.3.0 Phase D：32 检查、61 页可索引 + 32 noindex；`node scripts/seo-audit/run-seo-checks.mjs`） |
 | `docs/phase-b/PHASE-B-SUMMARY.md` | Phase B 多语言/SEO 公开摘要 |
 | `docs/phase-f/PHASE-F-SUMMARY.md` | Phase F 功能真实性修复公开摘要（修复项、验证、剩余人工项） |
 | [`docs/phase-c/PHASE-C-SUMMARY.md`](docs/phase-c/PHASE-C-SUMMARY.md) | Phase C 内容质量整改公开摘要 |
@@ -111,6 +112,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 - Phase F：功能真实性修复**已上线生产并验证**（浏览器回归 52/0/1；部署层 41/0/2；生产冒烟 PASS；`main` 已合并）；本次未改安全头/404/重定向/Publisher ID/广告/GA4。
 - Phase B：多语言/SEO 结构修复**已上线生产并验证**（SEO harness 20/0/0、功能 52/0/1、生产部署层 41/0/2、生产冒烟 PASS；`main` 已合并）。
 - Phase C：内容质量整改**已上线生产并验证**（sitemap 60、32 noindex、308 合并、3 博客扩写、60 JSON-LD、privacy/terms 修正；部署层 41/0/2；生产冒烟 PASS；`main` 已合并）；本地化薄页重写/28 条本地化首页卡片内链/lastmod 等非阻断项未做。
+- Phase D：square/squarecrop **不合并**，按 fill/no-crop vs crop 意图区隔；恢复 `/square-collage/` 独立页；sitemap 61；harness 32/0/0；Preview 38/0/5；**待维护者生产批准**。
 
 ## 7. 会话结束前自检（逐条勾）
 
