@@ -7,5 +7,5 @@ dist/
 client_secret.json
 .vercel
 
-# Local audit evidence (large, reproducible; report/sections stay tracked)
-audit/evidence/
+# Local audit artifacts (full report/evidence contain unfixed-risk details; not committed to public repo)
+audit/

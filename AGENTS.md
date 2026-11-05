@@ -1,0 +1,124 @@
+# AGENTS.md — MeCollage 仓库入口（AI / 开发者会话必读）
+
+> 适用对象：任何在本仓库工作的 AI 会话或开发者。
+> 最后更新：2026-11-05（Phase A 治理体系 v1）
+> 本文件是**入口**，不是全部规则；具体流程与验收标准在 [`GOVERNANCE.md`](GOVERNANCE.md)，踩过的坑在 [`docs/lessons/README.md`](docs/lessons/README.md)。
+
+## 0. 30 秒版
+
+- 只读分析/写文档 → 安全，默认可以做（遵守写范围）。
+- 任何会影响线上 `https://www.mecollage.top/` 的改动 → **分支 → Preview → 验收证据 → 维护者明确批准 → 生产**，一步都不能跳。
+- AI 会话**永远不自主部署生产**，不碰 AdSense/GA4/Cloudinary/DNS/Vercel 项目设置等账户级操作。
+- 不重复已知教训；发现新教训必须回灌 `docs/lessons/`（或报告"待分配编号"）。
+- 关键事实必须带证据（命令/输出/`file:line`/URL/时间）；推断与不确定必须标注。
+
+## 1. 开工前必读（按顺序）
+
+1. 本文件（AGENTS.md）。
+2. [`GOVERNANCE.md`](GOVERNANCE.md)—变更管理、检查单、证据标准、不可逆操作。
+3. [`docs/lessons/README.md`](docs/lessons/README.md)—至少扫一遍索引；动手前整条读完与任务相关的 `L-*`。
+4. 任务相关决策：[`docs/decisions/`](docs/decisions/)（当前 [ADR-0001 Phase A 安全加固](docs/decisions/ADR-0001-phase-a-security-hardening.md)）。
+5. 任务相关操作：[`docs/runbooks/`](docs/runbooks/)（当前 [Preview 部署与生产上线](docs/runbooks/preview-deploy.md)）。
+6. 若能读到 `audit/AUDIT-REPORT.md`（**本机审计产物，可能未入库**）：读 §7 优先级、§8 阶段计划、§10 不确定项，再动手。
+
+## 2. 硬规则（H1–H10，违反即停止）
+
+| # | 规则 | 如何检查 / 执行 |
+|---|---|---|
+| H1 | **生产部署必须维护者明确批准**（书面或明确消息；沉默/默认/历史批准都不算）。AI 不得执行 `vercel --prod`、Dashboard promote/rollback、或 merge 到 `main` 触发生产。 | 交付说明里写"等待维护者批准"；批准记录（消息/issue）附到证据目录。 |
+| H2 | **所有改动先分支 + Preview**；禁止直接改 `main`/直接推 `main`。分支命名：`phase-a/...`、`fix/<topic>`、`docs/<topic>`、`chore/<topic>`。 | `git branch --show-current` 不得为 `main`；Preview 记录见 §4。 |
+| H3 | **不得把 API key / 凭据 / 第三方上传 preset 写进前端或仓库**（含注释、备份、sourcemap、测试文件）。发现疑似凭据：只做静态取证，**不做上传/登录/验证性请求**，立即报告维护者。 | `git grep -nE 'api[_-]?key|secret|token|upload_preset|Bearer|PRIVATE KEY'`；`client_secret.json` 不得入库。 |
+| H4 | **不得把内部文档/备份/工具脚本暴露到部署**；新增内部目录必须在同一变更更新 `.vercelignore` 并验证线上 404。 | 见 [L-20261105-14](docs/lessons/L-20261105-14-gitignore-is-not-deploy-ignore.md) 的 404 矩阵命令。 |
+| H5 | **不得修改 Publisher ID**；未经维护者书面确认不得新增/替换广告或统计代码（AdSense/GA4/CMP/Auto ads）。 | `git diff` 中出现 `pub-`、`ca-pub-`、`G-`、`adsbygoogle`、`gtag`、`googletagmanager` 时立即停下确认。 |
+| H6 | **不得重复已知教训**。开工前查教训库；若本轮产生新教训，必须回灌 `docs/lessons/`（新条目 + 索引），或报告"待分配编号"。 | 交付说明列"关联 L-* + 是否新增"；无则写"无新教训"。 |
+| H7 | **证据标准**：结论必须有可复现命令/指标/`file:line`/截图/日志；区分"代码层/线上层/平台层"；"推断/不确定"必须标注并写清如何确认。 | 见 GOVERNANCE §7；没有证据的"已完成/已修复"视为未完成。 |
+| H8 | **不可逆/账户级操作只由维护者执行**：DNS/Cloudflare、AdSense/GA4、Cloudinary、Vercel 项目设置、GitHub Pages/Settings、域名、密钥轮换。AI 只做只读分析与方案。 | 遇到需要登录后台才能确认的事实，标"不确定（需维护者确认）"，不要猜。 |
+| H9 | **不得擅自改 URL 结构**（`trailingSlash`、`cleanUrls`、重定向链、路径）。确需变更必须 ADR + 全量重定向矩阵 + 维护者批准。 | 见 [L-20261105-05](docs/lessons/L-20261105-05-lang-redirect-query-loop.md)。 |
+| H10 | **不碰 git 历史**：禁止 `push --force`、`reset --hard` 到共享分支、删除分支/标签、改写历史；删除被跟踪文件必须有明确任务范围/ADR。并行会话存在时，只改分配给你的文件，避免同一文件冲突。 | `git log`/`git status`；写范围外文件一律不动。 |
+
+> 只读审计任务额外约束：不修改任何被 git 跟踪的文件，不 commit，不部署；产物放任务指定目录（如 `audit/`）。
+
+## 3. 项目速览（2026-11-05 基线）
+
+| 项目 | 事实 | 证据 |
+|---|---|---|
+| 是什么 | 纯静态多语言图片工具站：拼图编辑器 + 4 个工具页（square / squarecrop / roundedcorners / blurredframe）+ 专题页 + 博客；图片处理 100% 在浏览器完成（Canvas/WASM），照片不上传 | `audit/sections/tech-architecture.md` §1.2 |
+| 技术形态 | **无构建系统**：无 `package.json`/`src/`/CI；`git ls-files` 约 130 个文件；审计日 96 个手写 HTML（Phase A 删除 test-section 后 95）；运行时 i18n（`assets/js/i18n.js` + `i18n/*.json`） | `audit/evidence/tech/06_key_numbers.txt` |
+| 页面结构 | 审计日 **96**（root 15 + blog 9 + `es/ja/tw/zh` 各 17 + `public/tools` 4）；Phase A 删除 `test-section.html` 后 **95**；sitemap 26 条 URL | `git ls-files '*.html'`；`sitemap.xml` |
+| 图片处理 | 客户端：`assets/js/mecollage-main.js`；`html2canvas`、`@vladmandic/face-api`、`onnxruntime-web`、`@imgly/background-removal@1.4.5`（AGPL，见 L-15） | `mecollage-main.js:2235-2262` 等 |
+| 部署链路 | 用户 → **Cloudflare**（DNS/CDN 代理）→ **Vercel** 静态托管 → 仓库 `main` HEAD；生产域 `https://www.mecollage.top/`；默认域 `mecollage.vercel.app`（需 noindex/301） | `audit/sections/tech-architecture.md` §2/§3；`.vercel/project.json` |
+| 路由配置 | `vercel.json`：`cleanUrls`、`trailingSlash`、`/tools/* → /public/tools/*` rewrite、`/public/tools/* → /tools/*` 308、`?lang=` 重定向（有循环，见 L-05） | `vercel.json` |
+| 仓库 | `oogwaaay/mecollage`（public）；Phase A 分支 `phase-a/security-hardening`：`460c39a` .vercelignore → `9b950c5` 404 → `1f9ad4c` 响应头+`?lang=` → `7391c5b` `?lang=` 空参数 → `b2a3924` 删除死文件 → 后续 cleanup/docs 提交；HEAD 以 `git log main..HEAD` 为准；**未部署生产** | `git log main..HEAD`；GitHub API |
+| 部署方式 | Vercel Git 集成已确认存在：GitHub Deployments 有 `vercel[bot]`、`environment=Preview` 记录（2026-11-05 用 `gh api` 核实）；**生产触发/提升方式待维护者 Dashboard 确认（不确定）** | `gh api repos/oogwaaay/mecollage/deployments` |
+| Preview 访问 | Vercel Git 集成已确认；Phase A 首条 Preview：deployment `7570103062` / sha `b2a3924`，URL `https://mecollage-9fibvzr1t-keeey-is-projects.vercel.app`。**所有 Preview URL 受 Vercel Authentication 保护**（未认证 302 到 `vercel.com/sso-api`）；验收需维护者提供 Protection Bypass 或代跑。最新 head 的 Preview 用 `gh api repos/oogwaaay/mecollage/deployments?sha=$(git rev-parse HEAD)` 查询 | 2026-11-05 实测；见 runbook + `scripts/README.md` |
+| 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
+
+**关键约束（写代码前先想）**
+
+1. 没有构建/模板：改页面常见动作是"改多份文件"，必须先量化影响面（[L-02](docs/lessons/L-20261105-02-handwritten-static-pages.md)）。
+2. 96 个 HTML 中 5 套语言是手写副本；任何模板级修改至少覆盖 root + 4 语言。
+3. 站点通过 `vercel.json` 统一加响应头/重定向；`.htaccess` 在 Vercel 不生效（[L-06](docs/lessons/L-20261105-06-htaccess-ineffective-on-vercel.md)）。
+4. Cloudflare 会在边缘注入 RUM/响应头，仓库代码看不到（[L-07](docs/lessons/L-20261105-07-cloudflare-rum-injection.md)）。
+5. 浏览器渲染后的 DOM 才是 Googlebot 看到的（[L-01](docs/lessons/L-20261105-01-i18n-runtime-default-language.md)、[L-11](docs/lessons/L-20261105-11-evidence-layers.md)）。
+
+## 4. 标准工作流（生产变更唯一路径）
+
+```
+check → branch → change → verify → preview → evidence → maintainer approval → production
+```
+
+1. **check**：`git status --short`、`git branch --show-current`；读任务对应 `L-*` 与 ADR；确认写范围。
+2. **branch**：从最新 `main`（或任务指定基线）建分支，禁止在 `main` 改。
+3. **change**：最小改动；跨多文件先写脚本/codemod；内部文件更新 `.vercelignore`。
+4. **verify（本地/静态）**：能本地验证的先验证（HTML/JSON 语法、`vercel.json` 合法、grep 一致性）；列出需要在 Preview 验证的项。
+5. **preview**：push 分支 → 等 Vercel Preview → 取 `environment_url`（命令见 [runbook](docs/runbooks/preview-deploy.md)）→ 跑 `node scripts/verify-site.mjs --base <preview-url>`。
+6. **evidence**：把 verify 输出（JSON/MD）、关键 curl/渲染结果存 `audit/evidence/<phase>/verification/`，文件名含 commit sha 与时间。
+7. **maintainer approval**：把"改了什么、证据、风险、回滚方式"发给维护者，得到明确批准。
+8. **production**：由维护者执行（或维护者授权后执行）；上线后立即用同一脚本/矩阵跑生产验收，结果归档。
+9. **close**：更新相关 `L-*` 状态与证据；若有新教训，新建条目并更新索引。
+
+**禁止路径**：本地改完直接 `vercel --prod`；只跑本地预览就合并；带着 verify FAIL 合并；跳过证据直接说"已修好"。
+
+## 5. 文档索引
+
+| 文档 | 用途 |
+|---|---|
+| [`GOVERNANCE.md`](GOVERNANCE.md) | 变更分级/审批、发布检查单、回滚、教训回灌、证据标准、角色与不可逆操作 |
+| [`docs/lessons/README.md`](docs/lessons/README.md) | 教训库索引 + 新增流程 + 状态机 |
+| [`docs/lessons/TEMPLATE.md`](docs/lessons/TEMPLATE.md) | 新教训模板 |
+| [`docs/decisions/`](docs/decisions/) | ADR；当前 [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md) |
+| [`docs/runbooks/preview-deploy.md`](docs/runbooks/preview-deploy.md) | 分支 → Preview → 验收 → 生产/回滚 操作手册 |
+| `audit/AUDIT-REPORT.md` | 2026-11-05 全面审计（**本机产物，不入库**：公开仓库安全考虑；含优先级、阶段计划、不确定项） |
+| `audit/sections/*.md`、`audit/evidence/` | 审计分报告与原始证据（同上，可能未入库） |
+| `scripts/verify-site.mjs` | Phase A 起的零依赖验收脚本（若分支上不存在，按 runbook 附录手工检查） |
+
+## 6. 当前已知未关闭风险（截至 2026-11-05）
+
+> 这些不是"待办清单"，而是**下一次会话最可能再犯的坑**。处理前先读对应教训；不要在未读的情况下重复"修复"。
+
+- P0：i18n 渲染成英文（L-01）、本地化页孤岛（L-09）、AdSense 合规前置与 ID 归属（L-10）、404 广告/跳转（L-04；**分支已改 `9b950c5`，Preview 验收 BLOCKED，待 bypass/生产批准**）。
+- P1：Cloudinary unsigned preset（L-03；**branch 已删文件 `b2a3924` + `upload-icon.*`，preset 关闭仍需维护者；公开 git 历史仍含代码，见 L-16**）、安全头缺失/`.htaccess` 无效（L-06；**分支 `1f9ad4c` 已加头，待验收**）、超大图片（L-08）、AGPL/许可（L-15）。
+- P2/回归：`?lang=` 循环（L-05，**分支 `7391c5b` 空参数写法，待 bypass 矩阵验收**）、默认 vercel.app 域可索引（L-13；**分支 `1f9ad4c` 已加 host noindex，待生产验证**）、内部文件公开（L-14；**分支 `460c39a` + `b2a3924`，待 404 矩阵**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16）、死资源判定口径（L-17）。
+- 流程：Preview 先行尚未首次完整走通（L-12）；**Preview deployment `7570103062` 已生成但受 Vercel Authentication 保护（302 SSO），验收 BLOCKED**，先按 runbook §3 解决访问方式。
+
+## 7. 会话结束前自检（逐条勾）
+
+- [ ] 写范围之外的文件**没有**被修改（`git status --short` 对照任务范围）。
+- [ ] 没有执行生产部署、没有动 `main`、没有 git 历史操作。
+- [ ] 没有引入密钥/凭据/上传 preset；没有新增未登记的第三方依赖。
+- [ ] 关键结论都有证据；不确定项已标注；没有把推断写成事实。
+- [ ] 相关 `L-*` 已检查；新教训已回灌或已报告"待分配编号"。
+- [ ] 交付说明含：改了什么、验证命令与输出、风险、回滚方式、待维护者确认项。
+
+## 8. 高频错误清单（看到就停）
+
+1. 看到 `curl` 静态 HTML 正常就宣布"多语言/SEO 正常"（忽略渲染层，L-01/L-11）。
+2. 用默认 `curl` 无命中就宣布"没有统计/没有广告"（忽略平台注入，L-07）。
+3. 在 `.htaccess` 里加安全头/缓存（Vercel 不生效，L-06）。
+4. 只改 `index.html` 忘了 4 个语言副本（L-02）。
+5. 为验证 Cloudinary preset 是否有效去"上传一张试试"（禁止，L-03）。
+6. 直接替换 AdSense Publisher ID 或补广告位"先跑起来"（禁止，L-10）。
+7. 只删 AdSense 脚本却保留 404 自动跳转（L-04）。
+8. 在 `vercel.json` 重定向里不处理 query，导致循环（L-05）。
+9. 把内部文档/备份留在部署面，用 `.gitignore` 当保险（L-14）。
+10. 跳过 Preview/证据直接上生产（L-12）。
