@@ -40,7 +40,7 @@
 | [L-20261105-12](L-20261105-12-preview-before-production.md) | 所有生产变更必须 Preview 先行并留验收证据 | closed（Phase A 完整走通） | P0 | `scripts/verify-site.mjs`、`docs/runbooks/preview-deploy.md` | 2026-11-05 |
 | [L-20261105-13](L-20261105-13-default-vercel-domain-indexable.md) | 默认域名 `mecollage.vercel.app` 可索引，重复内容 | closed（生产实测 noindex 生效） | P2 | Vercel 项目层；`vercel.json` | 2026-11-05 |
 | [L-20261105-14](L-20261105-14-gitignore-is-not-deploy-ignore.md) | `.gitignore` ≠ 部署忽略，内部文档/备份线上可下载 | closed（Preview+生产验证） | P2 | `.gitignore`、`.vercelignore` | 2026-11-05 |
-| [L-20261105-16](L-20261105-16-public-git-history-keeps-secrets-recoverable.md) | 公开仓库的 git 历史/分支会让已删除代码继续可得 | open（preset 待维护者关闭） | P2 | git history、`origin/gh-pages` | 2026-11-05 |
+| [L-20261105-16](L-20261105-16-public-git-history-keeps-secrets-recoverable.md) | 公开仓库的 git 历史/分支会让已删除代码继续可得 | mitigated（本案例 preset 已删除；通用规则保留） | P2 | git history、`origin/gh-pages` | 2026-11-05 |
 | [L-20261105-17](L-20261105-17-dead-asset-reference-methodology.md) | 死资源判定：CSS class 名 ≠ 文件引用，WebP fallback ≠ 死资源 | mitigated（Phase A 采用并删除 2 个真死资源） | P3 | `upload-icon.png/.webp`、`wallImage.png` | 2026-11-05 |
 | [L-20261105-18](L-20261105-18-production-deploy-is-manual.md) | 生产部署不是 main push 自动上线；是手动 CLI/Dashboard，且 AI 执行需明确授权 | closed（Phase A 实测并已记录流程） | P2 | `docs/runbooks/preview-deploy.md`、`ADR-0001` | 2026-11-05 |
 | [L-20261105-19](L-20261105-19-preview-export-shared-transform.md) | 预览与导出禁止各写一套几何公式 | closed（生产验证） | P0 | `public/tools/*/index.html`、`mecollage-main.js` | 2026-11-05 |
