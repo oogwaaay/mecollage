@@ -1,7 +1,7 @@
 # AGENTS.md — MeCollage 仓库入口（AI / 开发者会话必读）
 
 > 适用对象：任何在本仓库工作的 AI 会话或开发者。
-> 最后更新：2026-11-05（Phase A 治理 v1 + Phase F 功能修复 + Phase B 多语言/SEO）
+> 最后更新：2026-11-06（Phase A 治理 v1 + Phase F 功能修复 + Phase B 多语言/SEO + Phase C 内容质量）
 > 本文件是**入口**，不是全部规则；具体流程与验收标准在 [`GOVERNANCE.md`](GOVERNANCE.md)，踩过的坑在 [`docs/lessons/README.md`](docs/lessons/README.md)。
 
 ## 0. 30 秒版
@@ -53,6 +53,7 @@
 | Preview / 生产 | Phase A **已上线生产**（2026-11-05，维护者批准）。Preview 验收 38 PASS/0/5；生产验收 **41 PASS / 0 FAIL / 2 WARN（exit 0）**。Preview 默认受 Vercel Authentication 保护，已用 `npx vercel login` + `npx vercel curl` 自动 bypass 完成验收（runbook §3 方式 D）。证据：`audit/evidence/phase-a/verification/preview*.{json,md}`、`post-release-prod.{json,md}`、`audit/evidence/phase-a/production-deploy.txt` | 2026-11-05 实测 |
 | Phase F 功能修复 | 2026-11-05：修复首页比例/网格/导出/撤销/贴纸/AI 人脸、4 个工具页 6 个 P0、文案夸大；浏览器回归 **52 PASS / 0 FAIL / 1 WARN**；**已上线生产并验收**（部署层 41/0/2 + 生产冒烟 PASS），`main` 已合并 | `audit/PHASE-F-REPORT.md`、`docs/phase-f/PHASE-F-SUMMARY.md`、`scripts/functional-audit/`、ADR-0002 |
 | Phase B 多语言/SEO | 2026-11-05：i18n 路径推导+禁运行时覆盖；语言切换真实锚点+40 页语言 nav；sitemap 26→**94 URL**；hreflang/canonical 统一；robots 移除 `?lang=` Disallow；本地化内链 348 处；6 页非法 `lang=x-default`、100 个 meta 占位清理。SEO harness **20 PASS / 0 FAIL / 0 WARN**；功能回归 52/0/1；独立复核 0 FAIL；Preview 38/0/5；**已上线生产并验收 41/0/2 + 生产冒烟 PASS**，`main` 已合并 | `docs/phase-b/PHASE-B-SUMMARY.md`、`docs/decisions/ADR-0003-phase-b-i18n-seo.md`、`scripts/seo-audit/`、`audit/evidence/phase-b/` |
+| Phase C 内容质量 | 2026-11-06：32 薄本地化页 noindex+移出 sitemap/hreflang；sitemap 60；square/vertical 308 合并；3 篇博客扩写；60 页 JSON-LD；description≤160；本地化首页单一 H1。SEO harness **28 PASS/0 FAIL/0 WARN**；功能回归 52/0/1；Preview 38/0/5；**待维护者生产批准** | `docs/phase-c/PHASE-C-SUMMARY.md`、ADR-0004、`audit/evidence/phase-c/` |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -88,13 +89,13 @@ check → branch → change → verify → preview → evidence → maintainer a
 | [`GOVERNANCE.md`](GOVERNANCE.md) | 变更分级/审批、发布检查单、回滚、教训回灌、证据标准、角色与不可逆操作 |
 | [`docs/lessons/README.md`](docs/lessons/README.md) | 教训库索引 + 新增流程 + 状态机 |
 | [`docs/lessons/TEMPLATE.md`](docs/lessons/TEMPLATE.md) | 新教训模板 |
-| [`docs/decisions/`](docs/decisions/) | ADR；Phase A [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md)、Phase F [ADR-0002](docs/decisions/ADR-0002-functional-integrity-fixes.md)、Phase B [ADR-0003](docs/decisions/ADR-0003-phase-b-i18n-seo.md) |
+| [`docs/decisions/`](docs/decisions/) | ADR；Phase A [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md)、Phase F [ADR-0002](docs/decisions/ADR-0002-functional-integrity-fixes.md)、Phase B [ADR-0003](docs/decisions/ADR-0003-phase-b-i18n-seo.md)、Phase C [ADR-0004](docs/decisions/ADR-0004-content-quality-phase-c.md) |
 | [`docs/runbooks/preview-deploy.md`](docs/runbooks/preview-deploy.md) | 分支 → Preview → 验收 → 生产/回滚 操作手册 |
 | `audit/AUDIT-REPORT.md` | 2026-11-05 全面审计（**本机产物，不入库**：公开仓库安全考虑；含优先级、阶段计划、不确定项） |
 | `audit/sections/*.md`、`audit/evidence/` | 审计分报告与原始证据（同上，可能未入库） |
 | `scripts/verify-site.mjs` | Phase A 起的零依赖部署验收脚本（HTTP/安全头/404/重定向） |
 | `scripts/functional-audit/` | Phase F 起的零依赖浏览器功能回归（CDP + 本地 Vercel 模拟；`node scripts/functional-audit/run-tests.mjs`） |
-| `scripts/seo-audit/` | Phase B 起的零依赖多语言/SEO 验收（25 页真实渲染 + 94 页静态；`node scripts/seo-audit/run-seo-checks.mjs`） |
+| `scripts/seo-audit/` | Phase B 起的零依赖多语言/SEO 验收（v1.2.0 Phase C：28 检查、60 页可索引 + 32 noindex；`node scripts/seo-audit/run-seo-checks.mjs`） |
 | `docs/phase-b/PHASE-B-SUMMARY.md` | Phase B 多语言/SEO 公开摘要 |
 | `docs/phase-f/PHASE-F-SUMMARY.md` | Phase F 功能真实性修复公开摘要（修复项、验证、剩余人工项） |
 
@@ -107,7 +108,8 @@ check → branch → change → verify → preview → evidence → maintainer a
 - P2/回归：`?lang=` 循环（L-05，**已上线生产并验证：5 条均单跳、最终 URL 无 `?lang=`、无循环**）、默认 vercel.app 域可索引（L-13；**已上线生产，实测 `x-robots-tag: noindex, nofollow`**）、内部文件公开（L-14；**已上线生产并验证 10/10 遗留文件 404、9/9 关键资产 200**）、Cloudflare RUM 口径（L-07）、公开 git 历史暴露（L-16；本案例 preset 已删除、匿名上传面已消除，通用规则保留）、死资源判定口径（L-17）。
 - 流程：**Phase A 已按 branch → Preview（38 PASS）→ 维护者批准 → 生产部署 → 生产验收（41 PASS/0/2）完整走通**（L-12）；生产部署方式为手动 CLI/Dashboard，不是 main push 自动上线。
 - Phase F：功能真实性修复**已上线生产并验证**（浏览器回归 52/0/1；部署层 41/0/2；生产冒烟 PASS；`main` 已合并）；本次未改安全头/404/重定向/Publisher ID/广告/GA4。
-- Phase B：多语言/SEO 结构修复**已上线生产并验证**（SEO harness 20/0/0、功能 52/0/1、生产部署层 41/0/2、生产冒烟 PASS；`main` 已合并）；内容质量/薄页/蚕食/结构化数据决策未执行。
+- Phase B：多语言/SEO 结构修复**已上线生产并验证**（SEO harness 20/0/0、功能 52/0/1、生产部署层 41/0/2、生产冒烟 PASS；`main` 已合并）。
+- Phase C：内容质量整改分支 `phase-c/content-quality`（sitemap 60、32 noindex、308 合并、3 博客扩写、60 JSON-LD）**Preview 已验证，待维护者生产批准**；privacy/terms 文案、本地化薄页重写等仍未做。
 
 ## 7. 会话结束前自检（逐条勾）
 
