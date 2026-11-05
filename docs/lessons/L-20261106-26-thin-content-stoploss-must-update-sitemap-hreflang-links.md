@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261106-26 |
 | 日期 | 2026-11-06 |
-| 状态 | mitigated（Phase C 实现；本地 harness 28/0/0，Preview 38/0/5；生产待批准） |
+| 状态 | closed（Phase C；生产验收 41/0/2 + 冒烟 PASS） |
 | 严重度 | P1 |
 | 证据层 | 代码层 + 静态链接图 + 平台层 |
 | 关联文件 | `sitemap.xml`、32 个本地化专题页、`vercel.json`、`docs/decisions/ADR-0004-content-quality-phase-c.md` |

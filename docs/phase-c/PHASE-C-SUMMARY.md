@@ -1,6 +1,6 @@
 # Phase C：内容质量整改摘要
 
-> 日期：2026-11-05/06｜分支：`phase-c/content-quality`｜源提交：`def0e29`｜Preview：`mecollage-3ba9jck2m…`｜状态：**Preview 已验证，生产待批准**
+> 日期：2026-11-05/06｜分支：`phase-c/content-quality`｜源提交：`def0e29`｜Preview：`mecollage-3ba9jck2m…`｜**已上线生产**（`mecollage-rdua6vxny…`）｜验收 41/0/2 + 冒烟 PASS
 
 ## 做了什么
 

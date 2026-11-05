@@ -45,8 +45,8 @@
 | [L-20261105-23](L-20261105-23-runtime-i18n-must-not-overwrite-static-pages.md) | 运行时 i18n 不得覆盖静态本地化页；语言必须从 URL 推导 | closed（Phase B） | P0 | `assets/js/i18n.js` | 2026-11-05 |
 | [L-20261105-24](L-20261105-24-multilingual-seo-single-source.md) | sitemap/hreflang/语言切换/内链必须同一映射生成 | closed（Phase B） | P0 | `sitemap.xml`、68 本地化页 | 2026-11-05 |
 | [L-20261105-25](L-20261105-25-static-meta-placeholders-and-invalid-lang.md) | SEO meta 必须静态真实文本；`html lang` 禁用 x-default | closed（Phase B） | P1 | 100 个 meta、6 个 html lang | 2026-11-05 |
-| [L-20261106-26](L-20261106-26-thin-content-stoploss-must-update-sitemap-hreflang-links.md) | 薄内容止损必须同步 sitemap/hreflang/内链 | mitigated（Phase C，Preview 待生产） | P1 | `sitemap.xml`、32 本地化页、`vercel.json` | 2026-11-06 |
-| [L-20261106-27](L-20261106-27-jsonld-must-come-from-real-content-and-cover-same-class.md) | JSON-LD 必须由真实内容生成并覆盖同类页 | mitigated（Phase C，Preview 待生产） | P3 | 60 可索引 HTML、`scripts/seo-audit` | 2026-11-06 |
+| [L-20261106-26](L-20261106-26-thin-content-stoploss-must-update-sitemap-hreflang-links.md) | 薄内容止损必须同步 sitemap/hreflang/内链 | closed（Phase C 生产验收） | P1 | `sitemap.xml`、32 本地化页、`vercel.json` | 2026-11-06 |
+| [L-20261106-27](L-20261106-27-jsonld-must-come-from-real-content-and-cover-same-class.md) | JSON-LD 必须由真实内容生成并覆盖同类页 | closed（Phase C 生产验收） | P3 | 60 可索引 HTML、`scripts/seo-audit` | 2026-11-06 |
 | [L-20261105-18](L-20261105-18-production-deploy-is-manual.md) | 生产部署不是 main push 自动上线；是手动 CLI/Dashboard，且 AI 执行需明确授权 | closed（Phase A 实测并已记录流程） | P2 | `docs/runbooks/preview-deploy.md`、`ADR-0001` | 2026-11-05 |
 | [L-20261105-19](L-20261105-19-preview-export-shared-transform.md) | 预览与导出禁止各写一套几何公式 | closed（生产验证） | P0 | `public/tools/*/index.html`、`mecollage-main.js` | 2026-11-05 |
 | [L-20261105-20](L-20261105-20-css-clamp-vs-js-sizing.md) | CSS max-height/min-height/box-sizing 会静默覆盖 JS 尺寸与比例 | closed（生产验证） | P0 | `index.html`、`mecollage-main.js` | 2026-11-05 |
