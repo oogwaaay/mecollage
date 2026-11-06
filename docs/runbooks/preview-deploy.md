@@ -211,7 +211,7 @@ curl -sI "$BASE/" | grep -iE '^(x-content-type-options|x-frame-options|referrer-
 curl -sI "$BASE/404/" | grep -i x-robots-tag
 ```
 
-### 4.6 UI / 交互专项矩阵（H11；R0/R1 起，2026-11-06）
+### 4.6 UI / 交互专项矩阵（H11 六道门禁；R0/R1 起，R2 扩为六道，2026-11-06）
 
 移动端 / 交互 / 编辑器类变更，除 §4.1–4.5 外必须在本地补跑以下命令（离线、需本机 Chrome；不联网）：
 
@@ -220,6 +220,8 @@ curl -sI "$BASE/404/" | grep -i x-robots-tag
 | `node scripts/design-audit/run-token-audit.mjs` | token 外颜色/字号/圆角/内联样式 + **JS 运行时裸色**（style 赋值/对象字面量/cssText）+ `DESIGN-TOKENS.md` 一致性 | exit 0；JS 违规不得高于基线；新增文件 0 违规 |
 | `node scripts/design-audit/check-layout.mjs` | 95 页 390 全量 + 代表页 1440/360/320：横向溢出、固定壁纸、触控 ≥44px、`alert()`、首屏 AI 库预加载 | exit 0（触控默认 WARN，`--strict-touch` 升级 FAIL；A/B/D/E 出现 FAIL 即阻断） |
 | `node scripts/functional-audit/run-tests.mjs` | 浏览器回归；**行为变更后的断言口径**（L-35） | 0 FAIL |
+| `node scripts/functional-audit/run-mobile-touch.mjs` | 390×844 触摸模拟：导航开合/语言抽屉/触控拖拽/**滚动后导出**/触控目标；**交互后/打开态**断言（L-38） | exit 0（6 用例 MT-01~06；FAIL 即阻断；需本机 Chrome + fixtures） |
+| `node scripts/design-audit/check-performance.mjs` | 性能预算：静态 gzip 体积 + 390×844 渲染结构（DOM/深度/backdrop/样式表/脚本）；`--bench` 仅参考（L-37） | exit 0；超预算 FAIL、>90% WARN |
 | `node scripts/seo-audit/run-seo-checks.mjs` | 多语言/head/内链；R1 只做视觉重排也必须跑（DOM/文本顺序不变） | 0 FAIL |
 
 ```bash
@@ -233,11 +235,19 @@ node scripts/design-audit/check-layout.mjs --full \
   --json audit/design-migration/verify/layout-${SHA}.json \
   --md   audit/design-migration/verify/layout-${SHA}.md
 node scripts/functional-audit/run-tests.mjs
+node scripts/functional-audit/run-mobile-touch.mjs \
+  --json audit/design-migration/verify/mobile-touch-${SHA}.json \
+  --md   audit/design-migration/verify/mobile-touch-${SHA}.md
+node scripts/design-audit/check-performance.mjs \
+  --json audit/design-migration/verify/perf-${SHA}.json \
+  --md   audit/design-migration/verify/perf-${SHA}.md
 node scripts/seo-audit/run-seo-checks.mjs
 ```
 
 - `check-layout --full` 为四宽度（1440/390/360/320）× 95 页全量矩阵（慢），**发布前至少跑一次**并归档；日常改动可用默认（390 全量 + 代表页其余宽度）。
 - `check-layout` 需要本机 Chrome 且会阻断外部网络；若本机无 Chrome，记录为"环境不可用"并列入 Preview 人工抽查，不得口头宣布通过。
+- **交互后才出现 / 打开态才可见的状态**（上传后工具栏、导航/语言抽屉、toast 等）必须用 `run-mobile-touch.mjs` 在交互后断言；`check-layout` 是静态首屏扫描，**不能替代**（L-38）。触控目标发布前用 `check-layout --strict-touch` 复核。`run-mobile-touch` 首次需 `python3 scripts/functional-audit/make-fixtures.py`，且滚动导出用例需要 cdnjs（html2canvas，与生产一致）；离线缺网时该用例 WARN 并写入限制。
+- **性能判据**：`check-performance.mjs` 是发布门槛；`--bench` 的 headless FPS 仅参考，**不得**据此做无证据的 blur/视觉降级，真机 profiling 用 DevTools（L-37）。
 - **用户可见行为变更**（alert→toast、导出状态、拖拽、aria 文案等）必须同批更新 `scripts/functional-audit/run-tests.mjs` 断言并保留旧口径兼容期（L-35），否则会出现假 FAIL/假 PASS。
 - **导出/截图类改动必须在“页面已滚动”状态下验收**（L-36）：手动测试先上传触发自动滚动（`scrollY≈300–600`）再导出，确认产物非白且与预览一致；functional 的 IDX-14/15/16 已在滚动后比较导出像素 hash，额外要求 hash ≠ 纯白（当前 1200×1200 纯白 FNV hash `d2b3285`）。html2canvas 的 wrapper 若为 `position:fixed;left:0;top:0`，options 必须显式 `scrollX:0, scrollY:0`（其余渲染参数不动）；**不要**用关闭 `foreignObjectRendering` 或 `scrollTo(0,0)` 绕过。
 - 移动端改动附 **390×844 截图**（首页/工具页/编辑器）与 `check-layout` JSON 证据；`audit/design-migration/verify/` 已被 `.gitignore` 排除（本机证据，不入库）。
