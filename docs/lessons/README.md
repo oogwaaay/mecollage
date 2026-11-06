@@ -22,7 +22,7 @@
 
 > 状态只前进不删除；`closed` 的条目永久保留（防止"删了就当没发生"）。`regressed` 的条目回到 `open` 流程处理，但保留复发历史。
 
-## 3. 索引（40 条，2026-11-05 审计 + Phase A 提炼；2026-11-06 交互改造补 L-31~L-36，R2 补 L-37~L-40）
+## 3. 索引（41 条，2026-11-05 审计 + Phase A 提炼；2026-11-06 交互改造补 L-31~L-36，R2 补 L-37~L-40，发布边界补 L-41）
 
 | ID | 标题 | 状态 | 严重度 | 关联文件 | 日期 |
 |---|---|---|---|---|---|
@@ -60,6 +60,7 @@
 | [L-20261106-38](L-20261106-38-interaction-state-gate-gap.md) | 交互后才出现/打开态的风险漏过静态首屏门禁（导航面板 y=4524、底栏按钮 14–24px） | mitigated（CSS §15/§17 修复 + run-mobile-touch 6/0/0） | P1 | `scripts/functional-audit/run-mobile-touch.mjs`、`assets/css/components.css` §15/§17、`check-layout.mjs` | 2026-11-06 |
 | [L-20261106-39](L-20261106-39-css-display-overrides-hidden.md) | author CSS 的 display 覆盖 `[hidden]` 属性（博客卡片过滤视觉不生效） | mitigated（components.css §20 兜底 + computed display 验收；inline 兜底待清） | P2 | `blog/index.html`、`assets/js/blog-search.js`、`assets/css/components.css` §20 | 2026-11-06 |
 | [L-20261106-40](L-20261106-40-nav-role-conflation.md) | 导航角色混淆：全局 wayfinding 与工具切换不分层（工具 nav 含 Home/内容页带工具 nav/首页重复卡/全局 nav 放具体工具） | mitigated（Phase 1+2A：94 页角色迁移 + 54 页全局导航收口 + check-layout F 6/6 PASS；Phase 2B/Contact 待做） | P1 | `scripts/design-system/nav-role-separation.mjs`、`nav-global-cleanup.mjs`、`components.css §21`、`check-layout.mjs` F 项 | 2026-11-06 |
+| [L-20261106-41](L-20261106-41-account-runbooks-not-in-public-repo.md) | 账户级/内部操作 runbook 默认不进公开仓库（.vercelignore 只保护部署面，不保护 public repo） | mitigated（PR #10 移除当前树 + 本地 audit/ 私有副本 + AGENTS/GOVERNANCE 规则） | P1 | `GOVERNANCE.md` C1；`AGENTS.md` §8 第 21 条；`audit/runbooks/`（本地） | 2026-11-06 |
 | [L-20261105-18](L-20261105-18-production-deploy-is-manual.md) | 生产部署不是 main push 自动上线；是手动 CLI/Dashboard，且 AI 执行需明确授权 | closed（Phase A 实测并已记录流程） | P2 | `docs/runbooks/preview-deploy.md`、`ADR-0001` | 2026-11-05 |
 | [L-20261105-19](L-20261105-19-preview-export-shared-transform.md) | 预览与导出禁止各写一套几何公式 | closed（生产验证） | P0 | `public/tools/*/index.html`、`mecollage-main.js` | 2026-11-05 |
 | [L-20261105-20](L-20261105-20-css-clamp-vs-js-sizing.md) | CSS max-height/min-height/box-sizing 会静默覆盖 JS 尺寸与比例 | closed（生产验证） | P0 | `index.html`、`mecollage-main.js` | 2026-11-05 |
