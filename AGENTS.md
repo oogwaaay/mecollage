@@ -20,8 +20,9 @@
 4. 任务相关决策：[`docs/decisions/`](docs/decisions/)（当前 [ADR-0001 Phase A 安全加固](docs/decisions/ADR-0001-phase-a-security-hardening.md)）。
 5. 任务相关操作：[`docs/runbooks/`](docs/runbooks/)（当前 [Preview 部署与生产上线](docs/runbooks/preview-deploy.md)）。
 6. 若能读到 `audit/AUDIT-REPORT.md`（**本机审计产物，可能未入库**）：读 §7 优先级、§8 阶段计划、§10 不确定项，再动手。
+7. 涉及 UI/样式/新页面：[`docs/design/DESIGN-TOKENS.md`](docs/design/DESIGN-TOKENS.md)（token 与统一规则），并跑 `node scripts/design-audit/run-token-audit.mjs`。
 
-## 2. 硬规则（H1–H10，违反即停止）
+## 2. 硬规则（H1–H11，违反即停止）
 
 | # | 规则 | 如何检查 / 执行 |
 |---|---|---|
@@ -35,6 +36,7 @@
 | H8 | **不可逆/账户级操作只由维护者执行**：DNS/Cloudflare、AdSense/GA4、Cloudinary、Vercel 项目设置、GitHub Pages/Settings、域名、密钥轮换。AI 只做只读分析与方案。 | 遇到需要登录后台才能确认的事实，标"不确定（需维护者确认）"，不要猜。 |
 | H9 | **不得擅自改 URL 结构**（`trailingSlash`、`cleanUrls`、重定向链、路径）。确需变更必须 ADR + 全量重定向矩阵 + 维护者批准。 | 见 [L-20261105-05](docs/lessons/L-20261105-05-lang-redirect-query-loop.md)。 |
 | H10 | **不碰 git 历史**：禁止 `push --force`、`reset --hard` 到共享分支、删除分支/标签、改写历史；删除被跟踪文件必须有明确任务范围/ADR。并行会话存在时，只改分配给你的文件，避免同一文件冲突。 | `git log`/`git status`；写范围外文件一律不动。 |
+| H11 | **UI/交互改动必须同时通过四道门禁**：token 审计（含 JS 运行时裸色）+ functional 回归 + 移动布局门禁（`check-layout`）+ 多语言/SEO 不回归；禁止 `alert()` 产品反馈、JS 裸设计值、移动横向溢出、触控 <44px；**改变用户可见行为必须同一变更内同步更新验收断言；导出/截图必须在页面已滚动状态下验收**（L-31~L-36）。 | 改 UI/交互后跑 `node scripts/design-audit/run-token-audit.mjs`、`node scripts/design-audit/check-layout.mjs`、`node scripts/functional-audit/run-tests.mjs`，均 0 FAIL 才进 Preview；行为变更同批改 harness 断言并保留旧口径兼容期；移动端 390×844 截图归档。 |
 
 > 只读审计任务额外约束：不修改任何被 git 跟踪的文件，不 commit，不部署；产物放任务指定目录（如 `audit/`）。
 
@@ -75,7 +77,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 1. **check**：`git status --short`、`git branch --show-current`；读任务对应 `L-*` 与 ADR；确认写范围。
 2. **branch**：从最新 `main`（或任务指定基线）建分支，禁止在 `main` 改。
 3. **change**：最小改动；跨多文件先写脚本/codemod；内部文件更新 `.vercelignore`。
-4. **verify（本地/静态）**：能本地验证的先验证（HTML/JSON 语法、`vercel.json` 合法、grep 一致性）；功能类改动必须跑 `node scripts/functional-audit/run-tests.mjs`，多语言/SEO/head 类改动必须跑 `node scripts/seo-audit/run-seo-checks.mjs`（均 0 FAIL 才进 Preview）；列出需要在 Preview 验证的项。
+4. **verify（本地/静态）**：能本地验证的先验证（HTML/JSON 语法、`vercel.json` 合法、grep 一致性）；功能类改动必须跑 `node scripts/functional-audit/run-tests.mjs`，多语言/SEO/head 类改动必须跑 `node scripts/seo-audit/run-seo-checks.mjs`，UI/交互/移动布局类改动**还必须**跑 `node scripts/design-audit/run-token-audit.mjs`（含 JS 运行时扫描）与 `node scripts/design-audit/check-layout.mjs`（溢出/壁纸/触控/alert）；均 0 FAIL 才进 Preview；列出需要在 Preview 验证的项。
 5. **preview**：push 分支 → 等 Vercel Preview → 取 `environment_url`（命令见 [runbook](docs/runbooks/preview-deploy.md)）→ 跑 `node scripts/verify-site.mjs --base <preview-url>`。
 6. **evidence**：把 verify 输出（JSON/MD）、关键 curl/渲染结果存 `audit/evidence/<phase>/verification/`，文件名含 commit sha 与时间。
 7. **maintainer approval**：把"改了什么、证据、风险、回滚方式"发给维护者，得到明确批准。
@@ -93,6 +95,9 @@ check → branch → change → verify → preview → evidence → maintainer a
 | [`docs/lessons/TEMPLATE.md`](docs/lessons/TEMPLATE.md) | 新教训模板 |
 | [`docs/decisions/`](docs/decisions/) | ADR；Phase A [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md)、Phase F [ADR-0002](docs/decisions/ADR-0002-functional-integrity-fixes.md)、Phase B [ADR-0003](docs/decisions/ADR-0003-phase-b-i18n-seo.md)、Phase C [ADR-0004](docs/decisions/ADR-0004-content-quality-phase-c.md)、Phase D [ADR-0005](docs/decisions/ADR-0005-square-tool-intent-and-collage-restore.md) |
 | [`docs/runbooks/preview-deploy.md`](docs/runbooks/preview-deploy.md) | 分支 → Preview → 验收 → 生产/回滚 操作手册 |
+| [`docs/design/DESIGN-TOKENS.md`](docs/design/DESIGN-TOKENS.md)、[COMPONENT-RECIPES.md](docs/design/COMPONENT-RECIPES.md)、[INTERACTION-AUDIT.md](docs/design/INTERACTION-AUDIT.md) | 设计 token 单一事实源（273 个 `--mc-*`）、组件配方、G0–G4 迁移策略与交互审计/路线图；改 UI/样式/交互前必读，并跑 `node scripts/design-audit/run-token-audit.mjs` |
+| [`docs/design/PAGE-PATTERNS.md`](docs/design/PAGE-PATTERNS.md)、[prototypes/README.md](docs/design/prototypes/README.md) | 页面族/内联块盘点与 R0/R1 交互原型（含可复现截图与实现接口）；UI/交互改造先看审计 + 原型再动手 |
+| [`scripts/design-audit/`](scripts/design-audit/README.md) | 设计门禁：`run-token-audit.mjs`（token/JS 运行时裸色/文档一致，含基线比对）+ `check-layout.mjs`（移动溢出/固定壁纸/触控 ≥44px/alert/AI 预加载）；改 UI/交互必跑 |
 | `audit/AUDIT-REPORT.md` | 2026-11-05 全面审计（**本机产物，不入库**：公开仓库安全考虑；含优先级、阶段计划、不确定项） |
 | `audit/sections/*.md`、`audit/evidence/` | 审计分报告与原始证据（同上，可能未入库） |
 | `scripts/verify-site.mjs` | Phase A 起的零依赖部署验收脚本（HTTP/安全头/404/重定向） |
@@ -139,3 +144,9 @@ check → branch → change → verify → preview → evidence → maintainer a
 8. 在 `vercel.json` 重定向里不处理 query，导致循环（L-05）。
 9. 把内部文档/备份留在部署面，用 `.gitignore` 当保险（L-14）。
 10. 跳过 Preview/证据直接上生产（L-12）。
+11. 新页面写裸色值/复制其他页内联样式块/绕过 `--mc-*` token → 先读 DESIGN-TOKENS，审计会 FAIL。
+12. 用 `alert()` 当产品反馈（阻塞、多数硬编码英文、harness 只认 dialog）→ 用 `window.mcUI.toast`（L-32；`check-layout` D 项会 FAIL）。
+13. 在 JS 里写 `style.color = '#hex'` 绕过 token（token 审计 v1.1 已扫 JS 运行时色）→ 用 class / `var(--mc-*)`（L-31）。
+14. 只测桌面就说"移动端没问题"（横向溢出会让固定壁纸露出深色兜底）→ 跑 `node scripts/design-audit/check-layout.mjs --full`，320/360/390 全 0 溢出（L-34）。
+15. 改了用户可见行为却不更新 functional 断言（旧断言读 alert dialog → 假 FAIL/假 PASS）→ 同批更新断言并保留旧口径兼容期（L-35）。
+16. 导出/截图只在页面顶部（`scrollY=0`）验收（html2canvas foreignObject 按滚动偏移克隆，自动滚动后导出会全白；FNV 纯白 hash `d2b3285`）→ 先在页面上滚再导出，并断言导出像素 hash ≠ 纯白（L-36；wrapper 在视口原点时必须显式 `scrollX:0, scrollY:0`）。

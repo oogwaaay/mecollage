@@ -72,6 +72,7 @@ G0 准备 → G1 分支 → G2 实现 → G3 静态验证 → G4 Preview → G5 
   - 安全头：XCTO/XFO/Referrer-Policy/Permissions-Policy/CSP-Report-Only 出现（见 ADR-0001 D2）；
   - 默认域：`mecollage.vercel.app` noindex 或 301（见 L-13）；
   - 关键资产：`/ads.txt`、`/sitemap.xml`、`/robots.txt`、`/i18n/zh.json`、`/assets/js/mecollage-main.js` 仍 200。
+  - **UI/交互（H11，2026-11-06 起，R0/R1 交互改造后成为强制项）**：`node scripts/design-audit/run-token-audit.mjs` 无 FAIL（token + **JS 运行时裸色** + 文档一致性）；`node scripts/design-audit/check-layout.mjs` 无 FAIL（320/360/390 横向溢出、固定壁纸层、触控目标 ≥44px、禁止 `alert()`、首屏 HTML 不预加载 AI 库）；`node scripts/functional-audit/run-tests.mjs` 0 FAIL；**用户可见行为变更必须同批更新 harness 断言并保留旧口径兼容期**（L-35）；**导出/截图类改动必须在页面已滚动状态下验收**（L-36）；390×844 移动端截图归档。详见 AGENTS H11、L-31~L-36、runbook §4.6。
 - [ ] `scripts/verify-site.mjs` 结果无 FAIL（WARN 已逐条解释并接受）。
 - [ ] 证据已归档，路径写入交付说明。
 - [ ] 回滚方式已写明（revert 哪个 commit / 重部署哪个版本）。
