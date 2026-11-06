@@ -303,7 +303,7 @@
   "faq.q3": "How many images can I add?",
   "faq.a3": "You can add up to 20 images per collage. The tool supports various formats including PNG, JPG, and WEBP.",
   "faq.q4": "What aspect ratios are supported?",
-  "faq.a4": "MeCollage supports multiple aspect ratios including 1:1, 4:5, 9:16, 3:4, and 16:9, allowing you to create collages optimized for different platforms and purposes.",
+  "faq.a4": "The collage editor supports 1:1, 4:5, 9:16, 3:4, 4:3 and 16:9. For other ratios such as 21:9, use the aspect ratio calculator to get the matching pixel size.",
   "faq.q5": "Can I customize my collage?",
   "faq.a5": "Yes! You can adjust the gutter spacing between images, add rounded corners, apply various filters, insert text, and add emoji stickers to personalize your collage. The intuitive toolbar at the bottom of the canvas gives you quick access to all these features.",
   "faq.q6": "How do I export my collage?",
