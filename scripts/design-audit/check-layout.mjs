@@ -222,6 +222,14 @@ const navRoleFails = [];
     if (/^(zh\/|tw\/|ja\/|es\/)?index\.html$/.test(f) && html.includes('class="home-tool-entry"')) {
       navRoleFails.push({ file: f, rule: '首页仍有重复工具卡 home-tool-entry' });
     }
+    // GitHub 图标化：纯图标 + 内联 SVG + aria-label，且不得再带文字
+    const gh = html.match(/<a\b[^>]*github-link[^>]*>[\s\S]*?<\/a>/);
+    if (gh) {
+      if (!/github-link__icon/.test(gh[0])) navRoleFails.push({ file: f, rule: 'GitHub 链接缺少内联 SVG 图标' });
+      if (!/aria-label="/.test(gh[0])) navRoleFails.push({ file: f, rule: 'GitHub 图标缺少 aria-label' });
+      if (/data-i18n="nav\.github"/.test(gh[0]) || />GitHub</.test(gh[0])) navRoleFails.push({ file: f, rule: 'GitHub 链接仍带文字' });
+    }
+
     // 全局导航：wayfinding（品牌/Home/Blog/About/Contact），不得再放具体工具
     if (html.includes('<div class="nav-left"')) {
       const s0 = html.indexOf('<div class="nav-left"');

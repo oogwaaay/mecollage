@@ -2288,3 +2288,50 @@ body .blog-search-clear:focus-visible {
     padding: var(--mc-space-3) var(--mc-space-4) var(--mc-space-5);
   }
 }
+
+/* ==========================================================================
+ * 22. GitHub 图标链接（导航右上角，2026-11-06）
+ *     纯图标按钮（内联 SVG，不依赖 Font Awesome CDN）；44×44 热区；
+ *     aria-label/title 提供可访问名称；页脚保留 "GitHub Issues" 文字链接兜底。
+ * ========================================================================== */
+
+body .ghibli-nav .github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mc-tap-target-min);
+  height: var(--mc-tap-target-min);
+  padding: 0;
+  margin-right: var(--mc-space-2);
+  border: var(--mc-border-width) solid var(--mc-border);
+  border-radius: var(--mc-radius-pill);
+  background: var(--mc-surface-3);
+  color: var(--mc-text-primary);
+  transition: background-color var(--mc-duration-fast) var(--mc-ease),
+              border-color var(--mc-duration-fast) var(--mc-ease),
+              color var(--mc-duration-fast) var(--mc-ease);
+}
+
+body .ghibli-nav .github-link .github-link__icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+@media (hover: hover) {
+  body .ghibli-nav .github-link:hover {
+    background: var(--mc-color-brand-tint);
+    border-color: var(--mc-border-brand-strong);
+    color: var(--mc-text-heading);
+  }
+}
+
+body .ghibli-nav .github-link:focus-visible {
+  outline: var(--mc-focus-ring-width) solid var(--mc-focus-ring-color);
+  outline-offset: var(--mc-focus-ring-offset);
+}
+
+/* 移动端顶栏保持 品牌 + 语言 + 菜单 三元素，GitHub 在 footer 文字链接可达 */
+@media (max-width: 768px) {
+  body .ghibli-nav .github-link { display: none; }
+}

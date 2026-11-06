@@ -889,6 +889,29 @@ body .blog-search-clear { min-height: var(--mc-tap-target-min); border-radius: v
 
 ---
 
+## 23. GitHub 图标链接（导航右上角）
+
+```html
+<a href="https://github.com/oogwaaay/mecollage/issues"
+   target="_blank" rel="noopener noreferrer"
+   class="nav-link github-link"
+   title="View on GitHub" data-i18n-title="nav.github_view"
+   aria-label="View on GitHub" data-i18n-aria-label="nav.github_view">
+  <svg class="github-link__icon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" focusable="false">
+    <path fill="currentColor" d="M8 0C3.58 0 …"/>
+  </svg>
+</a>
+```
+
+规则：
+- **只显示图标，不写文字**：44×44 热区，`aria-label`/`title` 提供可访问名称与悬停提示（文案来自 i18n `nav.github_view`）；
+- **内联 SVG 而非 Font Awesome**：断网/CDN 拦截时图标仍然可见（本轮离线截图验证）；
+- `currentColor` 跟随文字色；hover/focus 用品牌 tint + focus ring；
+- 移动端顶栏隐藏（品牌 + 语言 + 菜单三元素），页脚 "GitHub Issues" 文字链接保证发现性；
+- 迁移脚本 `scripts/design-system/github-icon-link.mjs`；门禁 `check-layout` F（图标存在/aria-label/不得带文字）。
+
+---
+
 ## 附录：组件速查
 
 | 组件 | 主 token | 现有类/文件 |
@@ -910,3 +933,4 @@ body .blog-search-clear { min-height: var(--mc-tap-target-min); border-radius: v
 | 工具优先布局 | `--mc-mobile-nav-height` | `body.mc-collage-page` / `body.mc-tool-page` |
 | 撤销/导出状态 | `--mc-duration-*`、`--mc-color-*` | `#undoBtn`/`#redoBtn`/`#exportBtn` |
 | 博客搜索 | `--mc-tap-target-min`、`--mc-radius-pill`、`--mc-surface-2` | `.blog-search*`（`blog-search.js`） |
+| GitHub 图标 | `--mc-tap-target-min`、`--mc-surface-3`、`--mc-border` | `.github-link`/`.github-link__icon` |
