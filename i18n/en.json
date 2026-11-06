@@ -631,8 +631,12 @@
   "beforeunload.unsaved": "Your collage isn’t saved. Leave anyway?",
   "app.subtitle": "Create beautiful collages in seconds. Free, no signup, photos processed in your browser.",
   "photos.remaining": "You can add {n} more photos.",
-  "photos.undo_hint": "Removed {n} photo(s)."
-,
+  "photos.undo_hint": "Removed {n} photo(s).",
   "toast.error.select_photo": "Select a photo first.",
-  "app.remove_image": "Remove image"
+  "app.remove_image": "Remove image",
+  "blog.search.placeholder": "Search articles…",
+  "blog.search.results": "{n} results",
+  "blog.search.empty": "No articles match your search.",
+  "blog.search.clear": "Clear search",
+  "blog.search.result_one": "1 result"
 }

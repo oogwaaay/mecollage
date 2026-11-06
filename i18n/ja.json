@@ -626,8 +626,17 @@
   "beforeunload.unsaved": "コラージュは保存されていません。このページを離れますか？",
   "app.subtitle": "数秒で美しいコラージュを作成。無料・登録不要、写真はブラウザ内で処理されます。",
   "photos.remaining": "あと {n} 枚追加できます。",
-  "photos.undo_hint": "{n} 枚の写真を削除しました。"
-,
+  "photos.undo_hint": "{n} 枚の写真を削除しました。",
   "toast.error.select_photo": "先に写真を選択してください。",
-  "app.remove_image": "写真を削除"
+  "app.remove_image": "写真を削除",
+  "blog.search.placeholder": "記事を検索…",
+  "blog.search.results": "{n} 件の記事",
+  "blog.search.empty": "一致する記事がありません。",
+  "blog.search.clear": "検索をクリア",
+  "blog.search.result_one": "1 件の記事",
+  "blog.ai_enhancements.how_to_title": "使い方",
+  "blog.ai_enhancements.face_center_how_to": "1. 下部ツールバーの 🤖 ボタンをクリックして AI パネルを開きます。2. 「すべての写真に適用」ボタンをクリックします。3. システムがすべての画像を自動分析し、各セル内で顔を中央に配置します。",
+  "blog.ai_enhancements.bg_removal_how_to": "1. キャンバス上で処理したい写真をクリックして選択します。2. 下部ツールバーの 🤖 ボタンをクリックします（パネルがまだ開いていない場合）。3. 「背景を削除」ボタンをクリックします。4. 数秒待つと背景が透明になります。",
+  "blog.ai_enhancements.performance_title": "高速なパフォーマンス",
+  "blog.ai_enhancements.performance_desc": "これらの複雑な AI モデルをスムーズに動作させるため、Cross-Origin Isolation とマルチスレッド WebAssembly を実装しました。AI が CPU のすべてのコアを利用できるため、標準的なブラウザ実装と比べて処理時間を最大 80% 短縮できます。"
 }

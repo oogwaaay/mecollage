@@ -754,7 +754,9 @@ window.mcUI.toast('已删除 1 张照片', { type: 'undo', actionLabel: '撤销'
 
 ```css
 @media (max-width: 768px) {
-  body .ghibli-nav { min-height: var(--mc-mobile-nav-height); padding: var(--mc-space-2) var(--mc-space-4); }
+  /* 关键：bundle 在 ≤768 把 nav 设为 static，绝对定位的展开面板会以整页 .app-container
+     为包含块、渲染到页面底部（R2 实测修复，L-38） */
+  body .ghibli-nav { position: relative; min-height: var(--mc-mobile-nav-height); padding: var(--mc-space-2) var(--mc-space-4); }
   body .ghibli-nav .mc-brand { display: inline-flex; margin-right: auto; color: var(--mc-text-heading); font-weight: var(--mc-font-weight-bold); }
   body .ghibli-nav .mc-menu-btn { display: grid; width: var(--mc-tap-target-min); height: var(--mc-tap-target-min); border-radius: var(--mc-radius-pill); background: var(--mc-surface-3); }
   body .ghibli-nav .nav-left { display: none; }
@@ -813,6 +815,43 @@ window.mcUI.toast('已删除 1 张照片', { type: 'undo', actionLabel: '撤销'
 
 ---
 
+## 20. 博客搜索（R2，渐进增强）
+
+结构（`blog/index.html`，脚本 `assets/js/blog-search.js`）：
+
+```html
+<div class="blog-search-panel">
+  <div class="blog-search">
+    <label class="mc-sr-only" for="blogSearchInput" data-i18n="blog.search.placeholder">Search articles…</label>
+    <input type="search" id="blogSearchInput" class="blog-search-input" autocomplete="off" spellcheck="false" />
+  </div>
+  <p class="blog-search-results" id="blogSearchResults" role="status" aria-live="polite" hidden></p>
+  <div class="blog-search-empty" id="blogSearchEmpty" tabindex="-1" hidden>
+    <p data-i18n="blog.search.empty">No articles match your search.</p>
+    <button type="button" class="blog-search-clear" data-i18n="blog.search.clear">Clear search</button>
+  </div>
+</div>
+```
+
+规则：
+- 无 JS 时全部文章可见（渐进增强）；过滤只改 `hidden`/`display`，不改 URL/canonical/链接；
+- 匹配标题 `.blog-post-title` + 摘要 `.blog-post-excerpt`（NFKC 归一化、大小写不敏感、空白分词 AND、CJK 原样）；
+- 结果数 `role="status" aria-live="polite"`；单数用 `blog.search.result_one`、复数 `blog.search.results`；
+- 空状态可聚焦（`tabindex="-1"`）+ 清除按钮 ≥44px；
+- **坑**：页面内联 `.blog-post-card{display:flex}` 会覆盖 UA `[hidden]` → components.css 必须有 `body .blog-post-card[hidden]{display:none!important}`（L-39）。
+
+```css
+.blog-search-panel { max-width: 500px; margin: var(--mc-space-3) auto var(--mc-space-6); display: flex; flex-direction: column; gap: var(--mc-space-2); }
+body .blog-search-input { min-height: var(--mc-tap-target-min); border-radius: var(--mc-radius-pill); background: var(--mc-surface-2); color: var(--mc-text-primary); }
+.blog-search-results { color: var(--mc-text-muted); font-size: var(--mc-font-size-caption); }
+.blog-search-empty { border: var(--mc-border-width-strong) dashed var(--mc-border-input); border-radius: var(--mc-radius-lg); background: var(--mc-surface-2); }
+body .blog-search-clear { min-height: var(--mc-tap-target-min); border-radius: var(--mc-radius-pill); background: var(--mc-color-brand-tint); color: var(--mc-text-on-brand); }
+```
+
+验收：搜索 `mobile` → 1 篇 + 结果数；`zzzz` → 空状态；清除 → 8 篇；URL 不变；无 JS/i18n 时不裸 key、不白屏。functional IDX-24/25 覆盖。
+
+---
+
 ## 附录：组件速查
 
 | 组件 | 主 token | 现有类/文件 |
@@ -833,3 +872,4 @@ window.mcUI.toast('已删除 1 张照片', { type: 'undo', actionLabel: '撤销'
 | 移动顶栏 | `--mc-mobile-nav-height`、`--mc-tap-target-min` | `.mc-brand`/`.mc-menu-btn`（`ui.js`） |
 | 工具优先布局 | `--mc-mobile-nav-height` | `body.mc-collage-page` / `body.mc-tool-page` |
 | 撤销/导出状态 | `--mc-duration-*`、`--mc-color-*` | `#undoBtn`/`#redoBtn`/`#exportBtn` |
+| 博客搜索 | `--mc-tap-target-min`、`--mc-radius-pill`、`--mc-surface-2` | `.blog-search*`（`blog-search.js`） |

@@ -1,6 +1,6 @@
 # scripts/ — MeCollage 验收与迁移脚本
 
-> 目录索引：`verify-site.mjs`（部署验收，本文档）· [`functional-audit/`](functional-audit/README.md)（浏览器功能回归）· [`seo-audit/`](seo-audit/README.md)（多语言/SEO）· [`design-audit/`](design-audit/README.md)（Design Token 审计 + 布局/交互门禁：`run-token-audit.mjs` / `check-layout.mjs`）· [`design-system/`](design-system/README.md)（存量页面统一迁移与 UI 注入）
+> 目录索引：`verify-site.mjs`（部署验收，本文档）· [`functional-audit/`](functional-audit/README.md)（浏览器功能回归 + 移动触摸回归：`run-tests.mjs` / `run-mobile-touch.mjs`）· [`seo-audit/`](seo-audit/README.md)（多语言/SEO）· [`design-audit/`](design-audit/README.md)（Design Token 审计 + 布局/交互门禁 + 性能预算：`run-token-audit.mjs` / `check-layout.mjs` / `check-performance.mjs`）· [`design-system/`](design-system/README.md)（存量页面统一迁移与 UI 注入）
 
 # verify-site.mjs — 部署验收脚本
 

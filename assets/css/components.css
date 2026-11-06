@@ -1774,6 +1774,10 @@ body *::-webkit-scrollbar-thumb:hover {
 
 @media (max-width: 768px) {
   body .ghibli-nav {
+    /* R2 修复：bundle 在 ≤768 把 nav 设为 position:static，导致绝对定位的展开面板
+       以 .app-container（整页高）为包含块、渲染到页面底部。这里恢复 relative，
+       让面板锚定在 60px 顶栏下方（桌面不受影响）。 */
+    position: relative;
     min-height: var(--mc-mobile-nav-height);
     padding: var(--mc-space-2) var(--mc-space-4);
     gap: var(--mc-space-2);
@@ -1985,6 +1989,26 @@ body .toolbar-btn[aria-busy="true"] { opacity: 0.75; cursor: progress; }
     bottom: calc(var(--mc-space-2) + env(safe-area-inset-bottom, 0px));
     z-index: var(--mc-z-toolbar);
     margin: var(--mc-space-3) auto 0;
+    /* R2 修复：页面内联 .bottom-toolbar{max-width:300px} + .toolbar-btn{width:3rem}
+       在 R0 加 undo/redo 后把 8 个按钮压到 14–24px。这里改为满宽横向滚动条，
+       每个按钮保持 ≥44×44 热区；溢出只发生在内部滚动容器，不影响页面宽度。 */
+    max-width: none;
+    width: 100%;
+    padding: var(--mc-space-2);
+    gap: var(--mc-space-2);
+    overflow-x: auto;
+    justify-content: flex-start;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  body.mc-collage-page .bottom-toolbar::-webkit-scrollbar { display: none; }
+
+  body.mc-collage-page .bottom-toolbar .toolbar-btn {
+    flex: 0 0 auto;
+    width: var(--mc-tap-target-min);
+    min-width: var(--mc-tap-target-min);
+    height: var(--mc-tap-target-min);
   }
 
   /* --- 工具页：页头紧凑 → 工具区 → 工具导航 → 意图/SEO --- */
@@ -2084,4 +2108,87 @@ body .add-image-outer-container .image-inner-container:hover {
 
 body .add-image-outer-container .image-inner-container:hover .add-image-btn {
   color: var(--mc-text-heading) !important;
+}
+
+/* ==========================================================================
+ * 20. 博客搜索（R2，2026-11-06；JS：assets/js/blog-search.js）
+ * ========================================================================== */
+
+.blog-search-panel {
+  width: 100%;
+  max-width: 500px;
+  margin: var(--mc-space-3) auto var(--mc-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--mc-space-2);
+}
+
+.blog-search {
+  display: flex;
+  align-items: center;
+}
+
+/* 页面内联 .blog-post-card{display:flex} 会覆盖 UA 的 [hidden]，补一条兜底 */
+body .blog-post-card[hidden] { display: none !important; }
+
+body .blog-search-input {
+  width: 100%;
+  min-height: var(--mc-tap-target-min);
+  padding: var(--mc-space-2) var(--mc-space-4);
+  border: var(--mc-border-width) solid var(--mc-border-input);
+  border-radius: var(--mc-radius-pill);
+  background: var(--mc-surface-2);
+  color: var(--mc-text-primary);
+  font-size: var(--mc-font-size-body);
+  backdrop-filter: blur(var(--mc-blur-sm));
+  transition: border-color var(--mc-duration-fast) var(--mc-ease),
+              box-shadow var(--mc-duration-fast) var(--mc-ease);
+}
+
+body .blog-search-input::placeholder { color: var(--mc-text-muted); }
+
+body .blog-search-input:focus {
+  outline: none;
+  border-color: var(--mc-border-brand);
+  box-shadow: 0 0 0 var(--mc-focus-ring-width) var(--mc-color-brand-wash);
+}
+
+.blog-search-results {
+  margin: 0 var(--mc-space-2);
+  color: var(--mc-text-muted);
+  font-size: var(--mc-font-size-caption);
+}
+
+.blog-search-empty {
+  margin-top: var(--mc-space-1);
+  padding: var(--mc-space-5) var(--mc-space-4);
+  border: var(--mc-border-width-strong) dashed var(--mc-border-input);
+  border-radius: var(--mc-radius-lg);
+  background: var(--mc-surface-2);
+  color: var(--mc-text-muted);
+  text-align: center;
+}
+
+.blog-search-empty p { margin: 0 0 var(--mc-space-3); }
+
+body .blog-search-clear {
+  min-height: var(--mc-tap-target-min);
+  padding: var(--mc-space-2) var(--mc-space-5);
+  border: var(--mc-border-width) solid var(--mc-border-brand-strong);
+  border-radius: var(--mc-radius-pill);
+  background: var(--mc-color-brand-tint);
+  color: var(--mc-text-on-brand);
+  font-size: var(--mc-font-size-label);
+  font-weight: var(--mc-font-weight-semibold);
+  cursor: pointer;
+}
+
+body .blog-search-clear:hover { background: var(--mc-color-brand); }
+body .blog-search-clear:focus-visible {
+  outline: var(--mc-focus-ring-width) solid var(--mc-focus-ring-color);
+  outline-offset: var(--mc-focus-ring-offset);
+}
+
+@media (max-width: 768px) {
+  .blog-search-panel { margin: var(--mc-space-3) auto var(--mc-space-5); }
 }

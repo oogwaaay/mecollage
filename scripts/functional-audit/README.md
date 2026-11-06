@@ -150,6 +150,66 @@ await runCase(page, {
 
 约定：`id` 用 `分组前缀-序号`；FAIL 断言必须带 `actual` 实测值；无法自动判定的用 `ctx.manual(label, note)`（同时进入报告的限制清单）；导出统一走 `toolExport(page, "<点击下载按钮的表达式>")` / `indexExport()`，不要真实触发下载。
 
+## 13. 移动端触摸回归（`run-mobile-touch.mjs`，2026-11-06 新增）
+
+> 目的：补「真机才能覆盖」的移动端交互自动化——触摸事件、滚动后导出、移动导航/语言抽屉、触控目标。
+> 与 `run-tests.mjs` 分工：`run-tests.mjs` 是桌面 1440×1000 的功能与导出回归；本脚本是 390×844 + 触摸源的门禁。
+
+### 13.1 快速开始
+
+```bash
+# 需 Node ≥ 20 + 本地 Chrome；fixtures 复用 make-fixtures.py 的输出
+python3 scripts/functional-audit/make-fixtures.py          # 首次需要（默认输出 audit/evidence/phase-f/browser/fixtures）
+node scripts/functional-audit/run-mobile-touch.mjs          # 全量 6 个用例，自动起/停本地服务器与 headless Chrome
+
+# 对 Preview/线上地址跑（不启动本地服务器）
+node scripts/functional-audit/run-mobile-touch.mjs --base https://<preview-url>/
+
+# 报告与截图自定义位置 / 调试保留 Chrome
+node scripts/functional-audit/run-mobile-touch.mjs --json /tmp/mt.json --md /tmp/mt.md --shots /tmp/mt-shots --keep-open
+```
+
+- 默认输出：`audit/design-migration/r2/mobile-touch/{report.json,report.md,screenshots/*.png}`（`audit/` 已 gitignore）；
+- 退出码：`0` 无 FAIL（WARN 允许）／`1` 存在 FAIL／`2` 环境或用法错误（找不到 Chrome/fixtures 等）；
+- **需要网络访问 cdnjs**（`html2canvas`，与生产一致，滚动导出用例依赖）；广告/统计/AI 大库/字体请求被拦截；
+- fixtures 查找顺序：`--fixtures` 参数 → `scripts/functional-audit/fixtures` → `audit/evidence/phase-f/browser/fixtures`（含 `multi-01..04.png`）。
+
+### 13.2 触摸模拟方式
+
+- 视口：`Emulation.setDeviceMetricsOverride({width:390,height:844,mobile:true,deviceScaleFactor:1})`（meta viewport 生效、CSS 移动断点命中）；
+- 触摸源：`Emulation.setTouchEmulationEnabled({enabled:true,maxTouchPoints:5})` + `Input.dispatchTouchEvent`（touchStart/touchMove/touchEnd）；Chrome 会把触摸合成为 `pointerdown/move/up`（pointerType=`touch`）与 `click`；
+- 观测注入（`Page.addScriptToEvaluateOnNewDocument`）：patch `HTMLCanvasElement.prototype.toDataURL` 采样导出 canvas 像素（nonWhite 比例）、patch `HTMLAnchorElement.prototype.click` 记录下载动作（不产生文件）、收集页面异常与拖拽 pointer 事件序列。
+
+### 13.3 用例矩阵（6）
+
+| ID | 分组 | 断言口径 |
+|---|---|---|
+| `MT-01` | mobile-nav | 顶栏高度 ≤64px；`.mc-brand`／`.mc-menu-btn` 可见；菜单按钮 ≥44×44；默认 `.nav-left` 隐藏；`document.scrollWidth ≤ innerWidth+1`；`body.mc-collage-page` 标记 |
+| `MT-02` | mobile-nav | 触摸点按菜单 → `body.mc-nav-open` + `aria-expanded=true` + 遮罩显示；展开面板链接 ≥44px 高；展开不溢出；Esc 关闭 + 焦点返回菜单按钮 |
+| `MT-03` | language | 触摸打开语言抽屉；`.lang-menu` rect 完整落在视口内（top≥0 / bottom≤视口高+1 / 左右在视口内）；选项 ≥1 且每个高度 ≥44px；打开聚焦首项；Esc 关闭 + 焦点返回 |
+| `MT-04` | touch | 上传 3 张 fixture → 在 `.drag-handle` 上 `touchStart` 长按 250ms（断言 `.touch-reorder-active` + opacity 0.6）→ 分步 `touchMove` 到第 3 格 → `touchEnd`；断言图片顺序变化且集合一致、pointerup 正常结束、拖拽期间页面不被滚动 |
+| `MT-05` | export | 上传 2 张 → `window.scrollTo(0,600)`（断言 scrollY>0）→ 点 `#exportBtn` → 捕获 `toDataURL`：canvas ≥600×600、**nonWhite 采样比例 >1%**（防 L-36 全白回归）、按钮恢复、无异常/toast 错误 |
+| `MT-06` | a11y | `#undoBtn/#redoBtn/#exportBtn/#layoutBtn/#filterBtn/#textBtn/#stickerBtn/#aiBtn` 与 `.mc-menu-btn`、`.lang-selector-toggle` 的 rect ≥44×44；编辑器态无横向溢出 |
+
+### 13.4 判定与限制（别把合成事件当真实手势）
+
+- `MT-04` 明确断言「pointerdown/move/up 被浏览器接受（非 pointercancel）」；若合成事件被滚动截获会在报告中以 WARN 记录原因，**不会伪装 PASS**；
+- 合成触摸与真机差异：系统级滚动惯性、长按系统菜单（contextmenu）、iOS Safari 手势、误触阈值未覆盖；真机仍需人工抽查；
+- `MT-05` 依赖真实 cdnjs `html2canvas`（与生产一致）；离线环境该用例 WARN 并写入 limitations；
+- 报告里的断言分 PASS/FAIL/WARN 三档：FAIL → 退出码 1；WARN → 退出码 0 但需人工确认；对同一行为不要在「`run-tests.mjs` 已覆盖」的地方重复造断言（本脚本只测移动端差异项）。
+
+### 13.5 本轮发现的产品问题与门禁盲区（L-38 正式编号）
+
+> **核心教训（L-38）**：**交互后才出现 / 打开态才可见的控件，必须在交互后断言**。`check-layout.mjs` 是静态首屏扫描，测不到「上传后才显示的工具栏按钮」和「点按后才存在的导航面板」——这两个问题都是本脚本在交互后状态断言才发现。完整条目：`docs/lessons/L-20261106-38-interaction-state-gate-gap.md`。
+
+1. **MT-06 触控目标（已修复）**：390×844 下底部工具栏 8 个按钮实测宽 **14–24px**（高 48px；undo/redo 19、text 14、其余 24）。根因：5 个首页内联 `.bottom-toolbar{max-width:300px;gap:1rem;padding:1rem}` + `.toolbar-btn{width:3rem}`，R0 新增 `#undoBtn/#redoBtn` 后 8 个按钮在 300px 内被 flex-shrink。修复（components.css 移动端覆盖）：`.bottom-toolbar{max-width:none;width:100%;overflow-x:auto;内部滚动}` + `.toolbar-btn{flex:0 0 auto;width/min-width/height:44px}`。修复后 MT-06 PASS（8×44×44、document.scrollWidth=390）。
+   - 之前被 `check-layout.mjs` C 项（触控目标默认 WARN 级 + 只在未上传首屏量）双重掩盖；建议之后跑 `--strict-touch` 复核。
+2. **MT-02 移动导航展开面板（已修复）**：点按 ☰ 后 `body.mc-nav-open=true`、`aria-expanded=true`、遮罩显示，但面板 `getBoundingClientRect()` = **y=4524 / 视口 844**（页面高 4753）——面板渲染在整页最底部，用户首屏完全看不到菜单。根因：bundle 的 `@media(max-width:768px){.ghibli-nav{position:static}}` 覆盖 sticky，展开面板 `.nav-left{position:absolute;top:100%}` 的 offsetParent 变成 `.app-container`（高度=整页）→ `top:100%` = 页面底部；桌面 sticky 所以未暴露。修复（components.css 移动端）：`body .ghibli-nav { position: relative; }` → 面板 y=60（顶栏下方）、链接在视口内。
+   - 证据截图：`audit/design-migration/r2/mobile-touch/screenshots/07-nav-panel-offscreen-before-fix.png`（修复前：点开菜单看不到面板）、`08-nav-panel-fixed-probe.png`（页内注入候选修复后）。
+3. 这两个问题说明 R2 的移动交互门禁应继续保留「打开态/上传后」断言，而不是只在首屏量 rect。
+
+## 12. 维护记录
+
 ## 11. 与 Phase A 验收脚本的关系
 
 - `scripts/verify-site.mjs`：部署验收（HTTP/响应头/重定向/404/资产等**网络层**检查），生产/Preview 通用；
@@ -160,3 +220,4 @@ await runCase(page, {
 
 - **2026-11-05 v1.0.0**：首版。CDP harness + 本地 Vercel 模拟服务器 + Pillow fixtures + 53 用例矩阵 + report.md/json + shots；基线 PASS 42 / FAIL 7 / WARN 4。
 - **2026-11-05 v1.1.0**：Phase F 修复后回归。新增/升级断言（resize=拉伸铺满与独立绘制一致、squarecrop 拖拽受边界约束、blurredframe 保持所选比例、首页 4:3 按钮）；规格同步（squarecrop 缩放下限 100%、blurredframe 默认 mainScale=80）；结果 PASS 52 / FAIL 0 / WARN 1。
+- **2026-11-06 v1.2.0**：新增 `run-mobile-touch.mjs`（R2-A，390×844 CDP 触摸模拟；6 用例：移动导航结构/行为、语言抽屉、触控拖拽排序、滚动后导出、触控目标）。**首次实跑发现 2 个静态门禁漏测的产品缺陷**（MT-02 导航面板 off-screen、MT-06 底栏触控目标 14–24px，见 §13.5 / L-38）；Lead 修复 components.css 后连续两次复跑 **PASS 6 / FAIL 0 / WARN 0**。正式教训：L-38（交互态门禁缺口）；R2-B 博客搜索的 `[hidden]` 被 author CSS 覆盖问题记为 L-39。

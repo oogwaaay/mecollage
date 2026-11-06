@@ -1,13 +1,14 @@
 # scripts/design-audit/ — Design Token 审计 + 布局/交互门禁
 
 > 零依赖（Node ≥ 20 内置模块 + 本机 Chrome for check-layout），默认不联网、不修改任何文件（`--update-baseline` 除外）。
-> 建立：2026-11-06（分支 `docs/design-tokens`）；2026-11-06 R0/R1 交互改造后扩展为两个脚本。
-> 单一事实源：`assets/css/design-tokens.css`；规范：`docs/design/DESIGN-TOKENS.md`；决策：[ADR-0006](../../docs/decisions/ADR-0006-design-token-single-source.md) / [ADR-0007](../../docs/decisions/ADR-0007-interaction-refinement.md)；教训：L-20261106-30~35。
+> 建立：2026-11-06（分支 `docs/design-tokens`）；2026-11-06 R0/R1 后扩展为两个脚本，R2 增加性能预算后为**三个脚本**。
+> 单一事实源：`assets/css/design-tokens.css`；规范：`docs/design/DESIGN-TOKENS.md`；决策：[ADR-0006](../../docs/decisions/ADR-0006-design-token-single-source.md) / [ADR-0007](../../docs/decisions/ADR-0007-interaction-refinement.md) / [ADR-0008](../../docs/decisions/ADR-0008-r2-mobile-touch-performance-blog-search.md)；教训：L-20261106-30~39。
 >
 > | 脚本 | 作用 | 依赖 |
 > |---|---|---|
 > | `run-token-audit.mjs` | token 外设计值 + **JS 运行时裸色** + 基线比对 + `DESIGN-TOKENS.md` 一致性 | 纯 Node（git 仓库内运行） |
 > | `check-layout.mjs` | 移动溢出 / 固定壁纸 / 触控目标 / `alert()` / AI 库预加载 | Node + 本机 Chrome（复用 `scripts/seo-audit/server.mjs` 与 `scripts/functional-audit/cdp.mjs`，离线） |
+> | `check-performance.mjs` | 性能预算：资源 gzip 体积 + 390×844 渲染结构（DOM/深度/backdrop/样式表/脚本）；`--bench` 滚动 A/B 仅参考 | Node + 本机 Chrome（B/C 项）|
 
 ## 1. 是什么
 
@@ -17,7 +18,7 @@
 - **存量债务 → 基线内不判错**：95 个手写页的历史硬编码不是本轮要一次清完的，基线记录它；
 - **token 与文档一致性 → FAIL**：`DESIGN-TOKENS.md` 必须覆盖全部 `--mc-*` 且不能出现不存在的 token。
 
-`check-layout.mjs` 把交互审计里会反复回归的 5 类问题变成可执行检查（见 §2）。
+`check-layout.mjs` 把交互审计里会反复回归的 5 类问题变成可执行检查（见 §2）；`check-performance.mjs` 把性能预算变成可执行回归门禁（见 §3，`--bench` 参考不设门槛，L-37）。
 
 ## 2. `check-layout.mjs` — 布局 / 触控 / 壁纸 / 反馈门禁（v1.0.0）
 
@@ -50,7 +51,22 @@ node scripts/design-audit/check-layout.mjs --json audit/design-migration/verify/
 - **退出码**：`0` 无 FAIL（WARN 允许）；`1` 存在 FAIL；`2` 环境/用法错误（无 Chrome、git 不可用、参数错误）。FAIL 明细写入 `--json/--md`。
 - **环境**：本机 Chrome + 离线（`https://*`/`wss://*` 请求被 CDP 阻断）；不依赖线上站点。`404` 用不存在的 URL 触发。
 
-## 3. `run-token-audit.mjs` 快速使用
+## 3. `check-performance.mjs` — 性能预算门禁（R2 新增）
+
+用途：防"可测量回归"（资源体积、DOM/backdrop 数量、脚本数量），并记录 headless 滚动 A/B 参考。
+
+```bash
+node scripts/design-audit/check-performance.mjs                  # 静态 + 390 渲染结构
+node scripts/design-audit/check-performance.mjs --bench          # 额外跑 blur A/B 参考（仅记录）
+node scripts/design-audit/check-performance.mjs --json out.json --md out.md
+```
+
+- 预算文件：`scripts/design-audit/performance-budget.json`（含 rationale/caveats/基线）
+- 检查项：A 静态 gzip 体积；B 390×844 渲染结构（DOM/深度/backdrop/样式表/外部脚本）；C 滚动 A/B（INFO）
+- 退出码：0 预算内（WARN 允许）；1 超预算；2 环境/用法错误
+- 注意：headless 的 rAF 锁 60fps、GPU 合成虚拟化，**不能**用其 FPS 差异证明 blur 优化收益；真机复核见 ADR-0008。
+
+## 4. `run-token-audit.mjs` 快速使用
 
 ```bash
 # 日常检查（摘要 + Top 列表 + 文档一致性）；退出码 0=PASS 1=FAIL 2=环境错误
@@ -70,7 +86,7 @@ node scripts/design-audit/run-token-audit.mjs --list-tokens
 
 参数：`--report-all`（输出全部违规明细）、`--check-docs`（默认开启，可显式写）、`--skip-doc-check`、`--json <path>`、`--md <path>`、`--max-list <n>`（默认 20）、`-h`。
 
-## 4. 扫描与判定口径
+## 5. 扫描与判定口径
 
 | 对象 | 扫描内容 | 违规判定 |
 |---|---|---|
@@ -83,7 +99,7 @@ node scripts/design-audit/run-token-audit.mjs --list-tokens
 
 排除：`audit/`、`docs/`、`scripts/`、`node_modules/`、`.git/`、`.vercel/`、`.trae/`；token 文件本身；非运行时根脚本（`check_keys.js`、`sync_keys.js`）。
 
-## 5. 基线机制
+## 6. 基线机制
 
 - 基线文件：`baseline-design-tokens.json`，记录**每个文件**的 `colors/fontSizes/radii/inlineStyleAttrs/jsColors` 计数 + 总量 + tokenHash + gitHead。
 - 判定：当前 > 基线 = 漂移 FAIL；当前 < 基线 = 改进 INFO（提示复核后 `--update-baseline`）。
@@ -91,7 +107,7 @@ node scripts/design-audit/run-token-audit.mjs --list-tokens
 - token 集合变化（新增/改值）不直接 FAIL，但会引起计数变化：新增 token 通常让债务下降，复核后更新基线。
 - **注意 v1.0 的 `jsColors: 0` 不是"JS 无裸值"**——v1.0 未扫描 JS；v1.1 首次扫描必须人工核对 JS 项（L-31）。
 
-## 6. 退出码
+## 7. 退出码
 
 | 退出码 | 含义 |
 |---|---|
@@ -99,7 +115,7 @@ node scripts/design-audit/run-token-audit.mjs --list-tokens
 | `1` | FAIL：新增漂移 / 既有违规上涨 / 文档不一致 / token 未定义引用 / 布局门禁 A/B/D/E FAIL |
 | `2` | 环境或用法错误（无 token 文件、基线缺失且未 `--update-baseline`、无 Chrome、参数错误） |
 
-## 7. 已知限制
+## 8. 已知限制
 
 `run-token-audit.mjs`：
 
@@ -118,7 +134,9 @@ node scripts/design-audit/run-token-audit.mjs --list-tokens
 - A 项只测整页横向溢出，不测局部被裁切/`overflow: hidden` 掩盖。
 - 不测首屏主操作 y 坐标（R1 工具优先需用 `audit/design-migration/` 截图/metrics 人工复核，见 L-33）。
 
-## 8. 维护记录
+## 9. 维护记录
+
+- **2026-11-06（R2）**：新增 `check-performance.mjs` v1.0.0 + `performance-budget.json`（A 静态 gzip 体积 / B 390×844 渲染结构 / C 滚动 A/B 参考）；性能判据 = 超预算 FAIL、>90% WARN，**headless FPS 不作门槛**（L-37）；与 `scripts/functional-audit/run-mobile-touch.mjs` 一起构成 R2 门禁链（L-38/L-39）；文档 §1–§9 重新编号（check-performance 为 §3）。
 
 - **2026-11-06（R0/R1 交互改造）**：新增 `check-layout.mjs` v1.0.0（溢出/壁纸/触控/alert/AI 预加载 5 项）；`run-token-audit.mjs` 增加 **JS 运行时裸色扫描**（v1.1：样式赋值/对象字面量/cssText，对应 L-31）与 `--check-docs` 显式参数；基线新增 `jsColors` 计数。脚本 `VERSION` 常量随后续同步。
 - **v1.1.0（2026-11-06，R0 交互改造后）**：新增 JS 运行时样式扫描（`.style.X = '#...'` / `style.cssText`），当前 JS 裸色 **0**；基线刷新为 **103 文件** / token 273 / hash `3db11395ede1`。
