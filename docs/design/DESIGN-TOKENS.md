@@ -740,10 +740,10 @@ index bundle → pages bundle → i18n.css（54 页，部分在 body 末尾）�
 - **全局导航** = wayfinding：品牌（Home）+ Blog/About/Contact + 语言；**不放具体工具**（R2 Phase 2A 已收口：54 页全局 nav 的 Square Image → Contact）。
 - **局部工具切换** = 页面上下文：`.tool-nav` 只放工具，**不得包含 Home**；about/contact 等内容页**不显示** tool-nav。
 - 首页工具入口只出现一次（tool-nav），移除重复的 `.home-tool-entry` 卡片。
-- **footer-tools**：所有有 footer 的页面必须有 5 个真实工具链接（本地化前缀 + `data-i18n` 标签 + `aria-label`/`nav.tools`），既保 SEO 内链也作为无 JS 兜底。
+- **footer-tools**：**全部 94 个站点页**（除 404）必须有 5 个真实工具链接（本地化前缀 + `data-i18n` 标签 + `aria-label`/`nav.tools`）：有 footer 的放在 footer 内；40 个无 footer 的本地化/指南页使用 `.footer-tools--standalone`（Phase 2B-1，R2）。既保 SEO 内链也作为无 JS 兜底。
 - 桌面把 `.tool-nav` 降级为轻量上下文 tab（透明、无第二层导航容器）；移动保持横向滚动。
 - 工具入口：首页/工具页内的 `.tool-nav` + 所有有 footer 页面的 `.footer-tools`；内容页 footer 兜底，全局 nav 不再承担工具入口。
-- 门禁：`check-layout.mjs` **F 项**（静态）检查以上规则；40 个无 footer 的本地化/指南页暂不注入（遗留，需后续补 footer）。
+- 门禁：`check-layout.mjs` **F 项**（静态）检查以上规则，**所有页面必须有 footer-tools**（含无 footer 页的 standalone 变体）。
 
 **硬性约束**：
 

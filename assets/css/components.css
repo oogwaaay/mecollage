@@ -2272,3 +2272,19 @@ body .blog-search-clear:focus-visible {
   .footer-tools { margin-bottom: var(--mc-space-2); gap: var(--mc-space-1) var(--mc-space-3); }
   .footer-tools a { font-size: var(--mc-font-size-2xs); }
 }
+
+/* 无 footer 的本地化/指南页：轻量页脚 Tools（R2 Phase 2B-1，2026-11-06） */
+.footer-tools--standalone {
+  max-width: 900px;
+  margin: var(--mc-space-6) auto 0;
+  padding: var(--mc-space-4) var(--mc-space-4) var(--mc-space-6);
+  border-top: var(--mc-border-width) solid var(--mc-border-subtle);
+  border-bottom: none;
+}
+
+@media (max-width: 768px) {
+  .footer-tools--standalone {
+    margin-top: var(--mc-space-5);
+    padding: var(--mc-space-3) var(--mc-space-4) var(--mc-space-5);
+  }
+}

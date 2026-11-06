@@ -175,7 +175,7 @@ for (const file of files) {
   const before = html;
 
   // 4) footer Tools（有 footer 的页面；幂等）
-  if (hasFooter && !html.includes('class="footer-tools"')) {
+  if (hasFooter && !html.includes('class="footer-tools')) {
     const footerIdx = html.indexOf('<footer>');
     const pIdx = html.indexOf('<p>', footerIdx);
     if (pIdx === -1) {
