@@ -63,9 +63,9 @@ const LANGUAGES = [
 const LANGUAGE_BY_KEY = Object.fromEntries(LANGUAGES.map((lang) => [lang.key, lang]));
 const LANG_KEYS = LANGUAGES.map((lang) => lang.key);
 
-/** 渲染检查页：5 个首页 + 4 工具页 × 5 语言 = 25 */
+/** 渲染检查页：5 个首页 + 5 工具页 × 5 语言 = 30 */
 const HOMEPAGE_URLS = ['/', '/zh/', '/es/', '/ja/', '/tw/'];
-const TOOL_BASES = ['/tools/square/', '/tools/squarecrop/', '/tools/roundedcorners/', '/tools/blurredframe/'];
+const TOOL_BASES = ['/tools/square/', '/tools/squarecrop/', '/tools/roundedcorners/', '/tools/blurredframe/', '/tools/aspectratiocalculator/'];
 const RENDERED_URLS = [
   ...HOMEPAGE_URLS,
   ...TOOL_BASES.flatMap((base) => LANGUAGES.map((lang) => langUrl(lang.key, base))),
@@ -98,8 +98,8 @@ const BLOCKED_URLS = [
 
 /**
  * 36 个本地化核心页 + 9 个英文核心页 = 45 个 5 语言簇页面。
- * Phase AR（2026-11-06）：/tools/aspectratiocalculator/ 先上英文、4 语言 14 天内补齐；
- * 它只贡献 1 个英文可索引 URL（expectedHreflangMapFor 只收集实际存在的语言）。
+ * Phase AR（2026-11-06）：/tools/aspectratiocalculator/ 五语言已上线（英文先上 + 4 语言同批补齐）。
+ * expectedHreflangMapFor 按实际存在语言收集，五语言后为完整 5 语言簇。
  */
 const CORE_BASES = [
   '/',
@@ -743,7 +743,7 @@ async function runRenderedChecks() {
   await runCase({
     id: 'A1',
     group: 'A-rendered-lang',
-    name: '渲染后 <html lang> 与目录语言一致（25 页）',
+    name: '渲染后 <html lang> 与目录语言一致（30 页）',
     async fn(ctx) {
       const rows = [];
       for (const url of RENDERED_URLS) {
@@ -882,7 +882,7 @@ async function runSwitcherChecks() {
   await runCase({
     id: 'B1',
     group: 'B-switcher',
-    name: '语言切换器：a.lang-option 数量=5 / href 非 # / hreflang 正确 / 指向语言簇正确 URL（25 页）',
+    name: '语言切换器：a.lang-option 数量=5 / href 非 # / hreflang 正确 / 指向语言簇正确 URL（30 页）',
     async fn(ctx) {
       const rows = [];
       for (const url of RENDERED_URLS) {
@@ -2187,7 +2187,7 @@ async function main() {
       ctx.measure('chrome', meta.chrome);
       ctx.measure('server', meta.server);
       ctx.measure('blockedUrls', BLOCKED_URLS);
-      ctx.check('非 404 页面 = 95（62 可索引 + 32 noindex + 1 旧页）', meta.inventoryCount === 95, { actual: meta.inventoryCount });
+      ctx.check('非 404 页面 = 99（67 可索引 + 32 noindex）', meta.inventoryCount === 99, { actual: meta.inventoryCount });
       ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase D sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
         actual: { indexable: indexableSet.size, expected: expectedSitemapSet.size },
       });

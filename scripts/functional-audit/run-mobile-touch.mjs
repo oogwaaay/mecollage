@@ -953,6 +953,23 @@ async function runAspectRatioTouch() {
     c.check('触摸 9:16 → 1080 × 1920', after.w === '1080' && after.h === '1920', { actual: after });
     c.check('触摸后显示 Common sizes', after.presetsHidden === false, { actual: after.presetsHidden });
     await c.screenshot('Aspect Ratio Calculator 390×844', '07-aspect-ratio-tool.png');
+
+    for (const localePath of ['/ja/tools/aspectratiocalculator/', '/es/tools/aspectratiocalculator/']) {
+      await gotoPage(localePath);
+      await waitFor("document.readyState === 'complete' && !!document.querySelector('#arcHeight')", { timeoutMs: 15000, label: 'localized calculator ready' });
+      const localized = await page.eval(`(() => {
+        document.querySelector('.arc-ratio[data-ratio="9:16"]').click();
+        return {
+          scrollWidth: document.documentElement.scrollWidth,
+          innerWidth: window.innerWidth,
+          w: document.querySelector('#arcWidth').value,
+          h: document.querySelector('#arcHeight').value,
+        };
+      })()`);
+      c.measure('localized', { localePath, ...localized });
+      c.check(`${localePath} 无横向溢出`, localized.scrollWidth <= localized.innerWidth + 1, { actual: localized });
+      c.check(`${localePath} 触摸 9:16 = 1080×1920`, localized.w === '1080' && localized.h === '1920', { actual: localized });
+    }
   } catch (error) {
     c.record.error = String(error && error.stack ? error.stack : error);
     console.error('❌ [MT-07] 执行异常：', String(error).slice(0, 300));
