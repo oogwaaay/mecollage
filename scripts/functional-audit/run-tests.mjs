@@ -1067,6 +1067,94 @@ async function runBlogGroup() {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Contact 表单（R2 邮箱接入后）
+// ---------------------------------------------------------------------------
+async function runContactGroup() {
+  await gotoPage('/contact/');
+
+  await runCase(page, {
+    id: 'IDX-26',
+    group: 'contact',
+    page: '/contact/',
+    name: 'Contact 表单：结构 / 必填 / 无障碍 / mailto 兜底',
+    async fn(ctx) {
+      const info = await page.eval(`({
+        form: !!document.getElementById('mc-contact-form'),
+        action: document.getElementById('mc-contact-form')?.getAttribute('action'),
+        fields: [...document.querySelectorAll('#mc-contact-form input, #mc-contact-form select, #mc-contact-form textarea')].map((el) => el.name),
+        required: [...document.querySelectorAll('#mc-contact-form [required]')].map((el) => el.name),
+        submit: document.querySelector('#mc-contact-form button[type="submit"]')?.textContent.trim(),
+        copy: document.getElementById('mc-copy-email')?.textContent.trim(),
+        statusLive: document.getElementById('mc-contact-status')?.getAttribute('aria-live'),
+        privacy: document.querySelector('.mc-form-privacy')?.textContent.trim(),
+        direct: document.getElementById('mc-contact-email-link')?.getAttribute('href'),
+        script: [...document.scripts].some((s) => s.src.includes('contact-form.js')),
+        minHeights: [...document.querySelectorAll('#mc-contact-form input, #mc-contact-form select, #mc-contact-form textarea')].map((el) => getComputedStyle(el).minHeight),
+      })`);
+      ctx.measure('form', info);
+      await ctx.screenshot('contact-form');
+      ctx.check('表单存在', info.form === true);
+      ctx.check('form action 指向 contact@mecollage.top', info.action === 'mailto:contact@mecollage.top', { actual: info.action });
+      ctx.check('四个字段齐全（name/email/subject/message）', ['name', 'email', 'subject', 'message'].every((k) => info.fields.includes(k)), { actual: info.fields });
+      ctx.check('四个字段均 required', ['name', 'email', 'subject', 'message'].every((k) => info.required.includes(k)), { actual: info.required });
+      ctx.check('提交/复制按钮存在', Boolean(info.submit) && Boolean(info.copy), { actual: { submit: info.submit, copy: info.copy } });
+      ctx.check('状态区 aria-live=polite', info.statusLive === 'polite', { actual: info.statusLive });
+      ctx.check('隐私说明存在（不存储/不上传）', Boolean(info.privacy) && info.privacy.length > 10, { actual: info.privacy });
+      ctx.check('直邮地址是 mailto', info.direct === 'mailto:contact@mecollage.top', { actual: info.direct });
+      ctx.check('contact-form.js 已加载', info.script === true);
+      ctx.check('输入控件触控高度 ≥44px', info.minHeights.every((h) => parseInt(h, 10) >= 44), { actual: info.minHeights });
+    },
+  });
+
+  await runCase(page, {
+    id: 'IDX-27',
+    group: 'contact',
+    page: '/contact/',
+    name: 'Contact 表单：mailto 构造 / subject 编码 / body 字段',
+    async fn(ctx) {
+      const url = await page.eval("window.mcContactForm.buildMailto('Ada', 'ada@example.com', 'Bug report', 'Export is blank')");
+      const subject = decodeURIComponent((url.match(/[?&]subject=([^&]*)/) || [])[1] || '');
+      const body = decodeURIComponent((url.match(/[?&]body=([^&]*)/) || [])[1] || '');
+      ctx.measure('mailto', { url, subject, body });
+      ctx.check('mailto 前缀与收件人正确', url.startsWith('mailto:contact@mecollage.top?'), { actual: url.slice(0, 60) });
+      ctx.check('subject 带 [MeCollage] 主题前缀', subject === '[MeCollage] Bug report', { actual: subject });
+      ctx.check('body 含姓名/邮箱/主题/正文', ['Ada', 'ada@example.com', 'Bug report', 'Export is blank'].every((t) => body.includes(t)), { actual: body });
+      const labels = await page.eval(`({
+        name: document.getElementById('mc-label-name')?.textContent.trim(),
+        message: document.getElementById('mc-label-message')?.textContent.trim(),
+      })`);
+      ctx.check('body 使用当前页面语言字段标签', body.includes(labels.name) && body.includes(labels.message), { actual: labels });
+    },
+  });
+
+  await runCase(page, {
+    id: 'IDX-28',
+    group: 'contact',
+    page: '/contact/',
+    name: 'Contact 表单：5 语言页面结构一致（zh/tw/ja/es）',
+    async fn(ctx) {
+      const results = {};
+      for (const path of ['/zh/contact/', '/tw/contact/', '/ja/contact/', '/es/contact/']) {
+        await gotoPage(path);
+        results[path] = await page.eval(`({
+          form: !!document.getElementById('mc-contact-form'),
+          action: document.getElementById('mc-contact-form')?.getAttribute('action'),
+          submit: document.querySelector('#mc-contact-form button[type="submit"]')?.textContent.trim(),
+          title: document.querySelector('#contact-form h2')?.textContent.trim(),
+        })`);
+      }
+      ctx.measure('locales', results);
+      for (const [path, r] of Object.entries(results)) {
+        ctx.check(`${path} 表单存在且 action 正确`, r.form === true && r.action === 'mailto:contact@mecollage.top', { actual: r });
+        ctx.check(`${path} 提交文案非空`, Boolean(r.submit) && r.submit.length > 0, { actual: r.submit });
+      }
+      const uniqueTitles = new Set(Object.values(results).map((r) => r.title));
+      ctx.check('本地化标题不是同一份英文', uniqueTitles.size >= 3, { actual: [...uniqueTitles] });
+    },
+  });
+}
+
 async function runSquareGroup() {
   await gotoPage('/tools/square/');
   await runCase(page, {
@@ -2125,6 +2213,7 @@ async function main() {
   // 4) 运行测试矩阵
   await runIndexGroup();
   await runBlogGroup();
+  await runContactGroup();
   await runSquareGroup();
   await runSquarecropGroup();
   await runRoundedCornersGroup();

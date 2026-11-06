@@ -548,10 +548,56 @@
             </header>
 
 
+            <!-- Contact Form Section -->
+            <section class="contact-section contact-form-section" id="contact-form">
+                <h2 class="section-title" data-i18n="contact.form_title">给我们留言</h2>
+                <p class="contact-form-intro" data-i18n="contact.form_intro">告诉我们你遇到的问题或想法。提交后会打开你的邮件客户端并自动填好内容——我们不会在服务器上存储任何数据。</p>
+                <form class="mc-contact-form" id="mc-contact-form" action="mailto:contact@mecollage.top" method="post" enctype="text/plain">
+                    <div class="mc-form-row">
+                        <div class="mc-form-field">
+                            <label for="mc-contact-name"><span id="mc-label-name" data-i18n="contact.form_name">你的名字</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                            <input type="text" id="mc-contact-name" name="name" autocomplete="name" required placeholder="你的名字" data-i18n-placeholder="contact.form_name_placeholder">
+                        </div>
+                        <div class="mc-form-field">
+                            <label for="mc-contact-email"><span id="mc-label-email" data-i18n="contact.form_email">你的邮箱</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                            <input type="email" id="mc-contact-email" name="email" autocomplete="email" required placeholder="you@example.com" data-i18n-placeholder="contact.form_email_placeholder">
+                        </div>
+                    </div>
+                    <div class="mc-form-field">
+                        <label for="mc-contact-subject"><span id="mc-label-subject" data-i18n="contact.form_subject">关于什么？</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                        <select id="mc-contact-subject" name="subject" required>
+                            <option value="" disabled selected>选择一个主题</option>
+                            <option value="bug">问题反馈</option>
+                            <option value="feature">功能建议</option>
+                            <option value="question">使用疑问</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                    <div class="mc-form-field">
+                        <label for="mc-contact-message"><span id="mc-label-message" data-i18n="contact.form_message">留言内容</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                        <textarea id="mc-contact-message" name="message" rows="6" required placeholder="描述问题或想法…" data-i18n-placeholder="contact.form_message_placeholder"></textarea>
+                    </div>
+                    <p class="mc-form-hint" data-i18n="contact.form_hint">将打开你默认的邮件客户端，不会自动发送。</p>
+                    <div class="mc-form-actions">
+                        <button type="submit" class="mc-button mc-button--primary" data-i18n="contact.form_submit">打开邮件客户端</button>
+                        <button type="button" class="mc-button mc-button--secondary" id="mc-copy-email" data-i18n="contact.form_copy">复制邮箱地址</button>
+                    </div>
+                    <p class="mc-contact-status" id="mc-contact-status" role="status" aria-live="polite"></p>
+                    <span hidden id="mc-status-copied" data-i18n="contact.form_copied">邮箱地址已复制</span>
+                    <span hidden id="mc-status-copy-failed" data-i18n="contact.form_copy_failed">复制失败——请手动选择地址</span>
+                    <span hidden id="mc-status-opening" data-i18n="contact.form_opening">正在打开邮件客户端…</span>
+                    <div class="mc-contact-direct">
+                        <span data-i18n="contact.form_direct">或直接发邮件给我们：</span>
+                        <a id="mc-contact-email-link" href="mailto:contact@mecollage.top">contact@mecollage.top</a>
+                    </div>
+                    <p class="mc-form-privacy" data-i18n="contact.form_privacy">我们只使用你的留言来回复。此表单不存储数据，照片也不会被上传。</p>
+                </form>
+            </section>
+
             <!-- Community Support Section -->
             <section class="contact-section community-support">
                 <h2 class="section-title" data-i18n="contact.support_title">获取支持 and 联系</h2>
-                <p data-i18n="contact.support_desc">MeCollage 是一个免费的、社区支持的项目。虽然我们不提供直接的电子邮件支持，但您可以通过我们的社区渠道与我们联系。</p>
+                <p data-i18n="contact.support_desc">MeCollage 是免费、社区支持的项目。你可以用上面的表单向我们发邮件，也可以到 GitHub 与社区交流。</p>
                 <div class="support-options">
                     <div class="contact-method">
                         <a href="https://github.com/oogwaaay/mecollage/issues" 
@@ -727,6 +773,7 @@
             });
         });
     </script>
+    <script src="/assets/js/contact-form.js" defer></script>
     <script src="/assets/js/ui.js" defer></script>
 </body>
 </html>
