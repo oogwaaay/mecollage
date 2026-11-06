@@ -86,6 +86,8 @@ const REPRESENTATIVE = [
   '/', '/zh/', '/blog/', '/blog/how-to-make-photo-collage/', '/about/', '/contact/',
   '/tools/square/', '/tools/roundedcorners/', '/privacy/', '/free-collage-maker/',
   '/es/christmas-collage-maker/', '/__no_such_page__/',
+  '/zh/tools/aspectratiocalculator/', '/tw/tools/aspectratiocalculator/',
+  '/ja/tools/aspectratiocalculator/', '/es/tools/aspectratiocalculator/',
 ];
 
 const pages = listPages();
@@ -243,9 +245,8 @@ const navRoleFails = [];
     if (!m) navRoleFails.push({ file: f, rule: '缺少 footer-tools（所有页面都必须有工具入口/内链）' });
     else {
       const links = (m[0].match(/<a\s/g) || []).length;
-      // Phase AR（2026-11-06）：英文页新增 Aspect Ratio Calculator（6 个工具）；
-      // 本地化页要等 4 语言页面同批上线后再改成 6，避免链接到未发布/404 页面。
-      const expectedFooterLinks = prefix ? 5 : 6;
+      // Phase AR（2026-11-06）：五语言 Aspect Ratio Calculator 上线，footer-tools 统一为 6 个工具。
+      const expectedFooterLinks = 6;
       if (links !== expectedFooterLinks) navRoleFails.push({ file: f, rule: `footer-tools 链接数 ${links} != ${expectedFooterLinks}` });
       const hasPrefix = prefix ? m[0].includes(`href="/${prefix}/`) : !m[0].includes('href="/zh/');
       if (!hasPrefix) navRoleFails.push({ file: f, rule: 'footer-tools 链接前缀与页面语言不一致' });

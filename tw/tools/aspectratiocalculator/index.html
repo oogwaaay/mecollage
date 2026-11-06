@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="tool.aspect_ratio_calculator.meta.title">寬高比計算器：快速找到合適的圖片尺寸（16:9、4:5、9:16，免費）</title>
+    <link rel="canonical" href="https://www.mecollage.top/tw/tools/aspectratiocalculator/">
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/tools/aspectratiocalculator/">
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/tools/aspectratiocalculator/">
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/tools/aspectratiocalculator/">
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/tools/aspectratiocalculator/">
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/tools/aspectratiocalculator/">
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/tools/aspectratiocalculator/">
+    <meta name="description" content="免費寬高比計算器：輸入任意寬度或高度，立即得到對應尺寸、最接近的常見比例，以及 Instagram、TikTok 和 YouTube 的官方像素尺寸。">
+    <meta name="keywords" content="寬高比計算器, 比例計算器, 16:9, 4:5, 9:16, 21:9, 圖片尺寸計算, Instagram 圖片尺寸, TikTok 影片尺寸, YouTube 封面尺寸">
+    <meta property="og:title" content="寬高比計算器：快速找到合適的圖片尺寸（16:9、4:5、9:16，免費）">
+    <meta property="og:description" content="免費寬高比計算器：輸入任意寬度或高度，立即得到對應尺寸、最接近的常見比例，以及 Instagram、TikTok 和 YouTube 的官方像素尺寸。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.mecollage.top/tw/tools/aspectratiocalculator/">
+    <meta property="og:image" content="https://www.mecollage.top/favicon-192.png">
+    <meta property="og:locale" content="zh_TW">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="寬高比計算器：快速找到合適的圖片尺寸（16:9、4:5、9:16，免費）">
+    <meta name="twitter:description" content="免費寬高比計算器：輸入任意寬度或高度，立即得到對應尺寸、最接近的常見比例，以及 Instagram、TikTok 和 YouTube 的官方像素尺寸。">
+
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="/wallImage.webp" as="image" type="image/webp" fetchpriority="high">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/index-vAuRGWiM.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/i18n.css">
+
+    <style>
+        /* Aspect Ratio Calculator — page styles.
+           All colors / font sizes / radii come from --mc-* design tokens (H11 + token audit). */
+
+        .aspectratio-tool-container {
+            width: 100%;
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 var(--mc-space-6) var(--mc-space-12);
+        }
+
+        .tool-nav-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--mc-space-4);
+        }
+
+        /* ---- Page header + direct answer block ---- */
+        .aspectratio-tool-container > .page-header { padding-top: var(--mc-space-6); }
+
+        .arc-quick-answer {
+            max-width: 880px;
+            margin: calc(-1 * var(--mc-space-6)) auto var(--mc-space-2);
+            padding: var(--mc-space-4) var(--mc-space-5);
+            text-align: left;
+            background: var(--mc-surface-1);
+            border: var(--mc-border-width) solid var(--mc-border-brand-subtle);
+            border-left: var(--mc-border-width-strong) solid var(--mc-color-brand);
+            border-radius: var(--mc-radius-lg);
+            backdrop-filter: blur(var(--mc-blur-md));
+            color: var(--mc-text-secondary);
+            font-size: var(--mc-font-size-body-sm);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        .arc-quick-answer__label {
+            display: inline-block;
+            margin-bottom: var(--mc-space-1);
+            padding: 2px var(--mc-space-2);
+            border-radius: var(--mc-radius-pill);
+            background: var(--mc-color-brand-tint);
+            color: var(--mc-text-heading);
+            font-size: var(--mc-font-size-2xs);
+            font-weight: var(--mc-font-weight-semibold);
+            letter-spacing: var(--mc-tracking-wide);
+            text-transform: uppercase;
+        }
+
+        .arc-quick-answer strong { color: var(--mc-text-primary); font-weight: var(--mc-font-weight-semibold); }
+
+        /* ---- Tool ---- */
+        .arc-main {
+            display: flex;
+            flex-direction: column;
+            gap: var(--mc-space-3);
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+        }
+
+        .arc-card {
+            background: var(--mc-surface-2);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-2xl);
+            box-shadow: var(--mc-shadow-e3);
+            backdrop-filter: blur(var(--mc-glass-backdrop));
+            padding: var(--mc-space-5);
+        }
+
+        .arc-card__head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: var(--mc-space-2) var(--mc-space-4);
+            margin-bottom: var(--mc-space-4);
+        }
+
+        .arc-card__title {
+            margin: 0;
+            font-size: var(--mc-font-size-h3);
+            font-weight: var(--mc-font-weight-bold);
+            color: var(--mc-text-heading);
+            text-shadow: var(--mc-text-shadow-heading);
+        }
+
+        .arc-card__hint {
+            margin: 0;
+            font-size: var(--mc-font-size-caption);
+            color: var(--mc-text-muted);
+        }
+
+        .arc-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+            gap: var(--mc-space-6);
+            align-items: start;
+        }
+
+        .arc-controls { min-width: 0; }
+        .arc-visual { min-width: 0; display: flex; flex-direction: column; gap: var(--mc-space-4); }
+
+        .arc-ratios {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--mc-space-2);
+            margin-bottom: var(--mc-space-4);
+        }
+
+        .arc-ratio {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--mc-space-2);
+            min-height: var(--mc-tap-target-min);
+            padding: var(--mc-space-2) var(--mc-space-3);
+            border: var(--mc-border-width) solid var(--mc-border-input);
+            border-radius: var(--mc-radius-pill);
+            background: var(--mc-surface-1);
+            color: var(--mc-text-secondary);
+            font-family: inherit;
+            font-size: var(--mc-font-size-label);
+            font-weight: var(--mc-font-weight-semibold);
+            cursor: pointer;
+            transition: background-color var(--mc-duration-fast) var(--mc-ease),
+                        border-color var(--mc-duration-fast) var(--mc-ease),
+                        color var(--mc-duration-fast) var(--mc-ease);
+        }
+
+        .arc-ratio:hover { background: var(--mc-color-brand-wash); border-color: var(--mc-border-brand); color: var(--mc-text-primary); }
+
+        .arc-ratio:focus-visible,
+        .arc-swap:focus-visible,
+        .arc-preset:focus-visible,
+        .arc-copy:focus-visible {
+            outline: var(--mc-focus-ring-width) solid var(--mc-focus-ring-color);
+            outline-offset: var(--mc-focus-ring-offset);
+        }
+
+        .arc-ratio[aria-pressed="true"] {
+            background: var(--mc-color-brand-tint-strong);
+            border-color: var(--mc-border-brand-strong);
+            color: var(--mc-text-heading);
+        }
+
+        .arc-mini {
+            display: inline-block;
+            height: 15px;
+            border: 1.5px solid currentColor;
+            border-radius: var(--mc-radius-xs);
+            flex: 0 0 auto;
+        }
+
+        .arc-mini--auto { width: 15px; border-style: dashed; }
+        .arc-mini--1x1 { width: 15px; }
+        .arc-mini--4x5 { width: 12px; }
+        .arc-mini--9x16 { width: 9px; }
+        .arc-mini--16x9 { width: 27px; }
+        .arc-mini--21x9 { width: 30px; }
+
+        .arc-fields {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: var(--mc-space-2);
+            align-items: end;
+        }
+
+        .arc-field { display: flex; flex-direction: column; gap: var(--mc-space-1); min-width: 0; }
+
+        .arc-field__label {
+            font-size: var(--mc-font-size-2xs);
+            font-weight: var(--mc-font-weight-semibold);
+            letter-spacing: var(--mc-tracking-wide);
+            text-transform: uppercase;
+            color: var(--mc-text-muted);
+        }
+
+        .arc-input-wrap { position: relative; display: block; }
+
+        .arc-input {
+            width: 100%;
+            min-height: 52px;
+            padding: var(--mc-space-2) var(--mc-space-8) var(--mc-space-2) var(--mc-space-3);
+            background: var(--mc-surface-1);
+            border: var(--mc-border-width) solid var(--mc-border-input);
+            border-radius: var(--mc-radius-md);
+            color: var(--mc-text-primary);
+            font-family: inherit;
+            font-size: var(--mc-font-size-xl);
+            font-weight: var(--mc-font-weight-semibold);
+            font-variant-numeric: tabular-nums;
+            transition: border-color var(--mc-duration-fast) var(--mc-ease),
+                        background-color var(--mc-duration-fast) var(--mc-ease);
+        }
+
+        .arc-input:focus-visible {
+            outline: var(--mc-focus-ring-width) solid var(--mc-focus-ring-color);
+            outline-offset: var(--mc-focus-ring-offset);
+            border-color: var(--mc-border-brand-strong);
+            background: var(--mc-surface-2);
+        }
+
+        .arc-input::-webkit-outer-spin-button,
+        .arc-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .arc-input { -moz-appearance: textfield; appearance: textfield; }
+
+        .arc-input__unit {
+            position: absolute;
+            right: var(--mc-space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--mc-text-faint);
+            font-size: var(--mc-font-size-caption);
+            pointer-events: none;
+        }
+
+        .arc-swap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--mc-tap-target-min);
+            height: 52px;
+            border: var(--mc-border-width) solid var(--mc-border-input);
+            border-radius: var(--mc-radius-md);
+            background: var(--mc-surface-1);
+            color: var(--mc-text-secondary);
+            cursor: pointer;
+        }
+
+        .arc-swap:hover { background: var(--mc-color-brand-wash); color: var(--mc-text-heading); }
+        .arc-swap[hidden] { display: none !important; }
+        .arc-swap svg { width: 20px; height: 20px; }
+
+        .arc-presets { margin-top: var(--mc-space-4); }
+        .arc-presets[hidden] { display: none !important; }
+
+        .arc-presets__label {
+            display: block;
+            margin-bottom: var(--mc-space-2);
+            font-size: var(--mc-font-size-2xs);
+            font-weight: var(--mc-font-weight-semibold);
+            letter-spacing: var(--mc-tracking-wide);
+            text-transform: uppercase;
+            color: var(--mc-text-muted);
+        }
+
+        .arc-presets__row { display: flex; flex-wrap: wrap; gap: var(--mc-space-2); }
+
+        .arc-preset {
+            min-height: var(--mc-tap-target-min);
+            padding: var(--mc-space-2) var(--mc-space-3);
+            border: var(--mc-border-width) solid var(--mc-border-subtle);
+            border-radius: var(--mc-radius-pill);
+            background: var(--mc-surface-1);
+            color: var(--mc-text-secondary);
+            font-family: inherit;
+            font-size: var(--mc-font-size-caption);
+            font-variant-numeric: tabular-nums;
+            cursor: pointer;
+        }
+
+        .arc-preset:hover { background: var(--mc-color-brand-tint); border-color: var(--mc-border-brand); color: var(--mc-text-heading); }
+
+        .arc-presets__note {
+            margin: var(--mc-space-2) 0 0;
+            font-size: var(--mc-font-size-2xs);
+            line-height: var(--mc-leading-relaxed);
+            color: var(--mc-text-faint);
+        }
+
+        .arc-presets__note[hidden] { display: none !important; }
+
+        .arc-result {
+            padding: var(--mc-space-4);
+            background: var(--mc-surface-1);
+            border: var(--mc-border-width) solid var(--mc-border-brand-subtle);
+            border-radius: var(--mc-radius-lg);
+        }
+
+        .arc-result__row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--mc-space-3);
+        }
+
+        .arc-result__size {
+            color: var(--mc-text-primary);
+            font-size: var(--mc-font-size-h3-lg);
+            font-weight: var(--mc-font-weight-bold);
+            font-variant-numeric: tabular-nums;
+            line-height: var(--mc-leading-tight);
+        }
+
+        .arc-result__unit {
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-label);
+            font-weight: var(--mc-font-weight-medium);
+        }
+
+        .arc-result__meta {
+            margin: var(--mc-space-2) 0 0;
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-caption);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        .arc-result__meta strong { color: var(--mc-text-heading); font-weight: var(--mc-font-weight-semibold); }
+
+        .arc-result__tip {
+            margin: var(--mc-space-2) 0 0;
+            padding-top: var(--mc-space-2);
+            border-top: var(--mc-border-width) solid var(--mc-border-subtle);
+            color: var(--mc-text-secondary);
+            font-size: var(--mc-font-size-2xs);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        .arc-copy {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--mc-space-2);
+            min-height: var(--mc-tap-target-min);
+            padding: var(--mc-space-2) var(--mc-space-4);
+            border: var(--mc-border-width) solid var(--mc-border-brand);
+            border-radius: var(--mc-radius-control);
+            background: var(--mc-color-brand-wash);
+            color: var(--mc-text-heading);
+            font-family: inherit;
+            font-size: var(--mc-font-size-label);
+            font-weight: var(--mc-font-weight-semibold);
+            cursor: pointer;
+        }
+
+        .arc-copy:hover { background: var(--mc-color-brand-haze); }
+        .arc-copy[disabled] { opacity: 0.5; cursor: not-allowed; }
+        .arc-copy svg { width: 16px; height: 16px; }
+
+        .arc-preview {
+            display: grid;
+            place-items: center;
+            min-height: 210px;
+            padding: var(--mc-space-4);
+            background:
+                linear-gradient(var(--mc-border-subtle) 1px, transparent 1px) 0 0 / 20px 20px,
+                linear-gradient(90deg, var(--mc-border-subtle) 1px, transparent 1px) 0 0 / 20px 20px,
+                var(--mc-surface-0);
+            border: var(--mc-border-width) solid var(--mc-border-subtle);
+            border-radius: var(--mc-radius-lg);
+        }
+
+        .arc-frame {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            width: 280px;
+            height: 158px;
+            max-width: 100%;
+            border: var(--mc-border-width-strong) dashed var(--mc-border-brand-strong);
+            border-radius: var(--mc-radius-sm);
+            background: var(--mc-color-brand-wash);
+            color: var(--mc-text-heading);
+        }
+
+        .arc-frame__ratio {
+            font-size: var(--mc-font-size-body-sm);
+            font-weight: var(--mc-font-weight-bold);
+            letter-spacing: var(--mc-tracking-wide);
+        }
+
+        .arc-frame__size {
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-2xs);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .arc-visual__caption {
+            margin: 0;
+            text-align: center;
+            color: var(--mc-text-faint);
+            font-size: var(--mc-font-size-2xs);
+        }
+
+        .arc-trust {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--mc-space-2) var(--mc-space-5);
+            margin: 0;
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-caption);
+            text-align: center;
+        }
+
+        .arc-trust span { display: inline-flex; align-items: center; gap: var(--mc-space-1); }
+        .arc-trust svg { width: 15px; height: 15px; color: var(--mc-color-brand); }
+
+        .arc-intent {
+            max-width: 1100px;
+            margin: var(--mc-space-5) auto 0;
+            padding: var(--mc-space-3) var(--mc-space-5);
+            background: var(--mc-color-brand-wash);
+            border: var(--mc-border-width) solid var(--mc-border-brand-subtle);
+            border-radius: var(--mc-radius-md);
+            text-align: center;
+            color: var(--mc-text-secondary);
+            font-size: var(--mc-font-size-body-sm);
+        }
+
+        .arc-intent a { color: var(--mc-text-link); font-weight: var(--mc-font-weight-semibold); text-decoration: none; }
+        .arc-intent a:hover { text-decoration: underline; }
+
+        /* ---- Content ---- */
+        .arc-content {
+            margin: var(--mc-space-8) 0;
+            padding: var(--mc-space-6);
+            background: var(--mc-surface-2);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-2xl);
+            box-shadow: var(--mc-shadow-e3);
+            backdrop-filter: blur(var(--mc-glass-backdrop));
+            color: var(--mc-text-secondary);
+        }
+
+        .arc-content h2 {
+            margin: 0 0 var(--mc-space-3);
+            color: var(--mc-text-heading);
+            font-size: var(--mc-font-size-h2);
+            line-height: var(--mc-leading-tight);
+            text-shadow: var(--mc-text-shadow-heading);
+        }
+
+        .arc-content h2:not(:first-child) { margin-top: var(--mc-space-8); }
+
+        .arc-content h3 {
+            margin: var(--mc-space-6) 0 var(--mc-space-2);
+            color: var(--mc-text-body);
+            font-size: var(--mc-font-size-card-title);
+        }
+
+        .arc-content p { margin: 0 0 var(--mc-space-3); font-size: var(--mc-font-size-body); line-height: var(--mc-leading-relaxed); }
+        .arc-content ul, .arc-content ol { margin: 0 0 var(--mc-space-3); padding-left: var(--mc-space-6); line-height: var(--mc-leading-relaxed); }
+        .arc-content li { margin-bottom: var(--mc-space-1); }
+        .arc-content a { color: var(--mc-text-link); font-weight: var(--mc-font-weight-medium); text-decoration: none; }
+        .arc-content a:hover { color: var(--mc-text-link-hover); text-decoration: underline; }
+        .arc-content strong { color: var(--mc-text-primary); }
+
+        .arc-table-wrap { margin: var(--mc-space-4) 0 var(--mc-space-2); }
+
+        .arc-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: var(--mc-font-size-body-sm);
+            line-height: var(--mc-leading-snug);
+        }
+
+        .arc-table caption {
+            caption-side: top;
+            padding-bottom: var(--mc-space-2);
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-caption);
+            text-align: left;
+        }
+
+        .arc-table th,
+        .arc-table td {
+            padding: var(--mc-space-3);
+            border-bottom: var(--mc-border-width) solid var(--mc-border-subtle);
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .arc-table thead th {
+            border-bottom: var(--mc-border-width) solid var(--mc-border-brand);
+            color: var(--mc-text-heading);
+            font-size: var(--mc-font-size-caption);
+            font-weight: var(--mc-font-weight-semibold);
+            white-space: nowrap;
+        }
+
+        .arc-table th[scope="row"] { min-width: 168px; color: var(--mc-text-primary); font-weight: var(--mc-font-weight-semibold); }
+
+        .arc-table .arc-group-head th {
+            padding-top: var(--mc-space-6);
+            border-bottom: var(--mc-border-width) solid var(--mc-border-brand);
+            color: var(--mc-text-heading);
+            font-size: var(--mc-font-size-body);
+            font-weight: var(--mc-font-weight-bold);
+        }
+
+        .arc-table tbody tr:not(.arc-group-head):hover td,
+        .arc-table tbody tr:not(.arc-group-head):hover th { background: var(--mc-color-brand-wash); }
+
+        .arc-table tbody:last-child tr:last-child th,
+        .arc-table tbody:last-child tr:last-child td { border-bottom: none; }
+
+        .arc-plat { display: inline-flex; align-items: center; gap: var(--mc-space-2); }
+        .arc-plat a { color: var(--mc-text-link); text-decoration: none; }
+        .arc-plat a:hover { text-decoration: underline; }
+
+        .arc-plat__icon {
+            display: inline-grid;
+            place-items: center;
+            width: 30px;
+            height: 30px;
+            flex: 0 0 auto;
+            border: var(--mc-border-width) solid var(--mc-border-subtle);
+            border-radius: var(--mc-radius-tag);
+            background: var(--mc-surface-1);
+            color: var(--mc-color-brand);
+        }
+
+        .arc-plat__icon svg { display: block; width: 17px; height: 17px; }
+
+        .arc-badge {
+            display: inline-block;
+            padding: 2px var(--mc-space-2);
+            border-radius: var(--mc-radius-pill);
+            font-size: var(--mc-font-size-2xs);
+            font-weight: var(--mc-font-weight-semibold);
+            white-space: nowrap;
+        }
+
+        .arc-badge--native { background: var(--mc-color-brand-tint); color: var(--mc-text-heading); }
+        .arc-badge--flex { background: var(--mc-color-brand-wash); color: var(--mc-text-heading); }
+        .arc-badge--limited { border: var(--mc-border-width) solid var(--mc-color-warning); color: var(--mc-text-secondary); }
+        .arc-badge--no { border: var(--mc-border-width) solid var(--mc-border); color: var(--mc-text-muted); }
+
+        .arc-ratio-use { color: var(--mc-text-muted); font-size: var(--mc-font-size-2xs); font-weight: var(--mc-font-weight-regular); }
+
+        .arc-source,
+        .arc-trademark {
+            margin: var(--mc-space-2) 0 0;
+            color: var(--mc-text-faint);
+            font-size: var(--mc-font-size-2xs);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        .arc-trademark {
+            margin-top: var(--mc-space-4);
+            padding-top: var(--mc-space-3);
+            border-top: var(--mc-border-width) solid var(--mc-border-subtle);
+        }
+
+        .arc-source a { color: var(--mc-text-muted); }
+
+        .arc-callout {
+            padding: var(--mc-space-3) var(--mc-space-4);
+            background: var(--mc-surface-1);
+            border-left: var(--mc-border-width-strong) solid var(--mc-color-brand);
+            border-radius: var(--mc-radius-sm);
+            color: var(--mc-text-secondary);
+            font-size: var(--mc-font-size-body-sm);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        /* ---- FAQ ---- */
+        .faq-section {
+            margin: var(--mc-space-8) 0;
+            padding: var(--mc-space-6);
+            background: var(--mc-surface-2);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-2xl);
+            box-shadow: var(--mc-shadow-e3);
+            backdrop-filter: blur(var(--mc-glass-backdrop));
+        }
+
+        .faq-title {
+            margin: 0 0 var(--mc-space-5);
+            color: var(--mc-text-heading);
+            font-size: var(--mc-font-size-h1-compact);
+            font-weight: var(--mc-font-weight-bold);
+            text-align: center;
+            text-shadow: var(--mc-text-shadow-display);
+        }
+
+        .faq-container { max-width: 820px; margin: 0 auto; }
+
+        .faq-item {
+            margin-bottom: var(--mc-space-5);
+            padding-bottom: var(--mc-space-5);
+            border-bottom: var(--mc-border-width) solid var(--mc-border-subtle);
+        }
+
+        .faq-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+        .faq-question {
+            margin: 0 0 var(--mc-space-1);
+            color: var(--mc-text-body);
+            font-size: var(--mc-font-size-h4);
+            font-weight: var(--mc-font-weight-semibold);
+        }
+
+        .faq-answer {
+            margin: 0;
+            color: var(--mc-text-tertiary);
+            font-size: var(--mc-font-size-body);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        .faq-answer a { color: var(--mc-text-link); }
+
+        /* ---- Footer ---- */
+        .aspectratio-tool-container footer {
+            padding: var(--mc-space-5) var(--mc-space-2) var(--mc-space-2);
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-label);
+            text-align: center;
+        }
+
+        .aspectratio-tool-container footer p { line-height: var(--mc-leading-relaxed); }
+        .aspectratio-tool-container footer p a { color: var(--mc-color-brand); text-decoration: none; }
+        .aspectratio-tool-container footer p a:hover { color: var(--mc-color-brand-hover); }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 960px) {
+            .arc-layout { grid-template-columns: 1fr; gap: var(--mc-space-5); }
+            .arc-preview { min-height: 180px; }
+        }
+
+        @media (max-width: 768px) {
+            .aspectratio-tool-container { padding: 0 var(--mc-space-4) var(--mc-space-10); }
+            .aspectratio-tool-container > .page-header { padding-top: var(--mc-space-4); }
+            .arc-quick-answer { margin-top: var(--mc-space-3); padding: var(--mc-space-3) var(--mc-space-4); font-size: var(--mc-font-size-label); }
+            .arc-card { padding: var(--mc-space-4); }
+            .arc-card__title { font-size: var(--mc-font-size-h3-lg); }
+            .arc-ratios { gap: var(--mc-space-1); }
+            .arc-ratio { padding: var(--mc-space-1) var(--mc-space-2); font-size: var(--mc-font-size-2xs); gap: var(--mc-space-1); }
+            .arc-mini { height: 12px; }
+            .arc-mini--auto { width: 12px; }
+            .arc-mini--1x1 { width: 12px; }
+            .arc-mini--4x5 { width: 10px; }
+            .arc-mini--9x16 { width: 7px; }
+            .arc-mini--16x9 { width: 22px; }
+            .arc-mini--21x9 { width: 24px; }
+            .arc-fields { gap: var(--mc-space-1); }
+            .arc-input { min-height: 48px; padding-left: var(--mc-space-2); padding-right: var(--mc-space-6); font-size: var(--mc-font-size-lg); }
+            .arc-swap { width: var(--mc-tap-target-min); height: 48px; }
+            .arc-result__size { font-size: var(--mc-font-size-h3); }
+            .arc-preview { min-height: 168px; padding: var(--mc-space-3); }
+            .arc-content, .faq-section { margin: var(--mc-space-6) 0; padding: var(--mc-space-4); }
+            .arc-content h2 { font-size: var(--mc-font-size-h2-sm); }
+            .faq-title { font-size: var(--mc-font-size-h2-sm); }
+
+            .arc-table,
+            .arc-table tbody,
+            .arc-table tr { display: block; width: 100%; }
+            .arc-table thead { display: none; }
+            .arc-table caption { display: none; }
+            .arc-table tbody {
+                margin-bottom: var(--mc-space-4);
+                border: var(--mc-border-width) solid var(--mc-border-subtle);
+                border-radius: var(--mc-radius-lg);
+                background: var(--mc-surface-1);
+                overflow: hidden;
+            }
+            .arc-table tbody:last-child { margin-bottom: 0; }
+            .arc-table .arc-group-head th {
+                display: block;
+                width: 100%;
+                padding: var(--mc-space-3);
+                border-bottom: var(--mc-border-width) solid var(--mc-border-subtle);
+            }
+            .arc-table tbody tr:not(.arc-group-head) { padding: 0 var(--mc-space-3) var(--mc-space-2); }
+            .arc-table tbody tr:not(.arc-group-head):last-child { padding-bottom: var(--mc-space-3); }
+            .arc-table th[scope="row"] {
+                display: flex;
+                align-items: center;
+                gap: var(--mc-space-2);
+                min-width: 0;
+                padding: var(--mc-space-2) 0 var(--mc-space-1);
+                border-bottom: none;
+            }
+            .arc-table td {
+                display: flex;
+                align-items: baseline;
+                justify-content: space-between;
+                gap: var(--mc-space-3);
+                padding: 2px 0;
+                border-bottom: none;
+                text-align: right;
+            }
+            .arc-table td::before {
+                content: attr(data-label);
+                flex: 0 0 auto;
+                color: var(--mc-text-muted);
+                font-size: var(--mc-font-size-2xs);
+                font-weight: var(--mc-font-weight-semibold);
+                letter-spacing: var(--mc-tracking-wide);
+                text-align: left;
+            }
+            .arc-table tbody tr:not(.arc-group-head):hover td,
+            .arc-table tbody tr:not(.arc-group-head):hover th { background: transparent; }
+        }
+
+        @media (max-width: 380px) {
+            .arc-input__unit { display: none; }
+            .arc-input { padding-right: var(--mc-space-2); }
+        }
+    </style>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.mecollage.top/tw/tools/aspectratiocalculator/#webpage",
+      "url": "https://www.mecollage.top/tw/tools/aspectratiocalculator/",
+      "name": "寬高比計算器：快速找到合適的圖片尺寸（16:9、4:5、9:16，免費）",
+      "description": "免費寬高比計算器：輸入任意寬度或高度，立即得到對應尺寸、最接近的常見比例，以及 Instagram、TikTok 和 YouTube 的官方像素尺寸。",
+      "inLanguage": "zh-TW"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "寬高比計算器",
+      "url": "https://www.mecollage.top/tw/tools/aspectratiocalculator/",
+      "description": "免費寬高比計算器：輸入任意寬度或高度，立即得到對應尺寸、最接近的常見比例，以及 Instagram、TikTok 和 YouTube 的官方像素尺寸。",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "image": "https://www.mecollage.top/favicon-192.png"
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.mecollage.top/tw/tools/aspectratiocalculator/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "什麼是寬高比？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "寬高比是圖片寬度除以高度，用 16:9 這樣的兩個數字表示。1920×1080 的寬高比是 16:9，因為 1920 ÷ 1080 = 1.78，16 ÷ 9 = 1.78。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "如何計算圖片的寬高比？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "用寬度除以高度。1080 ÷ 1350 = 0.8，即 4:5。要化簡比例，把兩個數同時除以最大公約數：1920 和 1080 都能除以 120，得到 16:9。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "只知道寬度和高度，怎麼知道寬高比？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "在計算器中輸入寬度和高度，它會用寬度除以高度、化簡為最簡比例（例如 1920×1080 → 16:9），並顯示 1:1、4:5、9:16、16:9、21:9 中最接近的一個。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "什麼是「最接近的常見寬高比」？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "計算器把寬高比與五個標準比例比較，顯示最接近的一個。例如 1200×628 是 1.91:1，最接近 16:9。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "16:9 的像素尺寸是多少？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "常見 16:9：1920×1080（Full HD）、1280×720（HD）、2560×1440（QHD）、3840×2160（4K）。YouTube 影片、縮圖和多數網站主視覺都用 16:9。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Instagram 的 4:5 是多大尺寸？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Instagram 直式動態貼文為 1080×1350 像素（4:5），比正方形貼文佔用更多縱向空間。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "TikTok 和 Reels 的 9:16 是多少？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "TikTok 影片、Instagram Reels/限時動態、YouTube Shorts 都用 1080×1920 像素（9:16）。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Instagram 可以發 16:9 圖片嗎？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "可以，但會以約 1080×608 的橫圖顯示。動態圖片需在 1.91:1 到 4:5 之間，16:9 在範圍內，但 4:5 更佔螢幕。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "21:9 對應多少像素？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "嚴格 21:9 為 2.333:1，高度 1080 時寬度為 2520 像素。多數「21:9」螢幕實際是 64:27（2.370:1），如 2560×1080；3440×1440 是 43:18。計算器用 2560×1080 作為 21:9 常用預設並說明差異。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "這個工具會上傳圖片嗎？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "不會。計算器只在瀏覽器裡做算術，不上傳、不儲存、不傳送任何內容，也不需要帳號。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "如何把圖片裁切成指定比例？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "用正方形裁剪工具裁成 1:1，或按這裡給出的比例和像素尺寸在任意編輯器中裁切。多張正方形照片可用正方形拼圖保持 1:1。"
+          }
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "首頁",
+          "item": "https://www.mecollage.top/tw/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "寬高比計算器",
+          "item": "https://www.mecollage.top/tw/tools/aspectratiocalculator/"
+        }
+      ]
+    }
+  ]
+}
+    </script>
+</head>
+<body class="mc-tool-page">
+    <svg width="0" height="0" aria-hidden="true" focusable="false">
+        <symbol id="i-camera" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 8.5A2.5 2.5 0 0 1 6.5 6h11A2.5 2.5 0 0 1 20 8.5v9A2.5 2.5 0 0 1 17.5 20h-11A2.5 2.5 0 0 1 4 17.5v-9Z"/><circle cx="12" cy="13" r="3.4" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M8.5 4.5 10 6h4l1.5-1.5"/></symbol>
+        <symbol id="i-play" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path fill="currentColor" d="M10.5 9.3v5.4l4.6-2.7-4.6-2.7Z"/></symbol>
+        <symbol id="i-note" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M9 18.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm3.5-2V4.5c.8 2.4 2.4 3.9 5 4.2"/></symbol>
+        <symbol id="i-globe" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Zm0 0c2.5 2.4 3.8 5.5 3.8 9s-1.3 6.6-3.8 9m0-18C9.5 5.4 8.2 8.5 8.2 12s1.3 6.6 3.8 9M3.4 9h17.2M3.4 15h17.2"/></symbol>
+    </svg>
+
+    <div class="ghibli-background"></div>
+
+    <div class="app-container">
+                <nav class="ghibli-nav">
+            <div class="nav-left">
+                <a href="/tw/" class="nav-link" data-page="home" data-i18n="nav.home">首頁</a>
+                <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">部落格</a>
+                <a href="/tw/about/" class="nav-link" data-page="about" data-i18n="nav.about">關於我們</a>
+                <a href="/tw/contact/" class="nav-link" data-page="contact" rel="noopener noreferrer" data-i18n="nav.contact">聯繫我們</a>
+            </div>
+            <div class="nav-right">
+                <a href="https://github.com/oogwaaay/mecollage/issues"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="nav-link github-link"
+                   title="在 GitHub 上查看"
+                   data-i18n-title="nav.github_view"
+                   aria-label="在 GitHub 上查看"
+                   data-i18n-aria-label="nav.github_view">
+                    <svg class="github-link__icon" viewBox="0 0 16 16" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                </a>
+                <div class="lang-selector" title="切換語言" data-i18n-title="nav.switch_language">
+                    <button type="button" class="lang-selector-toggle" aria-haspopup="true" aria-expanded="false">
+                        <span aria-hidden="true">🌐</span>
+                        <span data-i18n="lang.name">繁體中文</span>
+                    </button>
+                    <div class="lang-menu" role="menu">
+                        <a class="lang-option" href="https://www.mecollage.top/tools/aspectratiocalculator/" hreflang="en" data-lang="en" role="menuitem">English</a>
+                        <a class="lang-option" href="https://www.mecollage.top/zh/tools/aspectratiocalculator/" hreflang="zh-CN" data-lang="zh" role="menuitem">简体中文</a>
+                        <a class="lang-option" href="https://www.mecollage.top/tw/tools/aspectratiocalculator/" hreflang="zh-TW" data-lang="zh-tw" role="menuitem" aria-current="page">繁體中文</a>
+                        <a class="lang-option" href="https://www.mecollage.top/ja/tools/aspectratiocalculator/" hreflang="ja" data-lang="ja" role="menuitem">日本語</a>
+                        <a class="lang-option" href="https://www.mecollage.top/es/tools/aspectratiocalculator/" hreflang="es" data-lang="es" role="menuitem">Español</a>
+                    </div>
+                    <div class="lang-menu-backdrop" tabindex="-1" aria-hidden="true"></div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="aspectratio-tool-container">
+                        <header class="page-header">
+                <h1 class="page-title" data-i18n="tool.aspect_ratio_calculator.title">寬高比計算器</h1>
+                <p class="page-subtitle" data-i18n="tool.aspect_ratio_calculator.subtitle">輸入任意寬度或高度，立即算出合適的圖片尺寸——在瀏覽器裡完成，無需上傳。</p>
+
+                <div class="arc-quick-answer" id="quickAnswer">
+                    <span class="arc-quick-answer__label">快速回答</span>
+                    <p><strong>寬高比就是寬度除以高度。</strong> 1920×1080 是 16:9，1080×1350 是 4:5，1080×1920 是 9:16——輸入任意寬度或高度即可得到對應尺寸。</p>
+                </div>
+            </header>
+
+                        <nav class="tool-nav" aria-label="工具">
+                <div class="tool-nav-container">
+                    <a href="/tw/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span data-i18n="tool.common.nav_square_crop">正方形裁剪</span></a>
+                    <a href="/tw/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span data-i18n="tool.common.nav_rounded_corners">圓角工具</span></a>
+                    <a href="/tw/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span data-i18n="tool.common.nav_square_image">正方形圖片</span></a>
+                    <a href="/tw/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span data-i18n="tool.common.nav_blurred_frame">模糊邊框</span></a>
+                    <a href="/tw/tools/aspectratiocalculator/" class="tool-nav-link active" aria-current="page"><i class="fas fa-expand"></i> <span data-i18n="tool.common.nav_aspect_ratio">寬高比</span></a>
+                </div>
+            </nav>
+
+            <main class="main-content arc-main" id="calculator">
+                <section class="arc-card" aria-labelledby="arcCardTitle">
+                    <div class="arc-card__head">
+                        <h2 class="arc-card__title" id="arcCardTitle">計算圖片尺寸</h2>
+                        <p class="arc-card__hint" id="arcHint">自動偵測：輸入寬度和高度，讀取比例。</p>
+                    </div>
+
+                    <div class="arc-layout">
+                        <div class="arc-controls">
+                            <div class="arc-ratios" role="group" aria-label="寬高比">
+                                <button type="button" class="arc-ratio" data-ratio="auto" aria-pressed="true">
+                                    <span class="arc-mini arc-mini--auto" aria-hidden="true"></span> 自動偵測
+                                </button>
+                                <button type="button" class="arc-ratio" data-ratio="1:1" aria-pressed="false">
+                                    <span class="arc-mini arc-mini--1x1" aria-hidden="true"></span> 1:1
+                                </button>
+                                <button type="button" class="arc-ratio" data-ratio="4:5" aria-pressed="false">
+                                    <span class="arc-mini arc-mini--4x5" aria-hidden="true"></span> 4:5
+                                </button>
+                                <button type="button" class="arc-ratio" data-ratio="9:16" aria-pressed="false">
+                                    <span class="arc-mini arc-mini--9x16" aria-hidden="true"></span> 9:16
+                                </button>
+                                <button type="button" class="arc-ratio" data-ratio="16:9" aria-pressed="false">
+                                    <span class="arc-mini arc-mini--16x9" aria-hidden="true"></span> 16:9
+                                </button>
+                                <button type="button" class="arc-ratio" data-ratio="21:9" aria-pressed="false">
+                                    <span class="arc-mini arc-mini--21x9" aria-hidden="true"></span> 21:9 超寬
+                                </button>
+                            </div>
+
+                            <div class="arc-fields">
+                                <label class="arc-field" for="arcWidth">
+                                    <span class="arc-field__label">寬度</span>
+                                    <span class="arc-input-wrap">
+                                        <input class="arc-input" id="arcWidth" type="number" inputmode="numeric" min="1" max="20000" step="1" value="1920" autocomplete="off">
+                                        <span class="arc-input__unit" aria-hidden="true">px</span>
+                                    </span>
+                                </label>
+                                <button type="button" class="arc-swap" id="arcSwap" aria-label="交換寬度和高度" title="交換寬度和高度">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 8h11l-3-3m3 3-3 3M17 16H6l3-3m-3 3 3 3"/></svg>
+                                </button>
+                                <label class="arc-field" for="arcHeight">
+                                    <span class="arc-field__label">高度</span>
+                                    <span class="arc-input-wrap">
+                                        <input class="arc-input" id="arcHeight" type="number" inputmode="numeric" min="1" max="20000" step="1" value="1080" autocomplete="off">
+                                        <span class="arc-input__unit" aria-hidden="true">px</span>
+                                    </span>
+                                </label>
+                            </div>
+
+                            <div class="arc-presets" id="arcPresets" hidden>
+                                <span class="arc-presets__label">常用尺寸</span>
+                                <div class="arc-presets__row" id="arcPresetRow"></div>
+                                <p class="arc-presets__note" id="arcPresetNote" hidden></p>
+                            </div>
+                        </div>
+
+                        <div class="arc-visual">
+                            <div class="arc-result" aria-live="polite">
+                                <div class="arc-result__row">
+                                    <div>
+                                        <div class="arc-result__size" id="arcSize">1920 × 1080 <span class="arc-result__unit">px</span></div>
+                                        <p class="arc-result__meta" id="arcMeta">比例 <strong>16:9</strong> · 1.78 · 最接近的常見比例 <strong>16:9</strong>（完全一致）</p>
+                                    </div>
+                                    <button type="button" class="arc-copy" id="arcCopy">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="8" y="8" width="11" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h2"/></svg>
+                                        複製尺寸
+                                    </button>
+                                </div>
+                                <p class="arc-result__tip" id="arcTip">寬螢幕——YouTube 影片與封面、多數網站主視覺。</p>
+                            </div>
+
+                            <div class="arc-preview">
+                                <div class="arc-frame" id="arcFrame">
+                                    <span class="arc-frame__ratio" id="arcFrameRatio">16:9</span>
+                                    <span class="arc-frame__size" id="arcFrameSize">1920 × 1080 px</span>
+                                </div>
+                            </div>
+                            <p class="arc-visual__caption">即時預覽：只顯示形狀，不是原圖。</p>
+                        </div>
+                    </div>
+
+                    <noscript><p class="arc-noscript">此計算器需要 JavaScript。請在瀏覽器中啟用後再計算尺寸。</p></noscript>
+                </section>
+
+                <p class="arc-trust">
+                    <span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 3 5 6v5c0 4.5 3 8.2 7 9.5 4-1.3 7-5 7-9.5V6l-7-3Z"/><path fill="none" stroke="currentColor" stroke-width="2" d="m9 12 2 2 4-4"/></svg> 100% 在瀏覽器內完成</span>
+                    <span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 5v14m-7-7h14"/></svg> 無需上傳、無需帳號</span>
+                    <span><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M12 2v20M2 12h20"/></svg> 免費、無浮水印</span>
+                </p>
+            </main>
+
+                        <div class="tool-intent-switch arc-intent">
+                <span>需要把照片裁切成這些比例？</span>
+                <a href="/tw/tools/squarecrop/">開啟正方形裁剪——裁成 1:1 →</a>
+            </div>
+
+                        <section class="seo-content arc-content">
+                <h2 id="what-is-aspect-ratio">什麼是寬高比？</h2>
+                <p>寬高比是圖片寬度除以高度，用冒號寫成兩個數字，例如 16:9 或 4:5。它描述形狀，而不是像素多少：1920×1080 的照片、1280×720 的影片和 3840×2160 的螢幕都是 16:9。</p>
+                <p>寬高比不表示圖片大小。640×360 和 3840×2160 都是 16:9，只是解析度不同。縮放圖片時保持比例，才不會把臉、圓形和文字拉變形。</p>
+                <h2 id="what-is-my-aspect-ratio">我的圖片寬高比是多少？輸入任意寬度或高度</h2>
+                <p>把已知的像素尺寸輸入上方計算器，它會用寬度除以高度、化簡為最簡比例，並顯示最接近的常見寬高比（1:1、4:5、9:16、16:9、21:9）。例如 1920×1080 變成 16:9，1080×1350 變成 4:5，1200×628 是 1.91:1，最接近 16:9。</p>
+                <p>只知道一邊時，先選擇比例，再輸入寬度或高度，另一邊會即時算出：選 9:16 輸入 1080 得到 1920；選 4:5 輸入 1350 得到 1080。兩個方向都可以。</p>
+                <h2 id="cheat-sheet">寬高比對照表：官方尺寸與原生支援</h2>
+                <p>下表區分兩件事：平台公布的官方像素尺寸，以及該比例是否為平台原生支援。破折號表示該比例沒有固定官方尺寸；「非原生」表示平台會裁切、加黑邊或不接受這個形狀。尺寸於 2026 年 11 月核對自各平台說明中心（表內連結）。</p>
+                <div class="arc-table-wrap">
+                    <table class="arc-table">
+                        <caption>平台 · 官方尺寸 · 原生 / 非原生</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">平台</th>
+                                <th scope="col">官方尺寸</th>
+                                <th scope="col">原生 / 非原生</th>
+                                <th scope="col">適用場景</th>
+                            </tr>
+                        </thead>
+                                                <tbody class="arc-group">
+                            <tr class="arc-group-head"><th colspan="4" scope="colgroup"><span class="arc-ratio-name">1:1</span> <span class="arc-ratio-use">正方形</span></th></tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-camera"></use></svg></span><a href="https://help.instagram.com/1631821640426723" target="_blank" rel="noopener noreferrer">Instagram</a></span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">1080 × 1080</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--native">原生</span></td>
+                                <td data-label="適用場景">動態貼文、大頭貼</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-note"></use></svg></span><a href="https://support.tiktok.com/en/using-tiktok/creating-videos/video-upload-requirements" target="_blank" rel="noopener noreferrer">TikTok</a></span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">200 × 200</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--profile">僅大頭貼</span></td>
+                                <td data-label="適用場景">大頭貼；貼文請用 9:16</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-play"></use></svg></span><a href="https://support.google.com/youtube/answer/72431" target="_blank" rel="noopener noreferrer">YouTube</a></span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">800 × 800</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--avatars">大頭貼與封面</span></td>
+                                <td data-label="適用場景">頻道大頭貼；1:1 播客封面</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-globe"></use></svg></span>網站</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--flex">彈性</span></td>
+                                <td data-label="適用場景">1080 × 1080 商品圖、大頭貼</td>
+                            </tr>
+                        </tbody>
+                        <tbody class="arc-group">
+                            <tr class="arc-group-head"><th colspan="4" scope="colgroup"><span class="arc-ratio-name">4:5</span> <span class="arc-ratio-use">直式</span></th></tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-camera"></use></svg></span>Instagram</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">1080 × 1350</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--native">原生</span></td>
+                                <td data-label="適用場景">動態直式貼文</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-note"></use></svg></span>TikTok</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--notnative">非原生</span></td>
+                                <td data-label="適用場景">請使用 9:16 影片</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-play"></use></svg></span>YouTube</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--notnative">非原生</span></td>
+                                <td data-label="適用場景">直式影片會自動產生 4:5 動態封面</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-globe"></use></svg></span>網站</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--flex">彈性</span></td>
+                                <td data-label="適用場景">1080 × 1350 直式商品卡片</td>
+                            </tr>
+                        </tbody>
+                        <tbody class="arc-group">
+                            <tr class="arc-group-head"><th colspan="4" scope="colgroup"><span class="arc-ratio-name">9:16</span> <span class="arc-ratio-use">直式影音</span></th></tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-camera"></use></svg></span>Instagram</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">1080 × 1920</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--native">原生</span></td>
+                                <td data-label="適用場景">限時動態和 Reels</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-note"></use></svg></span>TikTok</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">1080 × 1920</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--native">原生</span></td>
+                                <td data-label="適用場景">影片</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-play"></use></svg></span>YouTube</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">1080 × 1920</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--native">原生</span></td>
+                                <td data-label="適用場景">Shorts</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-globe"></use></svg></span>網站</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--flex">彈性</span></td>
+                                <td data-label="適用場景">1080 × 1920 行動主視覺、限時動態嵌入</td>
+                            </tr>
+                        </tbody>
+                        <tbody class="arc-group">
+                            <tr class="arc-group-head"><th colspan="4" scope="colgroup"><span class="arc-ratio-name">16:9</span> <span class="arc-ratio-use">寬螢幕</span></th></tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-camera"></use></svg></span>Instagram</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--fitsfeed">適合動態（≤ 1.91:1）</span></td>
+                                <td data-label="適用場景">橫式貼文，顯示約 1080 × 608</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-note"></use></svg></span>TikTok</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--notnative">非原生</span></td>
+                                <td data-label="適用場景">請使用 9:16 影片</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-play"></use></svg></span>YouTube</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size">1920 × 1080</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--native">原生</span></td>
+                                <td data-label="適用場景">影片；封面 1280 × 720</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-globe"></use></svg></span>網站</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--flex">彈性</span></td>
+                                <td data-label="適用場景">1920 × 1080 主視覺、影片嵌入</td>
+                            </tr>
+                        </tbody>
+                        <tbody class="arc-group">
+                            <tr class="arc-group-head"><th colspan="4" scope="colgroup"><span class="arc-ratio-name">21:9</span> <span class="arc-ratio-use">超寬</span></th></tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-camera"></use></svg></span>Instagram</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--notnative">非原生</span></td>
+                                <td data-label="適用場景">請用 4:5 或 9:16</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-note"></use></svg></span>TikTok</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--notnative">非原生</span></td>
+                                <td data-label="適用場景">請使用 9:16 影片</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-play"></use></svg></span>YouTube</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--notnative">非原生</span></td>
+                                <td data-label="適用場景">在 16:9 播放器中會加黑邊</td>
+                            </tr>
+                            <tr>
+                                <th scope="row"><span class="arc-plat"><span class="arc-plat__icon"><svg aria-hidden="true" focusable="false"><use href="#i-globe"></use></svg></span>網站</span></th>
+                                <td data-label="官方尺寸"><span class="arc-size arc-na">—</span></td>
+                                <td data-label="原生 / 非原生"><span class="arc-badge arc-badge--flex">彈性</span></td>
+                                <td data-label="適用場景">2560 × 1080 超寬主視覺（64:27 面板）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="arc-source">來源：<a href="https://help.instagram.com/1631821640426723" target="_blank" rel="noopener noreferrer">Instagram</a>、<a href="https://support.tiktok.com/en/using-tiktok/creating-videos/video-upload-requirements" target="_blank" rel="noopener noreferrer">TikTok</a>、<a href="https://support.google.com/youtube/answer/72431" target="_blank" rel="noopener noreferrer">YouTube</a> 官方說明中心。2026 年 11 月核對；平台規則會變化，發布前請以官方頁面為準。</p>
+                <p class="arc-trademark">Instagram、TikTok 和 YouTube 是其各自所有者的商標。此處僅用於識別平台，不代表任何關聯或背書。MeCollage 是獨立工具。</p>
+                <h2 id="instagram">Instagram 的寬高比與像素尺寸</h2>
+                <p>Instagram 動態圖片必須在 1.91:1 到 4:5 之間。正方形 1080×1080 是經典格式；直式 1080×1350（4:5）佔用更多縱向空間，是動態最常用的尺寸。限時動態和 Reels 用 1080×1920（9:16），16:9 橫圖在動態中顯示約 1080×608。需要精確裁成 1:1 時，用 <a href="/tw/tools/squarecrop/">正方形裁剪</a> 縮放、拖曳選擇保留區域；想保留完整照片並加模糊背景時，用 <a href="/tw/tools/square/">正方形圖片</a>；用多張照片做 9:16 限時動態時，用 <a href="/tw/instagram-story-collage/">Instagram 限時動態拼圖</a>。</p>
+                <h2 id="tiktok">TikTok 尺寸：為什麼 9:16 最重要</h2>
+                <p>TikTok 播放器是直式，原生尺寸為 1080×1920（9:16）。1:1 只用於 200×200 大頭貼；4:5 或 16:9 影片會被裁切或加黑邊。設計時按 1080×1920 構圖，並把文字放在上下介面之外的安全區。</p>
+                <h2 id="youtube">YouTube 尺寸：16:9 影片、9:16 Shorts</h2>
+                <p>YouTube 影片與縮圖按 16:9：影片 1920×1080，縮圖 1280×720。Shorts 為 1080×1920（9:16）。頻道大頭貼和播客封面用 1:1，部分直式影片在動態中會產生 4:5 縮圖。</p>
+                <h2 id="website">網站圖片尺寸：主視覺、卡片與超寬螢幕</h2>
+                <p>網站比較有彈性：16:9 主視覺常用 1920×1080，輕量版 1280×720；4:5 卡片用 1080×1350；9:16 用 1080×1920 做行動主視覺或限時動態嵌入；超寬主視覺可用 2560×1080。</p>
+                <h2 id="free-sizes">可直接使用的免費 16:9 與 9:16 尺寸</h2>
+                <p>最常用的兩種比例。常見 16:9：1280×720、1920×1080、2560×1440、3840×2160；常見 9:16：720×1280、1080×1920、2160×3840。在計算器裡選擇比例、輸入已知的一邊即可複製結果，不上傳、不加水印、不限次數。</p>
+                <h2 id="crop-resize">如何把圖片裁切或縮放到指定比例</h2>
+                <p>① 在計算器裡確定比例（如 4:5 用 1080×1350）。② 按該尺寸裁切，避免拉伸：<a href="/tw/tools/squarecrop/">正方形裁剪</a> 處理 1:1，其他比例用任意編輯器。③ 多張照片拼接時用 <a href="/tw/square-collage/">正方形拼圖</a>，再用 <a href="/tw/tools/roundedcorners/">圓角工具</a> 處理卡片圓角。</p>
+                <div class="arc-callout">先裁切、再縮放。順序反了會浪費已經處理過的像素；只縮放不裁切，正是人像被拉變形的原因。</div>
+                <h2 id="ratio-21-9">21:9 怎麼算？嚴格比例與螢幕產業口徑</h2>
+                <p>嚴格 21:9 是 2.333:1，高度 1080 時精確寬度為 2520×1080。市面上標稱 21:9 的螢幕多為 64:27（2.370:1），例如 2560×1080；3440×1440 是 43:18（2.389:1）。因此本計算器把 2560×1080 作為 21:9 的常用預設，並在本節說明嚴格值。社群平台都不原生支援超寬比例，發文時請保留 16:9 或 9:16 版本。</p>
+            </section>
+
+                        <section class="faq-section" id="faq">
+                <h2 class="faq-title">常見問題</h2>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <h3 class="faq-question">什麼是寬高比？</h3>
+                        <p class="faq-answer">寬高比是圖片寬度除以高度，用 16:9 這樣的兩個數字表示。1920×1080 的寬高比是 16:9，因為 1920 ÷ 1080 = 1.78，16 ÷ 9 = 1.78。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">如何計算圖片的寬高比？</h3>
+                        <p class="faq-answer">用寬度除以高度。1080 ÷ 1350 = 0.8，即 4:5。要化簡比例，把兩個數同時除以最大公約數：1920 和 1080 都能除以 120，得到 16:9。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">只知道寬度和高度，怎麼知道寬高比？</h3>
+                        <p class="faq-answer">在計算器中輸入寬度和高度，它會用寬度除以高度、化簡為最簡比例（例如 1920×1080 → 16:9），並顯示 1:1、4:5、9:16、16:9、21:9 中最接近的一個。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">什麼是「最接近的常見寬高比」？</h3>
+                        <p class="faq-answer">計算器把寬高比與五個標準比例比較，顯示最接近的一個。例如 1200×628 是 1.91:1，最接近 16:9。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">16:9 的像素尺寸是多少？</h3>
+                        <p class="faq-answer">常見 16:9：1920×1080（Full HD）、1280×720（HD）、2560×1440（QHD）、3840×2160（4K）。YouTube 影片、縮圖和多數網站主視覺都用 16:9。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">Instagram 的 4:5 是多大尺寸？</h3>
+                        <p class="faq-answer">Instagram 直式動態貼文為 1080×1350 像素（4:5），比正方形貼文佔用更多縱向空間。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">TikTok 和 Reels 的 9:16 是多少？</h3>
+                        <p class="faq-answer">TikTok 影片、Instagram Reels/限時動態、YouTube Shorts 都用 1080×1920 像素（9:16）。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">Instagram 可以發 16:9 圖片嗎？</h3>
+                        <p class="faq-answer">可以，但會以約 1080×608 的橫圖顯示。動態圖片需在 1.91:1 到 4:5 之間，16:9 在範圍內，但 4:5 更佔螢幕。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">21:9 對應多少像素？</h3>
+                        <p class="faq-answer">嚴格 21:9 為 2.333:1，高度 1080 時寬度為 2520 像素。多數「21:9」螢幕實際是 64:27（2.370:1），如 2560×1080；3440×1440 是 43:18。計算器用 2560×1080 作為 21:9 常用預設並說明差異。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">這個工具會上傳圖片嗎？</h3>
+                        <p class="faq-answer">不會。計算器只在瀏覽器裡做算術，不上傳、不儲存、不傳送任何內容，也不需要帳號。</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3 class="faq-question">如何把圖片裁切成指定比例？</h3>
+                        <p class="faq-answer">用正方形裁剪工具裁成 1:1，或按這裡給出的比例和像素尺寸在任意編輯器中裁切。多張正方形照片可用正方形拼圖保持 1:1。</p>
+                    </div>
+                </div>
+            </section>
+
+                        <footer>
+                <nav class="footer-tools" aria-label="工具" data-i18n-aria-label="nav.tools">
+                    <a href="/tw/" data-i18n="tool.collage_maker">拼圖製作工具</a>
+                    <a href="/tw/tools/squarecrop/" data-i18n="tool.square_crop">正方形裁剪</a>
+                    <a href="/tw/tools/roundedcorners/" data-i18n="tool.rounded_corners">圓角工具</a>
+                    <a href="/tw/tools/square/" data-i18n="tool.square_image">正方形圖片</a>
+                    <a href="/tw/tools/blurredframe/" data-i18n="tool.blurred_frame">模糊邊框</a>
+                    <a href="/tw/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">寬高比計算器</a>
+                </nav>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. 版權所有。</span> | <a href="/tw/" data-i18n="footer.home">返回首頁</a> | <a href="/tw/about/" data-i18n="nav.about">關於我們</a> | <a href="/blog/" data-i18n="nav.blog">部落格</a> | <a href="/tw/contact/" data-i18n="footer.contact">聯繫我們</a> | <a href="/tw/privacy/" data-i18n="footer.privacy">隱私政策</a> | <a href="/tw/terms/" data-i18n="footer.terms">服務條款</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            var RATIOS = {
+                '1:1': { w: 1, h: 1, name: '正方形', presets: [[1080, 1080], [1200, 1200], [2048, 2048]], tip: '正方形——Instagram 動態、大頭貼和商品網格。' },
+                '4:5': { w: 4, h: 5, name: '直式', presets: [[1080, 1350], [1200, 1500], [1440, 1800]], tip: '直式——Instagram 動態（1080 × 1350）和直式商品卡片。' },
+                '9:16': { w: 9, h: 16, name: '直式影音', presets: [[1080, 1920], [720, 1280], [2160, 3840]], tip: '直式——TikTok、Reels、限時動態和 YouTube Shorts。' },
+                '16:9': { w: 16, h: 9, name: '寬螢幕', presets: [[1920, 1080], [1280, 720], [2560, 1440], [3840, 2160]], tip: '寬螢幕——YouTube 影片與封面、多數網站主視覺。' },
+                '21:9': { w: 64, h: 27, label: '超寬', name: '超寬', presets: [[2560, 1080], [3840, 1620], [5120, 2160]], tip: '超寬——網站主視覺；多數「21:9」面板實際為 64:27（2560 × 1080）。', note: '21:9 超寬預設：2560×1080 屬於 64:27。嚴格 21:9 在高度 1080 時為 2520×1080。' },
+            };
+            var STANDARDS = [
+                { id: '1:1', value: 1 },
+                { id: '4:5', value: 0.8 },
+                { id: '9:16', value: 0.5625 },
+                { id: '16:9', value: 1.7777777778 },
+                { id: '21:9', value: 2.3333333333 },
+            ];
+
+            var widthEl = document.getElementById('arcWidth');
+            var heightEl = document.getElementById('arcHeight');
+            var swapBtn = document.getElementById('arcSwap');
+            var hintEl = document.getElementById('arcHint');
+            var sizeEl = document.getElementById('arcSize');
+            var metaEl = document.getElementById('arcMeta');
+            var tipEl = document.getElementById('arcTip');
+            var frameEl = document.getElementById('arcFrame');
+            var frameRatioEl = document.getElementById('arcFrameRatio');
+            var frameSizeEl = document.getElementById('arcFrameSize');
+            var presetsEl = document.getElementById('arcPresets');
+            var presetRowEl = document.getElementById('arcPresetRow');
+            var presetNoteEl = document.getElementById('arcPresetNote');
+            var copyBtn = document.getElementById('arcCopy');
+            var previewEl = document.querySelector('.arc-preview');
+            var ratioBtns = Array.prototype.slice.call(document.querySelectorAll('.arc-ratio'));
+
+            var mode = 'auto';
+            var activeRatio = null;
+            var lastEdited = 'width';
+            var current = { w: 1920, h: 1080 };
+
+            function readInt(el) {
+                var value = parseInt(el.value, 10);
+                if (!isFinite(value) || value < 1) return null;
+                return Math.min(value, 20000);
+            }
+
+            function nearestRatio(value) {
+                var best = null;
+                for (var i = 0; i < STANDARDS.length; i++) {
+                    var diff = Math.abs(value - STANDARDS[i].value) / STANDARDS[i].value;
+                    if (!best || diff < best.diff) best = { id: STANDARDS[i].id, diff: diff };
+                }
+                return best;
+            }
+
+            function resultText(w, h) { return w + ' × ' + h; }
+
+            function sizePreview(w, h) {
+                var maxWidth = Math.max(120, previewEl.clientWidth - 56);
+                var scale = Math.min(maxWidth / w, 178 / h);
+                frameEl.style.width = Math.max(44, Math.round(w * scale)) + 'px';
+                frameEl.style.height = Math.max(32, Math.round(h * scale)) + 'px';
+            }
+
+            function setResult(w, h, ratioId, diff) {
+                current = { w: w, h: h };
+                sizeEl.innerHTML = w + ' × ' + h + ' <span class="arc-result__unit">px</span>';
+                var meta;
+                if (mode === 'locked' && ratioId === '21:9') {
+                    meta = '比例 <strong>21:9 超寬</strong> · 64:27（2.37）· 2560×1080 為常用預設';
+                } else if (mode === 'locked') {
+                    meta = '比例 <strong>' + ratioId + '</strong> · ' + (w / h).toFixed(2) + ' · 最接近的常見比例 <strong>' + ratioId + '</strong>（已鎖定）';
+                } else {
+                    var exact = diff < 0.004;
+                    meta = '比例 <strong>' + ratioId + '</strong> · ' + (w / h).toFixed(2) +
+                        ' · 最接近的常見比例 <strong>' + ratioId + '</strong> (' +
+                        (exact ? '完全一致' : '約 ' + (diff * 100).toFixed(1) + '% 偏差') + ')';
+                }
+                metaEl.innerHTML = meta;
+                tipEl.textContent = RATIOS[ratioId].tip;
+                frameRatioEl.textContent = RATIOS[ratioId].label || ratioId;
+                frameSizeEl.textContent = resultText(w, h) + ' px';
+                frameEl.setAttribute('aria-label', (RATIOS[ratioId].label || ratioId) + ': ' + resultText(w, h) + ' 像素');
+                sizePreview(w, h);
+            }
+
+            function emptyResult() {
+                sizeEl.textContent = '—';
+                metaEl.textContent = '輸入寬度和高度以查看比例。';
+                tipEl.textContent = '';
+                frameRatioEl.textContent = '—';
+                frameSizeEl.textContent = '';
+                copyBtn.disabled = true;
+                current = null;
+            }
+
+            function renderPresets() {
+                if (mode === 'auto' || !activeRatio) {
+                    presetsEl.hidden = true;
+                    presetNoteEl.hidden = true;
+                    presetNoteEl.textContent = '';
+                    return;
+                }
+                var ratio = RATIOS[activeRatio];
+                presetRowEl.innerHTML = ratio.presets.map(function (preset) {
+                    return '<button type="button" class="arc-preset" data-w="' + preset[0] + '" data-h="' + preset[1] + '">' +
+                        preset[0] + ' × ' + preset[1] + '</button>';
+                }).join('');
+                presetsEl.hidden = false;
+                if (ratio.note) {
+                    presetNoteEl.textContent = ratio.note;
+                    presetNoteEl.hidden = false;
+                } else {
+                    presetNoteEl.hidden = true;
+                    presetNoteEl.textContent = '';
+                }
+            }
+
+            function update() {
+                var w = readInt(widthEl);
+                var h = readInt(heightEl);
+                hintEl.textContent = mode === 'auto'
+                    ? '自動偵測：輸入寬度和高度，讀取比例。'
+                    : '比例已鎖定：修改任一邊，另一邊會自動計算。';
+                swapBtn.hidden = mode !== 'auto';
+
+                if (mode === 'locked' && activeRatio) {
+                    var ratio = RATIOS[activeRatio];
+                    if (lastEdited === 'width') {
+                        if (w == null) { emptyResult(); return; }
+                        h = Math.max(1, Math.round(w * ratio.h / ratio.w));
+                        heightEl.value = String(h);
+                    } else {
+                        if (h == null) { emptyResult(); return; }
+                        w = Math.max(1, Math.round(h * ratio.w / ratio.h));
+                        widthEl.value = String(w);
+                    }
+                    setResult(w, h, activeRatio, 0);
+                } else {
+                    if (w == null || h == null) { emptyResult(); return; }
+                    var near = nearestRatio(w / h);
+                    setResult(w, h, near.id, near.diff);
+                }
+                renderPresets();
+            }
+
+            function activateRatio(id) {
+                mode = id === 'auto' ? 'auto' : 'locked';
+                activeRatio = id === 'auto' ? null : id;
+                ratioBtns.forEach(function (btn) {
+                    btn.setAttribute('aria-pressed', String(btn.getAttribute('data-ratio') === id));
+                });
+                if (mode === 'locked') {
+                    var preset = RATIOS[id].presets[0];
+                    widthEl.value = String(preset[0]);
+                    heightEl.value = String(preset[1]);
+                    lastEdited = 'width';
+                }
+                copyBtn.disabled = false;
+                update();
+            }
+
+            ratioBtns.forEach(function (btn) {
+                btn.addEventListener('click', function () { activateRatio(btn.getAttribute('data-ratio')); });
+            });
+
+            widthEl.addEventListener('input', function () { lastEdited = 'width'; update(); });
+            heightEl.addEventListener('input', function () { lastEdited = 'height'; update(); });
+
+            swapBtn.addEventListener('click', function () {
+                var width = widthEl.value;
+                widthEl.value = heightEl.value;
+                heightEl.value = width;
+                update();
+            });
+
+            presetRowEl.addEventListener('click', function (event) {
+                var btn = event.target.closest('.arc-preset');
+                if (!btn) return;
+                widthEl.value = btn.getAttribute('data-w');
+                heightEl.value = btn.getAttribute('data-h');
+                lastEdited = 'width';
+                update();
+            });
+
+            copyBtn.addEventListener('click', function () {
+                if (!current) return;
+                var text = resultText(current.w, current.h) + ' px';
+                function done() {
+                    if (window.mcUI && typeof window.mcUI.toast === 'function') {
+                        window.mcUI.toast('已複製 ' + text, { type: 'success' });
+                    } else {
+                        copyBtn.textContent = '已複製！';
+                        setTimeout(function () { copyBtn.textContent = '複製尺寸'; }, 1600);
+                    }
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(done, done);
+                } else {
+                    done();
+                }
+            });
+
+            update();
+            window.addEventListener('resize', function () {
+                if (current) sizePreview(current.w, current.h);
+            });
+        }());
+    </script>
+    <script src="/assets/js/i18n.js"></script>
+    <script src="/assets/js/ui.js" defer></script>
+</body>
+</html>

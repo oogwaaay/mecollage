@@ -1982,7 +1982,7 @@ async function runAspectRatioGroup() {
     id: 'AR-01',
     group: 'aspectratio',
     page: '/tools/aspectratiocalculator/',
-    name: '页面加载：H1/title/canonical/hreflang/JSON-LD（英文先上，无 404 alternates）',
+    name: '页面加载：H1/title/canonical/5 语言 hreflang/JSON-LD',
     async fn(ctx) {
       const info = await page.eval(`(() => {
         const graph = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)['@graph'];
@@ -2001,9 +2001,10 @@ async function runAspectRatioGroup() {
       ctx.check('H1 = Aspect Ratio Calculator', info.h1 === 'Aspect Ratio Calculator', { actual: info.h1 });
       ctx.check('title 以 Aspect Ratio Calculator 开头且 ≤65 字符', info.title.startsWith('Aspect Ratio Calculator') && info.title.length <= 65, { actual: { title: info.title, length: info.title.length } });
       ctx.check('canonical 自引用', info.canonical === 'https://www.mecollage.top/tools/aspectratiocalculator/', { actual: info.canonical });
-      ctx.check('hreflang = en + x-default（无未发布语言）', JSON.stringify(info.hreflangs) === JSON.stringify(['en', 'x-default']), { actual: info.hreflangs });
+      const requiredHreflangs = ['en', 'zh-CN', 'zh-TW', 'ja', 'es', 'x-default'];
+      ctx.check('hreflang = 5 语言 + x-default', info.hreflangs.length === 6 && requiredHreflangs.every((code) => info.hreflangs.includes(code)), { actual: info.hreflangs });
       ctx.check('JSON-LD = SoftwareApplication + FAQPage + BreadcrumbList', ['SoftwareApplication', 'FAQPage', 'BreadcrumbList'].every((type) => info.types.includes(type)), { actual: info.types });
-      ctx.check('无语言菜单（4 语言未发布，不产生 404 链接）', info.langOptions === 0, { actual: info.langOptions });
+      ctx.check('语言菜单 5 项（四语言已发布）', info.langOptions === 5, { actual: info.langOptions });
       ctx.check('无 AdSense 脚本（维护者决定先不放广告）', info.adsense === false, { actual: info.adsense });
     },
   });
@@ -2107,6 +2108,49 @@ async function runAspectRatioGroup() {
       ctx.check('正文 + FAQ 词数 ≥ 1200', info.contentWords + info.faqWords >= 1200, { actual: info.contentWords + info.faqWords });
     },
   });
+
+  const LOCALES = [
+    { key: 'zh', path: '/zh/tools/aspectratiocalculator/', lang: 'zh-CN' },
+    { key: 'tw', path: '/tw/tools/aspectratiocalculator/', lang: 'zh-TW' },
+    { key: 'ja', path: '/ja/tools/aspectratiocalculator/', lang: 'ja' },
+    { key: 'es', path: '/es/tools/aspectratiocalculator/', lang: 'es' },
+  ];
+  for (const locale of LOCALES) {
+    await gotoPage(locale.path, { waitForFa: false });
+    await runCase(page, {
+      id: `AR-05-${locale.key}`,
+      group: 'aspectratio',
+      page: locale.path,
+      name: `本地化页 ${locale.key}：html lang / 5 语言 hreflang+菜单 / canonical / 本地化计算`,
+      async fn(ctx) {
+        const info = await page.eval(`(() => {
+          const graph = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)['@graph'];
+          document.querySelector('.arc-ratio[data-ratio="4:5"]').click();
+          return {
+            htmlLang: document.documentElement.getAttribute('lang'),
+            h1: (document.querySelector('h1')?.textContent || '').trim(),
+            canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href'),
+            hreflangs: [...document.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => l.getAttribute('hreflang')).sort(),
+            langOptions: document.querySelectorAll('a.lang-option').length,
+            types: graph.map((n) => n['@type']),
+            fourFive: { w: document.querySelector('#arcWidth').value, h: document.querySelector('#arcHeight').value },
+            tableGroups: document.querySelectorAll('.arc-table tbody').length,
+            faq: document.querySelectorAll('.faq-question').length,
+          };
+        })()`);
+        ctx.measure('localizedInfo', info);
+        ctx.check('无未捕获 JS 异常', (pageLoads[locale.path]?.exceptions || []).length === 0, { actual: pageLoads[locale.path]?.exceptions });
+        ctx.check('html lang 正确', info.htmlLang === locale.lang, { actual: info.htmlLang });
+        ctx.check('H1 已本地化（非英文）', Boolean(info.h1) && info.h1 !== 'Aspect Ratio Calculator', { actual: info.h1 });
+        ctx.check('canonical 为本地化 URL', info.canonical === `https://www.mecollage.top${locale.path}`, { actual: info.canonical });
+        ctx.check('hreflang 完整 5 语言 + x-default', ['en', 'zh-CN', 'zh-TW', 'ja', 'es', 'x-default'].every((code) => info.hreflangs.includes(code)) && info.hreflangs.length === 6, { actual: info.hreflangs });
+        ctx.check('语言菜单 5 项', info.langOptions === 5, { actual: info.langOptions });
+        ctx.check('JSON-LD 含 SoftwareApplication + FAQPage', ['SoftwareApplication', 'FAQPage'].every((type) => info.types.includes(type)), { actual: info.types });
+        ctx.check('本地化 4:5 计算 = 1080×1350', info.fourFive.w === '1080' && info.fourFive.h === '1350', { actual: info.fourFive });
+        ctx.check('表格 5 组 / FAQ 11 条', info.tableGroups === 5 && info.faq === 11, { actual: { tableGroups: info.tableGroups, faq: info.faq } });
+      },
+    });
+  }
 }
 
 async function runCoverageGroup() {
