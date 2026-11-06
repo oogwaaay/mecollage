@@ -1,4 +1,8 @@
-# scripts/ — MeCollage 部署验收脚本
+# scripts/ — MeCollage 验收与迁移脚本
+
+> 目录索引：`verify-site.mjs`（部署验收，本文档）· [`functional-audit/`](functional-audit/README.md)（浏览器功能回归）· [`seo-audit/`](seo-audit/README.md)（多语言/SEO）· [`design-audit/`](design-audit/README.md)（Design Token 审计 + 布局/交互门禁：`run-token-audit.mjs` / `check-layout.mjs`）· [`design-system/`](design-system/README.md)（存量页面统一迁移与 UI 注入）
+
+# verify-site.mjs — 部署验收脚本
 
 > Phase A（安全止血）起引入的**可重复执行部署验收基线**，供 Vercel Preview 与生产共用。
 > 当前版本：`verify-site.mjs` v1.1.0（2026-11-05）

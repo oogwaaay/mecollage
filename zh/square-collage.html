@@ -63,18 +63,20 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Noto Sans SC', sans-serif; background-color: transparent;
-            color: rgba(255, 255, 255, 0.9); min-height: 100vh; padding: 40px 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
-            border-radius: 20px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
-        h1 { font-size: 2.5em; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); text-align: center; margin-bottom: 20px; }
-        .subtitle { text-align: center; color: rgba(255, 255, 255, 0.9); font-size: 1.2em; margin-bottom: 40px; }
+            color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); text-align: center; margin-bottom: 20px; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 40px; }
         .cta-button { display: block; width: 200px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
-            color: rgba(255, 255, 255, 0.9); color: white; text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; transition: transform 0.2s; }
+            color: var(--mc-text-body); color: var(--mc-text-primary); text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; transition: transform 0.2s; }
         .cta-button:hover { transform: scale(1.05); }
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin: 50px 0; }
-        .feature { padding: 30px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; text-align: center; }
+        .feature { padding: 30px; background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); border-radius: var(--mc-radius-tag); text-align: center; }
         .feature i { font-size: 2em; color: #f5576c; margin-bottom: 15px; }
     </style>
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
 </head>
 <body>
     <div class="ghibli-background"></div>
@@ -88,17 +90,18 @@
             <div class="feature"><i class="fas fa-palette"></i><h3>可定制样式</h3><p>调整间距、圆角、颜色和滤镜</p></div>
             <div class="feature"><i class="fas fa-ban"></i><h3>无水印</h3><p>导出干净的正方形拼图</p></div>
         </div>
-        <h2 style="text-align: center; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">为什么选择正方形拼图？</h2>
-        <p style="color: rgba(255, 255, 255, 0.9); line-height: 1.8; text-align: center; margin-bottom: 40px;">正方形拼图非常适合 Instagram 帖子，在移动端和桌面端都能完美显示。1:1 的宽高比确保你的照片在信息流中看起来很棒，无需裁剪或变形。</p>
+        <h2 style="text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 50px 0 30px;">为什么选择正方形拼图？</h2>
+        <p style="color: var(--mc-text-body); line-height: 1.8; text-align: center; margin-bottom: 40px;">正方形拼图非常适合 Instagram 帖子，在移动端和桌面端都能完美显示。1:1 的宽高比确保你的照片在信息流中看起来很棒，无需裁剪或变形。</p>
         <a href="/zh/" class="cta-button"><i class="fas fa-plus"></i> 创建你的正方形拼图</a>
     </div>
 
-<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:0.9rem;">
+<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
   <a class="language-link" data-language-nav="true" href="/square-collage/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
   <a class="language-link" data-language-nav="true" href="/zh/square-collage/" hreflang="zh-CN" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
   <a class="language-link" data-language-nav="true" href="/tw/square-collage/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
   <a class="language-link" data-language-nav="true" href="/ja/square-collage/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
   <a class="language-link" data-language-nav="true" href="/es/square-collage/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
 </nav>
+<script src="/assets/js/ui.js" defer></script>
 </body>
 </html>

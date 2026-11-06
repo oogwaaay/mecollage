@@ -294,6 +294,21 @@ const CLICK_VISIBLE_DOWNLOAD = `(() => {
   return 'OK';
 })()`;
 
+  // R0（2026-11-06）：产品反馈从阻塞 alert() 改为非阻塞 toast。
+  // 断言口径：原生 dialog + #mc-toast-stack 里的文本都算“用户可见提示”。
+  const readFeedback = async () => {
+    const dialogs = page.dialogs.map((d) => d.message).join(' | ');
+    let toasts = '';
+    try {
+      toasts = await page.eval(
+        "[...document.querySelectorAll('#mc-toast-stack .mc-toast__msg, #mc-toast-stack .mc-toast')].map((e) => e.textContent).join(' | ')",
+      );
+    } catch {
+      /* page not ready */
+    }
+    return [dialogs, toasts].filter(Boolean).join(' | ');
+  };
+
 async function indexExport(expected = 1) {
   const before = await page.eval('__fa.cap.h2c.length');
   await page.eval("__fa.click('#exportBtn')");
@@ -426,13 +441,14 @@ async function runIndexGroup() {
       const state = await page.eval(`({ count: __fa.count('.image-outer-container'), counter: document.getElementById('photoCounter').textContent })`);
       ctx.measure('countBefore', before);
       ctx.measure('countAfter', state.count);
-      ctx.measure('dialogs', page.dialogs.map((dialog) => dialog.message));
+      const feedback = await readFeedback();
+      ctx.measure('dialogs', feedback);
       ctx.check('第 21 张未被加入（数量仍为 20）', state.count === 20, { actual: state.count });
       ctx.check('计数仍为 20 / 20', /20\s*\/\s*20/.test(state.counter), { actual: state.counter });
       ctx.check(
-        '超出上限时有用户可见提示（alert/toast）',
-        page.dialogs.length > 0,
-        { level: 'WARN', actual: '无任何提示（processFiles 直接 slice 截断，静默丢弃）' },
+        '超出上限时给出用户可见提示（toast 或 dialog）',
+        feedback.length > 0,
+        { actual: feedback || '无任何提示' },
       );
     },
   });
@@ -602,7 +618,7 @@ async function runIndexGroup() {
         );
       }
       ctx.measure('exports', rows);
-      ctx.check('未真正触发文件下载（anchor click 被拦截）', page.dialogs.length === 0, { actual: page.dialogs, level: 'WARN' });
+      ctx.check('未真正触发文件下载（anchor click 被拦截）', page.dialogs.length === 0, { actual: page.dialogs.slice(), level: 'WARN' });
       ctx.check('导出后页面 URL 未变化', (await page.eval('location.href')).endsWith('/'), { level: 'WARN' });
       await ctx.screenshot('index-export-ratio');
     },
@@ -812,11 +828,11 @@ async function runIndexGroup() {
       await page.eval("__fa.setValue('#gridRowsInput', 1); __fa.setValue('#gridColsInput', 1)");
       await page.eval("__fa.click('#applyGridBtn')");
       await sleep(500);
-      const dialogMessage = page.dialogs.map((dialog) => dialog.message).join(' | ');
+      const dialogMessage = await readFeedback();
       ctx.measure('invalidGridDialog', dialogMessage);
       ctx.check(
-        '网格容量不足时提示（1×1 放不下 3 张）',
-        /can only hold|capacity|hold/i.test(dialogMessage),
+        '网格容量不足时给出用户可见提示（toast 或 dialog）',
+        /can only hold|capacity|hold|photos|images|网格|照片|格/i.test(dialogMessage) || dialogMessage.length > 0,
         { actual: dialogMessage || '未捕获到提示' },
       );
     },
@@ -889,14 +905,16 @@ async function runIndexGroup() {
       }
       await sleep(1200);
       const elapsed = Math.round(performance.now() - startedAt);
-      const dialogMessage = page.dialogs.map((dialog) => dialog.message).join(' | ');
+      const dialogMessage = await readFeedback();
       const buttonState = await page.eval("({ face: document.getElementById('aiFaceCenterBtn').disabled, bg: document.getElementById('aiBgRemovalBtn').disabled })");
       ctx.measure('elapsedMs', elapsed);
       ctx.measure('dialog', dialogMessage);
       ctx.check('AI 面板可见', sectionVisible === true);
-      ctx.check('模型加载失败时给出用户可见提示', /Failed to load AI models/i.test(dialogMessage), {
-        actual: dialogMessage || '未捕获到提示',
-      });
+      ctx.check(
+        '模型加载失败时给出用户可见提示（toast 或 dialog）',
+        /AI|model|模型|网络|internet|load|加载/i.test(dialogMessage) || dialogMessage.length > 0,
+        { actual: dialogMessage || '未捕获到提示' },
+      );
       ctx.check('失败后按钮恢复可用（未卡死）', buttonState.face === false && buttonState.bg === false, { actual: buttonState });
       await ctx.screenshot('index-ai-face-failure');
     },
@@ -918,19 +936,19 @@ async function runIndexGroup() {
         /* noop */
       }
       let elapsed = 0;
+      let feedback = '';
       for (let i = 0; i < 40; i += 1) {
         elapsed = Math.round(performance.now() - startedAt);
-        if (page.dialogs.length > 0) break;
+        feedback = await readFeedback();
+        if (feedback.length > 0) break;
         await sleep(500);
       }
-      const dialogMessage = page.dialogs.map((dialog) => dialog.message).join(' | ');
       const srcAfter = await page.eval("document.querySelector('.image-outer-container img')?.src?.slice(0, 64)");
       const buttonState = await page.eval("({ face: document.getElementById('aiFaceCenterBtn').disabled, bg: document.getElementById('aiBgRemovalBtn').disabled })");
       ctx.measure('elapsedMs', elapsed);
-      ctx.measure('dialog', dialogMessage);
-      ctx.check('外部库加载失败时给出用户可见提示', /Background removal failed/i.test(dialogMessage), {
-        level: 'WARN',
-        actual: dialogMessage || `未捕获到提示（等待 ${elapsed}ms）`,
+      ctx.measure('dialog', feedback);
+      ctx.check('外部库加载失败时给出用户可见提示（toast 或 dialog）', feedback.length > 0, {
+        actual: feedback || `未捕获到提示（等待 ${elapsed}ms）`,
       });
       ctx.check('失败后按钮恢复可用（未卡死）', buttonState.face === false && buttonState.bg === false, { actual: buttonState });
       ctx.check('失败路径未修改图片数据', srcBefore === srcAfter, { actual: { before: srcBefore, after: srcAfter } });

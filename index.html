@@ -95,7 +95,7 @@
         body {
             font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: transparent;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             line-height: 1.6;
         }
 
@@ -141,36 +141,35 @@
         }
 
         .page-title {
-            font-size: 2.5rem;
+            font-size: var(--mc-font-size-h1);
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #8fd68f;
-            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
-                         0 0 30px rgba(0, 0, 0, 0.4);
+            color: var(--mc-color-brand);
+            text-shadow: var(--mc-text-shadow-display);
             text-align: center;
         }
 
         .page-subtitle {
-            font-size: 1.2rem;
-            color: #8fd68f;
+            font-size: var(--mc-font-size-h4);
+            color: var(--mc-color-brand);
             text-align: center;
             margin-bottom: 3rem;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-            background: rgba(0, 0, 0, 0.25);
+            text-shadow: var(--mc-text-shadow-heading);
+            background: var(--mc-surface-1);
             display: inline-block;
             padding: 0.6rem 1.8rem;
-            border-radius: 20px;
-            backdrop-filter: blur(8px);
+            border-radius: var(--mc-radius-xl);
+            backdrop-filter: blur(var(--mc-blur-md));
         }
 
         /* 工具导航 */
         .tool-nav {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
+            background: var(--mc-surface-2);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
             padding: 1rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
             margin-bottom: 2rem;
         }
 
@@ -182,27 +181,27 @@
         }
 
         .tool-nav-link {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             text-decoration: none;
             font-weight: 500;
             padding: 0.75rem 1.5rem;
-            border-radius: 20px;
+            border-radius: var(--mc-radius-xl);
             transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--mc-surface-0);
+            border: 1px solid var(--mc-border-subtle);
         }
 
         .tool-nav-link:hover {
-            background-color: rgba(143, 214, 143, 0.2);
-            border-color: rgba(143, 214, 143, 0.4);
-            color: #8fd68f;
+            background-color: var(--mc-color-brand-tint);
+            border-color: var(--mc-border-brand);
+            color: var(--mc-color-brand);
             transform: translateY(-2px);
         }
 
         .tool-nav-link.active {
-            background-color: rgba(143, 214, 143, 0.3);
-            border-color: rgba(143, 214, 143, 0.6);
-            color: #8fd68f;
+            background-color: var(--mc-color-brand-tint-strong);
+            border-color: var(--mc-border-brand-strong);
+            color: var(--mc-color-brand);
         }
 
         /* 主内容区域 */
@@ -215,12 +214,12 @@
         /* 侧边栏 */
         .sidebar {
             width: 250px;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
+            background: var(--mc-surface-3);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
             padding: 2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
         }
 
         .sidebar-section {
@@ -228,9 +227,9 @@
         }
 
         .sidebar-title {
-            font-size: 0.875rem;
+            font-size: var(--mc-font-size-label-sm);
             font-weight: 600;
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 1rem;
@@ -247,91 +246,91 @@
 
         .aspect-ratio-btn {
             padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            font-size: 0.875rem;
+            background: var(--mc-surface-2);
+            border: 1px solid var(--mc-border-input);
+            border-radius: var(--mc-radius-md);
+            font-size: var(--mc-font-size-label-sm);
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
 
         .aspect-ratio-btn:hover {
-            background: rgba(143, 214, 143, 0.2);
-            border-color: rgba(143, 214, 143, 0.4);
+            background: var(--mc-color-brand-tint);
+            border-color: var(--mc-border-brand);
             transform: translateY(-2px);
         }
 
         .aspect-ratio-btn.active {
-            background: rgba(143, 214, 143, 0.3);
-            color: #8fd68f;
-            border-color: rgba(143, 214, 143, 0.6);
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-color-brand);
+            border-color: var(--mc-border-brand-strong);
         }
 
         /* 布局模式切换按钮 */
         .layout-mode-btn {
             flex: 1;
             padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            font-size: 0.875rem;
+            background: var(--mc-surface-2);
+            border: 1px solid var(--mc-border-input);
+            border-radius: var(--mc-radius-sm);
+            font-size: var(--mc-font-size-label-sm);
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
 
         .layout-mode-btn:hover {
-            background: rgba(143, 214, 143, 0.2);
-            border-color: rgba(143, 214, 143, 0.4);
+            background: var(--mc-color-brand-tint);
+            border-color: var(--mc-border-brand);
             transform: translateY(-1px);
         }
 
         .layout-mode-btn.active {
-            background: rgba(143, 214, 143, 0.3);
-            color: #8fd68f;
-            border-color: rgba(143, 214, 143, 0.6);
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-color-brand);
+            border-color: var(--mc-border-brand-strong);
         }
 
         /* 自定义网格输入框 */
         .grid-input {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.875rem;
+            background: var(--mc-surface-2);
+            border: 1px solid var(--mc-border-input);
+            border-radius: var(--mc-radius-sm);
+            color: var(--mc-text-body);
+            font-size: var(--mc-font-size-label-sm);
             text-align: center;
             transition: all 0.3s ease;
         }
 
         .grid-input:focus {
             outline: none;
-            border-color: rgba(143, 214, 143, 0.6);
-            background: rgba(143, 214, 143, 0.1);
+            border-color: var(--mc-border-brand-strong);
+            background: var(--mc-color-brand-wash);
         }
 
         .apply-grid-btn {
             flex: 1;
             padding: 0.5rem;
-            background: rgba(143, 214, 143, 0.3);
-            border: 1px solid rgba(143, 214, 143, 0.5);
-            border-radius: 8px;
-            color: #8fd68f;
-            font-size: 0.875rem;
+            background: var(--mc-color-brand-tint-strong);
+            border: 1px solid var(--mc-color-focus);
+            border-radius: var(--mc-radius-sm);
+            color: var(--mc-color-brand);
+            font-size: var(--mc-font-size-label-sm);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .apply-grid-btn:hover {
-            background: rgba(143, 214, 143, 0.4);
+            background: var(--mc-border-brand);
             border-color: rgba(143, 214, 143, 0.7);
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(143, 214, 143, 0.3);
+            box-shadow: 0 4px 12px var(--mc-color-brand-tint-strong);
         }
 
         /* 滑块控件 */
@@ -343,7 +342,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.875rem;
+            font-size: var(--mc-font-size-label-sm);
             font-weight: 500;
             margin-bottom: 0.5rem;
         }
@@ -357,7 +356,7 @@
             width: 100%;
             height: 8px;
             border-radius: 4px;
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--mc-border-input);
             outline: none;
             -webkit-appearance: none;
         }
@@ -367,27 +366,27 @@
             appearance: none;
             width: 20px;
             height: 20px;
-            border-radius: 50%;
-            background: #8fd68f;
+            border-radius: var(--mc-radius-circle);
+            background: var(--mc-color-brand);
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px var(--mc-surface-2);
         }
 
         .slider::-webkit-slider-thumb:hover {
-            background: #66BB6A;
+            background: var(--mc-color-brand-hover);
             transform: scale(1.2);
         }
 
         /* 画布区域 */
         .canvas-container {
             flex: 1;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
+            background: var(--mc-surface-3);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
             padding: 2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -405,70 +404,69 @@
         }
 
         .upload-title {
-            font-size: 2.5rem;
+            font-size: var(--mc-font-size-h1);
             font-weight: 700;
             line-height: 1.2;
             margin-bottom: 1rem;
-            color: #8fd68f;
-            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
-                         0 0 30px rgba(0, 0, 0, 0.4);
+            color: var(--mc-color-brand);
+            text-shadow: var(--mc-text-shadow-display);
         }
 
         .upload-subtitle {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: var(--mc-font-size-h4);
+            color: var(--mc-text-tertiary);
             margin-bottom: 2rem;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            text-shadow: var(--mc-text-shadow-heading);
         }
 
         .upload-area {
-            border: 2px dashed #8fd68f;
-            border-radius: 20px;
+            border: 2px dashed var(--mc-color-brand);
+            border-radius: var(--mc-radius-xl);
             padding: 3rem;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
-            background: rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            background: var(--mc-surface-0);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
 
         .upload-area:hover {
-            border-color: #66BB6A;
-            background-color: rgba(143, 214, 143, 0.1);
+            border-color: var(--mc-color-brand-hover);
+            background-color: var(--mc-color-brand-wash);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.2);
+            box-shadow: 0 8px 24px var(--mc-color-brand-tint);
         }
 
         .upload-area.drag-over {
-            border-color: #66BB6A;
-            background-color: rgba(143, 214, 143, 0.15);
+            border-color: var(--mc-color-brand-hover);
+            background-color: var(--mc-color-brand-haze);
             transform: scale(1.02);
-            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.3);
+            box-shadow: 0 12px 32px var(--mc-color-brand-tint-strong);
         }
 
         .upload-icon {
             width: 4rem;
             height: 4rem;
-            background-color: #8fd68f;
-            color: rgba(0, 0, 0, 0.8);
-            border-radius: 50%;
+            background-color: var(--mc-color-brand);
+            color: var(--mc-text-on-brand-soft);
+            border-radius: var(--mc-radius-circle);
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            font-size: 1.5rem;
-            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+            font-size: var(--mc-font-size-h3-lg);
+            box-shadow: var(--mc-shadow-brand);
         }
 
         .upload-text {
-            font-size: 1.125rem;
+            font-size: var(--mc-font-size-lg);
             font-weight: 500;
             margin-bottom: 0.5rem;
         }
 
         .upload-hint {
-            font-size: 0.875rem;
-            color: #64748b;
+            font-size: var(--mc-font-size-label-sm);
+            color: var(--mc-overlay-control-text);
         }
 
         /* 拼图画布 */
@@ -486,9 +484,9 @@
         .collage-grid {
             display: grid;
             gap: var(--gutter, 0px);
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--mc-border-subtle);
             padding: 1rem;
-            border-radius: 20px;
+            border-radius: var(--mc-radius-xl);
             margin-bottom: 1rem;
             /* 设置合适的宽度和高度限制 */
             width: 100%;
@@ -499,7 +497,7 @@
             /* 确保网格项对齐 */
             align-items: stretch;
             justify-items: stretch;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
 
         .image-container,
@@ -510,7 +508,7 @@
             width: 100%;
             height: 100%;
             min-height: 100px;
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: var(--mc-surface-2);
         }
         
         .image-outer-container {
@@ -547,11 +545,11 @@
             right: 0.25rem;
             width: 1.5rem;
             height: 1.5rem;
-            background-color: rgba(255, 255, 255, 0.95);
-            color: #ef4444;
+            background-color: var(--mc-text-emphasis);
+            color: var(--mc-color-danger);
             border: none;
-            border-radius: 50%;
-            font-size: 0.75rem;
+            border-radius: var(--mc-radius-circle);
+            font-size: var(--mc-font-size-2xs);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -559,7 +557,7 @@
             opacity: 0;
             transform: translateY(-5px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--mc-shadow-overlay-1);
             z-index: 10;
             pointer-events: none;
         }
@@ -567,7 +565,7 @@
         .image-container:hover .remove-btn {
             opacity: 1;
             transform: translateY(0) scale(1.05);
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--mc-shadow-overlay-3);
             pointer-events: auto;
         }
         
@@ -579,12 +577,12 @@
             transform: translate(-50%, -50%);
             width: 3rem;
             height: 3rem;
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 50%;
+            background-color: var(--mc-text-emphasis);
+            border-radius: var(--mc-radius-circle);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: var(--mc-shadow-overlay-2);
             opacity: 0;
             transform: translate(-50%, 100%);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -610,8 +608,8 @@
             display: block;
             width: 0.375rem;
             height: 0.375rem;
-            background-color: #64748b;
-            border-radius: 50%;
+            background-color: var(--mc-overlay-control-text);
+            border-radius: var(--mc-radius-circle);
         }
 
         .add-image-btn {
@@ -620,33 +618,33 @@
             justify-content: center;
             width: 100%;
             height: 100%;
-            background-color: #f1f5f9;
-            border: 2px dashed #e2e8f0;
+            background-color: var(--mc-overlay-placeholder-bg);
+            border: 2px dashed var(--mc-overlay-placeholder-border);
             border-radius: var(--radius, 0px);
-            font-size: 2rem;
-            color: #94a3b8;
+            font-size: var(--mc-font-size-h1-compact);
+            color: var(--mc-overlay-placeholder-text);
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
         .add-image-btn:hover {
-            background-color: #e2e8f0;
-            border-color: #94a3b8;
-            color: #64748b;
+            background-color: var(--mc-overlay-placeholder-border);
+            border-color: var(--mc-overlay-placeholder-text);
+            color: var(--mc-overlay-control-text);
         }
 
         /* 图片计数器 */
         .photo-counter {
-            background: rgba(143, 214, 143, 0.3);
-            color: white;
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-text-primary);
             padding: 0.5rem 1.5rem;
             border-radius: 2rem;
-            font-size: 0.875rem;
+            font-size: var(--mc-font-size-label-sm);
             font-weight: 600;
             margin: 0 auto 2rem;
             text-align: center;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(143, 214, 143, 0.4);
+            backdrop-filter: blur(var(--mc-blur-lg));
+            border: 1px solid var(--mc-border-brand);
         }
 
         /* 底部功能栏 */
@@ -654,11 +652,11 @@
             display: flex;
             gap: 1rem;
             padding: 1rem;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: var(--mc-surface-3);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
             margin: 1rem auto 0;
             justify-content: center;
             max-width: 300px;
@@ -671,29 +669,29 @@
             justify-content: center;
             width: 3rem;
             height: 3rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.8);
+            background: var(--mc-surface-2);
+            border: 1px solid var(--mc-border-input);
+            border-radius: var(--mc-radius-md);
+            font-size: var(--mc-font-size-h4);
+            color: var(--mc-text-tertiary);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
 
         .toolbar-btn:hover {
-            background: rgba(143, 214, 143, 0.2);
-            border-color: rgba(143, 214, 143, 0.4);
-            color: #8fd68f;
+            background: var(--mc-color-brand-tint);
+            border-color: var(--mc-border-brand);
+            color: var(--mc-color-brand);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+            box-shadow: var(--mc-shadow-brand);
         }
 
         .toolbar-btn.active {
-            background: rgba(143, 214, 143, 0.3);
-            color: #8fd68f;
-            border-color: rgba(143, 214, 143, 0.6);
-            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-color-brand);
+            border-color: var(--mc-border-brand-strong);
+            box-shadow: var(--mc-shadow-brand);
         }
 
         /* 隐藏的文件输入 */
@@ -711,27 +709,27 @@
 
         .filter-btn {
             padding: 0.5rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            font-size: 0.875rem;
+            background: var(--mc-surface-2);
+            border: 1px solid var(--mc-border-input);
+            border-radius: var(--mc-radius-md);
+            font-size: var(--mc-font-size-label-sm);
             font-weight: 500;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
 
         .filter-btn:hover {
-            background: rgba(143, 214, 143, 0.2);
-            border-color: rgba(143, 214, 143, 0.4);
+            background: var(--mc-color-brand-tint);
+            border-color: var(--mc-border-brand);
             transform: translateY(-2px);
         }
 
         .filter-btn.active {
-            background: rgba(143, 214, 143, 0.3);
-            color: #8fd68f;
-            border-color: rgba(143, 214, 143, 0.6);
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-color-brand);
+            border-color: var(--mc-border-brand-strong);
         }
         
         /* 贴纸网格 */
@@ -744,18 +742,18 @@
         
         .sticker-btn {
             padding: 0.75rem;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            font-size: 1.25rem;
+            background: var(--mc-surface-2);
+            border: 1px solid var(--mc-border-input);
+            border-radius: var(--mc-radius-md);
+            font-size: var(--mc-font-size-xl);
             cursor: pointer;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
         
         .sticker-btn:hover {
-            background: rgba(143, 214, 143, 0.2);
-            border-color: rgba(143, 214, 143, 0.4);
+            background: var(--mc-color-brand-tint);
+            border-color: var(--mc-border-brand);
             transform: scale(1.1);
         }
 
@@ -765,41 +763,41 @@
             flex-direction: column;
             align-items: center;
             padding: 1rem;
-            background: rgba(143, 214, 143, 0.15);
-            border: 1px solid rgba(143, 214, 143, 0.3);
-            border-radius: 12px;
+            background: var(--mc-color-brand-haze);
+            border: 1px solid var(--mc-color-brand-tint-strong);
+            border-radius: var(--mc-radius-md);
             text-align: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(var(--mc-blur-lg));
         }
 
         .text-tool-icon {
-            font-size: 2rem;
-            color: #8fd68f;
+            font-size: var(--mc-font-size-h1-compact);
+            color: var(--mc-color-brand);
             margin-bottom: 1rem;
         }
 
         .text-add-btn {
             padding: 0.75rem 1.5rem;
-            background: #8fd68f;
-            color: rgba(0, 0, 0, 0.8);
+            background: var(--mc-color-brand);
+            color: var(--mc-text-on-brand-soft);
             border: none;
-            border-radius: 12px;
+            border-radius: var(--mc-radius-md);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 0.5rem;
-            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+            box-shadow: var(--mc-shadow-brand);
         }
 
         .text-add-btn:hover {
-            background: #66BB6A;
+            background: var(--mc-color-brand-hover);
             transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(143, 214, 143, 0.4);
+            box-shadow: var(--mc-shadow-brand-strong);
         }
 
         .text-hint {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: var(--mc-font-size-label-sm);
+            color: var(--mc-text-tertiary);
         }
 
         /* 文字图层 */
@@ -810,12 +808,12 @@
             font-weight: 600;
             text-align: center;
             user-select: none;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            color: var(--mc-text-primary);
+            text-shadow: 2px 2px 4px var(--mc-text-on-brand-soft);
         }
 
         .text-layer:hover {
-            outline: 2px solid #8fd68f;
+            outline: 2px solid var(--mc-color-brand);
         }
 
         /* 响应式设计 */
@@ -832,13 +830,13 @@
 
         /* FAQ Section Styles */
         .faq-section {
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
+            background: var(--mc-surface-3);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
             padding: 2rem;
             margin-top: 2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
         }
 
         .faq-container {
@@ -847,13 +845,12 @@
         }
 
         .faq-title {
-            font-size: 2rem;
+            font-size: var(--mc-font-size-h1-compact);
             font-weight: 700;
             margin-bottom: 2rem;
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             text-align: center;
-            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
-                         0 0 30px rgba(0, 0, 0, 0.4);
+            text-shadow: var(--mc-text-shadow-display);
         }
 
         .faq-items {
@@ -863,16 +860,16 @@
         }
 
         .faq-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
+            background: var(--mc-surface-2);
+            border-radius: var(--mc-radius-lg);
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--mc-border-subtle);
             transition: all 0.3s ease;
         }
 
         .faq-item:hover {
-            background-color: rgba(143, 214, 143, 0.1);
-            border-color: rgba(143, 214, 143, 0.3);
+            background-color: var(--mc-color-brand-wash);
+            border-color: var(--mc-color-brand-tint-strong);
         }
 
         .faq-question {
@@ -886,14 +883,14 @@
             align-items: center;
             cursor: pointer;
             text-align: left;
-            font-size: 1.1rem;
+            font-size: var(--mc-font-size-lead);
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
+            color: var(--mc-text-emphasis);
             transition: all 0.3s ease;
         }
 
         .faq-question:hover {
-            color: #8fd68f;
+            color: var(--mc-color-brand);
         }
 
         .faq-question-text {
@@ -901,15 +898,15 @@
         }
 
         .faq-icon {
-            font-size: 0.9rem;
-            color: #8fd68f;
+            font-size: var(--mc-font-size-label);
+            color: var(--mc-color-brand);
             transition: transform 0.3s ease;
         }
 
         .faq-answer {
             padding: 0 1.5rem 1.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            color: rgba(255, 255, 255, 0.85);
+            background: var(--mc-surface-0);
+            color: var(--mc-text-secondary);
             line-height: 1.6;
         }
 
@@ -923,11 +920,11 @@
             }
 
             .page-title {
-                font-size: 2rem;
+                font-size: var(--mc-font-size-h1-compact);
             }
 
             .page-subtitle {
-                font-size: 1rem;
+                font-size: var(--mc-font-size-body);
                 padding: 0.5rem 1.2rem;
             }
 
@@ -945,7 +942,7 @@
             }
 
             .upload-title {
-                font-size: 2rem;
+                font-size: var(--mc-font-size-h1-compact);
             }
 
             .tool-nav-container {
@@ -965,17 +962,17 @@
             }
 
             .faq-title {
-                font-size: 1.6rem;
+                font-size: var(--mc-font-size-h2-sm);
             }
 
             .faq-question {
                 padding: 1.2rem;
-                font-size: 1rem;
+                font-size: var(--mc-font-size-body);
             }
 
             .faq-answer {
                 padding: 0 1.2rem 1.2rem;
-                font-size: 0.95rem;
+                font-size: var(--mc-font-size-body-sm);
             }
         }
 
@@ -988,9 +985,11 @@
         }
 
         .github-link i {
-            font-size: 1.2rem;
+            font-size: var(--mc-font-size-h4);
         }
     </style>
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
     <!-- Google Adsense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
       crossorigin="anonymous"></script>
@@ -1031,7 +1030,7 @@
                 <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
                 <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
                 <a href="/about/" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
-                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image Converter</a>
+                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image</a>
             </div>
             <div class="nav-right">
                 <a href="https://github.com/oogwaaay/mecollage/issues" 
@@ -1062,7 +1061,7 @@
         <div class="collage-tool-container">
             <header class="page-header">
                 <p class="page-title" data-i18n="home.title">MeCollage</p>
-                <p class="page-subtitle" data-i18n="home.subtitle">Create beautiful image collages with up to 20 photos. Simple. Professional. Support up to 20 photos.</p>
+                <p class="page-subtitle" data-i18n="home.subtitle">Create beautiful collages in seconds. Free, no signup, photos processed in your browser.</p>
             </header>
 
             <nav class="tool-nav">
@@ -1070,7 +1069,7 @@
                     <a href="/" class="tool-nav-link active"><i class="fas fa-home"></i> <span data-i18n="tool.collage_maker">Collage Maker</span></a>
                     <a href="/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span data-i18n="tool.square_crop">Square Crop</span></a>
                     <a href="/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span data-i18n="tool.rounded_corners">Rounded Corners</span></a>
-                    <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span data-i18n="tool.square_image">Square Image Converter</span></a>
+                    <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span data-i18n="tool.square_image">Square Image</span></a>
                     <a href="/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span data-i18n="tool.blurred_frame">Blurred Frame</span></a>
                 </div>
             </nav>
@@ -1078,10 +1077,10 @@
         <!-- 主内容区域 -->
         <div class="home-tool-entry" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;max-width:1100px;margin:1.2rem auto 0;padding:0 20px;">
             <a href="/tools/squarecrop/" style="display:block;padding:1.1rem 1.3rem;background:rgba(143,214,143,0.12);border:1px solid rgba(143,214,143,0.28);border-radius:14px;text-decoration:none;color:inherit;">
-                <strong style="color:#8fd68f;">Square Crop</strong><br><span style="color:rgba(255,255,255,0.85);font-size:0.95rem;">Crop any photo to a precise 1:1 square</span>
+                <strong style="color: var(--mc-color-brand);">Square Crop</strong><br><span style="color: var(--mc-text-secondary);font-size: var(--mc-font-size-body-sm);">Crop any photo to a precise 1:1 square</span>
             </a>
             <a href="/tools/square/" style="display:block;padding:1.1rem 1.3rem;background:rgba(143,214,143,0.12);border:1px solid rgba(143,214,143,0.28);border-radius:14px;text-decoration:none;color:inherit;">
-                <strong style="color:#8fd68f;">Square Image Converter</strong><br><span style="color:rgba(255,255,255,0.85);font-size:0.95rem;">Add a blur or color background without cropping</span>
+                <strong style="color: var(--mc-color-brand);">Square Image</strong><br><span style="color: var(--mc-text-secondary);font-size: var(--mc-font-size-body-sm);">Add a blur or color background without cropping</span>
             </a>
         </div>
 
@@ -1139,12 +1138,12 @@
                         <!-- 自定义网格输入 -->
                         <div id="customGridInputs" style="display: none;">
                             <div class="grid-input-container" style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                <input type="number" id="gridRowsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: rgba(255, 255, 255, 0.9); font-size: 0.875rem; text-align: center;">
-                                <span style="color: rgba(255, 255, 255, 0.7);">×</span>
-                                <input type="number" id="gridColsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: rgba(255, 255, 255, 0.9); font-size: 0.875rem; text-align: center;">
-                                <button id="applyGridBtn" class="apply-grid-btn" style="flex: 1; padding: 0.5rem; background: rgba(143, 214, 143, 0.3); border: 1px solid rgba(143, 214, 143, 0.5); border-radius: 8px; color: #8fd68f; font-size: 0.875rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" data-i18n="sidebar.apply_grid">Apply</button>
+                                <input type="number" id="gridRowsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: var(--mc-surface-2); border: 1px solid var(--mc-border-input); border-radius: var(--mc-radius-sm); color: var(--mc-text-body); font-size: var(--mc-font-size-label-sm); text-align: center;">
+                                <span style="color: var(--mc-text-muted);">×</span>
+                                <input type="number" id="gridColsInput" class="grid-input" min="1" max="10" value="3" style="width: 60px; padding: 0.5rem; background: var(--mc-surface-2); border: 1px solid var(--mc-border-input); border-radius: var(--mc-radius-sm); color: var(--mc-text-body); font-size: var(--mc-font-size-label-sm); text-align: center;">
+                                <button id="applyGridBtn" class="apply-grid-btn" style="flex: 1; padding: 0.5rem; background: var(--mc-color-brand-tint-strong); border: 1px solid var(--mc-color-focus); border-radius: var(--mc-radius-sm); color: var(--mc-color-brand); font-size: var(--mc-font-size-label-sm); font-weight: 600; cursor: pointer; transition: all 0.3s ease;" data-i18n="sidebar.apply_grid">Apply</button>
                             </div>
-                            <p style="font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); text-align: center; margin-top: 0.5rem;" data-i18n="sidebar.grid_hint">Example: 3 × 3 for 9 photos</p>
+                            <p style="font-size: var(--mc-font-size-2xs); color: var(--mc-color-focus-contrast); text-align: center; margin-top: 0.5rem;" data-i18n="sidebar.grid_hint">Example: 3 × 3 for 9 photos</p>
                         </div>
                     </div>
                 </div>
@@ -1195,13 +1194,13 @@
                     <h3 class="sidebar-title" data-i18n="sidebar.ai_features">AI Enhancements</h3>
                     <div class="ai-tool-group">
                         <div class="ai-tool-item" style="margin-bottom: 1.5rem;">
-                            <h4 style="font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;" data-i18n="ai.face_center_title">Smart Face Centering</h4>
-                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;" data-i18n="ai.face_center_desc">Automatically detect and center faces in collage cells.</p>
+                            <h4 style="font-size: var(--mc-font-size-label); color: var(--mc-text-body); margin-bottom: 0.5rem;" data-i18n="ai.face_center_title">Smart Face Centering</h4>
+                            <p style="font-size: var(--mc-font-size-2xs); color: var(--mc-color-focus-contrast); margin-bottom: 0.75rem;" data-i18n="ai.face_center_desc">Automatically detect and center faces in collage cells.</p>
                             <button class="apply-grid-btn" id="aiFaceCenterBtn" style="width: 100%;" data-i18n="ai.apply_face_center">Apply to All Photos</button>
                         </div>
                         <div class="ai-tool-item">
-                            <h4 style="font-size: 0.9rem; color: rgba(255,255,255,0.9); margin-bottom: 0.5rem;" data-i18n="ai.bg_removal_title">Local AI Background Removal</h4>
-                            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-bottom: 0.75rem;" data-i18n="ai.bg_removal_desc">Remove background from selected photo locally using AI.</p>
+                            <h4 style="font-size: var(--mc-font-size-label); color: var(--mc-text-body); margin-bottom: 0.5rem;" data-i18n="ai.bg_removal_title">Local AI Background Removal</h4>
+                            <p style="font-size: var(--mc-font-size-2xs); color: var(--mc-color-focus-contrast); margin-bottom: 0.75rem;" data-i18n="ai.bg_removal_desc">Remove background from selected photo locally using AI.</p>
                             <button class="apply-grid-btn" id="aiBgRemovalBtn" style="width: 100%;" data-i18n="ai.remove_bg">Remove Background</button>
                         </div>
                     </div>
@@ -1212,8 +1211,8 @@
             <section class="canvas-container">
                 <!-- 初始上传界面 -->
                 <div class="upload-screen" id="uploadScreen">
-                    <h1 class="upload-title" data-i18n="upload.title">Your photos,<br><span style="color: #8fd68f;">perfectly arranged.</span></h1>
-                    <p class="upload-subtitle" data-i18n="upload.subtitle">Simple. Professional. Support up to 20 photos.</p>
+                    <h1 class="upload-title" data-i18n="upload.title">Your photos,<br><span style="color: var(--mc-color-brand);">perfectly arranged.</span></h1>
+                    <p class="upload-subtitle" data-i18n="upload.subtitle">Add up to 20 photos, then arrange, decorate and export.</p>
                     <div class="upload-area" id="uploadArea">
                         <input type="file" id="fileInput" multiple accept="image/*">
                         <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
@@ -1227,27 +1226,33 @@
                     <div class="collage-grid" id="collageGrid"></div>
                     <div class="photo-counter" id="photoCounter">0 / 20 <span data-i18n="app.photos_count">PHOTOS</span></div>
                     <!-- 实时位置反馈 -->
-                    <div class="position-feedback" id="positionFeedback" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; pointer-events: none; display: none;"></div>
+                    <div class="position-feedback" id="positionFeedback" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: var(--mc-text-primary); padding: 5px 10px; border-radius: 4px; font-size: var(--mc-font-size-2xs); pointer-events: none; display: none;"></div>
                 </div>
                 
                 <!-- 底部功能栏 -->
                 <div class="bottom-toolbar">
-                    <button class="toolbar-btn active" id="layoutBtn" title="Layout" data-i18n-title="sidebar.aspect_ratio">
+                    <button class="toolbar-btn active" id="layoutBtn" type="button" aria-label="Layout" data-i18n-aria-label="toolbar.layout" title="Layout" data-i18n-title="sidebar.aspect_ratio">
                         <span>⬜</span>
                     </button>
-                    <button class="toolbar-btn" id="filterBtn" title="Filter" data-i18n-title="sidebar.filters">
+                    <button class="toolbar-btn" id="filterBtn" type="button" aria-label="Filter" data-i18n-aria-label="toolbar.filter" title="Filter" data-i18n-title="sidebar.filters">
                         <span>🌈</span>
                     </button>
-                    <button class="toolbar-btn" id="textBtn" title="Text" data-i18n-title="sidebar.text">
+                    <button class="toolbar-btn" id="textBtn" type="button" aria-label="Text" data-i18n-aria-label="toolbar.text" title="Text" data-i18n-title="sidebar.text">
                         <span>T</span>
                     </button>
-                    <button class="toolbar-btn" id="stickerBtn" title="Sticker" data-i18n-title="sidebar.stickers">
+                    <button class="toolbar-btn" id="stickerBtn" type="button" aria-label="Sticker" data-i18n-aria-label="toolbar.sticker" title="Sticker" data-i18n-title="sidebar.stickers">
                         <span>📌</span>
                     </button>
-                    <button class="toolbar-btn" id="aiBtn" title="AI Features" data-i18n-title="sidebar.ai_features">
+                    <button class="toolbar-btn" id="aiBtn" type="button" aria-label="AI Features" data-i18n-aria-label="toolbar.ai" title="AI Features" data-i18n-title="sidebar.ai_features">
                         <span>🤖</span>
                     </button>
-                    <button class="toolbar-btn" id="exportBtn" title="Export" data-i18n-title="sidebar.export">
+                    <button class="toolbar-btn" id="undoBtn" type="button" aria-label="Undo" data-i18n-aria-label="toolbar.undo" disabled>
+                        <span>↶</span>
+                    </button>
+                    <button class="toolbar-btn" id="redoBtn" type="button" aria-label="Redo" data-i18n-aria-label="toolbar.redo" disabled>
+                        <span>↷</span>
+                    </button>
+                    <button class="toolbar-btn" id="exportBtn" type="button" aria-label="Export" data-i18n-aria-label="toolbar.export" title="Export" data-i18n-title="sidebar.export">
                         <span>💾</span>
                     </button>
                 </div>
@@ -1255,41 +1260,41 @@
         </main>
 
         <!-- SEO Pages Section -->
-        <section style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px); padding: 60px 20px; margin-top: 40px; border-radius: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35); border: 1px solid rgba(255, 255, 255, 0.18);">
+        <section style="background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); padding: 60px 20px; margin-top: 40px; border-radius: var(--mc-radius-3xl); box-shadow: var(--mc-panel-shadow); border: 1px solid var(--mc-border);">
             <div style="max-width: 1200px; margin: 0 auto;">
-                <h2 style="text-align: center; color: #8fd68f; font-size: 2.2em; margin-bottom: 50px; text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.4);" data-i18n="seo.guides_title">Collage Guides & Tutorials</h2>
+                <h2 style="text-align: center; color: var(--mc-color-brand); font-size: 2.2em; margin-bottom: 50px; text-shadow: var(--mc-text-shadow-display);" data-i18n="seo.guides_title">Collage Guides & Tutorials</h2>
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
-                    <a href="/how-to-make-a-collage/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_make_collage_title">📖 How to Make a Collage</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_make_collage_desc">Step-by-step tutorial for creating stunning photo collages</p>
+                    <a href="/how-to-make-a-collage/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_make_collage_title">📖 How to Make a Collage</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_make_collage_desc">Step-by-step tutorial for creating stunning photo collages</p>
                     </a>
-                    <a href="/instagram-story-collage/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_insta_story_title">📱 Instagram Story Collage</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_insta_story_desc">Create perfect 9:16 vertical collages for Instagram Stories</p>
+                    <a href="/instagram-story-collage/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_insta_story_title">📱 Instagram Story Collage</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_insta_story_desc">Create perfect 9:16 vertical collages for Instagram Stories</p>
                     </a>
-                    <a href="/square-collage/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_square_collage_title">🔲 Square Collage</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_square_collage_desc">Create 1:1 square collages for Instagram posts</p>
+                    <a href="/square-collage/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_square_collage_title">🔲 Square Collage</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_square_collage_desc">Create 1:1 square collages for Instagram posts</p>
                     </a>
-                    <a href="/vertical-collage/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_vertical_collage_title">📏 Vertical Collage</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_vertical_collage_desc">Perfect 9:16 portrait format for mobile wallpapers</p>
+                    <a href="/vertical-collage/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_vertical_collage_title">📏 Vertical Collage</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_vertical_collage_desc">Perfect 9:16 portrait format for mobile wallpapers</p>
                     </a>
-                    <a href="/birthday-collage-maker/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_birthday_collage_title">🎂 Birthday Collage</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_birthday_collage_desc">Create festive birthday collages with stickers and effects</p>
+                    <a href="/birthday-collage-maker/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_birthday_collage_title">🎂 Birthday Collage</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_birthday_collage_desc">Create festive birthday collages with stickers and effects</p>
                     </a>
-                    <a href="/wedding-collage-maker/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_wedding_collage_title">💒 Wedding Collage</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_wedding_collage_desc">Elegant wedding collages with romantic filters</p>
+                    <a href="/wedding-collage-maker/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_wedding_collage_title">💒 Wedding Collage</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_wedding_collage_desc">Elegant wedding collages with romantic filters</p>
                     </a>
-                    <a href="/christmas-collage-maker/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_christmas_collage_title">🎄 Christmas Collage</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_christmas_collage_desc">Festive holiday collages with Christmas stickers</p>
+                    <a href="/christmas-collage-maker/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_christmas_collage_title">🎄 Christmas Collage</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_christmas_collage_desc">Festive holiday collages with Christmas stickers</p>
                     </a>
-                    <a href="/free-collage-maker/" style="display: block; padding: 30px; background: rgba(143, 214, 143, 0.15); border: 1px solid rgba(143, 214, 143, 0.3); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
-                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);" data-i18n="seo.guide_free_collage_title">🆓 Free Collage Maker</h3>
-                        <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.95em;" data-i18n="seo.guide_free_collage_desc">Why choose MeCollage over Canva, Fotor, FotoJet</p>
+                    <a href="/free-collage-maker/" style="display: block; padding: 30px; background: var(--mc-color-brand-haze); border: 1px solid var(--mc-color-brand-tint-strong); border-radius: 15px; text-decoration: none; transition: all 0.3s ease;">
+                        <h3 style="font-size: 1.3em; margin-bottom: 10px; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading);" data-i18n="seo.guide_free_collage_title">🆓 Free Collage Maker</h3>
+                        <p style="color: var(--mc-text-body); font-size: 0.95em;" data-i18n="seo.guide_free_collage_desc">Why choose MeCollage over Canva, Fotor, FotoJet</p>
                     </a>
                 </div>
             </div>
@@ -1368,16 +1373,14 @@
         </section>
 
         <footer>
-            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about/" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact/" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy/" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms/" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: #8fd68f;" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: var(--mc-color-brand);"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about/" style="color: var(--mc-color-brand);"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: var(--mc-color-brand);"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact/" style="color: var(--mc-color-brand);"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy/" style="color: var(--mc-color-brand);"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms/" style="color: var(--mc-color-brand);"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: var(--mc-color-brand);" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
         </footer>
     </div>
     </div>
 
     <!-- 引入html2canvas库用于图片导出 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous"></script>
-    <!-- AI Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.1/dist/ort.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js" crossorigin="anonymous"></script>
+    <!-- R1/P1-5：AI 模型库改为按需懒加载（/assets/js/mecollage-main.js 的 ensureLibs），首屏不再加载大体积 AI 依赖 -->
     <script src="/assets/js/mecollage-main.js"></script>
     <!-- 多语言支持 -->
     <script src="/assets/js/i18n.js"></script>
@@ -1426,5 +1429,6 @@
         });
       });
     </script>
+    <script src="/assets/js/ui.js" defer></script>
 </body>
 </html>

@@ -55,9 +55,9 @@
         body {
             font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: transparent;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             min-height: 100vh;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             line-height: 1.6;
         }
         .ghibli-background {
@@ -76,35 +76,35 @@
         .container {
             max-width: 900px;
             margin: 40px auto;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(18px);
+            background: var(--mc-surface-4);
+            backdrop-filter: blur(var(--mc-blur-xl));
             
-            border-radius: 30px;
+            border-radius: var(--mc-radius-3xl);
             padding: 60px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
         }
         h1 {
             font-size: 2.5em;
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             margin-bottom: 20px;
             text-align: center;
-            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 0, 0, 0.4);
+            text-shadow: var(--mc-text-shadow-display);
         }
         h2 {
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             margin: 50px 0 30px;
             font-size: 1.8em;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            text-shadow: var(--mc-text-shadow-heading);
         }
         h3 {
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             margin: 30px 0 15px;
             font-size: 1.3em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            text-shadow: 2px 2px 4px var(--mc-surface-4);
         }
         p {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             line-height: 1.8;
             margin-bottom: 15px;
         }
@@ -113,55 +113,55 @@
             align-items: flex-start;
             margin: 30px 0;
             padding: 25px;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            border-left: 4px solid #8fd68f;
+            background: var(--mc-surface-2);
+            backdrop-filter: blur(var(--mc-blur-lg));
+            border-radius: var(--mc-radius-tag);
+            border-left: 4px solid var(--mc-color-brand);
         }
         .step-number {
             font-size: 2.5em;
             font-weight: bold;
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             margin-right: 25px;
             min-width: 60px;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            text-shadow: var(--mc-text-shadow-heading);
         }
         .step-content h3 {
             margin-top: 0;
         }
         .step-content ul {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
         }
         .step-content li strong {
-            color: #8fd68f;
+            color: var(--mc-color-brand);
         }
         .cta-button {
             display: block;
             width: 250px;
             margin: 40px auto;
             padding: 15px 30px;
-            background: rgba(143, 214, 143, 0.2);
-            border: 1px solid rgba(143, 214, 143, 0.4);
-            color: #8fd68f;
+            background: var(--mc-color-brand-tint);
+            border: 1px solid var(--mc-border-brand);
+            color: var(--mc-color-brand);
             text-align: center;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 600;
             font-size: 1.1em;
             transition: all 0.3s ease;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+            text-shadow: var(--mc-text-shadow-heading);
         }
         .cta-button:hover {
-            background: rgba(143, 214, 143, 0.3);
+            background: var(--mc-color-brand-tint-strong);
             transform: translateY(-2px);
         }
         .tips {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
+            background: var(--mc-surface-2);
+            backdrop-filter: blur(var(--mc-blur-lg));
             padding: 30px;
-            border-radius: 10px;
+            border-radius: var(--mc-radius-tag);
             margin: 40px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--mc-border-subtle);
         }
         .tips ul {
             list-style: none;
@@ -169,27 +169,29 @@
         }
         .tips li {
             padding: 10px 0;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
         }
         .tips li:before {
             content: "💡 ";
             margin-right: 10px;
         }
         a {
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             text-decoration: none;
         }
         a:hover {
             color: #a8e6a8;
         }
     </style>
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
     <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/how-to-make-a-collage/#webpage","url":"https://www.mecollage.top/how-to-make-a-collage/","name":"How to Make a Photo Collage on iPhone, Android, Windows & Mac","description":"Learn how to make a photo collage on iPhone, Android, Windows or Mac with MeCollage. Upload photos, choose a ratio, arrange and export for free.","inLanguage":"en"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.mecollage.top/"},{"@type":"ListItem","position":2,"name":"How to Make a Photo Collage on iPhone, Android, Windows & Mac","item":"https://www.mecollage.top/how-to-make-a-collage/"}]}]}</script>
 </head>
 <body>
     <div class="ghibli-background"></div>
     <div class="container">
         <h1>How to Make a Photo Collage on iPhone, Android, Windows &amp; Mac</h1>
-        <p style="text-align: center; font-size: 1.2em; color: rgba(255, 255, 255, 0.9); margin-bottom: 40px;">
+        <p style="text-align: center; font-size: 1.2em; color: var(--mc-text-body); margin-bottom: 40px;">
             Step-by-step guide to creating stunning photo collages in minutes
         </p>
 
@@ -204,7 +206,7 @@
             <div class="step-content">
                 <h3>Choose Your Aspect Ratio</h3>
                 <p>Select the format that fits your needs:</p>
-                <ul style="color: rgba(255, 255, 255, 0.9); line-height: 1.8;">
+                <ul style="color: var(--mc-text-body); line-height: 1.8;">
                     <li><strong>1:1 Square</strong> - Perfect for Instagram posts and profile pictures</li>
                     <li><strong>9:16 Vertical</strong> - Ideal for Instagram Stories, TikTok, and mobile wallpapers</li>
                     <li><strong>16:9 Landscape</strong> - Great for YouTube banners and presentations</li>
@@ -218,7 +220,7 @@
             <div class="step-content">
                 <h3>Upload Your Photos</h3>
                 <p>Add up to 20 photos from your device. Simply:</p>
-                <ul style="color: rgba(255, 255, 255, 0.9); line-height: 1.8;">
+                <ul style="color: var(--mc-text-body); line-height: 1.8;">
                     <li>Click the upload area to browse files</li>
                     <li>Or drag and drop photos directly onto the page</li>
                     <li>Supported formats: PNG, JPG, WEBP</li>
@@ -232,7 +234,7 @@
             <div class="step-content">
                 <h3>Arrange Your Layout</h3>
                 <p>Your photos will be automatically arranged, but you can customize:</p>
-                <ul style="color: rgba(255, 255, 255, 0.9); line-height: 1.8;">
+                <ul style="color: var(--mc-text-body); line-height: 1.8;">
                     <li><strong>Gutter Spacing</strong> - Adjust space between photos (0-50px)</li>
                     <li><strong>Corner Radius</strong> - Add rounded corners for a softer look</li>
                     <li><strong>Photo Order</strong> - Drag to rearrange images</li>
@@ -245,7 +247,7 @@
             <div class="step-content">
                 <h3>Add Creative Touches</h3>
                 <p>Personalize your collage with:</p>
-                <ul style="color: rgba(255, 255, 255, 0.9); line-height: 1.8;">
+                <ul style="color: var(--mc-text-body); line-height: 1.8;">
                     <li><strong>Photo Filters</strong> - Noir, Retro, Fade, Glow, Cool effects</li>
                     <li><strong>Text</strong> - Add captions, quotes, or messages</li>
                     <li><strong>Emoji Stickers</strong> - Decorate with ✨❤️🔥🎭 and more</li>
@@ -258,7 +260,7 @@
             <div class="step-content">
                 <h3>Export Your Collage</h3>
                 <p>Download your finished collage:</p>
-                <ul style="color: rgba(255, 255, 255, 0.9); line-height: 1.8;">
+                <ul style="color: var(--mc-text-body); line-height: 1.8;">
                     <li>Choose PNG or JPG format</li>
                     <li>High-quality export, no watermark</li>
                     <li>Ready to share on social media or print</li>
@@ -281,24 +283,24 @@
 
         <h2>Common Collage Uses</h2>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 40px 0;">
-            <div style="padding: 20px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; text-align: center;">
-                <i class="fab fa-instagram" style="font-size: 2em; color: #8fd68f; margin-bottom: 10px;"></i>
-                <h4 style="color: #8fd68f; margin-bottom: 10px;">Social Media</h4>
+            <div style="padding: 20px; background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); border-radius: var(--mc-radius-tag); text-align: center;">
+                <i class="fab fa-instagram" style="font-size: 2em; color: var(--mc-color-brand); margin-bottom: 10px;"></i>
+                <h4 style="color: var(--mc-color-brand); margin-bottom: 10px;">Social Media</h4>
                 <p style="font-size: 0.9em;">Instagram posts, Stories, Facebook covers</p>
             </div>
-            <div style="padding: 20px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; text-align: center;">
-                <i class="fas fa-birthday-cake" style="font-size: 2em; color: #8fd68f; margin-bottom: 10px;"></i>
-                <h4 style="color: #8fd68f; margin-bottom: 10px;">Celebrations</h4>
+            <div style="padding: 20px; background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); border-radius: var(--mc-radius-tag); text-align: center;">
+                <i class="fas fa-birthday-cake" style="font-size: 2em; color: var(--mc-color-brand); margin-bottom: 10px;"></i>
+                <h4 style="color: var(--mc-color-brand); margin-bottom: 10px;">Celebrations</h4>
                 <p style="font-size: 0.9em;">Birthday, wedding, holiday memories</p>
             </div>
-            <div style="padding: 20px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; text-align: center;">
-                <i class="fas fa-briefcase" style="font-size: 2em; color: #8fd68f; margin-bottom: 10px;"></i>
-                <h4 style="color: #8fd68f; margin-bottom: 10px;">Professional</h4>
+            <div style="padding: 20px; background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); border-radius: var(--mc-radius-tag); text-align: center;">
+                <i class="fas fa-briefcase" style="font-size: 2em; color: var(--mc-color-brand); margin-bottom: 10px;"></i>
+                <h4 style="color: var(--mc-color-brand); margin-bottom: 10px;">Professional</h4>
                 <p style="font-size: 0.9em;">Portfolios, presentations, marketing</p>
             </div>
-            <div style="padding: 20px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; text-align: center;">
-                <i class="fas fa-heart" style="font-size: 2em; color: #8fd68f; margin-bottom: 10px;"></i>
-                <h4 style="color: #8fd68f; margin-bottom: 10px;">Personal</h4>
+            <div style="padding: 20px; background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); border-radius: var(--mc-radius-tag); text-align: center;">
+                <i class="fas fa-heart" style="font-size: 2em; color: var(--mc-color-brand); margin-bottom: 10px;"></i>
+                <h4 style="color: var(--mc-color-brand); margin-bottom: 10px;">Personal</h4>
                 <p style="font-size: 0.9em;">Memory keeping, photo albums, gifts</p>
             </div>
         </div>
@@ -328,12 +330,13 @@
         </a>
     </div>
 
-<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:0.9rem;">
+<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
   <a class="language-link" data-language-nav="true" href="/how-to-make-a-collage/" hreflang="en" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
   <a class="language-link" data-language-nav="true" href="/zh/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
   <a class="language-link" data-language-nav="true" href="/tw/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
   <a class="language-link" data-language-nav="true" href="/ja/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
   <a class="language-link" data-language-nav="true" href="/es/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
 </nav>
+<script src="/assets/js/ui.js" defer></script>
 </body>
 </html>
