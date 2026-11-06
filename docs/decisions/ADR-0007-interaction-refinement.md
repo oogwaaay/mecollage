@@ -1,8 +1,8 @@
 # ADR-0007: 交互精修 R0/R1 —— 工具优先、产品级反馈与移动布局门禁
 
-- 状态：**Proposed（实施完成，待 Preview / 维护者批准）**（R0/R1 已实施并本地验收；工作区改动未 commit、未部署；生产发布需走 H1/H2）
+- 状态：**Accepted（已实施并上线生产）** — 2026-11-06：本地四门禁全绿 → Preview 38/0/5（exit 0）→ 维护者「批准生产部署」→ 生产验收 **41/0/2（exit 0）** → 维护者「批准」合并 PR #3（rebase → main `afbdb92`）
 - 日期：2026-11-06
-- 分支：`docs/design-tokens`（基线 commit `fedc3ee`；工作区含 R0/R1 改动，未 commit、未部署）
+- 分支：`docs/design-tokens`（基线 `fedc3ee` → 3 commits → PR #3 → main `afbdb92`）；生产部署 commit `28bd972`，生产别名 `https://www.mecollage.top`
 - 关联：[INTERACTION-AUDIT.md](../design/INTERACTION-AUDIT.md)（审计与 P0/P1）、[prototypes/README.md](../design/prototypes/README.md)（原型与截图）、[PAGE-PATTERNS.md](../design/PAGE-PATTERNS.md)（页面族/内联块）、[DESIGN-TOKENS.md](../design/DESIGN-TOKENS.md) §4.8/§4.9、[ADR-0006](ADR-0006-design-token-single-source.md)、L-20261106-31~36
 
 ## 背景
@@ -118,3 +118,19 @@ ADR-0006 解决的是「设计值没有单一事实源」；[INTERACTION-AUDIT.m
 - **单点回滚**：`git revert` 对应提交；R1 CSS 与 R0 JS 应分提交，回滚粒度 = 单批。
 - **不改数据**：导出图片字节、画布默认值、URL、广告/统计均未变，回滚无需数据迁移。
 - 回滚后按 runbook §4.1 复跑 `verify-site` + §4.6 交互矩阵，确认移动端溢出/壁纸/反馈无回归。
+
+
+---
+
+## 发布记录（2026-11-06，已上线）
+
+| 阶段 | 结果 | 证据 |
+|---|---|---|
+| 本地四门禁 | token PASS（273/`3db11395ede1`/103 文件/JS 0）；functional 51/0/2；SEO 32/0/0；check-layout --full 5/0/0（95 页 × 1440/390/360/320） | R1-RESULTS.md、`audit/design-migration/r1/` |
+| Preview | **38 PASS / 0 FAIL / 5 WARN（exit 0）**；WARN 为跨主机检查 N/A | `audit/evidence/phase-a/verification/preview-28bd972.*` |
+| 生产批准 | 维护者明确批准「批准生产部署」（H1 记录见 `audit/evidence/design-tokens/production-approval.md`） | 同上 |
+| 生产部署 | `npx vercel deploy --prod --yes`，Ready 14s；URL `mecollage-11sx4fpuj-...vercel.app` → 别名 `www.mecollage.top` | `prod-deploy-28bd972.log` |
+| 生产验收 | **41 PASS / 0 FAIL / 2 WARN（exit 0）**；冒烟全 PASS；生产渲染 390 首页 nav 60px / upload 109px / 0 溢出 | `prod-verify-28bd972-*.json/md`、`prod-smoke-28bd972.txt`、`prod-render/` |
+| 合并 | 维护者「批准」→ `gh pr merge 3 --rebase`；main `afbdb92`（线性 3 commits）；生产 commit 与 main tree 完全一致（`git diff` 为空） | PR #3、`merge-approval.md` |
+
+回滚：Vercel Dashboard → 上一版生产 → Promote/Rollback；或 revert 三个提交后重新部署；仅回滚注入用 `inject-ui.mjs --remove --apply`。真机/Preview 复核项（iOS Safari 菜单/导出、触控拖拽手感、AI 真实网络）保持开放。
