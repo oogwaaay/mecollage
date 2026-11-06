@@ -4,7 +4,7 @@
 |---|---|
 | ID | L-20261106-40 |
 | 日期 | 2026-11-06 |
-| 状态 | mitigated（Phase 1+2A 已生产上线；Phase 2B-1 40 页 FooterTools + Phase 2B-2 GitHub 纯图标本地完成，同 PR #7 未合并；Tools 下拉不做/Contact/真机待） |
+| 状态 | mitigated（Phase 1+2A+2B-1+2B-2 **全部已生产上线**；Tools 下拉不做/Contact/真机待） |
 | 严重度 | P1 |
 | 证据层 | 代码层 + 本地渲染层 |
 | 关联文件 | `scripts/design-system/nav-role-separation.mjs`（Phase 1）；`scripts/design-system/nav-global-cleanup.mjs`（Phase 2A）；`scripts/design-system/footer-tools-standalone.mjs`（Phase 2B-1）；`scripts/design-system/github-icon-link.mjs`（Phase 2B-2）；`assets/css/components.css §21`（footer-tools + 桌面上下文 tab + `.footer-tools--standalone`）、`§22`（GitHub 图标 44×44/22px/≤768 隐藏）；`scripts/design-audit/check-layout.mjs:199-245`（F 项，含全局导航规则 + “所有页面必须有 footer-tools” + GitHub 纯图标规则）；`blog/index.html:401`（tool-nav 首项 i18n 键修正）；`i18n/*.json`（`nav.contact` 5 键、`nav.github_view` 5 键）；`audit/design-migration/r2/nav-role-separation-apply.{md,json}`、`nav-global-apply.{md,json}`、`footer-standalone-apply.{md,json}`、`github-icon-apply.{md,json}`、`footer-layout{,2}.{json,md}`、`github-layout.{json,md}`、`nav-final-layout.{json,md}`、`nav-phase1/*.png`、`footer-standalone/*.png`、`github-icon/*.png` |
@@ -137,7 +137,8 @@ node scripts/seo-audit/run-seo-checks.mjs            # 32/0/0
 - 代码：`scripts/design-system/nav-role-separation.mjs`、`nav-global-cleanup.mjs`、`footer-tools-standalone.mjs`、`github-icon-link.mjs`、`assets/css/components.css §21`（含 `.footer-tools--standalone`）、`§22`（GitHub 图标）、`scripts/design-audit/check-layout.mjs:199-245`、`blog/index.html:401`、`i18n/*.json`（`nav.contact`、`nav.github_view`）。
 - 决策：ADR-0009；原型 `docs/design/prototypes/r2/single-layer-nav.html`（仅参考，Tools 下拉明确不做）。
 - 测试数字（2026-11-06）：functional 53/0/2（55）；mobile 6/0/0；SEO 32/0/0；performance PASS（A 1 WARN）；token PASS（273/hash `3db11395ede1`/104 文件/JS 0；基线 **334/151/1553**）。
-- 生产（Phase 1+2A）：`d363e0f` 生产验收 **41/0/2**（`audit/evidence/design-tokens/nav-prod-verify-d363e0f-*.md`、`nav-prod-smoke-d363e0f.txt`），PR #6 已合并；Phase 2B-1/2B-2 在 PR #7 待合并。
+- 生产（Phase 1+2A）：`d363e0f` 生产验收 **41/0/2**（`audit/evidence/design-tokens/nav-prod-verify-d363e0f-*.md`、`nav-prod-smoke-d363e0f.txt`），PR #6 已合并。
+- 生产（Phase 2B-1+2B-2）：**`6279a80` 已上线**，生产验收 **41 PASS / 0 FAIL / 2 WARN（exit 0）** + 冒烟全 PASS（`audit/evidence/design-tokens/2b-prod-verify-6279a80-*.md`、`2b-prod-smoke-6279a80.txt`、`nav-2b-production-approval.md`）；PR #7 **MERGED**（rebase）→ `main` `2963040`，`git diff 6279a80 main` 为空；生产 URL `https://mecollage-1908btck5-keeey-is-projects.vercel.app` → 别名 `https://www.mecollage.top`。
 - 设计文档（Lead 维护）：`DESIGN-TOKENS.md §4.9.1`、`COMPONENT-RECIPES.md §22`、`scripts/design-system/README.md`、`scripts/design-audit/README.md`。
 
 ## 后续动作与关闭条件
@@ -149,9 +150,9 @@ node scripts/seo-audit/run-seo-checks.mjs            # 32/0/0
 - [x] **Phase 2B-1**：40 个无 footer 页加 `.footer-tools--standalone`（40 处/0 异常；94/94 页有 footer-tools；F 扩展为“所有页面必须有 footer-tools”并修复类名精确匹配 bug；470 链接全 200）。
 - [x] **Phase 2B-2**：54 页 GitHub 入口改纯图标内联 SVG（54 处/0 异常；`nav.github_view` 5 键；44×44/22px；F 新增 GitHub 纯图标规则并通过；390 隐藏、footer 文字兜底）。
 - [x] 用户明确 **Tools 下拉不做**、40 页**不做完整 footer**、GitHub **图标 only**、Contact 表单稍后自行布置 → 不再列为待决。
-- [ ] **PR #7 合并 + Phase 2B-1/2B-2 的 Preview/生产**（维护者批准）；Preview 抽查 standalone FooterTools、GitHub 图标 44×44/隐藏行为。
+- [x] **PR #7 合并 + Phase 2B-1/2B-2 生产上线**：用户批准「批准生产部署、批准合并」；生产 `6279a80` 验收 41/0/2（exit 0）+ 冒烟 PASS；PR #7 merged（rebase）→ `main` `2963040`，`git diff 6279a80 main` 为空。
 - [ ] 真机：iOS Safari / Android Chrome 的手势、GitHub 图标可发现性（footer 文字兜底）、桌面视觉复核。
-- [ ] 关闭条件：① F PASS 6/6（已达成）；② 94/94 页有 footer-tools 且 nav 角色一致（已达成，待 Preview 复核）；③ GitHub 纯图标规则 PASS 且可访问性验收（已达成）；④ Preview/真机复核通过；⑤ 维护者确认。
+- [ ] 关闭条件：① F PASS 6/6（已达成）；② 94/94 页有 footer-tools 且 nav 角色一致（已达成，生产已上线）；③ GitHub 纯图标规则 PASS 且可访问性验收（已达成，生产冒烟 PASS）；④ Preview/生产验收通过（已达成）；⑤ 维护者确认（已批准）；仅剩真机复核。
 
 ## 变更记录
 
@@ -160,4 +161,5 @@ node scripts/seo-audit/run-seo-checks.mjs            # 32/0/0
 - 2026-11-06 mitigated（Phase 2A）：`nav-global-cleanup.mjs` 迁移 54 页（square→contact/0 异常）；i18n `nav.contact` 5 键；F 扩展"全局导航无工具/含 Contact"规则，复跑 PASS 6/6。
 - 2026-11-06 deployed（Phase 1+2A）：生产 `d363e0f` 验收 41/0/2，PR #6 合并 `main` `87f8be5`。
 - 2026-11-06 mitigated（Phase 2B-1）：`footer-tools-standalone.mjs` 迁 40 页（40 变更/0 异常）；`.footer-tools--standalone` CSS；F 扩“所有页面必须有 footer-tools”+ 类名前缀匹配 bug 修复（`footer-layout.md` FAIL → `footer-layout2.md` PASS 6/6）；470 链接全 200。
-- 2026-11-06 mitigated（Phase 2B-2）：`github-icon-link.mjs` 迁移 54 页（54 变更/0 异常）；纯图标内联 SVG + `nav.github_view` 5 键 + CSS §22（44×44/22px/≤768 隐藏）；F 新增 GitHub 纯图标规则，`github-layout.{json,md}` PASS 6/6；text=""/aria 本地化/390 隐藏实测通过；PR #7 待合并、Preview/真机待做。
+- 2026-11-06 mitigated（Phase 2B-2）：`github-icon-link.mjs` 迁移 54 页（54 变更/0 异常）；纯图标内联 SVG + `nav.github_view` 5 键 + CSS §22（44×44/22px/≤768 隐藏）；F 新增 GitHub 纯图标规则，`github-layout.{json,md}` PASS 6/6；text=""/aria 本地化/390 隐藏实测通过。
+- 2026-11-06 deployed（Phase 2B-1+2B-2）：生产 `6279a80` 验收 41/0/2（exit 0）+ 冒烟 PASS；PR #7 merged（rebase）→ `main` `2963040`；`git diff 6279a80 main` 为空；仅剩真机复核。
