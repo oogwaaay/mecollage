@@ -1,6 +1,6 @@
 # scripts/ — MeCollage 验收与迁移脚本
 
-> 目录索引：`verify-site.mjs`（部署验收，本文档）· [`functional-audit/`](functional-audit/README.md)（浏览器功能回归 + 移动触摸回归：`run-tests.mjs` / `run-mobile-touch.mjs`）· [`seo-audit/`](seo-audit/README.md)（多语言/SEO）· [`design-audit/`](design-audit/README.md)（Design Token 审计 + 布局/交互门禁 + 性能预算：`run-token-audit.mjs` / `check-layout.mjs` / `check-performance.mjs`）· [`design-system/`](design-system/README.md)（存量页面统一迁移、UI 注入与导航/页脚角色分离：`migrate.mjs` / `inject-ui.mjs` / `nav-role-separation.mjs` / `nav-global-cleanup.mjs` / `footer-tools-standalone.mjs`）
+> 目录索引：`verify-site.mjs`（部署验收，本文档）· [`functional-audit/`](functional-audit/README.md)（浏览器功能回归 + 移动触摸回归：`run-tests.mjs` / `run-mobile-touch.mjs`）· [`seo-audit/`](seo-audit/README.md)（多语言/SEO）· [`design-audit/`](design-audit/README.md)（Design Token 审计 + 布局/交互门禁 + 性能预算：`run-token-audit.mjs` / `check-layout.mjs` / `check-performance.mjs`）· [`design-system/`](design-system/README.md)（存量页面统一迁移、UI 注入与导航/页脚/GitHub 入口角色分离：`migrate.mjs` / `inject-ui.mjs` / `nav-role-separation.mjs` / `nav-global-cleanup.mjs` / `footer-tools-standalone.mjs` / `github-icon-link.mjs`）
 
 # verify-site.mjs — 部署验收脚本
 

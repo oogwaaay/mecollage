@@ -1,13 +1,13 @@
-# ADR-0009: 导航角色分离 Phase 1+2A+2B-1 —— 全局 wayfinding 与页面上下文工具切换
+# ADR-0009: 导航角色分离 Phase 1+2A+2B-1+2B-2 —— 全局 wayfinding 与页面上下文工具切换
 
-- 状态：**Phase 1+2A 已生产部署（`d363e0f`，验收 41/0/2，PR #6 已合并）；Phase 2B-1 已实现并本地过门禁，待 Preview / 维护者批准**（Tools 下拉**不做**；Contact 表单/真机待）
+- 状态：**Phase 1+2A 已生产部署（`d363e0f`，验收 41/0/2，PR #6 已合并）；Phase 2B-1 + Phase 2B-2 已实现并本地过门禁，在同一 PR #7（`feat/footer-tools-standalone`），待合并 / Preview / 维护者批准**（Tools 下拉**不做**；Contact 表单/真机待）
 - 日期：2026-11-06
-- 分支：Phase 1+2A `feat/nav-role-separation`（从 `main` `5ad5adf` 起，生产部署 `d363e0f`，已合并）；Phase 2B-1 `feat/footer-tools-standalone`（从 `main` `87f8be5` 起）
-- 关联：[ADR-0008](ADR-0008-r2-mobile-touch-performance-blog-search.md)（R2 总决策与性能预算）、[INTERACTION-AUDIT.md](../design/INTERACTION-AUDIT.md) P0-2（两层导航）/P2-3（Contact）/P2-4（博客搜索）、[prototypes/r2/README.md](../design/prototypes/r2/README.md)（`single-layer-nav` 原型）、L-20261106-40、`scripts/design-system/nav-role-separation.mjs`、`nav-global-cleanup.mjs`、`footer-tools-standalone.mjs`、`scripts/design-audit/check-layout.mjs` F 项
+- 分支：Phase 1+2A `feat/nav-role-separation`（从 `main` `5ad5adf` 起，生产部署 `d363e0f`，已合并）；Phase 2B-1 + 2B-2 `feat/footer-tools-standalone`（从 `main` `87f8be5` 起，PR #7 未合并）
+- 关联：[ADR-0008](ADR-0008-r2-mobile-touch-performance-blog-search.md)（R2 总决策与性能预算）、[INTERACTION-AUDIT.md](../design/INTERACTION-AUDIT.md) P0-2（两层导航）/P2-3（Contact）/P2-4（博客搜索）、[prototypes/r2/README.md](../design/prototypes/r2/README.md)（`single-layer-nav` 原型）、L-20261106-40、`scripts/design-system/nav-role-separation.mjs`、`nav-global-cleanup.mjs`、`footer-tools-standalone.mjs`、`github-icon-link.mjs`、`scripts/design-audit/check-layout.mjs` F 项
 
 ## 背景
 
-R2 Phase 2（战略）中，用户批准「先做第三步」——**导航角色分离**；Contact 页由用户稍后自行布置。本 ADR 覆盖 **Phase 1（页面内角色分离）**、**Phase 2A（全局导航收口）** 与 **Phase 2B-1（无 footer 页只加 FooterTools）**：Phase 1 解决工具页/内容页/首页的工具入口角色，Phase 2A 解决全局导航里仍放具体工具的问题，Phase 2B-1 解决 40 个无 footer 页缺少工具入口/内链的问题。
+R2 Phase 2（战略）中，用户批准「先做第三步」——**导航角色分离**；Contact 页由用户稍后自行布置。本 ADR 覆盖 **Phase 1（页面内角色分离）**、**Phase 2A（全局导航收口）**、**Phase 2B-1（无 footer 页只加 FooterTools）** 与 **Phase 2B-2（GitHub 入口纯图标化）**：Phase 1 解决工具页/内容页/首页的工具入口角色，Phase 2A 解决全局导航里仍放具体工具的问题，Phase 2B-1 解决 40 个无 footer 页缺少工具入口/内链的问题，Phase 2B-2 解决右上角 GitHub 入口带文字/依赖 FA CDN 的问题。
 
 用户对 Phase 2B-1 的明确决定（2026-11-06 生产批准原话）：「FE 是 2B，先不做……那 40 个没有 Footer 的本地化指南页不做（完整 footer）。（但）FooterTools，这个可以加吧？只要不做 Tools 下拉就可以吧？」——即：**40 页不重建完整 footer，只加 FooterTools；不做 Tools 下拉**。
 
@@ -21,6 +21,7 @@ R2 Phase 2（战略）中，用户批准「先做第三步」——**导航角�
 6. **i18n 语义漂移**：`blog/index.html` 的 tool-nav 首项文字是 "Collage Maker"，却使用 `data-i18n="nav.home"`（运行时会被翻译成 Home）。
 7. **全局导航里仍放具体工具（Phase 2A 之前）**：54 个有 `.nav-left` 的页面把 `data-page="square"`（Square Image 工具链接）放在**全局导航**里——全局导航承担了工具入口，与"全局=wayfinding、工具=页面上下文"的角色定义冲突；而工具页/内容页又各有 tool-nav，工具入口进一步分散。
 8. **40 个本地化/指南页没有 `<footer>`（Phase 2B-1 之前）**：这些页面（birthday/christmas/free-collage-maker、how-to、instagram-story、square-collage、vertical-collage、wedding 等 × 5 语言）没有页脚结构，因此也没有 footer-tools，全站工具内链在这些页面缺失（其余 54 页有 footer-tools）。用户决定**只加 FooterTools、不重建完整 footer**。
+9. **右上角 GitHub 入口带文字、依赖 FA CDN（Phase 2B-2 之前）**：54 个有全局导航页面的 `class="nav-link github-link"` 是「Font Awesome 图标 + "GitHub" 文字」——文字占用顶栏空间、用户明确希望直接显示图标不写文字；且 FA 图标依赖 CDN，断网/被拦截时不可见。
 
 产品定位参考：**"字面单层导航"（把 5 个工具全塞进下拉）并非 Apple 的实际做法**——`https://www.apple.com/iphone/` 可见全局导航（Store/Mac/iPad/…）+ 产品局部导航（iPhone 17 Pro/Duo 等），即「1 个全局 wayfinding + 1 个页面上下文」两层。本 Phase 做**角色分离**，不是把工具塞进下拉（备选分析见下）。
 
@@ -71,16 +72,17 @@ apply 报告：扫描 94 页、变更 **54 处**、异常 **0**（`audit/design-
 
 ### D5 门禁：`check-layout` 新增/扩展 F 项（静态，无需浏览器）
 
-`scripts/design-audit/check-layout.mjs` 新增 **F. 导航角色分离**（对 95 页 HTML 静态检查，Phase 1 + 2A + 2B-1 规则）：
+`scripts/design-audit/check-layout.mjs` 新增 **F. 导航角色分离**（对 95 页 HTML 静态检查，Phase 1 + 2A + 2B-1 + 2B-2 规则）：
 
 - `tool-nav` 内不得出现 Home（判据：`data-i18n="nav.home"` 或文本 `Home`；**不**用 `fa-home` 图标判定——Collage Maker 的图标就是 home）；
 - about/contact 内容页不得有 `.tool-nav`；
 - 首页不得有 `.home-tool-entry` 重复工具卡；
 - **所有页面（除 `404.html`）必须有 `.footer-tools`**（Phase 2B-1 扩展：有 `<footer>` 的放 footer 内；无 footer 的用 `.footer-tools--standalone`）且恰好 **5 个链接**、链接前缀与页面语言一致；
 - **Phase 2A 扩展**：有 `.nav-left` 的页面必须含 `data-page="contact"`（wayfinding 完整）；**不得**含 `data-page="square"` 或指向 `/tools/` 的工具链接（全局导航不放具体工具）；
+- **Phase 2B-2 扩展**：`.github-link` 必须有内联 SVG（`.github-link__icon`）和 **`aria-label`**，且**不得含可见文字**（`data-i18n="nav.github"` 或 `>GitHub<`）；
 - 类名检测用 **前缀匹配** `class="footer-tools`（兼容 `class="footer-tools"` 与 `class="footer-tools footer-tools--standalone"` 多类名；Phase 2B-1 修过此 bug）。
 
-F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PASS）+ `nav-role-separation --dry-run` / `nav-global-cleanup --dry-run` / `footer-tools-standalone --dry-run`（幂等，0 pending change）+ functional/mobile-touch/SEO。
+F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PASS）+ `nav-role-separation --dry-run` / `nav-global-cleanup --dry-run` / `footer-tools-standalone --dry-run` / `github-icon-link --dry-run`（幂等，0 pending change）+ functional/mobile-touch/SEO。
 
 ### D6 全局导航收口（Phase 2A，与 D1 角色定义配套）
 
@@ -97,6 +99,17 @@ F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PAS
 - 结果：**94/94 个非 404 页面都有 footer-tools**（54 页 footer 内 + 40 页 standalone），F 规则从“有 footer 的页面”扩展为“**所有页面必须有 footer-tools**”。
 - 检测 bug 修复：F 首版用 `class="footer-tools"` 精确匹配，standalone 的多类名（`class="footer-tools footer-tools--standalone"`）会漏检 → 三个脚本（`check-layout.mjs`、`nav-role-separation.mjs`、`footer-tools-standalone.mjs`）统一改为**前缀匹配** `class="footer-tools`。
 
+### D8 GitHub 入口纯图标化（Phase 2B-2，用户明确选择「图标 only」）
+
+- 用户诉求：右上角 GitHub 入口**直接显示图标、不写文字**。讨论过「图标 + 文字」与「图标 only」，最终选 **图标 only**：右上角是工具入口，GitHub mark 可识别；可访问性由 `aria-label` + `title` 补齐；页脚保留 "GitHub Issues" **文字链接兜底**（发现性/无 JS/移动端）。
+- 新增 `scripts/design-system/github-icon-link.mjs`（dry-run 默认 / `--apply` 写盘；幂等：已含 `github-link__icon` 的页面跳过）：54 个有全局 nav 的页面把 `class="nav-link github-link"` 从「FA 图标 + "GitHub" 文字」替换为**纯图标内联 SVG**：
+  - 内联 SVG（`viewBox="0 0 16 16"`、`fill="currentColor"`、`aria-hidden="true"`、`focusable="false"`）——**不依赖 Font Awesome CDN**，断网/被拦截仍可见；
+  - `<a>` 保持真实 `href`（GitHub Issues）、`target="_blank"`、`rel="noopener noreferrer"`；
+  - `aria-label` + `title` 使用 i18n `nav.github_view` 5 语言键（en「View on GitHub」/zh「在 GitHub 上查看」/zh-tw「在 GitHub 上查看」/ja「GitHubで見る」/es「Ver en GitHub」），`data-i18n-aria-label`/`data-i18n-title` 保留供运行时切换语言；
+  - 页脚 "GitHub Issues" **文字链接不变**（兜底）。
+- CSS `components.css §22`：`.github-link` **44×44** 胶囊（`--mc-tap-target-min`、surface-3 底、border、pill 圆角）、图标 **22px**、hover 品牌 tint、focus-visible ring；**≤768px 顶栏隐藏**（移动端顶栏保持 品牌 + 语言 + 菜单 三元素，GitHub 通过 footer 文字链接可达）。
+- 结果：1440 首页 GitHub 按钮 `text=""`、`aria-label="View on GitHub"`、`title="View on GitHub"`、按钮 **44×44**、SVG **22px**；`/zh/` aria/title 为「在 GitHub 上查看」；390 下 `display:none`、顶栏 60px、菜单正常、`scrollWidth=390`；F 新增 GitHub 纯图标规则后 **PASS 6/6（95 页）**。
+
 ## 备选方案与拒绝理由
 
 | 方案 | 拒绝理由 |
@@ -110,6 +123,9 @@ F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PAS
 | F. 把工具入口改成 JS 渲染的下拉 | 首屏/无 JS 不可见、爬虫与降级风险；本轮保持静态真实 `<a href>` |
 | G. 给 40 个无 footer 页重建完整 footer | 用户明确“40 页不做（完整 footer）”；重建 footer 涉及版权/语言/社交链接与整站页脚规范，范围大、回归面广；FooterTools 已能解决工具入口/内链 |
 | H. 做全局 Tools 下拉 | 用户明确“不做 Tools 下拉”；当前全局导航已不含具体工具，工具入口在 tool-nav + footer-tools 三处可爬，下拉属可选增强、收益低且增加交互面 |
+| I. GitHub 用「图标 + 文字」 | 用户明确要“直接显示图标、不写文字”；文字在 54 页顶栏占位、与“右上角工具入口”的紧凑语义不符；可访问性用 aria-label/title + 页脚文字兜底解决 |
+| J. 纯 Font Awesome 图标（不内联 SVG） | FA 依赖 CDN，断网/被拦截时图标不可见；内联 SVG 无外部依赖、`currentColor` 可随主题、体积可控 |
+| K. 只删文字保留 FA 图标 | 同上 CDN 依赖；且 `fa-github` 是多品牌图标，与站点统一内联 SVG 图标口径不一致 |
 
 ## 影响
 
@@ -117,44 +133,48 @@ F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PAS
   - Phase 1：94 页迁移（85 处变更，0 异常）：20 工具页去 Home、10 内容页去 tool-nav、1 首页去重复卡、54 页注入 footer-tools（270 链接）；40 页无 footer 跳过（Phase 2B-1 处理）。`components.css §21` 新增 footer-tools 与桌面上下文 tab 样式；`blog/index.html` tool-nav 首项 i18n 键修正（`nav.home` → `tool.collage_maker`，避免运行时变 Home）。
   - Phase 2A：`nav-global-cleanup.mjs` 迁移 **54 页**（54 处变更，0 异常）：全局导航 `.nav-left` 的 `data-page="square"` 工具链接 → 对应语言 Contact 真实 `<a href>`；i18n 新增 `nav.contact` 5 语言键；40 个无全局导航落地页跳过（Phase 2B 评估）。
   - Phase 2B-1：`footer-tools-standalone.mjs` 迁移 **40 页**（40 处变更，0 异常）：40 个无 footer 页插入 `.footer-tools--standalone`（5 真实链接/本地化前缀）；CSS 新增 `.footer-tools--standalone`；**94/94 非 404 页面都有 footer-tools**；不重建 footer、不做 Tools 下拉、不改 URL/结构。
-- **门禁**：`check-layout` 新增/扩展 F 项（静态：tool-nav 无 Home / 内容页无 tool-nav / 首页无重复卡 / **所有页面必须有 footer-tools（footer 内或 standalone）**、5 链接、语言前缀 / 全局 nav 含 Contact 且无工具）；类名检测前缀匹配；H11/C2/runbook/scripts README/AGENTS/lessons 同步；token 基线随 HTML 变化下降并被人工复核刷新（**338/153/1560 → 334/151/1553**，token 273 / hash `3db11395ede1`）。
-- **上线记录**：Phase 1+2A 于 2026-11-06 生产部署 `d363e0f`（Preview 38/0/5、生产 **41/0/2**，PR #6 已合并 `main` `87f8be5`）；Phase 2B-1 未上线（待 Preview/批准）。
-- **风险**：桌面视觉变化（84→44px、透明 tab）与 standalone FooterTools 的视觉间距需 Preview 截图复核；40 页仍无完整 footer（用户明确不做）；footer-tools 文案由生成时 i18n JSON 决定，切换语言依赖 `data-i18n`（键保留）；不动 URL/广告/统计/导出。
+  - Phase 2B-2：`github-icon-link.mjs` 迁移 **54 页**（54 处变更，0 异常）：右上角 GitHub 入口「FA 图标 + 文字」→ **纯图标内联 SVG**（44×44、22px 图标、`aria-label`/`title` 本地化 `nav.github_view` 5 键、`currentColor`）；CSS 新增 `§22`（胶囊/hover/focus ring/≤768 隐藏）；页脚 "GitHub Issues" 文字链接保留兜底。
+- **门禁**：`check-layout` 新增/扩展 F 项（静态：tool-nav 无 Home / 内容页无 tool-nav / 首页无重复卡 / **所有页面必须有 footer-tools（footer 内或 standalone）**、5 链接、语言前缀 / 全局 nav 含 Contact 且无工具 / **GitHub 链接纯图标（内联 SVG + aria-label、无文字）**）；类名检测前缀匹配；H11/C2/runbook/scripts README/AGENTS/lessons 同步；token 基线随 HTML 变化下降并被人工复核刷新（**338/153/1560 → 334/151/1553**，token 273 / hash `3db11395ede1`）。
+- **上线记录**：Phase 1+2A 于 2026-11-06 生产部署 `d363e0f`（Preview 38/0/5、生产 **41/0/2**，PR #6 已合并 `main` `87f8be5`）；Phase 2B-1 + 2B-2 在同一条 PR #7（`feat/footer-tools-standalone`）未合并，待批准。
+- **风险**：桌面视觉变化（84→44px、透明 tab、GitHub 44×44 胶囊）与 standalone FooterTools 的视觉间距需 Preview 截图复核；40 页仍无完整 footer（用户明确不做）；footer-tools 文案由生成时 i18n JSON 决定，切换语言依赖 `data-i18n`（键保留）；移动端顶栏隐藏 GitHub 图标（靠 footer 文字兜底）；不动 URL/广告/统计/导出。
 - **部署面**：站点 HTML 会部署；`scripts/`、`docs/` 已在 `.vercelignore`；`404.html` 保持独立、不迁移。
 
 ## 验证
 
-- 迁移与门禁（2026-11-06，本地工作区；Phase 2B-1 未 commit）：
+- 迁移与门禁（2026-11-06，本地工作区；Phase 2B-1/2B-2 未 commit）：
   ```bash
   node scripts/design-system/nav-role-separation.mjs            # dry-run：幂等，期望 0 pending change
   node scripts/design-system/nav-global-cleanup.mjs             # dry-run：幂等，期望 0 pending change
   node scripts/design-system/footer-tools-standalone.mjs        # dry-run：幂等，期望 0 pending change
+  node scripts/design-system/github-icon-link.mjs               # dry-run：幂等，期望 0 pending change
   node scripts/design-audit/check-layout.mjs                    # 期望 PASS 6/6（95 页，含 F）
   node scripts/functional-audit/run-tests.mjs                   # 53 PASS / 0 FAIL / 2 WARN（55）
   node scripts/functional-audit/run-mobile-touch.mjs            # 6 PASS / 0 FAIL / 0 WARN
   node scripts/seo-audit/run-seo-checks.mjs                     # 32 PASS / 0 FAIL / 0 WARN
-  node scripts/design-audit/check-performance.mjs               # PASS（A 1 WARN 旧 bundle）
+  node scripts/design-audit/check-performance.mjs               # PASS（A 1 WARN）
   node scripts/design-audit/run-token-audit.mjs                 # PASS（273/hash 3db11395ede1/104 文件/JS 0）
   ```
-- **迁移报告**：Phase 1 —— 94 页 / **85 变更** / 0 异常 / 40 无 footer 跳过（`audit/design-migration/r2/nav-role-separation-apply.{md,json}`）；Phase 2A —— 94 页扫描 / **54 变更**（square→contact）/ 0 异常 / 40 无全局导航跳过（`audit/design-migration/r2/nav-global-apply.{md,json}`）；Phase 2B-1 —— 94 页扫描 / **40 变更** / 0 异常 / 0 跳过（`audit/design-migration/r2/footer-standalone-apply.{md,json}`，dry-run 同目录）。
+- **迁移报告**：Phase 1 —— 94 页 / **85 变更** / 0 异常 / 40 无 footer 跳过（`audit/design-migration/r2/nav-role-separation-apply.{md,json}`）；Phase 2A —— 94 页扫描 / **54 变更**（square→contact）/ 0 异常 / 40 无全局导航跳过（`audit/design-migration/r2/nav-global-apply.{md,json}`）；Phase 2B-1 —— 94 页扫描 / **40 变更** / 0 异常 / 0 跳过（`audit/design-migration/r2/footer-standalone-apply.{md,json}`）；Phase 2B-2 —— **54 变更** / 0 异常（`audit/design-migration/r2/github-icon-apply.{md,json}`，dry-run 同目录）。
 - **Phase 2B-1 关键修复（类名检测 bug）**：F 首版用 `class="footer-tools"` 精确匹配，standalone 多类名（`class="footer-tools footer-tools--standalone"`）导致 40 页被误判“缺少 footer-tools”（`footer-layout.md` FAIL 5/1）；三个脚本统一前缀匹配 `class="footer-tools` 后复跑 **PASS 6/6**（`footer-layout2.md`，95 页）。
-- **实测（本地 CDP）**：1440 首页全局导航 **[Home, Blog, About, Contact]**、`.tool-nav` 5 links/44px、`homeCards:0`、footer-tools 在 `<footer>` 内；工具页全局导航同 [Home, Blog, About, Contact] 且无 Square/`/tools/`、`.tool-nav` 4 links 无 Home；about `toolNav:false`；390×844 首页 nav **60px**、上传区 top **109px**、`scrollWidth=390`；**Phase 2B-1**：`birthday-collage-maker.html` 桌面 `.footer-tools--standalone` **5 links**（不在 footer 内，href `/`+/tools/*）；`es/free-collage-maker.html` 390 **5 links、`scrollWidth=390`（0 溢出）**；54 页 footer 内 footer-tools + 40 页 standalone → **94/94 页面有 footer-tools**；合计 **470 个 footer 工具链接全部 200**（54×5 = 270 已验证 + 40×5 = 200 本机复跑 `pages=40/links=200/badCount=0`）。截图 `audit/design-migration/r2/nav-phase1/*.png`、`audit/design-migration/r2/footer-standalone/{birthday-desktop-footer.png,es-free-collage-mobile-390.png}`。
-- **门禁结果**：`check-layout` **PASS 6/6（95 页，A/B/C/D/E/F 全 PASS）**——Phase 1 后 `nav-final-layout.{json,md}`；Phase 2B-1 后 `footer-layout2.{json,md}`（15:06，95 页）；fingerprint 无 FAIL/WARN。production（Phase 1+2A）：`d363e0f` 生产验收 **41/0/2**（`audit/evidence/design-tokens/nav-prod-verify-d363e0f-*.md`）。
-- 未做：Phase 2B-1 的 Preview/生产（待批准）、真机、Tools 下拉（用户明确不做）、Contact 表单（用户稍后布置）。
+- **实测（本地 CDP）**：1440 首页全局导航 **[Home, Blog, About, Contact]**、`.tool-nav` 5 links/44px、`homeCards:0`、footer-tools 在 `<footer>` 内；工具页全局导航同 [Home, Blog, About, Contact] 且无 Square/`/tools/`、`.tool-nav` 4 links 无 Home；about `toolNav:false`；390×844 首页 nav **60px**、上传区 top **109px**、`scrollWidth=390`；**Phase 2B-1**：`birthday-collage-maker.html` 桌面 `.footer-tools--standalone` **5 links**（不在 footer 内，href `/`+/tools/*）；`es/free-collage-maker.html` 390 **5 links、`scrollWidth=390`（0 溢出）**；94/94 页面有 footer-tools，**470 个 footer 工具链接全部 200**。**Phase 2B-2**：1440 首页 GitHub 按钮 **`text=""`**、`aria-label="View on GitHub"`、`title="View on GitHub"`、href `https://github.com/oogwaaay/mecollage/issues`、按钮 **44×44**、SVG **22px**；`/zh/` aria/title **「在 GitHub 上查看」**、`text=""`；390 下 `display:none`、nav 60、`scrollWidth=390`、菜单按钮存在；54 页均含 `github-link__icon`/`aria-label`、无文字（静态复算 54/0/0/0）。截图 `audit/design-migration/r2/nav-phase1/*.png`、`footer-standalone/*.png`、`github-icon/{home-desktop-1440,home-mobile-390,zh-home-desktop-1440}.png`。
+- **门禁结果**：`check-layout` **PASS 6/6（95 页，A/B/C/D/E/F 全 PASS）**——Phase 1 后 `nav-final-layout.{json,md}`；Phase 2B-1 后 `footer-layout2.{json,md}`（95 页）；**Phase 2B-2 后 `github-layout.{json,md}`（15:16，95 页，含 GitHub 纯图标规则）**；fingerprint 无 FAIL/WARN。production（Phase 1+2A）：`d363e0f` 生产验收 **41/0/2**（`audit/evidence/design-tokens/nav-prod-verify-d363e0f-*.md`）。
+- 未做：Phase 2B-1/2B-2 的 PR #7 合并 + Preview/生产（待批准）、真机、Tools 下拉（用户明确不做）、Contact 表单（用户稍后布置）。
 
 ## 未做 / 后续
 
-- **Phase 1+2A 已生产上线**（`d363e0f`，生产验收 41/0/2，PR #6 已合并 `main` `87f8be5`）；**Phase 2B-1 待 Preview/维护者批准**（本地门禁已过）。
+- **Phase 1+2A 已生产上线**（`d363e0f`，生产验收 41/0/2，PR #6 已合并 `main` `87f8be5`）；**Phase 2B-1 + Phase 2B-2 在 PR #7（`feat/footer-tools-standalone`）未合并**，等待维护者批准合并 + Preview + 生产。
 - **Tools 下拉：不做**（用户明确）；工具入口已固定在 `.tool-nav` + `.footer-tools`（footer 内/standalone）且全站每页至少一个可爬工具入口（470 链接全 200）。
 - **40 页不做完整 footer**（用户明确）：这些页面只有 `.footer-tools--standalone`，没有版权/语言/社交等完整页脚；若未来需要统一整站页脚，另立 ADR。
+- **GitHub 图标 only 已定**（用户明确）：不再做“图标 + 文字”；移动端顶栏隐藏图标、通过页脚 "GitHub Issues" 文字链接可达（若真机发现发现性不足，再评估移动端常驻入口）。
 - **Contact 表单**：由用户稍后自行布置（三方案见 ADR-0008 D3：A mailto 推荐 / B 第三方 / C 自建；B 需 H8 账户操作 + 隐私政策更新）；本 ADR 只把全局导航的 Contact 链接接到既有 contact 页。
-- **Preview + 真机**：桌面 84→44px、standalone FooterTools 的间距/视觉需 Preview 截图复核；移动端真实手势/长按菜单（mobile-touch 已覆盖结构，真机未测）。
-- **R2-B 博客搜索的视觉/CSS** 与导航/页脚交叉处（blog 页全局 nav/tool-nav/footer-tools）需在 Preview 一起抽查。
-- 旧 bundle 体积 WARN（性能预算 A 项）仍在，不属本 Phase。
+- **Preview + 真机**：桌面 84→44px、standalone FooterTools、GitHub 44×44 胶囊的视觉需 Preview 截图复核；移动端真实手势/长按菜单（mobile-touch 已覆盖结构，真机未测）。
+- **R2-B 博客搜索的视觉/CSS** 与导航/页脚/GitHub 图标交叉处（blog 页全局 nav/tool-nav/footer-tools）需在 Preview 一起抽查。
+- 旧 bundle / components.css 体积 WARN（性能预算 A 项）仍在，不属本 Phase。
 
 ## 回滚
 
-- `git revert` 本 Phase 的提交（Phase 1：迁移脚本 + `components.css §21` + 94 页迁移；Phase 2A：`nav-global-cleanup.mjs` + i18n `nav.contact` + 54 页迁移；Phase 2B-1：`footer-tools-standalone.mjs` + `components.css .footer-tools--standalone` + 40 页迁移；以 `git log main..HEAD` 实际提交为准）；或 `git checkout -- '*.html' i18n/` 恢复页面与文案（三个迁移脚本均可重复执行、不会半写）。
+- `git revert` 本 Phase 的提交（Phase 1：迁移脚本 + `components.css §21` + 94 页迁移；Phase 2A：`nav-global-cleanup.mjs` + i18n `nav.contact` + 54 页迁移；Phase 2B-1：`footer-tools-standalone.mjs` + `.footer-tools--standalone` + 40 页迁移；Phase 2B-2：`github-icon-link.mjs` + `components.css §22` + i18n `nav.github_view` 5 键 + 54 页迁移；以 `git log main..HEAD` 实际提交为准）；或 `git checkout -- '*.html' i18n/` 恢复页面与文案（四个迁移脚本均可重复执行、不会半写）。
+- 只回滚 Phase 2B-2：`git revert` 对应提交，或把 54 页的纯图标锚点恢复为「FA 图标 + GitHub 文字」并删除 CSS §22；同步回退 F 的 GitHub 纯图标规则（否则会 FAIL）。
 - 只回滚 Phase 2B-1：删除 40 页的 `.footer-tools--standalone` 块并 revert F 规则“所有页面必须有 footer-tools” → 回到“有 footer 的页面才有 footer-tools”；或 `git revert` 对应提交。
 - 只回滚 footer-tools：删除 `components.css §21` 中 `.footer-tools*` 并用 git revert 恢复页面（脚本无 `--remove`）。
 - 只回滚 tool-nav 降级：revert 对应 CSS 提交（页面 HTML 不变，回到 84px 玻璃条）。
