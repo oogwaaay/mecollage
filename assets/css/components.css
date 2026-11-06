@@ -2193,6 +2193,36 @@ body .blog-search-clear:focus-visible {
   .blog-search-panel { margin: var(--mc-space-3) auto var(--mc-space-5); }
 }
 
+/* 首页指南/工具卡片（Phase AR：新增卡片用 token 类，避免新增 inline style 债） */
+.arc-guide-card {
+  display: block;
+  padding: var(--mc-space-8);
+  background: var(--mc-color-brand-haze);
+  border: var(--mc-border-width) solid var(--mc-color-brand-tint-strong);
+  border-radius: var(--mc-radius-lg);
+  text-decoration: none;
+  transition: background-color var(--mc-duration-slow) var(--mc-ease),
+              border-color var(--mc-duration-slow) var(--mc-ease);
+}
+
+.arc-guide-card:hover,
+.arc-guide-card:focus-visible {
+  background: var(--mc-color-brand-tint);
+  border-color: var(--mc-border-brand-strong);
+}
+
+.arc-guide-card h3 {
+  margin-bottom: var(--mc-space-2);
+  color: var(--mc-text-heading);
+  font-size: var(--mc-font-size-card-title);
+  text-shadow: var(--mc-text-shadow-heading);
+}
+
+.arc-guide-card p {
+  color: var(--mc-text-body);
+  font-size: var(--mc-font-size-body-sm);
+}
+
 /* 内容区行内链接（Phase AR：避免为单个链接写 inline style，token 单一事实源） */
 .arc-inline-link {
   color: var(--mc-text-link);
