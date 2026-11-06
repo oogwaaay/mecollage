@@ -548,10 +548,56 @@
             </header>
 
 
+            <!-- Contact Form Section -->
+            <section class="contact-section contact-form-section" id="contact-form">
+                <h2 class="section-title" data-i18n="contact.form_title">Envíanos un mensaje</h2>
+                <p class="contact-form-intro" data-i18n="contact.form_intro">Cuéntanos en qué podemos ayudarte. Al enviar se abrirá tu aplicación de correo con el mensaje ya rellenado; no guardamos nada en nuestros servidores.</p>
+                <form class="mc-contact-form" id="mc-contact-form" action="mailto:contact@mecollage.top" method="post" enctype="text/plain">
+                    <div class="mc-form-row">
+                        <div class="mc-form-field">
+                            <label for="mc-contact-name"><span id="mc-label-name" data-i18n="contact.form_name">Tu nombre</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                            <input type="text" id="mc-contact-name" name="name" autocomplete="name" required placeholder="Tu nombre" data-i18n-placeholder="contact.form_name_placeholder">
+                        </div>
+                        <div class="mc-form-field">
+                            <label for="mc-contact-email"><span id="mc-label-email" data-i18n="contact.form_email">Tu correo electrónico</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                            <input type="email" id="mc-contact-email" name="email" autocomplete="email" required placeholder="you@example.com" data-i18n-placeholder="contact.form_email_placeholder">
+                        </div>
+                    </div>
+                    <div class="mc-form-field">
+                        <label for="mc-contact-subject"><span id="mc-label-subject" data-i18n="contact.form_subject">¿Sobre qué es?</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                        <select id="mc-contact-subject" name="subject" required>
+                            <option value="" disabled selected>Elige un tema</option>
+                            <option value="bug">Informe de error</option>
+                            <option value="feature">Sugerencia de función</option>
+                            <option value="question">Pregunta</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+                    <div class="mc-form-field">
+                        <label for="mc-contact-message"><span id="mc-label-message" data-i18n="contact.form_message">Mensaje</span> <span class="mc-required" aria-hidden="true">*</span></label>
+                        <textarea id="mc-contact-message" name="message" rows="6" required placeholder="Describe el problema o la idea..." data-i18n-placeholder="contact.form_message_placeholder"></textarea>
+                    </div>
+                    <p class="mc-form-hint" data-i18n="contact.form_hint">Se abrirá tu aplicación de correo predeterminada; no se envía automáticamente.</p>
+                    <div class="mc-form-actions">
+                        <button type="submit" class="mc-button mc-button--primary" data-i18n="contact.form_submit">Abrir aplicación de correo</button>
+                        <button type="button" class="mc-button mc-button--secondary" id="mc-copy-email" data-i18n="contact.form_copy">Copiar dirección de correo</button>
+                    </div>
+                    <p class="mc-contact-status" id="mc-contact-status" role="status" aria-live="polite"></p>
+                    <span hidden id="mc-status-copied" data-i18n="contact.form_copied">Dirección copiada</span>
+                    <span hidden id="mc-status-copy-failed" data-i18n="contact.form_copy_failed">No se pudo copiar; selecciona la dirección manualmente.</span>
+                    <span hidden id="mc-status-opening" data-i18n="contact.form_opening">Abriendo tu aplicación de correo…</span>
+                    <div class="mc-contact-direct">
+                        <span data-i18n="contact.form_direct">O escríbenos directamente:</span>
+                        <a id="mc-contact-email-link" href="mailto:contact@mecollage.top">contact@mecollage.top</a>
+                    </div>
+                    <p class="mc-form-privacy" data-i18n="contact.form_privacy">Usamos tu mensaje solo para responderte. Este formulario no almacena datos y las fotos nunca se suben.</p>
+                </form>
+            </section>
+
             <!-- Community Support Section -->
             <section class="contact-section community-support">
                 <h2 class="section-title" data-i18n="contact.support_title">Obtén soporte y conéctate</h2>
-                <p data-i18n="contact.support_desc">MeCollage es un proyecto gratuito apoyado por la comunidad. Aunque no ofrecemos soporte directo por correo electrónico, puedes conectarte con nosotros a través de nuestros canales comunitarios.</p>
+                <p data-i18n="contact.support_desc">MeCollage es gratuito y está apoyado por la comunidad. Usa el formulario de arriba para escribirnos o participa en GitHub.</p>
                 <div class="support-options">
                     <div class="contact-method">
                         <a href="https://github.com/oogwaaay/mecollage/issues" 
@@ -727,6 +773,7 @@
             });
         });
     </script>
+    <script src="/assets/js/contact-form.js" defer></script>
     <script src="/assets/js/ui.js" defer></script>
 </body>
 </html>

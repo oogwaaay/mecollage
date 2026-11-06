@@ -2335,3 +2335,190 @@ body .ghibli-nav .github-link:focus-visible {
 @media (max-width: 768px) {
   body .ghibli-nav .github-link { display: none; }
 }
+
+/* ==========================================================================
+ * 23. Contact form（联系页 mailto 表单，2026-11-06）
+ *     无后端：提交打开本机邮件客户端；不存储数据；无 JS 有 mailto 兜底。
+ * ========================================================================== */
+
+body .mc-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mc-space-5);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+body .mc-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--mc-space-4);
+}
+
+body .mc-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--mc-space-2);
+  min-width: 0;
+}
+
+body .mc-form-field label {
+  color: var(--mc-text-emphasis);
+  font-size: var(--mc-font-size-label);
+  font-weight: var(--mc-font-weight-semibold);
+}
+
+body .mc-form-field .mc-required {
+  color: var(--mc-color-brand);
+  margin-left: 2px;
+}
+
+body .mc-contact-form input,
+body .mc-contact-form select,
+body .mc-contact-form textarea {
+  width: 100%;
+  min-height: var(--mc-tap-target-min);
+  padding: var(--mc-space-3) var(--mc-space-4);
+  border: var(--mc-border-width) solid var(--mc-border-input);
+  border-radius: var(--mc-radius-md);
+  background: var(--mc-surface-3);
+  color: var(--mc-text-primary);
+  font-family: var(--mc-font-sans);
+  font-size: var(--mc-font-size-body);
+  line-height: var(--mc-leading-snug);
+  box-shadow: var(--mc-shadow-inset);
+  transition: border-color var(--mc-duration-slow) var(--mc-ease),
+              box-shadow var(--mc-duration-slow) var(--mc-ease),
+              background-color var(--mc-duration-slow) var(--mc-ease);
+}
+
+body .mc-contact-form input::placeholder,
+body .mc-contact-form textarea::placeholder {
+  color: var(--mc-text-faint);
+}
+
+body .mc-contact-form textarea {
+  min-height: calc(var(--mc-space-6) * 6);
+  resize: vertical;
+}
+
+body .mc-contact-form input:focus-visible,
+body .mc-contact-form select:focus-visible,
+body .mc-contact-form textarea:focus-visible {
+  outline: none;
+  border-color: var(--mc-border-brand-strong);
+  box-shadow: 0 0 0 var(--mc-focus-ring-width) var(--mc-color-focus);
+  background: var(--mc-surface-4);
+}
+
+body .mc-form-hint,
+body .mc-form-privacy {
+  color: var(--mc-text-muted);
+  font-size: var(--mc-font-size-caption);
+  line-height: var(--mc-leading-snug);
+}
+
+body .mc-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mc-space-3);
+}
+
+body .mc-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mc-space-2);
+  min-height: var(--mc-tap-target-min);
+  padding: var(--mc-space-3) var(--mc-space-6);
+  border: var(--mc-border-width) solid var(--mc-border-input);
+  border-radius: var(--mc-radius-pill);
+  font-family: var(--mc-font-sans);
+  font-size: var(--mc-font-size-label);
+  font-weight: var(--mc-font-weight-semibold);
+  line-height: var(--mc-leading-snug);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--mc-duration-base) var(--mc-ease),
+              background-color var(--mc-duration-base) var(--mc-ease),
+              border-color var(--mc-duration-base) var(--mc-ease),
+              box-shadow var(--mc-duration-base) var(--mc-ease);
+}
+
+body .mc-button--primary {
+  border-color: var(--mc-border-brand-strong);
+  background: var(--mc-gradient-brand);
+  color: var(--mc-text-on-brand-strong);
+  box-shadow: var(--mc-shadow-brand);
+}
+
+body .mc-button--secondary {
+  background: var(--mc-surface-2);
+  color: var(--mc-text-primary);
+}
+
+@media (hover: hover) {
+  body .mc-button:hover {
+    transform: translateY(var(--mc-lift-1));
+  }
+
+  body .mc-button--primary:hover {
+    box-shadow: var(--mc-shadow-brand-strong);
+  }
+
+  body .mc-button--secondary:hover {
+    border-color: var(--mc-border-brand);
+    background: var(--mc-color-brand-haze);
+  }
+}
+
+body .mc-button:focus-visible {
+  outline: var(--mc-focus-ring-width) solid var(--mc-focus-ring-color);
+  outline-offset: var(--mc-focus-ring-offset);
+}
+
+body .mc-contact-status {
+  min-height: var(--mc-space-5);
+  margin: 0;
+  color: var(--mc-text-heading);
+  font-size: var(--mc-font-size-label);
+  line-height: var(--mc-leading-snug);
+}
+
+body .mc-contact-direct {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mc-space-2) var(--mc-space-3);
+  margin-top: var(--mc-space-4);
+  padding-top: var(--mc-space-4);
+  border-top: var(--mc-border-width) solid var(--mc-border-subtle);
+  color: var(--mc-text-secondary);
+  font-size: var(--mc-font-size-body-sm);
+}
+
+body .mc-contact-direct a {
+  color: var(--mc-text-link);
+  font-weight: var(--mc-font-weight-medium);
+  overflow-wrap: anywhere;
+}
+
+body .mc-contact-direct a:hover {
+  color: var(--mc-text-link-hover);
+}
+
+@media (max-width: 768px) {
+  body .mc-form-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body .mc-form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  body .mc-form-actions .mc-button {
+    width: 100%;
+  }
+}
