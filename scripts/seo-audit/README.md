@@ -73,8 +73,8 @@ CDP 客户端复用 `scripts/functional-audit/cdp.mjs`（headless 启动/WebSock
 ### 4.0 最新结果（2026-11-06 v1.4.0，含五语言 + FAQ I1/I2）
 
 命令：`node scripts/seo-audit/run-seo-checks.mjs --label phase-faq-semantics --evidence-dir audit/evidence/phase-faq`
-结果：**PASS 34 / FAIL 0 / WARN 0（exit 0）**；sitemap 68、渲染 30 页、可索引 68、本地化可索引 40、noindex 32、inventory 100。
-新增 **I1/I2** 在 roundedcorners/blurredframe ×5 语言修复后通过；2026-11-06 新增 `/social-media-image-sizes/` 英文页后 sitemap 68。
+结果：**PASS 34 / FAIL 0 / WARN 0（exit 0）**；sitemap 72、渲染 30 页、可索引 72、本地化可索引 44、noindex 32、inventory 104。
+新增 **I1/I2** 在 roundedcorners/blurredframe ×5 语言修复后通过；2026-11-06 新增 `/social-media-image-sizes/` 英文页后 sitemap 68，随后补齐 zh-CN/zh-TW/ja/es 四语言，sitemap **72**、可索引 72、本地化 44、inventory 104。
 
 ### 4.1 Phase D 最终结果（`--label phase-d-final --evidence-dir audit/evidence/phase-d`）
 
@@ -116,3 +116,4 @@ CDP 客户端复用 `scripts/functional-audit/cdp.mjs`（headless 启动/WebSock
 - **2026-11-06 v1.2.1（Phase C 最终）**：server trailingSlash 先行；G2 跟随完整跳转链记录 hops；G3/E5 增加最终改动抽查。Phase C 28/0/0。
 - **2026-11-06 v1.3.0（Phase D）**：square-collage 恢复为独立索引页（sitemap 61 / indexable 61 / redirected 1）；移除 square 301，仅保留 vertical 两条；新增 C7（square/squarecrop lastmod）与 H1–H3（工具意图区隔/互链、square-collage 恢复、首页内链）。Phase D 最终 **32 PASS / 0 FAIL / 0 WARN（exit 0）**。
 - **2026-11-06 v1.4.0（Phase AR / L-42）**：五语言 Aspect Ratio Calculator 上线（sitemap 67 / 渲染 30 页）；新增 **I1 FAQ 问句语义** 与 **I2 可见 FAQ ↔ JSON-LD 一一对应**；发现并修复 roundedcorners/blurredframe ×5 语言的陈述句 FAQ；最新 **34 PASS / 0 FAIL / 0 WARN（exit 0）**。
+- **2026-11-06 v1.4.1（Social Media Image Sizes）**：总表页英文 + 四语言上线（sitemap **72**、可索引 72、本地化 44、inventory 104）；`/social-media-image-sizes/` 进入 CORE_BASES 五语言簇，EN_TOPIC/ROOT_TOPIC 专项列表移除；34 检查保持 PASS。

@@ -1013,6 +1013,28 @@ async function runSizeChartTouch() {
     c.measure('result', result);
     c.check('1080×1920 → 匹配多个平台标准尺寸', /matches [4-9] standard/.test(result), { actual: result });
     await c.screenshot('Social Media Image Sizes 390×844', '08-social-media-image-sizes.png');
+
+    for (const loc of [{ code: 'ja', path: '/ja/social-media-image-sizes/' }, { code: 'es', path: '/es/social-media-image-sizes/' }]) {
+      await gotoPage(loc.path);
+      const ready2 = await waitFor("document.readyState === 'complete' && !!document.querySelector('#sizeCheckResult')", { timeoutMs: 20000, label: 'localized size chart ready' });
+      c.check(`[${loc.code}] 本地化尺寸页就绪`, ready2);
+      const layout2 = await page.eval(`(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        innerWidth: window.innerWidth,
+        rows: document.querySelectorAll('.sizes-table tbody tr').length
+      }))()`);
+      c.measure(`${loc.code}Layout`, layout2);
+      c.check(`[${loc.code}] 页面无横向溢出`, layout2.scrollWidth <= layout2.innerWidth + 1, { actual: { scrollWidth: layout2.scrollWidth, innerWidth: layout2.innerWidth } });
+      c.check(`[${loc.code}] 表格 25 行`, layout2.rows === 25, { actual: layout2.rows });
+      const result2 = await page.eval(`(() => {
+        const w = document.querySelector('#checkWidth');
+        const h = document.querySelector('#checkHeight');
+        w.value = '1280'; w.dispatchEvent(new Event('input', { bubbles: true }));
+        h.value = '720'; h.dispatchEvent(new Event('input', { bubbles: true }));
+        return document.querySelector('#sizeCheckResult').textContent.replace(/\s+/g, ' ').trim();
+      })()`);
+      c.check(`[${loc.code}] 尺寸工具 1280×720 → YouTube`, result2.includes('YouTube') && result2.includes('1280 × 720'), { actual: result2.slice(0, 140) });
+    }
   } catch (error) {
     c.record.error = String(error && error.stack ? error.stack : error);
     console.error('❌ [MT-08] 执行异常：', String(error).slice(0, 300));
