@@ -406,6 +406,19 @@
                 </div>
             </nav>
 
+            <!-- 博客搜索（R2：客户端即时过滤，渐进增强——无 JS 时全部文章可见，不改 URL） -->
+            <div class="blog-search-panel">
+                <div class="blog-search">
+                    <label class="mc-sr-only" for="blogSearchInput" data-i18n="blog.search.placeholder">Search articles…</label>
+                    <input type="search" id="blogSearchInput" class="blog-search-input" name="q" placeholder="Search articles…" autocomplete="off" spellcheck="false" />
+                </div>
+                <p class="blog-search-results" id="blogSearchResults" role="status" aria-live="polite" hidden></p>
+                <div class="blog-search-empty" id="blogSearchEmpty" tabindex="-1" hidden>
+                    <p data-i18n="blog.search.empty">No articles match your search.</p>
+                    <button type="button" class="blog-search-clear" id="blogSearchClear" data-i18n="blog.search.clear">Clear search</button>
+                </div>
+            </div>
+
             <!-- 博客介绍 -->
             <section class="blog-intro">
                 <p data-i18n="blog.index.intro">Welcome to the MeCollage Blog! Whether you're a beginner looking to learn the basics or an experienced designer seeking advanced techniques, our collection of guides and tutorials has something for everyone. Explore our articles to master the art of collage making and create stunning visuals for any occasion.</p>
@@ -490,5 +503,6 @@
     <link rel="stylesheet" href="/assets/css/i18n.css">
     <script src="/assets/js/i18n.js"></script>
     <script src="/assets/js/ui.js" defer></script>
+    <script src="/assets/js/blog-search.js" defer></script>
 </body>
 </html>

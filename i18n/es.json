@@ -626,8 +626,17 @@
   "beforeunload.unsaved": "Tu collage no está guardado. ¿Salir de todos modos?",
   "app.subtitle": "Crea collages preciosos en segundos. Gratis, sin registro y con las fotos procesadas en tu navegador.",
   "photos.remaining": "Puedes añadir {n} fotos más.",
-  "photos.undo_hint": "{n} fotos eliminadas."
-,
+  "photos.undo_hint": "{n} fotos eliminadas.",
   "toast.error.select_photo": "Selecciona una foto primero.",
-  "app.remove_image": "Quitar imagen"
+  "app.remove_image": "Quitar imagen",
+  "blog.search.placeholder": "Buscar artículos…",
+  "blog.search.results": "{n} resultados",
+  "blog.search.empty": "Ningún artículo coincide con tu búsqueda.",
+  "blog.search.clear": "Borrar búsqueda",
+  "blog.search.result_one": "1 resultado",
+  "blog.ai_enhancements.how_to_title": "Cómo usar",
+  "blog.ai_enhancements.face_center_how_to": "1. Haz clic en el botón 🤖 de la barra inferior para abrir el panel de IA; 2. Haz clic en el botón «Aplicar a todas las fotos»; 3. El sistema analizará automáticamente todas las imágenes y centrará los rostros dentro de sus celdas.",
+  "blog.ai_enhancements.bg_removal_how_to": "1. Haz clic en la foto que quieras procesar en el lienzo; 2. Haz clic en el botón 🤖 de la barra inferior (si el panel no está abierto); 3. Haz clic en el botón «Eliminar fondo»; 4. Espera unos segundos hasta que el fondo se vuelva transparente.",
+  "blog.ai_enhancements.performance_title": "Rendimiento ultrarrápido",
+  "blog.ai_enhancements.performance_desc": "Para que estos complejos modelos de IA funcionen sin problemas, implementamos aislamiento de origen cruzado (Cross-Origin Isolation) y WebAssembly multihilo. Esto permite que la IA use todos los núcleos de tu CPU y reduce el tiempo de procesamiento hasta un 80 % frente a las implementaciones estándar del navegador."
 }

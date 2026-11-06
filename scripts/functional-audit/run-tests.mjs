@@ -992,6 +992,81 @@ async function runIndexGroup() {
 // /tools/square/ 测试
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// 博客搜索（R2）
+// ---------------------------------------------------------------------------
+async function runBlogGroup() {
+  await gotoPage('/blog/');
+
+  await runCase(page, {
+    id: 'IDX-24',
+    group: 'blog',
+    page: '/blog/',
+    name: '博客搜索：即时过滤 / 结果数 / URL 不变 / 清除恢复',
+    async fn(ctx) {
+      const before = await page.eval(`({
+        cards: document.querySelectorAll('.blog-post-card').length,
+        visible: [...document.querySelectorAll('.blog-post-card')].filter((c) => getComputedStyle(c).display !== 'none').length,
+        url: location.href,
+      })`);
+      ctx.measure('before', before);
+      await page.eval(`(() => { const el = document.getElementById('blogSearchInput'); el.value = 'mobile'; el.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+      await sleep(300);
+      const filtered = await page.eval(`({
+        visible: [...document.querySelectorAll('.blog-post-card')].filter((c) => getComputedStyle(c).display !== 'none').length,
+        results: document.getElementById('blogSearchResults').textContent,
+        resultsHidden: document.getElementById('blogSearchResults').hidden,
+        emptyHidden: document.getElementById('blogSearchEmpty').hidden,
+        url: location.href,
+      })`);
+      ctx.measure('filtered', filtered);
+      await ctx.screenshot('blog-search-filtered');
+      ctx.check('输入有匹配时至少保留 1 篇文章', filtered.visible >= 1, { actual: filtered.visible });
+      ctx.check('输入有匹配时隐藏部分文章（过滤生效）', filtered.visible < before.visible, { actual: { visible: filtered.visible, total: before.visible } });
+      ctx.check('结果数可见且非空', filtered.resultsHidden === false && filtered.results.trim().length > 0, { actual: filtered });
+      ctx.check('URL 不因搜索改变', filtered.url === before.url, { actual: { before: before.url, after: filtered.url } });
+
+      await page.eval("document.getElementById('blogSearchClear').click()");
+      await sleep(200);
+      const cleared = await page.eval(`({
+        visible: [...document.querySelectorAll('.blog-post-card')].filter((c) => getComputedStyle(c).display !== 'none').length,
+        value: document.getElementById('blogSearchInput').value,
+      })`);
+      ctx.check('清除后恢复全部文章', cleared.visible === before.visible, { actual: cleared });
+      ctx.check('清除后输入框为空', cleared.value === '', { actual: cleared.value });
+    },
+  });
+
+  await runCase(page, {
+    id: 'IDX-25',
+    group: 'blog',
+    page: '/blog/',
+    name: '博客搜索：空结果状态 / 清除按钮 / 无障碍语义',
+    async fn(ctx) {
+      const a11y = await page.eval(`({
+        labelFor: document.querySelector('label[for="blogSearchInput"]') !== null,
+        inputType: document.getElementById('blogSearchInput')?.type,
+        live: document.getElementById('blogSearchResults')?.getAttribute('aria-live'),
+      })`);
+      await page.eval(`(() => { const el = document.getElementById('blogSearchInput'); el.value = 'zzzz-no-hit-2026'; el.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+      await sleep(300);
+      const empty = await page.eval(`({
+        visible: [...document.querySelectorAll('.blog-post-card')].filter((c) => getComputedStyle(c).display !== 'none').length,
+        emptyHidden: document.getElementById('blogSearchEmpty').hidden,
+        clearVisible: !!document.getElementById('blogSearchClear'),
+      })`);
+      ctx.measure('a11y', a11y);
+      ctx.measure('empty', empty);
+      await ctx.screenshot('blog-search-empty');
+      ctx.check('label 与输入框关联', a11y.labelFor === true, { actual: a11y });
+      ctx.check('使用 type=search', a11y.inputType === 'search', { actual: a11y.inputType });
+      ctx.check('结果数使用 aria-live=polite', a11y.live === 'polite', { actual: a11y.live });
+      ctx.check('无匹配时隐藏全部文章', empty.visible === 0, { actual: empty.visible });
+      ctx.check('空状态可见且清除按钮可用', empty.emptyHidden === false && empty.clearVisible === true, { actual: empty });
+    },
+  });
+}
+
 async function runSquareGroup() {
   await gotoPage('/tools/square/');
   await runCase(page, {
@@ -2049,6 +2124,7 @@ async function main() {
 
   // 4) 运行测试矩阵
   await runIndexGroup();
+  await runBlogGroup();
   await runSquareGroup();
   await runSquarecropGroup();
   await runRoundedCornersGroup();

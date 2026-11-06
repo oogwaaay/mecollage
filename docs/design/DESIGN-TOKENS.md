@@ -742,6 +742,24 @@ index bundle → pages bundle → i18n.css（54 页，部分在 body 末尾）�
 - 移动端排序/拖拽必须支持 touch/pointer，不能只写 HTML5 drag；
 - 移动端改动不得改变桌面（>768px）布局；验收脚本 `scripts/design-audit/check-layout.mjs`。
 
+### 4.10 性能预算（R2，2026-11-06）
+
+移动端性能不能靠"感觉"优化：headless Chrome 的 rAF 锁 60fps、GPU 合成被虚拟化，A/B 缩减 blur 实测无差异（ADR-0008）。因此预算落在**可复现、能防回归**的指标上，由 `scripts/design-audit/check-performance.mjs` 执行：
+
+| 类别 | 预算（文件 `scripts/design-audit/performance-budget.json`） | 当前基线 |
+|---|---|---|
+| CSS gzip | design-tokens ≤9KB / components ≤16KB / 旧 bundle 保持 ≤12KB / pages ≤4KB | 7.4 / 13.1 / 11.1 / 2.9 KB |
+| JS gzip | main ≤26KB / ui ≤10KB / i18n ≤4KB | 22.4 / 7.4 / 2.8 KB |
+| HTML gzip | 首页 ≤14KB | 11.8 KB |
+| 图片 | 壁纸 ≤100KB | 80 KB |
+| 渲染（390×844，离线） | 单页 DOM ≤600 节点 / 深度 ≤16 / backdrop-filter 元素 ≤60 / 样式表 ≤8 / 外部脚本 ≤2 | 首页 282 / 11 / 48 / 7 / 2 |
+| 参考项 | 滚动 A/B（FPS/长任务）只记录，**不做门槛** | headless 无差异 |
+
+规则：
+- 新增 UI 后用 `--bench` 记录参考数据；**禁止**以 headless FPS 差异作为"性能优化"依据（L-37）。
+- 新增阻塞脚本、把 AI 大库放回首屏、单页 DOM 超预算 → 门禁 FAIL；接近预算（>90%）→ WARN，需同批说明。
+- 真机性能（iOS Safari）在 Preview/真机用 DevTools 复核；headless 结果仅作结构回归。
+
 ## 5. 组件配方
 
 组件级 CSS 配方（可直接复制到新页面/`components.css`）见 [`COMPONENT-RECIPES.md`](COMPONENT-RECIPES.md)，覆盖：

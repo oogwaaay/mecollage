@@ -1,0 +1,42 @@
+{
+  "tool": "performance-budget",
+  "version": "1.0.0",
+  "generatedAt": "2026-11-06",
+  "rationale": "R2 移动端性能预算：headless Chrome 的 FPS 无法反映真实 GPU blur 成本（A/B 实测无差异，见 docs/decisions/ADR-0008），因此预算落在可复现的静态/结构指标上：资源 gzip 体积、DOM 节点数、移动端 backdrop-filter 元素数、样式表/外部脚本数量。超过预算 → FAIL；接近预算（>90%）→ WARN。",
+  "caveats": [
+    "体积为 gzip -9 后的字节数；不含 CDN 外部资源（html2canvas / Google Fonts / Font Awesome / ads）。",
+    "DOM/backdrop 数据来自 390×844、离线 CDP（外部 https 阻断）。",
+    "headless FPS/长任务仅作参考（R2 实测：首页 48 个 backdrop 元素、A/B 缩减模糊后 p95 帧时无差异），不作为门槛。",
+    "新增第三方阻塞脚本、把 AI 大库放回首屏、单页 DOM 超预算都属于回归。"
+  ],
+  "assets": {
+    "assets/css/design-tokens.css": { "budgetGzip": 9000 },
+    "assets/css/components.css": { "budgetGzip": 16000 },
+    "assets/index-vAuRGWiM.css": { "budgetGzip": 12000 },
+    "assets/pages-C2UaL6ML.css": { "budgetGzip": 4000 },
+    "assets/js/mecollage-main.js": { "budgetGzip": 26000 },
+    "assets/js/ui.js": { "budgetGzip": 10000 },
+    "assets/js/i18n.js": { "budgetGzip": 4000 },
+    "index.html": { "budgetGzip": 14000 },
+    "wallImage.webp": { "budgetBytes": 100000 }
+  },
+  "rendered": {
+    "viewport": { "width": 390, "height": 844 },
+    "pages": ["/", "/zh/", "/blog/", "/blog/how-to-make-photo-collage/", "/tools/square/"],
+    "budgets": {
+      "nodes": 600,
+      "maxDepth": 16,
+      "backdrop": 60,
+      "stylesheets": 8,
+      "externalScripts": 2,
+      "localScripts": 6
+    },
+    "baseline": {
+      "/": { "nodes": 282, "maxDepth": 11, "backdrop": 48, "stylesheets": 7, "externalScripts": 2, "localScripts": 4 },
+      "/zh/": { "nodes": 273, "maxDepth": 11, "backdrop": 48, "stylesheets": 7, "externalScripts": 2, "localScripts": 4 },
+      "/blog/": { "nodes": 126, "maxDepth": 8, "backdrop": 15, "stylesheets": 7, "externalScripts": 1, "localScripts": 3 },
+      "/blog/how-to-make-photo-collage/": { "nodes": 171, "maxDepth": 10, "backdrop": 5, "stylesheets": 7, "externalScripts": 1, "localScripts": 2 },
+      "/tools/square/": { "nodes": 290, "maxDepth": 13, "backdrop": 21, "stylesheets": 7, "externalScripts": 1, "localScripts": 2 }
+    }
+  }
+}

@@ -1,8 +1,8 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-05T19:11:12.130Z",
-  "gitHead": "fedc3ee6f348abca8e70dae8e9004fd333d96dea",
+  "generatedAt": "2026-11-06T03:26:42.288Z",
+  "gitHead": "94c4cb68402b35e11a98962b672ccf67556a1ceb",
   "tokenHash": "3db11395ede1",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
@@ -57,6 +57,15 @@
       "fontSizes": 13,
       "radii": 28,
       "relativeFontSizes": 1,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/blog-search.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
       "inlineStyleAttrs": 0,
       "styleBlocks": 0,
       "jsColors": 0

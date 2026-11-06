@@ -626,8 +626,17 @@
   "beforeunload.unsaved": "拼圖尚未儲存，確定要離開嗎？",
   "app.subtitle": "幾秒就能完成精美拼圖。免費、免註冊，照片全程在瀏覽器本機處理。",
   "photos.remaining": "還可以新增 {n} 張照片。",
-  "photos.undo_hint": "已移除 {n} 張照片。"
-,
+  "photos.undo_hint": "已移除 {n} 張照片。",
   "toast.error.select_photo": "請先選擇一張照片。",
-  "app.remove_image": "移除圖片"
+  "app.remove_image": "移除圖片",
+  "blog.search.placeholder": "搜尋文章…",
+  "blog.search.results": "{n} 篇結果",
+  "blog.search.empty": "沒有符合的文章。",
+  "blog.search.clear": "清除搜尋",
+  "blog.search.result_one": "1 篇結果",
+  "blog.ai_enhancements.how_to_title": "如何使用",
+  "blog.ai_enhancements.face_center_how_to": "1. 點擊底部工具列的 🤖 按鈕開啟 AI 面板；2. 點擊「套用到所有照片」按鈕；3. 系統會自動分析所有圖片，並在各自格子內置中臉部。",
+  "blog.ai_enhancements.bg_removal_how_to": "1. 在畫布上點選要處理的照片；2. 點擊底部工具列的 🤖 按鈕（若面板尚未開啟）；3. 點擊「移除背景」按鈕；4. 等待幾秒，背景就會變成透明。",
+  "blog.ai_enhancements.performance_title": "極速效能",
+  "blog.ai_enhancements.performance_desc": "為了讓這些複雜的 AI 模型順暢運作，我們實作了跨來源隔離（Cross-Origin Isolation）與多執行緒 WebAssembly。這讓 AI 能使用 CPU 的所有核心，相較標準瀏覽器實作可將處理時間縮短最多 80%。"
 }

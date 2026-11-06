@@ -631,8 +631,12 @@
   "beforeunload.unsaved": "拼图尚未保存，确定要离开吗？",
   "app.subtitle": "几秒生成精美拼图。免费、无需注册，照片全程在浏览器本地处理。",
   "photos.remaining": "还可以添加 {n} 张照片。",
-  "photos.undo_hint": "已移除 {n} 张照片。"
-,
+  "photos.undo_hint": "已移除 {n} 张照片。",
   "toast.error.select_photo": "请先选择一张照片。",
-  "app.remove_image": "移除图片"
+  "app.remove_image": "移除图片",
+  "blog.search.placeholder": "搜索文章…",
+  "blog.search.results": "{n} 篇结果",
+  "blog.search.empty": "没有匹配的文章。",
+  "blog.search.clear": "清除搜索",
+  "blog.search.result_one": "1 篇结果"
 }
