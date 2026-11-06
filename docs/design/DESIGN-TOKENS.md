@@ -50,7 +50,7 @@
 | 内联 CSS 体量 | **664,467 B** / 95 个 `<style>` 块 / 14,366 条声明；归一化后只有 **31 个不同版本**（去重 166,852B）；**1,560** 个 `style=""` 属性 | `audit/design-tokens/{css,ui}-inventory.md` |
 | 内联块重复 | index 的 24,855B 块复制 **5 份**（5 语言）；4 个工具页各复制 **5 份**；about/contact 复制 5 份；privacy/terms 各 5 份组成 **10×5,020B** 共享块；blog 文章共享 4×5,537B 块；共 27 个页面族（17 族 ×5 语言副本） | 附录 A；`audit/design-tokens/ui-inventory.md` §2 |
 | 旧 CSS 变量 | bundle `:root` 定义 **22 个**旧变量，全站仅 **34 处** `var()` 引用；大量样式直接写死值 | `grep -oE 'var\\(--' ... \| wc -l` |
-| 颜色硬编码 | 颜色类声明 5,083 条中 **4,657 条（91.6%）是字面色值**，纯 `var()` 仅 28 条；全量语料 **4,832 处 / 239 个写法 / 225 个等价组**；token 化后仍有 **338 处 / 144 个值** 在 token 外 | `css-inventory.md` §2；`run-token-audit.mjs` 基线 |
+| 颜色硬编码 | 颜色类声明 5,083 条中 **4,657 条（91.6%）是字面色值**，纯 `var()` 仅 28 条；全量语料 **4,832 处 / 239 个写法 / 225 个等价组**；token 化后仍有 **334 处** 在 token 外（R2 Phase 1 清理后；基线见 §9.4） | `css-inventory.md` §2；`run-token-audit.mjs` 基线 |
 | 断点 | 实际主断点只有两个：**768px（61 处 / 56 文件）** 与 **992px（30 处 / 25 文件，工具页等内联块）**；bundle 里的 960/1024/1280/600 各仅 1 处（遗留）；无 576/1200 | `grep -oE '@media[^{]+'`；`css-inventory.md` §6 |
 | 404 页 | 独立主题：实底深色 `#101512` + 薄荷绿，≈2KB 内联样式，不引用任何 bundle | `404.html` |
 | i18n.css 冲突 | 54 页都在 bundle **之后**加载 i18n.css；其 10/10 条规则均不在 index bundle 中，`.lang-selector-toggle/.lang-menu/.lang-option` 与 bundle 同名但值不同（#333 深灰 / 4px 圆角 / z-index 1000 vs 玻璃 / 999px 胶囊 / z-index 50）→ **最后一层加载，疑似覆盖新 pill 样式**，尚未做渲染验证 | 见 §8.4；`css-inventory.md` §9 |
@@ -735,6 +735,16 @@ index bundle → pages bundle → i18n.css（54 页，部分在 body 末尾）�
 4. 工具导航：横向可滚动 pill 行（不再竖排 350px）；
 5. 顶部导航：≤768px 单行 ≤ `--mc-mobile-nav-height`（56px）：品牌 + 语言 + 菜单按钮；桌面链接折叠为面板（`body.mc-nav-open`）。
 
+**4.9.1 导航角色分离（R2 Phase 1+2A，2026-11-06）**
+
+- **全局导航** = wayfinding：品牌（Home）+ Blog/About/Contact + 语言；**不放具体工具**（R2 Phase 2A 已收口：54 页全局 nav 的 Square Image → Contact）。
+- **局部工具切换** = 页面上下文：`.tool-nav` 只放工具，**不得包含 Home**；about/contact 等内容页**不显示** tool-nav。
+- 首页工具入口只出现一次（tool-nav），移除重复的 `.home-tool-entry` 卡片。
+- **footer-tools**：所有有 footer 的页面必须有 5 个真实工具链接（本地化前缀 + `data-i18n` 标签 + `aria-label`/`nav.tools`），既保 SEO 内链也作为无 JS 兜底。
+- 桌面把 `.tool-nav` 降级为轻量上下文 tab（透明、无第二层导航容器）；移动保持横向滚动。
+- 工具入口：首页/工具页内的 `.tool-nav` + 所有有 footer 页面的 `.footer-tools`；内容页 footer 兜底，全局 nav 不再承担工具入口。
+- 门禁：`check-layout.mjs` **F 项**（静态）检查以上规则；40 个无 footer 的本地化/指南页暂不注入（遗留，需后续补 footer）。
+
 **硬性约束**：
 
 - 320 / 360 / 390 宽度下 `scrollWidth === innerWidth`（横向溢出会让固定壁纸层露出深色兜底，见 `audit/design-migration/MOBILE-OVERFLOW.md`）；
@@ -982,6 +992,7 @@ node scripts/design-audit/run-token-audit.mjs --list-tokens
 | 内联 `<style>` 块 | 95 |
 
 > 基线数字不是"允许继续写"的额度：新代码一律 0 违规；存量迁移按 §7 分阶段下降。
+> **R2 Phase 1 后基线（2026-11-06 刷新）**：颜色 334 / font-size 18 / 圆角 151 / 内联样式 1,553（移除重复工具卡与内容页 tool-nav 的收益）；token 273 / hash `3db11395ede1`。
 > G1 的 6,955 处 token 化是"等价值替换"，不改变上述"token 外"计数（被替换的值本来就在 token 集合内）；该计数要等 G3 语义合并（15px→16px、#333→surface 等）才会下降。
 
 ---

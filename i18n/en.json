@@ -638,5 +638,7 @@
   "blog.search.results": "{n} results",
   "blog.search.empty": "No articles match your search.",
   "blog.search.clear": "Clear search",
-  "blog.search.result_one": "1 result"
+  "blog.search.result_one": "1 result",
+  "nav.tools": "Tools",
+  "nav.contact": "Contact"
 }

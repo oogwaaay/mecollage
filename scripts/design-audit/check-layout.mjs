@@ -194,6 +194,61 @@ add({
 });
 
 // ---------------------------------------------------------------------------
+// 1b) 导航角色分离（静态；R2 Phase 1，无需浏览器）
+//     规则：全局导航负责 wayfinding；工具切换是页面上下文。
+//     - tool-nav 里不得再有 Home（fa-home / data-i18n=nav.home）
+//     - about/contact 内容页不得有 tool-nav
+//     - 首页不得有 home-tool-entry 重复工具卡
+//     - 有 <footer> 的页面必须有 footer-tools 且恰好 5 个链接
+// ---------------------------------------------------------------------------
+const navRoleFails = [];
+{
+  const siteFiles = execFileSync('git', ['ls-files', '*.html'], { cwd: ROOT, encoding: 'utf8' })
+    .trim().split('\n').filter((f) => f && f !== '404.html' && !f.startsWith('docs/') && !f.startsWith('audit/') && !f.startsWith('scripts/'));
+  for (const f of siteFiles) {
+    const html = readFileSync(resolve(ROOT, f), 'utf8');
+    const prefix = (f.match(/^(zh|tw|ja|es)\//) || [])[1] || '';
+    if (html.includes('<nav class="tool-nav"')) {
+      const start = html.indexOf('<nav class="tool-nav"');
+      const end = html.indexOf('</nav>', start);
+      const block = html.slice(start, end === -1 ? undefined : end);
+      if (/data-i18n="nav\.home"/.test(block) || />\s*Home\s*</.test(block)) {
+        navRoleFails.push({ file: f, rule: 'tool-nav 仍包含 Home' });
+      }
+      if (/^(zh\/|tw\/|ja\/|es\/)?(about|contact)\.html$/.test(f)) {
+        navRoleFails.push({ file: f, rule: 'about/contact 内容页不应有 tool-nav' });
+      }
+    }
+    if (/^(zh\/|tw\/|ja\/|es\/)?index\.html$/.test(f) && html.includes('class="home-tool-entry"')) {
+      navRoleFails.push({ file: f, rule: '首页仍有重复工具卡 home-tool-entry' });
+    }
+    // 全局导航：wayfinding（品牌/Home/Blog/About/Contact），不得再放具体工具
+    if (html.includes('<div class="nav-left"')) {
+      const s0 = html.indexOf('<div class="nav-left"');
+      const e0 = html.indexOf('</div>', s0);
+      const navBlock = html.slice(s0, e0 === -1 ? undefined : e0);
+      if (!/data-page="contact"/.test(navBlock)) navRoleFails.push({ file: f, rule: '全局导航缺少 Contact（wayfinding 收口）' });
+      if (/data-page="square"/.test(navBlock) || /href="[^"]*\/tools\//.test(navBlock)) navRoleFails.push({ file: f, rule: '全局导航仍包含具体工具链接' });
+    }
+    if (/<footer>/.test(html)) {
+      const m = html.match(/<nav class="footer-tools"[\s\S]*?<\/nav>/);
+      if (!m) navRoleFails.push({ file: f, rule: '有 footer 但缺少 footer-tools' });
+      else {
+        const links = (m[0].match(/<a\s/g) || []).length;
+        if (links !== 5) navRoleFails.push({ file: f, rule: `footer-tools 链接数 ${links} != 5` });
+        const hasPrefix = prefix ? m[0].includes(`href="/${prefix}/`) : !m[0].includes('href="/zh/');
+        if (!hasPrefix) navRoleFails.push({ file: f, rule: 'footer-tools 链接前缀与页面语言不一致' });
+      }
+    }
+  }
+}
+add({
+  name: 'F. 导航角色分离（tool-nav 无 Home / 内容页无 tool-nav / 无重复工具卡 / footer-tools）',
+  level: navRoleFails.length ? 'FAIL' : 'PASS',
+  detail: navRoleFails,
+});
+
+// ---------------------------------------------------------------------------
 // 2) 代码层反模式：alert() 产品反馈 / 初始 HTML 预加载 AI 库
 // ---------------------------------------------------------------------------
 const jsFiles = execFileSync('git', ['ls-files', 'assets/js/*.js'], { cwd: ROOT, encoding: 'utf8' }).trim().split('\n').filter(Boolean);

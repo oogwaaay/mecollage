@@ -105,24 +105,24 @@
             flex-direction: column;
             min-height: 100vh;
         }
-        
+
         /* 初始状态样式 - 未上传图片时隐藏不必要的元素 */
         .sidebar {
             display: none;
         }
-        
+
         .bottom-toolbar {
             display: none;
         }
-        
+
         #exportBtn {
             display: none;
         }
-        
+
         .collage-canvas {
             display: none;
         }
-        
+
         .upload-screen {
             display: block;
         }
@@ -510,7 +510,7 @@
             min-height: 100px;
             background-color: var(--mc-surface-2);
         }
-        
+
         .image-outer-container {
             position: relative;
             display: flex;
@@ -568,7 +568,7 @@
             box-shadow: var(--mc-shadow-overlay-3);
             pointer-events: auto;
         }
-        
+
         /* Drag Handle组件 */
         .drag-handle {
             position: absolute;
@@ -589,13 +589,13 @@
             cursor: move;
             z-index: 5;
         }
-        
+
         /* 鼠标悬停时，拖拽手柄从下方滑入 */
         .image-container:hover .drag-handle {
             opacity: 1;
             transform: translate(-50%, -50%);
         }
-        
+
         /* 白点样式 */
         .drag-dots {
             display: flex;
@@ -603,7 +603,7 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         .drag-dots span {
             display: block;
             width: 0.375rem;
@@ -731,7 +731,7 @@
             color: var(--mc-color-brand);
             border-color: var(--mc-border-brand-strong);
         }
-        
+
         /* 贴纸网格 */
         .sticker-grid {
             display: grid;
@@ -739,7 +739,7 @@
             gap: 0.5rem;
             margin-bottom: 1.5rem;
         }
-        
+
         .sticker-btn {
             padding: 0.75rem;
             background: var(--mc-surface-2);
@@ -750,7 +750,7 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(var(--mc-blur-lg));
         }
-        
+
         .sticker-btn:hover {
             background: var(--mc-color-brand-tint);
             border-color: var(--mc-border-brand);
@@ -1030,7 +1030,7 @@
                 <a href="/" class="nav-link" data-page="home" data-i18n="nav.home">Home</a>
                 <a href="/blog/" class="nav-link" data-page="blog" data-i18n="nav.blog">Blog</a>
                 <a href="/about/" class="nav-link" data-page="about" data-i18n="nav.about">About</a>
-                <a href="/tools/square/" class="nav-link" data-page="square" rel="noopener noreferrer" data-i18n="nav.square">Square Image</a>
+                <a href="/contact/" class="nav-link" data-page="contact" rel="noopener noreferrer" data-i18n="nav.contact">Contact</a>
             </div>
             <div class="nav-right">
                 <a href="https://github.com/oogwaaay/mecollage/issues" 
@@ -1075,14 +1075,7 @@
             </nav>
 
         <!-- 主内容区域 -->
-        <div class="home-tool-entry" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;max-width:1100px;margin:1.2rem auto 0;padding:0 20px;">
-            <a href="/tools/squarecrop/" style="display:block;padding:1.1rem 1.3rem;background:rgba(143,214,143,0.12);border:1px solid rgba(143,214,143,0.28);border-radius:14px;text-decoration:none;color:inherit;">
-                <strong style="color: var(--mc-color-brand);">Square Crop</strong><br><span style="color: var(--mc-text-secondary);font-size: var(--mc-font-size-body-sm);">Crop any photo to a precise 1:1 square</span>
-            </a>
-            <a href="/tools/square/" style="display:block;padding:1.1rem 1.3rem;background:rgba(143,214,143,0.12);border:1px solid rgba(143,214,143,0.28);border-radius:14px;text-decoration:none;color:inherit;">
-                <strong style="color: var(--mc-color-brand);">Square Image</strong><br><span style="color: var(--mc-text-secondary);font-size: var(--mc-font-size-body-sm);">Add a blur or color background without cropping</span>
-            </a>
-        </div>
+
 
         <main class="main-content">
             <!-- 侧边栏 -->
@@ -1169,7 +1162,7 @@
                         <p class="text-hint" data-i18n="text.hint">Double click text on canvas to modify content</p>
                     </div>
                 </div>
-                
+
                 <!-- 贴纸设置（默认隐藏） -->
                 <div class="sidebar-section" id="stickerSection" style="display: none;">
                     <h3 class="sidebar-title" data-i18n="sidebar.stickers">Emoji Stickers</h3>
@@ -1228,7 +1221,7 @@
                     <!-- 实时位置反馈 -->
                     <div class="position-feedback" id="positionFeedback" style="position: absolute; bottom: 10px; right: 10px; background: rgba(0, 0, 0, 0.7); color: var(--mc-text-primary); padding: 5px 10px; border-radius: 4px; font-size: var(--mc-font-size-2xs); pointer-events: none; display: none;"></div>
                 </div>
-                
+
                 <!-- 底部功能栏 -->
                 <div class="bottom-toolbar">
                     <button class="toolbar-btn active" id="layoutBtn" type="button" aria-label="Layout" data-i18n-aria-label="toolbar.layout" title="Layout" data-i18n-title="sidebar.aspect_ratio">
@@ -1373,7 +1366,14 @@
         </section>
 
         <footer>
-            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: var(--mc-color-brand);"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about/" style="color: var(--mc-color-brand);"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: var(--mc-color-brand);"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact/" style="color: var(--mc-color-brand);"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy/" style="color: var(--mc-color-brand);"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms/" style="color: var(--mc-color-brand);"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: var(--mc-color-brand);" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
+                        <nav class="footer-tools" aria-label="Tools" data-i18n-aria-label="nav.tools">
+                <a href="/" data-i18n="tool.collage_maker">Collage Maker</a>
+                <a href="/tools/squarecrop/" data-i18n="tool.square_crop">Square Crop</a>
+                <a href="/tools/roundedcorners/" data-i18n="tool.rounded_corners">Rounded Corners</a>
+                <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
+                <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
+            </nav>
+<p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: var(--mc-color-brand);"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about/" style="color: var(--mc-color-brand);"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: var(--mc-color-brand);"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact/" style="color: var(--mc-color-brand);"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy/" style="color: var(--mc-color-brand);"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms/" style="color: var(--mc-color-brand);"><span data-i18n="footer.terms">Terms of Service</span></a> | <a href="https://github.com/oogwaaay/mecollage/issues" style="color: var(--mc-color-brand);" target="_blank" rel="noopener noreferrer"><span data-i18n="footer.github">GitHub Issues</span></a></p>
         </footer>
     </div>
     </div>
@@ -1390,36 +1390,36 @@
         // 隐藏侧边栏
         const sidebar = document.querySelector('.sidebar');
         if (sidebar) sidebar.style.display = 'none';
-        
+
         // 隐藏底部工具栏
         const bottomToolbar = document.querySelector('.bottom-toolbar');
         if (bottomToolbar) bottomToolbar.style.display = 'none';
-        
+
         // 确保画布区域隐藏
         const collageCanvas = document.getElementById('collageCanvas');
         if (collageCanvas) collageCanvas.style.display = 'none';
-        
+
         // 确保上传界面可见
         const uploadScreen = document.getElementById('uploadScreen');
         if (uploadScreen) uploadScreen.style.display = 'block';
       })();
-      
+
       // 确保DOM完全加载后初始化应用
       document.addEventListener('DOMContentLoaded', () => {
         window.mecollage = new MeCollagePro();
-        
+
         // FAQ Toggle Functionality
         const faqQuestions = document.querySelectorAll('.faq-question');
-        
+
         faqQuestions.forEach(question => {
             question.addEventListener('click', () => {
                 const answer = question.nextElementSibling;
                 const isExpanded = question.getAttribute('aria-expanded') === 'true';
                 const icon = question.querySelector('.faq-icon');
-                
+
                 question.setAttribute('aria-expanded', !isExpanded);
                 answer.hidden = isExpanded;
-                
+
                 if (isExpanded) {
                     icon.style.transform = 'rotate(0deg)';
                 } else {
