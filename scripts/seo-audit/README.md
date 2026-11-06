@@ -73,8 +73,8 @@ CDP 客户端复用 `scripts/functional-audit/cdp.mjs`（headless 启动/WebSock
 ### 4.0 最新结果（2026-11-06 v1.4.0，含五语言 + FAQ I1/I2）
 
 命令：`node scripts/seo-audit/run-seo-checks.mjs --label phase-faq-semantics --evidence-dir audit/evidence/phase-faq`
-结果：**PASS 34 / FAIL 0 / WARN 0（exit 0）**；sitemap 67、渲染 30 页、可索引 67、本地化可索引 40、noindex 32。
-新增 **I1/I2** 在 roundedcorners/blurredframe ×5 语言修复后通过。
+结果：**PASS 34 / FAIL 0 / WARN 0（exit 0）**；sitemap 68、渲染 30 页、可索引 68、本地化可索引 40、noindex 32、inventory 100。
+新增 **I1/I2** 在 roundedcorners/blurredframe ×5 语言修复后通过；2026-11-06 新增 `/social-media-image-sizes/` 英文页后 sitemap 68。
 
 ### 4.1 Phase D 最终结果（`--label phase-d-final --evidence-dir audit/evidence/phase-d`）
 

@@ -88,6 +88,7 @@ const REPRESENTATIVE = [
   '/es/christmas-collage-maker/', '/__no_such_page__/',
   '/zh/tools/aspectratiocalculator/', '/tw/tools/aspectratiocalculator/',
   '/ja/tools/aspectratiocalculator/', '/es/tools/aspectratiocalculator/',
+  '/social-media-image-sizes/',
 ];
 
 const pages = listPages();

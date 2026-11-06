@@ -119,6 +119,7 @@ if (args.values.help) {
   MT-05 滚动后导出（scrollTo(0,600) → #exportBtn → 导出像素非全白、无异常）
   MT-06 触控目标（工具栏 / 导航 / 语言 / 菜单按钮 ≥44×44）
   MT-07 Aspect Ratio Calculator（390×844 无溢出 / 控件 ≥44 / 触摸 9:16 换算）
+  MT-08 Social Media Image Sizes（390×844 无溢出 / 输入控件 ≥44 / 尺寸匹配）
 
 退出码：0 无 FAIL；1 有 FAIL；2 环境/用法错误。
 需要网络访问 cdnjs（html2canvas，导出用例依赖，与生产一致）；其余外部请求被拦截。`);
@@ -977,6 +978,48 @@ async function runAspectRatioTouch() {
   await c.end();
 }
 
+async function runSizeChartTouch() {
+  const c = createCase('MT-08', 'size-chart', 'Social Media Image Sizes 390×844：无溢出 / 输入控件 ≥44 / 尺寸匹配');
+  try {
+    await gotoPage('/social-media-image-sizes/');
+    const ready = await waitFor("document.readyState === 'complete' && !!document.querySelector('#sizeCheckResult') && !!document.querySelector('.mc-menu-btn')", { timeoutMs: 20000, label: 'size chart ready' });
+    c.check('尺寸页 + 共享移动 UI 就绪', ready);
+    const layout = await page.eval(`(() => {
+      const rect = (selector) => { const el = document.querySelector(selector); if (!el) return null; const r = el.getBoundingClientRect(); return { w: Math.round(r.width), h: Math.round(r.height), visible: r.width > 0 && r.height > 0 }; };
+      return {
+        scrollWidth: document.documentElement.scrollWidth,
+        innerWidth: window.innerWidth,
+        widthInput: rect('#checkWidth'),
+        heightInput: rect('#checkHeight'),
+        button: rect('#checkSizeBtn'),
+        rows: document.querySelectorAll('.sizes-table tbody tr').length,
+        h1: (document.querySelector('h1')?.textContent || '').trim(),
+      };
+    })()`);
+    c.measure('layout', layout);
+    c.check('H1 = Social Media Image Sizes Chart (2026)', layout.h1 === 'Social Media Image Sizes Chart (2026)', { actual: layout.h1 });
+    c.check('页面无横向溢出', layout.scrollWidth <= layout.innerWidth + 1, { actual: { scrollWidth: layout.scrollWidth, innerWidth: layout.innerWidth } });
+    c.check('宽度输入 ≥44 高', layout.widthInput.h >= 44, { actual: layout.widthInput });
+    c.check('高度输入 ≥44 高', layout.heightInput.h >= 44, { actual: layout.heightInput });
+    c.check('Check size 按钮 ≥44 高', layout.button.h >= 44, { actual: layout.button });
+    c.check('表格 25 行', layout.rows === 25, { actual: layout.rows });
+    const result = await page.eval(`(() => {
+      const w = document.querySelector('#checkWidth');
+      const h = document.querySelector('#checkHeight');
+      w.value = '1080'; w.dispatchEvent(new Event('input', { bubbles: true }));
+      h.value = '1920'; h.dispatchEvent(new Event('input', { bubbles: true }));
+      return document.querySelector('#sizeCheckResult').textContent.replace(/\\s+/g, ' ').trim();
+    })()`);
+    c.measure('result', result);
+    c.check('1080×1920 → 匹配多个平台标准尺寸', /matches [4-9] standard/.test(result), { actual: result });
+    await c.screenshot('Social Media Image Sizes 390×844', '08-social-media-image-sizes.png');
+  } catch (error) {
+    c.record.error = String(error && error.stack ? error.stack : error);
+    console.error('❌ [MT-08] 执行异常：', String(error).slice(0, 300));
+  }
+  await c.end();
+}
+
 // ---------------------------------------------------------------------------
 // 报告
 // ---------------------------------------------------------------------------
@@ -1135,6 +1178,7 @@ try {
   await runScrollExport();
   await runTouchTargets();
   await runAspectRatioTouch();
+  await runSizeChartTouch();
 
   const meta = {
     node: process.version,
