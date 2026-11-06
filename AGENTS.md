@@ -36,7 +36,7 @@
 | H8 | **不可逆/账户级操作只由维护者执行**：DNS/Cloudflare、AdSense/GA4、Cloudinary、Vercel 项目设置、GitHub Pages/Settings、域名、密钥轮换。AI 只做只读分析与方案。 | 遇到需要登录后台才能确认的事实，标"不确定（需维护者确认）"，不要猜。 |
 | H9 | **不得擅自改 URL 结构**（`trailingSlash`、`cleanUrls`、重定向链、路径）。确需变更必须 ADR + 全量重定向矩阵 + 维护者批准。 | 见 [L-20261105-05](docs/lessons/L-20261105-05-lang-redirect-query-loop.md)。 |
 | H10 | **不碰 git 历史**：禁止 `push --force`、`reset --hard` 到共享分支、删除分支/标签、改写历史；删除被跟踪文件必须有明确任务范围/ADR。并行会话存在时，只改分配给你的文件，避免同一文件冲突。 | `git log`/`git status`；写范围外文件一律不动。 |
-| H11 | **UI/交互改动必须同时通过四道门禁**：token 审计（含 JS 运行时裸色）+ functional 回归 + 移动布局门禁（`check-layout`）+ 多语言/SEO 不回归；禁止 `alert()` 产品反馈、JS 裸设计值、移动横向溢出、触控 <44px；**改变用户可见行为必须同一变更内同步更新验收断言；导出/截图必须在页面已滚动状态下验收**（L-31~L-36）。 | 改 UI/交互后跑 `node scripts/design-audit/run-token-audit.mjs`、`node scripts/design-audit/check-layout.mjs`、`node scripts/functional-audit/run-tests.mjs`，均 0 FAIL 才进 Preview；行为变更同批改 harness 断言并保留旧口径兼容期；移动端 390×844 截图归档。 |
+| H11 | **UI/交互改动必须同时通过六道门禁**：token 审计（含 JS 运行时裸色）+ functional 回归 + **移动触摸回归**（`run-mobile-touch`）+ 移动布局门禁（`check-layout`）+ **性能预算**（`check-performance`）+ 多语言/SEO 不回归；禁止 `alert()` 产品反馈、JS 裸设计值、移动横向溢出、触控 <44px、用 headless FPS 当性能依据；**改变用户可见行为必须同一变更内同步更新验收断言；导出/截图必须在页面已滚动状态下验收；交互后才出现的控件必须在交互后断言**（L-31~L-39）。 | 改 UI/交互后跑 `node scripts/design-audit/run-token-audit.mjs`、`node scripts/functional-audit/run-tests.mjs`、`node scripts/functional-audit/run-mobile-touch.mjs`（390×844 触摸）、`node scripts/design-audit/check-layout.mjs`、`node scripts/design-audit/check-performance.mjs`、`node scripts/seo-audit/run-seo-checks.mjs`，均 0 FAIL 才进 Preview；打开态/上传后状态必须交互后断言（不能只靠静态首屏）；移动端 390×844 截图 + 证据归档。 |
 
 > 只读审计任务额外约束：不修改任何被 git 跟踪的文件，不 commit，不部署；产物放任务指定目录（如 `audit/`）。
 
@@ -59,6 +59,7 @@
 | Phase D 工具意图/独立页恢复 | 2026-11-06：square / squarecrop 不合并，按 fill/no-crop vs crop 做 title/H1/description/互链（5 语言）；恢复 /square-collage/ 独立页（sitemap 61、JSON-LD、首页内链）；无 square 301；harness v1.3.0 **32 PASS/0 FAIL/0 WARN**；Preview 38/0/5；**已上线生产并验收 41/0/2**，`main` 已合并 | `docs/phase-d/PHASE-D-SUMMARY.md`、ADR-0005、`audit/evidence/phase-d/` |
 | Phase E 内链/how-to/标题 | 2026-11-06：square/squarecrop 正文自然内链（全站 href 56/43、正文 25/30）；how-to 改 iPhone/Android/Windows/Mac 长尾并加 4 设备节；roundedcorners 标题/H1 改 “Rounded Corners: …”；8 blog + 首页双卡；vertical-collage 从 301 恢复独立页；Square Crop FAQ 真问答/JSON-LD 同步（生产端 5 语言逐条一致）；sitemap 62；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2** | `docs/phase-e/PHASE-E-SUMMARY.md`、L-29、`audit/evidence/phase-e/` |
 | Phase G Design Token + R0/R1 交互 | 2026-11-06：273 个 `--mc-*` token 单一事实源 + `components.css` 统一层覆盖 94 页（6,955 处 token 化）；R0 alert 15→0 / 可见 Undo/Redo / 移动导航 270→60px；R1 工具优先布局（首页上传 1148→109px、工具页 1193→259–434px）/导出反馈/AI 懒加载/触控拖拽；Preview 38/0/5、**生产 41/0/2 已上线**，PR #3 合并 `afbdb92` | `docs/phase-g/PHASE-G-SUMMARY.md`、ADR-0006/0007、`docs/design/`、`scripts/design-audit/`、`audit/evidence/design-tokens/`（本地） |
+| Phase R2 移动触控 + 博客搜索 + 性能预算 | 2026-11-06：新增 `scripts/functional-audit/run-mobile-touch.mjs`（6 用例 MT-01~06，390×844 触摸模拟）+ 修复导航面板 **y=4524→60** / 底栏按钮 **14–24→44px**；博客列表搜索（`blog-search.js` + `components.css §20` + 5 语言 `blog.search.*` 5 键，渐进增强/不改 URL）；`scripts/design-audit/check-performance.mjs` + 性能预算（headless A/B 无差异 → 不做无证据 blur 缩减）；R2 原型（单层 IA/Contact 待决策）；**本地 functional 53/0/2、mobile 6/0/0、layout 5/0/0、SEO 32/0/0、perf PASS；未上线** | `docs/phase-r2/PHASE-R2-SUMMARY.md`、ADR-0008、L-37~39、`scripts/functional-audit/run-mobile-touch.mjs`、`scripts/design-audit/check-performance.mjs`、`audit/design-migration/r2/`（本地） |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -78,7 +79,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 1. **check**：`git status --short`、`git branch --show-current`；读任务对应 `L-*` 与 ADR；确认写范围。
 2. **branch**：从最新 `main`（或任务指定基线）建分支，禁止在 `main` 改。
 3. **change**：最小改动；跨多文件先写脚本/codemod；内部文件更新 `.vercelignore`。
-4. **verify（本地/静态）**：能本地验证的先验证（HTML/JSON 语法、`vercel.json` 合法、grep 一致性）；功能类改动必须跑 `node scripts/functional-audit/run-tests.mjs`，多语言/SEO/head 类改动必须跑 `node scripts/seo-audit/run-seo-checks.mjs`，UI/交互/移动布局类改动**还必须**跑 `node scripts/design-audit/run-token-audit.mjs`（含 JS 运行时扫描）与 `node scripts/design-audit/check-layout.mjs`（溢出/壁纸/触控/alert）；均 0 FAIL 才进 Preview；列出需要在 Preview 验证的项。
+4. **verify（本地/静态）**：能本地验证的先验证（HTML/JSON 语法、`vercel.json` 合法、grep 一致性）；功能类改动必须跑 `node scripts/functional-audit/run-tests.mjs`，多语言/SEO/head 类改动必须跑 `node scripts/seo-audit/run-seo-checks.mjs`，UI/交互/移动布局类改动**还必须**跑 `node scripts/design-audit/run-token-audit.mjs`（含 JS 运行时扫描）、`node scripts/design-audit/check-layout.mjs`（溢出/壁纸/触控/alert）、`node scripts/functional-audit/run-mobile-touch.mjs`（390×844 触摸、交互后/打开态断言）与 `node scripts/design-audit/check-performance.mjs`（超预算 FAIL、>90% WARN）；均 0 FAIL 才进 Preview；列出需要在 Preview 验证的项。
 5. **preview**：push 分支 → 等 Vercel Preview → 取 `environment_url`（命令见 [runbook](docs/runbooks/preview-deploy.md)）→ 跑 `node scripts/verify-site.mjs --base <preview-url>`。
 6. **evidence**：把 verify 输出（JSON/MD）、关键 curl/渲染结果存 `audit/evidence/<phase>/verification/`，文件名含 commit sha 与时间。
 7. **maintainer approval**：把"改了什么、证据、风险、回滚方式"发给维护者，得到明确批准。
@@ -94,15 +95,15 @@ check → branch → change → verify → preview → evidence → maintainer a
 | [`GOVERNANCE.md`](GOVERNANCE.md) | 变更分级/审批、发布检查单、回滚、教训回灌、证据标准、角色与不可逆操作 |
 | [`docs/lessons/README.md`](docs/lessons/README.md) | 教训库索引 + 新增流程 + 状态机 |
 | [`docs/lessons/TEMPLATE.md`](docs/lessons/TEMPLATE.md) | 新教训模板 |
-| [`docs/decisions/`](docs/decisions/) | ADR；Phase A [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md)、Phase F [ADR-0002](docs/decisions/ADR-0002-functional-integrity-fixes.md)、Phase B [ADR-0003](docs/decisions/ADR-0003-phase-b-i18n-seo.md)、Phase C [ADR-0004](docs/decisions/ADR-0004-content-quality-phase-c.md)、Phase D [ADR-0005](docs/decisions/ADR-0005-square-tool-intent-and-collage-restore.md) |
+| [`docs/decisions/`](docs/decisions/) | ADR；Phase A [ADR-0001](docs/decisions/ADR-0001-phase-a-security-hardening.md)、Phase F [ADR-0002](docs/decisions/ADR-0002-functional-integrity-fixes.md)、Phase B [ADR-0003](docs/decisions/ADR-0003-phase-b-i18n-seo.md)、Phase C [ADR-0004](docs/decisions/ADR-0004-content-quality-phase-c.md)、Phase D [ADR-0005](docs/decisions/ADR-0005-square-tool-intent-and-collage-restore.md)、[ADR-0006](docs/decisions/ADR-0006-design-token-single-source.md)、[ADR-0007](docs/decisions/ADR-0007-interaction-refinement.md)、[ADR-0008](docs/decisions/ADR-0008-r2-mobile-touch-performance-blog-search.md) |
 | [`docs/runbooks/preview-deploy.md`](docs/runbooks/preview-deploy.md) | 分支 → Preview → 验收 → 生产/回滚 操作手册 |
 | [`docs/design/DESIGN-TOKENS.md`](docs/design/DESIGN-TOKENS.md)、[COMPONENT-RECIPES.md](docs/design/COMPONENT-RECIPES.md)、[INTERACTION-AUDIT.md](docs/design/INTERACTION-AUDIT.md) | 设计 token 单一事实源（273 个 `--mc-*`）、组件配方、G0–G4 迁移策略与交互审计/路线图；改 UI/样式/交互前必读，并跑 `node scripts/design-audit/run-token-audit.mjs` |
 | [`docs/design/PAGE-PATTERNS.md`](docs/design/PAGE-PATTERNS.md)、[prototypes/README.md](docs/design/prototypes/README.md) | 页面族/内联块盘点与 R0/R1 交互原型（含可复现截图与实现接口）；UI/交互改造先看审计 + 原型再动手 |
-| [`scripts/design-audit/`](scripts/design-audit/README.md) | 设计门禁：`run-token-audit.mjs`（token/JS 运行时裸色/文档一致，含基线比对）+ `check-layout.mjs`（移动溢出/固定壁纸/触控 ≥44px/alert/AI 预加载）；改 UI/交互必跑 |
+| [`scripts/design-audit/`](scripts/design-audit/README.md) | 设计门禁：`run-token-audit.mjs`（token/JS 运行时裸色/文档一致，含基线比对）+ `check-layout.mjs`（移动溢出/固定壁纸/触控 ≥44px/alert/AI 预加载）+ `check-performance.mjs`（性能预算：体积/DOM/backdrop/脚本，超预算 FAIL、>90% WARN）；改 UI/交互必跑 |
 | `audit/AUDIT-REPORT.md` | 2026-11-05 全面审计（**本机产物，不入库**：公开仓库安全考虑；含优先级、阶段计划、不确定项） |
 | `audit/sections/*.md`、`audit/evidence/` | 审计分报告与原始证据（同上，可能未入库） |
 | `scripts/verify-site.mjs` | Phase A 起的零依赖部署验收脚本（HTTP/安全头/404/重定向） |
-| `scripts/functional-audit/` | Phase F 起的零依赖浏览器功能回归（CDP + 本地 Vercel 模拟；`node scripts/functional-audit/run-tests.mjs`） |
+| `scripts/functional-audit/` | Phase F 起的零依赖浏览器功能回归（CDP + 本地 Vercel 模拟；`node scripts/functional-audit/run-tests.mjs`）+ R2 移动触摸回归（`node scripts/functional-audit/run-mobile-touch.mjs`，390×844 触摸/打开态/滚动后导出） |
 | `scripts/seo-audit/` | Phase B 起的零依赖多语言/SEO 验收（v1.3.0 Phase E：32 检查、62 页可索引 + 32 noindex；`node scripts/seo-audit/run-seo-checks.mjs`） |
 | `docs/phase-b/PHASE-B-SUMMARY.md` | Phase B 多语言/SEO 公开摘要 |
 | `docs/phase-f/PHASE-F-SUMMARY.md` | Phase F 功能真实性修复公开摘要（修复项、验证、剩余人工项） |
@@ -110,6 +111,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 | [`docs/phase-d/PHASE-D-SUMMARY.md`](docs/phase-d/PHASE-D-SUMMARY.md) | Phase D square 工具意图区隔/独立页恢复摘要 |
 | [`docs/phase-e/PHASE-E-SUMMARY.md`](docs/phase-e/PHASE-E-SUMMARY.md) | Phase E 内链/how-to/rounded corners 标题摘要 |
 | [`docs/phase-g/PHASE-G-SUMMARY.md`](docs/phase-g/PHASE-G-SUMMARY.md) | Phase G Design Token 体系 + R0/R1 交互改造公开摘要（已上线 41/0/2） |
+| [`docs/phase-r2/PHASE-R2-SUMMARY.md`](docs/phase-r2/PHASE-R2-SUMMARY.md) | Phase R2 移动触控回归 + 博客搜索 + 性能预算公开摘要（本地验收完成、未上线；单层 IA/Contact 待决策） |
 
 ## 6. 当前已知未关闭风险（截至 2026-11-05）
 
@@ -125,6 +127,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 - Phase D：square/squarecrop **不合并**，按 fill/no-crop vs crop 意图区隔；恢复 `/square-collage/` 独立页；sitemap 61；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2**；`main` 已合并。
 - Phase E：工具页正文内链（全站 href 56/43、正文 25/30）、how-to 设备长尾、roundedcorners 标题/H1、vertical-collage 恢复；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2**；`main` 已合并。
 - Phase G：Design Token 单一事实源 + R0/R1 交互改造**已上线生产并验收**（Preview 38/0/5、生产 41/0/2、PR #3 合并 `afbdb92`）；H11 四道门禁 + L-31~L-36 已回灌治理；未做项/真机复核见 `docs/phase-g/PHASE-G-SUMMARY.md`。
+- Phase R2：移动触控回归 + 博客搜索 + 性能预算**本地验收完成、未上线**（functional 53/0/2、mobile 6/0/0、layout 5/0/0、SEO 32/0/0、perf PASS；未 commit/部署）；新增 `run-mobile-touch`/`check-performance` 后 H11 扩为**六道门禁**，L-37~L-39 已回灌；单层 IA/Contact 待用户决策、真机未验，详见 `docs/phase-r2/PHASE-R2-SUMMARY.md`。
 
 ## 7. 会话结束前自检（逐条勾）
 
@@ -153,3 +156,6 @@ check → branch → change → verify → preview → evidence → maintainer a
 14. 只测桌面就说"移动端没问题"（横向溢出会让固定壁纸露出深色兜底）→ 跑 `node scripts/design-audit/check-layout.mjs --full`，320/360/390 全 0 溢出（L-34）。
 15. 改了用户可见行为却不更新 functional 断言（旧断言读 alert dialog → 假 FAIL/假 PASS）→ 同批更新断言并保留旧口径兼容期（L-35）。
 16. 导出/截图只在页面顶部（`scrollY=0`）验收（html2canvas foreignObject 按滚动偏移克隆，自动滚动后导出会全白；FNV 纯白 hash `d2b3285`）→ 先在页面上滚再导出，并断言导出像素 hash ≠ 纯白（L-36；wrapper 在视口原点时必须显式 `scrollX:0, scrollY:0`）。
+17. 用 headless Chrome 的 FPS 差异证明/否定 blur 等 GPU 性能（rAF 锁 60fps、GPU 合成虚拟化）→ 性能结论用真机 DevTools；防回归用 `node scripts/design-audit/check-performance.mjs` 预算（L-37）。
+18. 用 `check-layout` 静态首屏 PASS 宣布"移动端没问题"（上传后的工具栏、点按后的导航面板/抽屉等交互态测不到）→ 跑 `node scripts/functional-audit/run-mobile-touch.mjs` + `check-layout.mjs --strict-touch`（L-38）。
+19. 只设 `element.hidden = true` 就认为已隐藏（author CSS 的 `display` 会覆盖 UA `[hidden]{display:none}`）→ 补 `[hidden]{display:none!important}` 组件兜底，并用 computed display 验收（L-39）。
