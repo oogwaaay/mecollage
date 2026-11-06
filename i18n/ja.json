@@ -638,5 +638,7 @@
   "blog.ai_enhancements.face_center_how_to": "1. 下部ツールバーの 🤖 ボタンをクリックして AI パネルを開きます。2. 「すべての写真に適用」ボタンをクリックします。3. システムがすべての画像を自動分析し、各セル内で顔を中央に配置します。",
   "blog.ai_enhancements.bg_removal_how_to": "1. キャンバス上で処理したい写真をクリックして選択します。2. 下部ツールバーの 🤖 ボタンをクリックします（パネルがまだ開いていない場合）。3. 「背景を削除」ボタンをクリックします。4. 数秒待つと背景が透明になります。",
   "blog.ai_enhancements.performance_title": "高速なパフォーマンス",
-  "blog.ai_enhancements.performance_desc": "これらの複雑な AI モデルをスムーズに動作させるため、Cross-Origin Isolation とマルチスレッド WebAssembly を実装しました。AI が CPU のすべてのコアを利用できるため、標準的なブラウザ実装と比べて処理時間を最大 80% 短縮できます。"
+  "blog.ai_enhancements.performance_desc": "これらの複雑な AI モデルをスムーズに動作させるため、Cross-Origin Isolation とマルチスレッド WebAssembly を実装しました。AI が CPU のすべてのコアを利用できるため、標準的なブラウザ実装と比べて処理時間を最大 80% 短縮できます。",
+  "nav.tools": "ツール",
+  "nav.contact": "お問い合わせ"
 }

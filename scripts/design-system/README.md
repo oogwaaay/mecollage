@@ -68,3 +68,28 @@ git checkout -- '*.html'
 - 幂等：第二次 dry-run `toModify=0, replacements=0`。
 - 结构：94 页各 +2 `<link>`，无其它标签变化；无未定义 `var(--mc-*)`。
 - 回归：`scripts/functional-audit` **52 PASS / 0 FAIL / 1 WARN**；`scripts/seo-audit` **32 PASS / 0 FAIL / 0 WARN**；before/after 12 页 ×2 视口截图（`audit/design-migration/`）。
+
+
+## `nav-role-separation.mjs` — 导航角色分离（R2 Phase 1）
+
+```bash
+node scripts/design-system/nav-role-separation.mjs                                   # dry-run
+node scripts/design-system/nav-role-separation.mjs --apply --json out.json --report out.md
+```
+
+- 工具页 `.tool-nav` 去 Home；about/contact 移除 tool-nav；首页移除重复 `.home-tool-entry`；
+- 所有**有 footer** 的页面插入本地化 `.footer-tools`（5 个真实工具链接，语言前缀 i18n JSON 生成）；
+- 幂等；40 个没有 footer 的本地化/指南页跳过（报告 `skippedNoFooter`，遗留项）；
+- 只改站点 HTML，不改 URL/canonical/hreflang；完成后跑 `check-layout.mjs`（F 项）、SEO、functional、mobile-touch。
+
+
+## `nav-global-cleanup.mjs` — 全局导航收口（R2 Phase 2A）
+
+```bash
+node scripts/design-system/nav-global-cleanup.mjs            # dry-run
+node scripts/design-system/nav-global-cleanup.mjs --apply --json out.json --report out.md
+```
+
+- 把全局导航（`.nav-left`）里的 `data-page="square"`（Square Image 工具链接）替换为对应语言的 Contact 真实 `<a href>`（5 语言，`nav.contact` i18n）；
+- 共 54 页（有全局导航的页面）；40 个无导航落地页跳过；
+- 不改 URL/canonical/hreflang；完成后跑 `check-layout.mjs` F 项、SEO、functional、mobile-touch。

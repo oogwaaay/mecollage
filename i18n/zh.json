@@ -638,5 +638,7 @@
   "blog.search.results": "{n} 篇结果",
   "blog.search.empty": "没有匹配的文章。",
   "blog.search.clear": "清除搜索",
-  "blog.search.result_one": "1 篇结果"
+  "blog.search.result_one": "1 篇结果",
+  "nav.tools": "工具",
+  "nav.contact": "联系我们"
 }

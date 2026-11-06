@@ -2192,3 +2192,83 @@ body .blog-search-clear:focus-visible {
 @media (max-width: 768px) {
   .blog-search-panel { margin: var(--mc-space-3) auto var(--mc-space-5); }
 }
+
+/* ==========================================================================
+ * 21. 导航角色分离（R2 Phase 1）
+ *     全局导航 = wayfinding；工具切换 = 页面内上下文 tab。
+ *     R2 Phase 1：tool-nav 去 Home / 内容页去 tool-nav / home 去重复卡 /
+ *     footer 增加 Tools 导航（保内链），桌面把 tool-nav 从"第二层导航条"
+ *     降级为轻量的上下文 tab。
+ * ========================================================================== */
+
+/* 页脚 Tools 导航（所有有 footer 的页面） */
+.footer-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--mc-space-1) var(--mc-space-4);
+  max-width: 900px;
+  margin: 0 auto var(--mc-space-3);
+  padding: var(--mc-space-2) 0 var(--mc-space-3);
+  border-bottom: var(--mc-border-width) solid var(--mc-border-subtle);
+}
+
+.footer-tools a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--mc-tap-target-min);
+  color: var(--mc-text-secondary);
+  font-size: var(--mc-font-size-caption);
+  text-decoration: none;
+  transition: color var(--mc-duration-fast) var(--mc-ease);
+}
+
+.footer-tools a:hover,
+.footer-tools a:focus-visible { color: var(--mc-color-brand); }
+
+/* 桌面：工具切换是上下文 tab，不再是第二条导航容器 */
+@media (min-width: 769px) {
+  body .tool-nav {
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: var(--mc-space-2) auto var(--mc-space-5);
+  }
+
+  body .tool-nav-container {
+    gap: var(--mc-space-2);
+  }
+
+  body .tool-nav-link {
+    padding: var(--mc-space-2) var(--mc-space-4);
+    border-color: transparent;
+    border-radius: var(--mc-radius-pill);
+    background: transparent;
+    color: var(--mc-text-muted);
+    font-size: var(--mc-font-size-caption);
+  }
+
+  @media (hover: hover) {
+    body .tool-nav-link:hover {
+      background: var(--mc-surface-2);
+      border-color: var(--mc-border);
+      color: var(--mc-text-heading);
+      transform: none;
+    }
+  }
+
+  body .tool-nav-link.active,
+  body .tool-nav-link[aria-current="page"] {
+    background: var(--mc-color-brand-tint-strong);
+    border-color: var(--mc-border-brand-strong);
+    color: var(--mc-text-heading);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-tools { margin-bottom: var(--mc-space-2); gap: var(--mc-space-1) var(--mc-space-3); }
+  .footer-tools a { font-size: var(--mc-font-size-2xs); }
+}

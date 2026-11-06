@@ -638,5 +638,7 @@
   "blog.ai_enhancements.face_center_how_to": "1. Haz clic en el botón 🤖 de la barra inferior para abrir el panel de IA; 2. Haz clic en el botón «Aplicar a todas las fotos»; 3. El sistema analizará automáticamente todas las imágenes y centrará los rostros dentro de sus celdas.",
   "blog.ai_enhancements.bg_removal_how_to": "1. Haz clic en la foto que quieras procesar en el lienzo; 2. Haz clic en el botón 🤖 de la barra inferior (si el panel no está abierto); 3. Haz clic en el botón «Eliminar fondo»; 4. Espera unos segundos hasta que el fondo se vuelva transparente.",
   "blog.ai_enhancements.performance_title": "Rendimiento ultrarrápido",
-  "blog.ai_enhancements.performance_desc": "Para que estos complejos modelos de IA funcionen sin problemas, implementamos aislamiento de origen cruzado (Cross-Origin Isolation) y WebAssembly multihilo. Esto permite que la IA use todos los núcleos de tu CPU y reduce el tiempo de procesamiento hasta un 80 % frente a las implementaciones estándar del navegador."
+  "blog.ai_enhancements.performance_desc": "Para que estos complejos modelos de IA funcionen sin problemas, implementamos aislamiento de origen cruzado (Cross-Origin Isolation) y WebAssembly multihilo. Esto permite que la IA use todos los núcleos de tu CPU y reduce el tiempo de procesamiento hasta un 80 % frente a las implementaciones estándar del navegador.",
+  "nav.tools": "Herramientas",
+  "nav.contact": "Contacto"
 }

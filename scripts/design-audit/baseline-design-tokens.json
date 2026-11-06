@@ -1,17 +1,17 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-06T03:26:42.288Z",
-  "gitHead": "94c4cb68402b35e11a98962b672ccf67556a1ceb",
+  "generatedAt": "2026-11-06T06:46:47.604Z",
+  "gitHead": "5ad5adfe8b6fbd98bf9a3228ef179f01442a0880",
   "tokenHash": "3db11395ede1",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
   "totals": {
-    "colors": 338,
+    "colors": 334,
     "fontSizes": 18,
-    "radii": 153,
-    "relativeFontSizes": 363,
-    "inlineStyleAttrs": 1560,
+    "radii": 151,
+    "relativeFontSizes": 361,
+    "inlineStyleAttrs": 1553,
     "styleBlocks": 95,
     "jsColors": 0
   },
@@ -395,11 +395,11 @@
       "jsColors": 0
     },
     "index.html": {
-      "colors": 7,
+      "colors": 3,
       "fontSizes": 0,
-      "radii": 13,
-      "relativeFontSizes": 28,
-      "inlineStyleAttrs": 68,
+      "radii": 11,
+      "relativeFontSizes": 26,
+      "inlineStyleAttrs": 61,
       "styleBlocks": 1,
       "jsColors": 0
     },
