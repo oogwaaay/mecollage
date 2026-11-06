@@ -98,6 +98,7 @@ const GROUP_TITLES = {
   roundedcorners: '/tools/roundedcorners/（Rounded Corners）',
   blurredframe: '/tools/blurredframe/（Blurred Frame）',
   aspectratio: '/tools/aspectratiocalculator/（Aspect Ratio Calculator）',
+  socialmedia: '/social-media-image-sizes/（Social Media Image Sizes）',
   coverage: '覆盖范围与人工确认项',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
@@ -2153,6 +2154,122 @@ async function runAspectRatioGroup() {
   }
 }
 
+// ---------------------------------------------------------------------------
+// /social-media-image-sizes/ 测试（2026-11-06）
+// ---------------------------------------------------------------------------
+async function runSocialMediaSizesGroup() {
+  await gotoPage('/social-media-image-sizes/');
+  await runCase(page, {
+    id: 'SMS-01',
+    group: 'socialmedia',
+    page: '/social-media-image-sizes/',
+    name: '页面加载：title/H1/canonical/hreflang/JSON-LD/FAQ 6 条',
+    async fn(ctx) {
+      const info = await page.eval(`(() => {
+        const graph = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)['@graph'];
+        return {
+          title: document.title,
+          titleLength: document.title.length,
+          h1: (document.querySelector('h1')?.textContent || '').trim(),
+          canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href') || null,
+          hreflangs: [...document.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => l.getAttribute('hreflang')).sort(),
+          types: graph.map((node) => node['@type']),
+          faqVisible: document.querySelectorAll('.faq-question').length,
+          faqJson: (graph.find((node) => node['@type'] === 'FAQPage')?.mainEntity || []).length,
+          adsense: [...document.scripts].some((s) => /adsbygoogle|pagead2/.test(s.src)),
+        };
+      })()`);
+      ctx.measure('pageInfo', info);
+      ctx.check('无未捕获 JS 异常', pageLoads['/social-media-image-sizes/']?.exceptions.length === 0, { actual: pageLoads['/social-media-image-sizes/']?.exceptions });
+      ctx.check('title = Social Media Image Sizes: Instagram, TikTok & YouTube Chart', info.title === 'Social Media Image Sizes: Instagram, TikTok & YouTube Chart', { actual: info.title });
+      ctx.check('H1 = Social Media Image Sizes Chart (2026)', info.h1 === 'Social Media Image Sizes Chart (2026)', { actual: info.h1 });
+      ctx.check('canonical 自引用', info.canonical === 'https://www.mecollage.top/social-media-image-sizes/', { actual: info.canonical });
+      ctx.check('hreflang = en + x-default（本地化尚未发布，不写 404 alternates）', JSON.stringify(info.hreflangs) === JSON.stringify(['en', 'x-default']), { actual: info.hreflangs });
+      ctx.check('JSON-LD 含 WebPage + Article + FAQPage + BreadcrumbList', ['WebPage', 'Article', 'FAQPage', 'BreadcrumbList'].every((type) => info.types.includes(type)), { actual: info.types });
+      ctx.check('FAQ 可见 6 条 = JSON-LD 6 条', info.faqVisible === 6 && info.faqJson === 6, { actual: { visible: info.faqVisible, json: info.faqJson } });
+      ctx.check('无 AdSense 脚本（本轮不加广告）', info.adsense === false, { actual: info.adsense });
+    },
+  });
+
+  await runCase(page, {
+    id: 'SMS-02',
+    group: 'socialmedia',
+    page: '/social-media-image-sizes/',
+    name: '主表 25 行 / 平台小节 9 个 / 工具引导 5 类',
+    async fn(ctx) {
+      const info = await page.eval(`({
+        rows: document.querySelectorAll('.sizes-table tbody tr').length,
+        sections: document.querySelectorAll('.sizes-section').length,
+        hasH2s: [...document.querySelectorAll('.sizes-section h2')].map((h) => h.textContent.trim()),
+        links: [...document.querySelectorAll('a')].map((a) => new URL(a.href, location.origin).pathname),
+      })`);
+      ctx.measure('tableInfo', info);
+      ctx.check('表格 25 行', info.rows === 25, { actual: info.rows });
+      ctx.check('平台/工具小节 9 个', info.sections === 9, { actual: info.sections });
+      ctx.check('H2 使用平台 + 用途说法', info.hasH2s.includes('Instagram post size') && info.hasH2s.includes('Instagram story size') && info.hasH2s.includes('YouTube thumbnail size') && info.hasH2s.includes('TikTok video size'), { actual: info.hasH2s });
+      const tools = ['/tools/squarecrop/', '/instagram-story-collage/', '/square-collage/', '/vertical-collage/', '/tools/aspectratiocalculator/', '/tools/roundedcorners/'];
+      ctx.check('工具引导链接齐全（squarecrop/story collage/square collage/vertical/collage/rounded/aspect）', tools.every((path) => info.links.includes(path)), { actual: tools.filter((path) => !info.links.includes(path)) });
+      ctx.check('链回 blog social-media-collage-guide', info.links.includes('/blog/social-media-collage-guide/'));
+    },
+  });
+
+  await runCase(page, {
+    id: 'SMS-03',
+    group: 'socialmedia',
+    page: '/social-media-image-sizes/',
+    name: '尺寸判断小工具：标准尺寸匹配 / 多平台匹配 / 非标准尺寸最近值',
+    async fn(ctx) {
+      function setSize() {
+        return page.eval(`(() => {
+          const w = document.querySelector('#checkWidth');
+          const h = document.querySelector('#checkHeight');
+          w.value = '1280'; w.dispatchEvent(new Event('input', { bubbles: true }));
+          h.value = '720'; h.dispatchEvent(new Event('input', { bubbles: true }));
+          return document.querySelector('#sizeCheckResult').textContent.replace(/\\s+/g, ' ').trim();
+        })()`);
+      }
+      const yt = await setSize();
+      ctx.check('1280×720 → YouTube Thumbnail', yt.includes('YouTube') && yt.toLowerCase().includes('thumbnail'), { actual: yt });
+
+      const multi = await page.eval(`(() => {
+        const w = document.querySelector('#checkWidth');
+        const h = document.querySelector('#checkHeight');
+        w.value = '1080'; w.dispatchEvent(new Event('input', { bubbles: true }));
+        h.value = '1920'; h.dispatchEvent(new Event('input', { bubbles: true }));
+        return document.querySelector('#sizeCheckResult').textContent.replace(/\\s+/g, ' ').trim();
+      })()`);
+      ctx.check('1080×1920 → 多平台匹配（≥4）', /matches [4-9] standard/.test(multi), { actual: multi });
+
+      const odd = await page.eval(`(() => {
+        const w = document.querySelector('#checkWidth');
+        const h = document.querySelector('#checkHeight');
+        w.value = '1234'; w.dispatchEvent(new Event('input', { bubbles: true }));
+        h.value = '567'; h.dispatchEvent(new Event('input', { bubbles: true }));
+        return document.querySelector('#sizeCheckResult').textContent.replace(/\\s+/g, ' ').trim();
+      })()`);
+      ctx.check('非标准尺寸给出 closest official size', odd.includes('not a standard size') && odd.includes('Closest official size'), { actual: odd });
+    },
+  });
+
+  await runCase(page, {
+    id: 'SMS-04',
+    group: 'socialmedia',
+    page: '/social-media-image-sizes/',
+    name: '入口互链：aspect 页 / blog guide / 工具页 tool-nav 均链入',
+    async fn(ctx) {
+      await gotoPage('/tools/aspectratiocalculator/');
+      const aspectLinks = await page.eval(`[...document.querySelectorAll('a')].map((a) => new URL(a.href, location.origin).pathname)`);
+      ctx.check('aspect 页正文 + tool-nav 链入新页', aspectLinks.includes('/social-media-image-sizes/'));
+      await gotoPage('/tools/squarecrop/');
+      const squareLinks = await page.eval(`[...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname)`);
+      ctx.check('squarecrop tool-nav 链入新页', squareLinks.includes('/social-media-image-sizes/'), { actual: squareLinks });
+      await gotoPage('/blog/social-media-collage-guide/');
+      const blog = await page.eval(`document.documentElement.innerHTML.includes('/social-media-image-sizes/')`);
+      ctx.check('blog social-media-collage-guide 链入新页', blog === true);
+    },
+  });
+}
+
 async function runCoverageGroup() {
   await runCase(page, {
     id: 'ENV-01',
@@ -2400,6 +2517,7 @@ async function main() {
   await runRoundedCornersGroup();
   await runBlurredFrameGroup();
   await runAspectRatioGroup();
+  await runSocialMediaSizesGroup();
   await runCoverageGroup();
 
   // 5) 汇总与报告

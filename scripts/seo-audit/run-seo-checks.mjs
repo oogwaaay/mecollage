@@ -124,6 +124,7 @@ const EN_TOPIC_KEPT_BASES = [
   '/square-collage/',
   '/vertical-collage/',
   '/wedding-collage-maker/',
+  '/social-media-image-sizes/',
 ];
 /** Phase C 已把语言导航改指语言首页的 6 个 root 专题页（square-collage 恢复后仍指向本地化版本，单独检查） */
 const ROOT_TOPIC_NAV_RETARGETED = [
@@ -133,6 +134,7 @@ const ROOT_TOPIC_NAV_RETARGETED = [
   '/how-to-make-a-collage/',
   '/instagram-story-collage/',
   '/wedding-collage-maker/',
+  '/social-media-image-sizes/',
 ];
 
 /** 32 个本地化专题页（8 专题 × 4 语言）→ noindex、无 hreflang、无 JSON-LD、不进 sitemap */
@@ -2294,7 +2296,7 @@ async function main() {
       ctx.measure('chrome', meta.chrome);
       ctx.measure('server', meta.server);
       ctx.measure('blockedUrls', BLOCKED_URLS);
-      ctx.check('非 404 页面 = 99（67 可索引 + 32 noindex）', meta.inventoryCount === 99, { actual: meta.inventoryCount });
+      ctx.check('非 404 页面 = 100（68 可索引 + 32 noindex）', meta.inventoryCount === 100, { actual: meta.inventoryCount });
       ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase D sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
         actual: { indexable: indexableSet.size, expected: expectedSitemapSet.size },
       });
