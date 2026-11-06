@@ -230,15 +230,14 @@ const navRoleFails = [];
       if (!/data-page="contact"/.test(navBlock)) navRoleFails.push({ file: f, rule: '全局导航缺少 Contact（wayfinding 收口）' });
       if (/data-page="square"/.test(navBlock) || /href="[^"]*\/tools\//.test(navBlock)) navRoleFails.push({ file: f, rule: '全局导航仍包含具体工具链接' });
     }
-    if (/<footer>/.test(html)) {
-      const m = html.match(/<nav class="footer-tools"[\s\S]*?<\/nav>/);
-      if (!m) navRoleFails.push({ file: f, rule: '有 footer 但缺少 footer-tools' });
-      else {
-        const links = (m[0].match(/<a\s/g) || []).length;
-        if (links !== 5) navRoleFails.push({ file: f, rule: `footer-tools 链接数 ${links} != 5` });
-        const hasPrefix = prefix ? m[0].includes(`href="/${prefix}/`) : !m[0].includes('href="/zh/');
-        if (!hasPrefix) navRoleFails.push({ file: f, rule: 'footer-tools 链接前缀与页面语言不一致' });
-      }
+    // 所有站点页都必须有 footer-tools（有 footer 的放在 footer 内；无 footer 的用 standalone）
+    const m = html.match(/<nav class="footer-tools[^"]*"[\s\S]*?<\/nav>/);
+    if (!m) navRoleFails.push({ file: f, rule: '缺少 footer-tools（所有页面都必须有工具入口/内链）' });
+    else {
+      const links = (m[0].match(/<a\s/g) || []).length;
+      if (links !== 5) navRoleFails.push({ file: f, rule: `footer-tools 链接数 ${links} != 5` });
+      const hasPrefix = prefix ? m[0].includes(`href="/${prefix}/`) : !m[0].includes('href="/zh/');
+      if (!hasPrefix) navRoleFails.push({ file: f, rule: 'footer-tools 链接前缀与页面语言不一致' });
     }
   }
 }

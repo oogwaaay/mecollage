@@ -883,9 +883,9 @@ body .blog-search-clear { min-height: var(--mc-tap-target-min); border-radius: v
 - footer 链接用当前语言前缀（`/zh/tools/...`、`/tw/...`、`/ja/...`、`/es/...`），静态文案来自 i18n JSON（无 JS 也正确），`data-i18n` 供运行时切换；
 - `.footer-tools` 样式：居中换行、链接 ≥44px 高、`border-bottom: var(--mc-border-subtle)` 分隔；移动端字号降到 `--mc-font-size-2xs`；
 - 桌面 `.tool-nav` 为透明上下文 tab（无第二层导航容器）；移动保持横向滚动；
-- 迁移脚本：`scripts/design-system/nav-role-separation.mjs`（Phase 1：tool-nav/内容页/首页卡/footer-tools）+ `nav-global-cleanup.mjs`（Phase 2A：全局 nav 工具链接 → Contact，54 页，5 语言）；均支持 dry-run/--apply/--json/--report、幂等；
+- 迁移脚本：`scripts/design-system/nav-role-separation.mjs`（Phase 1：tool-nav/内容页/首页卡/footer-tools）+ `nav-global-cleanup.mjs`（Phase 2A：全局 nav 工具链接 → Contact，54 页，5 语言）+ `footer-tools-standalone.mjs`（Phase 2B-1：40 个无 footer 页 footer-tools）；均支持 dry-run/--apply/--json/--report、幂等；
 - 门禁：`check-layout.mjs` F 项（tool-nav 无 Home / 内容页无 tool-nav / 首页无重复卡 / 有 footer 必有 footer-tools / 全局 nav 含 Contact 且无工具链接）。
-- 已知遗留：40 个无 footer 的本地化/指南页暂未注入 footer-tools（需补 footer 后再迁移）。
+- 40 个无 footer 的本地化/指南页使用 `.footer-tools--standalone`（轻量：border-top + 居中换行，不重建整站 footer）；迁移脚本 `footer-tools-standalone.mjs`。全站 94 页（除 404）均有 footer-tools。
 
 ---
 

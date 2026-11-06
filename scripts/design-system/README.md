@@ -93,3 +93,15 @@ node scripts/design-system/nav-global-cleanup.mjs --apply --json out.json --repo
 - 把全局导航（`.nav-left`）里的 `data-page="square"`（Square Image 工具链接）替换为对应语言的 Contact 真实 `<a href>`（5 语言，`nav.contact` i18n）；
 - 共 54 页（有全局导航的页面）；40 个无导航落地页跳过；
 - 不改 URL/canonical/hreflang；完成后跑 `check-layout.mjs` F 项、SEO、functional、mobile-touch。
+
+
+## `footer-tools-standalone.mjs` — 无 footer 页面的 FooterTools（R2 Phase 2B-1）
+
+```bash
+node scripts/design-system/footer-tools-standalone.mjs            # dry-run
+node scripts/design-system/footer-tools-standalone.mjs --apply --json out.json --report out.md
+```
+
+- 给 40 个没有 `<footer>` 的本地化/指南页插入 `.footer-tools--standalone`（5 个真实工具链接，本地化前缀/文案来自 i18n JSON，无 JS 也正确）；
+- 不重建整站 footer、不改内容/URL；幂等；
+- 门禁：`check-layout.mjs` F 项（所有页面必须有 footer-tools）。
