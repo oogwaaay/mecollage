@@ -355,7 +355,7 @@
     '.collage-tool-container #collageCanvas, ' +
     '.collage-tool-container .bottom-toolbar';
   var TOOL_PAGE_SELECTOR = '.square-tool-container, .squarecrop-tool-container, ' +
-    '.blurred-tool-container, .rounded-tool-container';
+    '.blurred-tool-container, .rounded-tool-container, .aspectratio-tool-container';
 
   function applyPageTypeClasses() {
     var body = document.body;

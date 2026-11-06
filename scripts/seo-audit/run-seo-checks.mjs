@@ -96,7 +96,11 @@ const BLOCKED_URLS = [
 // Phase C 验收期望值（内容质量阶段；Phase B 的 94 页期望已作废）
 // ---------------------------------------------------------------------------
 
-/** 36 个本地化核心页 + 9 个英文核心页 = 45 个 5 语言簇页面 */
+/**
+ * 36 个本地化核心页 + 9 个英文核心页 = 45 个 5 语言簇页面。
+ * Phase AR（2026-11-06）：/tools/aspectratiocalculator/ 先上英文、4 语言 14 天内补齐；
+ * 它只贡献 1 个英文可索引 URL（expectedHreflangMapFor 只收集实际存在的语言）。
+ */
 const CORE_BASES = [
   '/',
   '/about/',
@@ -107,6 +111,7 @@ const CORE_BASES = [
   '/tools/squarecrop/',
   '/tools/roundedcorners/',
   '/tools/blurredframe/',
+  '/tools/aspectratiocalculator/',
 ];
 
 /** Phase D：保留索引的 7 个英文专题页（square-collage 已恢复；vertical-collage 仍 301） */
@@ -2182,7 +2187,7 @@ async function main() {
       ctx.measure('chrome', meta.chrome);
       ctx.measure('server', meta.server);
       ctx.measure('blockedUrls', BLOCKED_URLS);
-      ctx.check('非 404 页面 = 94（61 可索引 + 32 noindex + 1 旧页）', meta.inventoryCount === 94, { actual: meta.inventoryCount });
+      ctx.check('非 404 页面 = 95（62 可索引 + 32 noindex + 1 旧页）', meta.inventoryCount === 95, { actual: meta.inventoryCount });
       ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase D sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
         actual: { indexable: indexableSet.size, expected: expectedSitemapSet.size },
       });
