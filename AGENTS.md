@@ -58,6 +58,7 @@
 | Phase C 内容质量 | 2026-11-06：32 薄本地化页 noindex+移出 sitemap/hreflang；sitemap 60；square/vertical 308 合并；3 篇博客扩写；60 页 JSON-LD；description≤160；本地化首页单一 H1；privacy/terms 5 语言修正。SEO harness **28 PASS/0 FAIL/0 WARN**；功能回归 52/0/1；独立复核 0 FAIL；Preview 38/0/5；**已上线生产并验收 41/0/2 + 生产冒烟 PASS**，`main` 已合并 | `docs/phase-c/PHASE-C-SUMMARY.md`、ADR-0004、`audit/evidence/phase-c/` |
 | Phase D 工具意图/独立页恢复 | 2026-11-06：square / squarecrop 不合并，按 fill/no-crop vs crop 做 title/H1/description/互链（5 语言）；恢复 /square-collage/ 独立页（sitemap 61、JSON-LD、首页内链）；无 square 301；harness v1.3.0 **32 PASS/0 FAIL/0 WARN**；Preview 38/0/5；**已上线生产并验收 41/0/2**，`main` 已合并 | `docs/phase-d/PHASE-D-SUMMARY.md`、ADR-0005、`audit/evidence/phase-d/` |
 | Phase E 内链/how-to/标题 | 2026-11-06：square/squarecrop 正文自然内链（全站 href 56/43、正文 25/30）；how-to 改 iPhone/Android/Windows/Mac 长尾并加 4 设备节；roundedcorners 标题/H1 改 “Rounded Corners: …”；8 blog + 首页双卡；vertical-collage 从 301 恢复独立页；Square Crop FAQ 真问答/JSON-LD 同步（生产端 5 语言逐条一致）；sitemap 62；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2** | `docs/phase-e/PHASE-E-SUMMARY.md`、L-29、`audit/evidence/phase-e/` |
+| Phase G Design Token + R0/R1 交互 | 2026-11-06：273 个 `--mc-*` token 单一事实源 + `components.css` 统一层覆盖 94 页（6,955 处 token 化）；R0 alert 15→0 / 可见 Undo/Redo / 移动导航 270→60px；R1 工具优先布局（首页上传 1148→109px、工具页 1193→259–434px）/导出反馈/AI 懒加载/触控拖拽；Preview 38/0/5、**生产 41/0/2 已上线**，PR #3 合并 `afbdb92` | `docs/phase-g/PHASE-G-SUMMARY.md`、ADR-0006/0007、`docs/design/`、`scripts/design-audit/`、`audit/evidence/design-tokens/`（本地） |
 | 已知 P0/P1 | i18n 渲染 bug、本地化孤岛、AdSense 合规前置、404 广告/跳转、Cloudinary preset、安全头缺失等 | `audit/AUDIT-REPORT.md` §7；`docs/lessons/` |
 
 **关键约束（写代码前先想）**
@@ -108,6 +109,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 | [`docs/phase-c/PHASE-C-SUMMARY.md`](docs/phase-c/PHASE-C-SUMMARY.md) | Phase C 内容质量整改公开摘要 |
 | [`docs/phase-d/PHASE-D-SUMMARY.md`](docs/phase-d/PHASE-D-SUMMARY.md) | Phase D square 工具意图区隔/独立页恢复摘要 |
 | [`docs/phase-e/PHASE-E-SUMMARY.md`](docs/phase-e/PHASE-E-SUMMARY.md) | Phase E 内链/how-to/rounded corners 标题摘要 |
+| [`docs/phase-g/PHASE-G-SUMMARY.md`](docs/phase-g/PHASE-G-SUMMARY.md) | Phase G Design Token 体系 + R0/R1 交互改造公开摘要（已上线 41/0/2） |
 
 ## 6. 当前已知未关闭风险（截至 2026-11-05）
 
@@ -122,6 +124,7 @@ check → branch → change → verify → preview → evidence → maintainer a
 - Phase C：内容质量整改**已上线生产并验证**（sitemap 60、32 noindex、308 合并、3 博客扩写、60 JSON-LD、privacy/terms 修正；部署层 41/0/2；生产冒烟 PASS；`main` 已合并）；本地化薄页重写/28 条本地化首页卡片内链/lastmod 等非阻断项未做。
 - Phase D：square/squarecrop **不合并**，按 fill/no-crop vs crop 意图区隔；恢复 `/square-collage/` 独立页；sitemap 61；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2**；`main` 已合并。
 - Phase E：工具页正文内链（全站 href 56/43、正文 25/30）、how-to 设备长尾、roundedcorners 标题/H1、vertical-collage 恢复；harness 32/0/0；Preview 38/0/5；**已上线生产并验收 41/0/2**；`main` 已合并。
+- Phase G：Design Token 单一事实源 + R0/R1 交互改造**已上线生产并验收**（Preview 38/0/5、生产 41/0/2、PR #3 合并 `afbdb92`）；H11 四道门禁 + L-31~L-36 已回灌治理；未做项/真机复核见 `docs/phase-g/PHASE-G-SUMMARY.md`。
 
 ## 7. 会话结束前自检（逐条勾）
 
