@@ -97,6 +97,7 @@ const GROUP_TITLES = {
   squarecrop: '/tools/squarecrop/（Square Crop）',
   roundedcorners: '/tools/roundedcorners/（Rounded Corners）',
   blurredframe: '/tools/blurredframe/（Blurred Frame）',
+  aspectratio: '/tools/aspectratiocalculator/（Aspect Ratio Calculator）',
   coverage: '覆盖范围与人工确认项',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
@@ -1972,6 +1973,142 @@ async function runBlurredFrameGroup() {
 // 覆盖范围 / 环境 / 人工项
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+// /tools/aspectratiocalculator/ 测试（Phase AR，2026-11-06）
+// ---------------------------------------------------------------------------
+async function runAspectRatioGroup() {
+  await gotoPage('/tools/aspectratiocalculator/', { waitForFa: false });
+  await runCase(page, {
+    id: 'AR-01',
+    group: 'aspectratio',
+    page: '/tools/aspectratiocalculator/',
+    name: '页面加载：H1/title/canonical/hreflang/JSON-LD（英文先上，无 404 alternates）',
+    async fn(ctx) {
+      const info = await page.eval(`(() => {
+        const graph = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)['@graph'];
+        return {
+          h1: (document.querySelector('h1')?.textContent || '').trim(),
+          title: document.title,
+          canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href') || null,
+          hreflangs: [...document.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => l.getAttribute('hreflang')).sort(),
+          types: graph.map((node) => node['@type']),
+          langOptions: document.querySelectorAll('a.lang-option').length,
+          adsense: [...document.scripts].some((s) => /adsbygoogle|pagead2/.test(s.src)),
+        };
+      })()`);
+      ctx.measure('pageInfo', info);
+      ctx.check('无未捕获 JS 异常', pageLoads['/tools/aspectratiocalculator/']?.exceptions.length === 0, { actual: pageLoads['/tools/aspectratiocalculator/']?.exceptions });
+      ctx.check('H1 = Aspect Ratio Calculator', info.h1 === 'Aspect Ratio Calculator', { actual: info.h1 });
+      ctx.check('title 以 Aspect Ratio Calculator 开头且 ≤65 字符', info.title.startsWith('Aspect Ratio Calculator') && info.title.length <= 65, { actual: { title: info.title, length: info.title.length } });
+      ctx.check('canonical 自引用', info.canonical === 'https://www.mecollage.top/tools/aspectratiocalculator/', { actual: info.canonical });
+      ctx.check('hreflang = en + x-default（无未发布语言）', JSON.stringify(info.hreflangs) === JSON.stringify(['en', 'x-default']), { actual: info.hreflangs });
+      ctx.check('JSON-LD = SoftwareApplication + FAQPage + BreadcrumbList', ['SoftwareApplication', 'FAQPage', 'BreadcrumbList'].every((type) => info.types.includes(type)), { actual: info.types });
+      ctx.check('无语言菜单（4 语言未发布，不产生 404 链接）', info.langOptions === 0, { actual: info.langOptions });
+      ctx.check('无 AdSense 脚本（维护者决定先不放广告）', info.adsense === false, { actual: info.adsense });
+    },
+  });
+
+  await runCase(page, {
+    id: 'AR-02',
+    group: 'aspectratio',
+    page: '/tools/aspectratiocalculator/',
+    name: 'Auto-detect：1920×1080 → 16:9；1200×628 → 最近 16:9（含偏差）',
+    async fn(ctx) {
+      const initial = await page.eval(`({
+        size: document.querySelector('#arcSize').textContent.replace(/\\s+/g, ' ').trim(),
+        meta: document.querySelector('#arcMeta').textContent.replace(/\\s+/g, ' ').trim(),
+        presetsHidden: document.querySelector('#arcPresets').hidden,
+      })`);
+      ctx.measure('initial', initial);
+      ctx.check('默认结果 = 1920 × 1080', initial.size.startsWith('1920 × 1080'), { actual: initial.size });
+      ctx.check('默认比例 = 16:9', initial.meta.includes('16:9') && initial.meta.includes('exact match'), { actual: initial.meta });
+      ctx.check('Auto-detect 下不显示 Common sizes', initial.presetsHidden === true, { actual: initial.presetsHidden });
+
+      const near = await page.eval(`(() => {
+        const w = document.querySelector('#arcWidth');
+        const h = document.querySelector('#arcHeight');
+        w.value = '1200'; w.dispatchEvent(new Event('input', { bubbles: true }));
+        h.value = '628'; h.dispatchEvent(new Event('input', { bubbles: true }));
+        return document.querySelector('#arcMeta').textContent.replace(/\\s+/g, ' ').trim();
+      })()`);
+      ctx.measure('nearMeta', near);
+      ctx.check('1200×628 显示 1.91 且最近比例为 16:9', near.includes('1.91') && near.includes('16:9'), { actual: near });
+      ctx.check('非精确比例显示偏差提示', near.includes('away'), { actual: near });
+    },
+  });
+
+  await runCase(page, {
+    id: 'AR-03',
+    group: 'aspectratio',
+    page: '/tools/aspectratiocalculator/',
+    name: '锁定比例：4:5 / 9:16 双向换算 + 21:9 预设 2560×1080 + Copy toast',
+    async fn(ctx) {
+      await page.eval(`document.querySelector('.arc-ratio[data-ratio="4:5"]').click()`);
+      const fourFive = await page.eval(`({ w: document.querySelector('#arcWidth').value, h: document.querySelector('#arcHeight').value, presetsHidden: document.querySelector('#arcPresets').hidden })`);
+      ctx.check('4:5 预设 = 1080×1350', fourFive.w === '1080' && fourFive.h === '1350', { actual: fourFive });
+      ctx.check('4:5 显示 Common sizes', fourFive.presetsHidden === false, { actual: fourFive.presetsHidden });
+
+      const reverse = await page.eval(`(() => {
+        const h = document.querySelector('#arcHeight');
+        h.value = '1500'; h.dispatchEvent(new Event('input', { bubbles: true }));
+        return { w: document.querySelector('#arcWidth').value, h: document.querySelector('#arcHeight').value };
+      })()`);
+      ctx.check('改高 1500 → 宽 1200（双向换算）', reverse.w === '1200' && reverse.h === '1500', { actual: reverse });
+
+      const nineSixteen = await page.eval(`(() => {
+        document.querySelector('.arc-ratio[data-ratio="9:16"]').click();
+        return { w: document.querySelector('#arcWidth').value, h: document.querySelector('#arcHeight').value };
+      })()`);
+      ctx.check('9:16 预设 = 1080×1920', nineSixteen.w === '1080' && nineSixteen.h === '1920', { actual: nineSixteen });
+
+      const ultrawide = await page.eval(`(() => {
+        document.querySelector('.arc-ratio[data-ratio="21:9"]').click();
+        return {
+          w: document.querySelector('#arcWidth').value,
+          h: document.querySelector('#arcHeight').value,
+          note: document.querySelector('#arcPresetNote').textContent,
+          hidden: document.querySelector('#arcPresetNote').hidden,
+        };
+      })()`);
+      ctx.check('21:9 预设 = 2560×1080', ultrawide.w === '2560' && ultrawide.h === '1080', { actual: ultrawide });
+      ctx.check('21:9 显示 64:27 / 2520×1080 脚注', ultrawide.hidden === false && ultrawide.note.includes('2520×1080') && ultrawide.note.includes('64:27'), { actual: ultrawide.note });
+
+      await page.eval(`document.querySelector('#arcCopy').click()`);
+      await sleep(250);
+      const toastText = await page.eval("[...document.querySelectorAll('#mc-toast-stack .mc-toast__msg')].map((el) => el.textContent).join(' | ')");
+      ctx.check('Copy size 触发 toast（含尺寸）', toastText.includes('2560 × 1080'), { actual: toastText });
+    },
+  });
+
+  await runCase(page, {
+    id: 'AR-04',
+    group: 'aspectratio',
+    page: '/tools/aspectratiocalculator/',
+    name: '内容：对照表 5 比例 × 4 平台 / Official size / Native / 内链 / 正文词数',
+    async fn(ctx) {
+      const info = await page.eval(`(() => {
+        const links = [...document.querySelectorAll('.arc-content a')].map((a) => new URL(a.href, location.origin).pathname);
+        const table = {
+          groups: document.querySelectorAll('.arc-table tbody').length,
+          platformRows: document.querySelectorAll('.arc-table tbody tr:not(.arc-group-head)').length,
+          officialHeader: [...document.querySelectorAll('.arc-table thead th')].map((th) => th.textContent.trim()),
+          firstIg: document.querySelector('.arc-table tbody tr:not(.arc-group-head) td[data-label="Official size"]')?.textContent.trim() || null,
+        };
+        const words = (document.querySelector('.arc-content')?.innerText || '').match(/[A-Za-z0-9\u00C0-\u024F]+/g) || [];
+        const faqWords = (document.querySelector('.faq-section')?.innerText || '').match(/[A-Za-z0-9\u00C0-\u024F]+/g) || [];
+        return { links, table, contentWords: words.length, faqWords: faqWords.length };
+      })()`);
+      ctx.measure('contentInfo', info);
+      ctx.check('对照表 5 个比例分组', info.table.groups === 5, { actual: info.table.groups });
+      ctx.check('对照表 20 行平台数据（5×4）', info.table.platformRows === 20, { actual: info.table.platformRows });
+      ctx.check('表头含 Official size + Native / Not native', info.table.officialHeader.includes('Official size') && info.table.officialHeader.includes('Native / Not native'), { actual: info.table.officialHeader });
+      ctx.check('Instagram 4:5 官方尺寸 = 1080×1350', await page.eval(`[...document.querySelectorAll('.arc-table tbody tr')].find((tr) => tr.textContent.includes('1080 × 1350')) !== undefined`));
+      ctx.check('正文链接 squarecrop / square-collage / roundedcorners', ['/tools/squarecrop/', '/square-collage/', '/tools/roundedcorners/'].every((path) => info.links.includes(path)), { actual: info.links });
+      ctx.check('正文 + FAQ 词数 ≥ 1200', info.contentWords + info.faqWords >= 1200, { actual: info.contentWords + info.faqWords });
+    },
+  });
+}
+
 async function runCoverageGroup() {
   await runCase(page, {
     id: 'ENV-01',
@@ -2218,6 +2355,7 @@ async function main() {
   await runSquarecropGroup();
   await runRoundedCornersGroup();
   await runBlurredFrameGroup();
+  await runAspectRatioGroup();
   await runCoverageGroup();
 
   // 5) 汇总与报告

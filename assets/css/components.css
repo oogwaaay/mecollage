@@ -2193,6 +2193,19 @@ body .blog-search-clear:focus-visible {
   .blog-search-panel { margin: var(--mc-space-3) auto var(--mc-space-5); }
 }
 
+/* 内容区行内链接（Phase AR：避免为单个链接写 inline style，token 单一事实源） */
+.arc-inline-link {
+  color: var(--mc-text-link);
+  font-weight: var(--mc-font-weight-medium);
+  text-decoration: none;
+}
+
+.arc-inline-link:hover,
+.arc-inline-link:focus-visible {
+  color: var(--mc-text-link-hover);
+  text-decoration: underline;
+}
+
 /* ==========================================================================
  * 21. 导航角色分离（R2 Phase 1）
  *     全局导航 = wayfinding；工具切换 = 页面内上下文 tab。

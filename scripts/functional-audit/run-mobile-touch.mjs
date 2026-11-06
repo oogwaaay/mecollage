@@ -118,6 +118,7 @@ if (args.values.help) {
   MT-04 触控拖拽排序（长按 250ms → 移动 → 释放；图片顺序变化且无丢失）
   MT-05 滚动后导出（scrollTo(0,600) → #exportBtn → 导出像素非全白、无异常）
   MT-06 触控目标（工具栏 / 导航 / 语言 / 菜单按钮 ≥44×44）
+  MT-07 Aspect Ratio Calculator（390×844 无溢出 / 控件 ≥44 / 触摸 9:16 换算）
 
 退出码：0 无 FAIL；1 有 FAIL；2 环境/用法错误。
 需要网络访问 cdnjs（html2canvas，导出用例依赖，与生产一致）；其余外部请求被拦截。`);
@@ -901,6 +902,64 @@ async function runTouchTargets() {
   await c.end();
 }
 
+async function runAspectRatioTouch() {
+  const c = createCase('MT-07', 'tool-page', 'Aspect Ratio Calculator 390×844：无横向溢出 / 控件 ≥44 / 触摸 9:16 换算');
+  try {
+    await gotoPage('/tools/aspectratiocalculator/');
+    const ready = await waitFor(
+      "document.readyState === 'complete' && !!document.querySelector('#arcSize') && typeof window.mcUI === 'object' && !!document.querySelector('.mc-menu-btn')",
+      { timeoutMs: 20000, label: 'calculator ready' },
+    );
+    c.check('计算器 + 共享移动 UI 就绪', ready);
+
+    const layout = await page.eval(`(() => {
+      const rect = (selector) => {
+        const el = document.querySelector(selector);
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        return { w: Math.round(r.width), h: Math.round(r.height), visible: r.width > 0 && r.height > 0 };
+      };
+      return {
+        scrollWidth: document.documentElement.scrollWidth,
+        innerWidth: window.innerWidth,
+        ratioChip: rect('.arc-ratio'),
+        widthInput: rect('#arcWidth'),
+        swap: rect('#arcSwap'),
+        copy: rect('#arcCopy'),
+        presetsHidden: document.querySelector('#arcPresets').hidden,
+        size: document.querySelector('#arcSize').textContent.trim(),
+        h1: (document.querySelector('h1')?.textContent || '').trim(),
+      };
+    })()`);
+    c.measure('layout', layout);
+    c.check('H1 = Aspect Ratio Calculator', layout.h1 === 'Aspect Ratio Calculator', { actual: layout.h1 });
+    c.check('页面无横向溢出', layout.scrollWidth <= layout.innerWidth + 1, { actual: { scrollWidth: layout.scrollWidth, innerWidth: layout.innerWidth } });
+    c.check('比例 chip ≥44×44', layout.ratioChip.w >= 44 && layout.ratioChip.h >= 44, { actual: layout.ratioChip });
+    c.check('宽度输入框 ≥44 高', layout.widthInput.h >= 44, { actual: layout.widthInput });
+    c.check('Swap 按钮 ≥44×44', layout.swap.w >= 44 && layout.swap.h >= 44, { actual: layout.swap });
+    c.check('Copy 按钮 ≥44 高', layout.copy.h >= 44, { actual: layout.copy });
+    c.check('默认 Auto-detect 不显示 Common sizes', layout.presetsHidden === true, { actual: layout.presetsHidden });
+
+    const center = await centerOf('.arc-ratio[data-ratio="9:16"]');
+    if (!center) throw new Error('9:16 比例 chip 不可见');
+    await tap(center.x, center.y);
+    const after = await page.eval(`({
+      w: document.querySelector('#arcWidth').value,
+      h: document.querySelector('#arcHeight').value,
+      presetsHidden: document.querySelector('#arcPresets').hidden,
+      size: document.querySelector('#arcSize').textContent.trim(),
+    })`);
+    c.measure('afterTap916', after);
+    c.check('触摸 9:16 → 1080 × 1920', after.w === '1080' && after.h === '1920', { actual: after });
+    c.check('触摸后显示 Common sizes', after.presetsHidden === false, { actual: after.presetsHidden });
+    await c.screenshot('Aspect Ratio Calculator 390×844', '07-aspect-ratio-tool.png');
+  } catch (error) {
+    c.record.error = String(error && error.stack ? error.stack : error);
+    console.error('❌ [MT-07] 执行异常：', String(error).slice(0, 300));
+  }
+  await c.end();
+}
+
 // ---------------------------------------------------------------------------
 // 报告
 // ---------------------------------------------------------------------------
@@ -1058,6 +1117,7 @@ try {
   await runTouchReorder();
   await runScrollExport();
   await runTouchTargets();
+  await runAspectRatioTouch();
 
   const meta = {
     node: process.version,
