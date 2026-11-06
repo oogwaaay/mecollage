@@ -980,7 +980,15 @@ function main() {
   }
 
   const scan = scanRepo(tokens);
-  const docs = opts.skipDocCheck ? { ok: true, absent: [], unknown: [] } : checkDocs(tokens);
+  // 内部设计文档已迁出公开仓库：docs/ 不存在时自动跳过文档一致性检查
+  // （在私有仓库/完整工程副本中仍会执行；公开仓库只保留站点源码）。
+  const hasInternalDocs = existsSync(resolve(ROOT, DOC_FILE));
+  const docs = opts.skipDocCheck || !hasInternalDocs
+    ? { ok: true, absent: [], unknown: [], skipped: true, reason: hasInternalDocs ? 'flag' : 'internal-docs-private' }
+    : checkDocs(tokens);
+  if (!hasInternalDocs && !opts.skipDocCheck) {
+    console.log(`[${TOOL}] docs/ 未包含在本仓库（内部文档私有），跳过 DESIGN-TOKENS.md 一致性检查`);
+  }
   const baseline = loadBaseline();
   if (baseline?.error) fail(`基线文件无法解析：${baseline.error}`);
   const diff = baseline
