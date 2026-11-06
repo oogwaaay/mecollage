@@ -2184,10 +2184,16 @@ async function runSocialMediaSizesGroup() {
       ctx.check('title = Social Media Image Sizes: Instagram, TikTok & YouTube Chart', info.title === 'Social Media Image Sizes: Instagram, TikTok & YouTube Chart', { actual: info.title });
       ctx.check('H1 = Social Media Image Sizes Chart (2026)', info.h1 === 'Social Media Image Sizes Chart (2026)', { actual: info.h1 });
       ctx.check('canonical 自引用', info.canonical === 'https://www.mecollage.top/social-media-image-sizes/', { actual: info.canonical });
-      ctx.check('hreflang = en + x-default（本地化尚未发布，不写 404 alternates）', JSON.stringify(info.hreflangs) === JSON.stringify(['en', 'x-default']), { actual: info.hreflangs });
+      ctx.check('hreflang = 完整 5 语言 + x-default（四语言已发布）', JSON.stringify(info.hreflangs) === JSON.stringify(['en', 'es', 'ja', 'x-default', 'zh-CN', 'zh-TW']), { actual: info.hreflangs });
       ctx.check('JSON-LD 含 WebPage + Article + FAQPage + BreadcrumbList', ['WebPage', 'Article', 'FAQPage', 'BreadcrumbList'].every((type) => info.types.includes(type)), { actual: info.types });
       ctx.check('FAQ 可见 6 条 = JSON-LD 6 条', info.faqVisible === 6 && info.faqJson === 6, { actual: { visible: info.faqVisible, json: info.faqJson } });
       ctx.check('无 AdSense 脚本（本轮不加广告）', info.adsense === false, { actual: info.adsense });
+      const internalHits = await page.eval(`(() => {
+        const terms = ['search that started','keyword research','search volume','backlink','maintainer','not expected to rank','internal note','内部说明','搜索量','关键词研究','外链建设'];
+        const text = document.body.innerText.toLowerCase();
+        return terms.filter((term) => text.includes(term.toLowerCase()));
+      })()`);
+      ctx.check('用户可见文案不含内部策略/关键词备注（L-43）', internalHits.length === 0, { actual: internalHits });
     },
   });
 
@@ -2266,6 +2272,71 @@ async function runSocialMediaSizesGroup() {
       await gotoPage('/blog/social-media-collage-guide/');
       const blog = await page.eval(`document.documentElement.innerHTML.includes('/social-media-image-sizes/')`);
       ctx.check('blog social-media-collage-guide 链入新页', blog === true);
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// /{zh,tw,ja,es}/social-media-image-sizes/ 测试（2026-11-06 四语言补齐）
+// ---------------------------------------------------------------------------
+async function runSocialMediaSizesLocalesGroup() {
+  const LOCALES = [
+    { code: 'zh', lang: 'zh-CN', path: '/zh/social-media-image-sizes/', canonical: 'https://www.mecollage.top/zh/social-media-image-sizes/' },
+    { code: 'tw', lang: 'zh-TW', path: '/tw/social-media-image-sizes/', canonical: 'https://www.mecollage.top/tw/social-media-image-sizes/' },
+    { code: 'ja', lang: 'ja', path: '/ja/social-media-image-sizes/', canonical: 'https://www.mecollage.top/ja/social-media-image-sizes/' },
+    { code: 'es', lang: 'es', path: '/es/social-media-image-sizes/', canonical: 'https://www.mecollage.top/es/social-media-image-sizes/' },
+  ];
+  const expectedHreflangs = JSON.stringify(['en', 'es', 'ja', 'x-default', 'zh-CN', 'zh-TW']);
+  await runCase(page, {
+    id: 'SMS-05',
+    group: 'socialmedia',
+    page: '/{zh,tw,ja,es}/social-media-image-sizes/',
+    name: '四语言版本：lang/canonical/hreflang 6/语言导航 5/表格/FAQ/尺寸工具/无内部备注',
+    async fn(ctx) {
+      for (const loc of LOCALES) {
+        await gotoPage(loc.path);
+        const info = await page.eval(`(() => {
+          const graph = JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)['@graph'];
+          const terms = ['search that started','keyword research','search volume','backlink','maintainer','not expected to rank','internal note','内部说明','搜索量','关键词研究','外链建设'];
+          const text = document.body.innerText.toLowerCase();
+          return {
+            lang: document.documentElement.lang,
+            canonical: document.querySelector('link[rel="canonical"]')?.getAttribute('href') || null,
+            hreflangs: [...document.querySelectorAll('link[rel="alternate"][hreflang]')].map((l) => l.getAttribute('hreflang')).sort(),
+            langLinks: document.querySelectorAll('.language-link').length,
+            currentLang: document.querySelector('.language-link[aria-current="page"]')?.getAttribute('hreflang') || null,
+            h1: (document.querySelector('h1')?.textContent || '').trim(),
+            rows: document.querySelectorAll('.sizes-table tbody tr').length,
+            sections: document.querySelectorAll('.sizes-section').length,
+            faqVisible: document.querySelectorAll('.faq-question').length,
+            faqJson: (graph.find((node) => node['@type'] === 'FAQPage')?.mainEntity || []).length,
+            types: graph.map((node) => node['@type']),
+            internalHits: terms.filter((term) => text.includes(term.toLowerCase())),
+          };
+        })()`);
+        ctx.measure(loc.code, info);
+        ctx.check(`[${loc.code}] 无未捕获 JS 异常`, pageLoads[loc.path]?.exceptions.length === 0, { actual: pageLoads[loc.path]?.exceptions });
+        ctx.check(`[${loc.code}] html lang = ${loc.lang}`, info.lang === loc.lang, { actual: info.lang });
+        ctx.check(`[${loc.code}] canonical 自引用`, info.canonical === loc.canonical, { actual: info.canonical });
+        ctx.check(`[${loc.code}] hreflang 完整 5 语言 + x-default`, JSON.stringify(info.hreflangs) === expectedHreflangs, { actual: info.hreflangs });
+        ctx.check(`[${loc.code}] 语言导航 5 链接且当前页高亮`, info.langLinks === 5 && info.currentLang === loc.lang, { actual: { langLinks: info.langLinks, currentLang: info.currentLang } });
+        ctx.check(`[${loc.code}] H1 非空且本地化`, !!info.h1 && info.h1 !== 'Social Media Image Sizes Chart (2026)', { actual: info.h1 });
+        ctx.check(`[${loc.code}] 表格 25 行 / 小节 9 个`, info.rows === 25 && info.sections === 9, { actual: { rows: info.rows, sections: info.sections } });
+        ctx.check(`[${loc.code}] FAQ 6 条 = JSON-LD 6 条`, info.faqVisible === 6 && info.faqJson === 6, { actual: { visible: info.faqVisible, json: info.faqJson } });
+        ctx.check(`[${loc.code}] JSON-LD 4 类型`, ['WebPage', 'Article', 'FAQPage', 'BreadcrumbList'].every((type) => info.types.includes(type)), { actual: info.types });
+        ctx.check(`[${loc.code}] 用户可见文案不含内部策略/关键词备注（L-43）`, info.internalHits.length === 0, { actual: info.internalHits });
+        const result = await page.eval(`(() => {
+          const w = document.querySelector('#checkWidth');
+          const h = document.querySelector('#checkHeight');
+          w.value = '1080'; w.dispatchEvent(new Event('input', { bubbles: true }));
+          h.value = '1920'; h.dispatchEvent(new Event('input', { bubbles: true }));
+          return document.querySelector('#sizeCheckResult').textContent.replace(/\\s+/g, ' ').trim();
+        })()`);
+        ctx.check(`[${loc.code}] 尺寸工具 1080×1920 多平台匹配`, result.includes('1080 × 1920') && result.includes('Instagram'), { actual: result.slice(0, 160) });
+      }
+      await gotoPage('/zh/tools/squarecrop/');
+      const zhNav = await page.eval(`[...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname)`);
+      ctx.check('[zh] 工具页 tool-nav 链入本地化尺寸页', zhNav.includes('/zh/social-media-image-sizes/'), { actual: zhNav });
     },
   });
 }
@@ -2518,6 +2589,7 @@ async function main() {
   await runBlurredFrameGroup();
   await runAspectRatioGroup();
   await runSocialMediaSizesGroup();
+  await runSocialMediaSizesLocalesGroup();
   await runCoverageGroup();
 
   // 5) 汇总与报告

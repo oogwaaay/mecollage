@@ -89,6 +89,8 @@ const REPRESENTATIVE = [
   '/zh/tools/aspectratiocalculator/', '/tw/tools/aspectratiocalculator/',
   '/ja/tools/aspectratiocalculator/', '/es/tools/aspectratiocalculator/',
   '/social-media-image-sizes/',
+  '/zh/social-media-image-sizes/', '/tw/social-media-image-sizes/',
+  '/ja/social-media-image-sizes/', '/es/social-media-image-sizes/',
 ];
 
 const pages = listPages();

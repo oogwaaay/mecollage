@@ -97,7 +97,7 @@ const BLOCKED_URLS = [
 // ---------------------------------------------------------------------------
 
 /**
- * 36 个本地化核心页 + 9 个英文核心页 = 45 个 5 语言簇页面。
+ * 44 个本地化核心页 + 11 个英文核心页 = 55 个 5 语言簇页面。
  * Phase AR（2026-11-06）：/tools/aspectratiocalculator/ 五语言已上线（英文先上 + 4 语言同批补齐）。
  * expectedHreflangMapFor 按实际存在语言收集，五语言后为完整 5 语言簇。
  */
@@ -112,6 +112,7 @@ const CORE_BASES = [
   '/tools/roundedcorners/',
   '/tools/blurredframe/',
   '/tools/aspectratiocalculator/',
+  '/social-media-image-sizes/',
 ];
 
 /** Phase D：保留索引的 7 个英文专题页（square-collage 已恢复；vertical-collage 仍 301） */
@@ -124,7 +125,6 @@ const EN_TOPIC_KEPT_BASES = [
   '/square-collage/',
   '/vertical-collage/',
   '/wedding-collage-maker/',
-  '/social-media-image-sizes/',
 ];
 /** Phase C 已把语言导航改指语言首页的 6 个 root 专题页（square-collage 恢复后仍指向本地化版本，单独检查） */
 const ROOT_TOPIC_NAV_RETARGETED = [
@@ -134,7 +134,6 @@ const ROOT_TOPIC_NAV_RETARGETED = [
   '/how-to-make-a-collage/',
   '/instagram-story-collage/',
   '/wedding-collage-maker/',
-  '/social-media-image-sizes/',
 ];
 
 /** 32 个本地化专题页（8 专题 × 4 语言）→ noindex、无 hreflang、无 JSON-LD、不进 sitemap */
@@ -2296,7 +2295,7 @@ async function main() {
       ctx.measure('chrome', meta.chrome);
       ctx.measure('server', meta.server);
       ctx.measure('blockedUrls', BLOCKED_URLS);
-      ctx.check('非 404 页面 = 100（68 可索引 + 32 noindex）', meta.inventoryCount === 100, { actual: meta.inventoryCount });
+      ctx.check('非 404 页面 = 104（72 可索引 + 32 noindex）', meta.inventoryCount === 104, { actual: meta.inventoryCount });
       ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase D sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
         actual: { indexable: indexableSet.size, expected: expectedSitemapSet.size },
       });

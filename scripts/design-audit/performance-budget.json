@@ -22,7 +22,7 @@
   },
   "rendered": {
     "viewport": { "width": 390, "height": 844 },
-    "pages": ["/", "/zh/", "/blog/", "/blog/how-to-make-photo-collage/", "/tools/square/", "/tools/aspectratiocalculator/", "/ja/tools/aspectratiocalculator/", "/social-media-image-sizes/"],
+    "pages": ["/", "/zh/", "/blog/", "/blog/how-to-make-photo-collage/", "/tools/square/", "/tools/aspectratiocalculator/", "/ja/tools/aspectratiocalculator/", "/social-media-image-sizes/", "/zh/social-media-image-sizes/", "/tw/social-media-image-sizes/", "/ja/social-media-image-sizes/", "/es/social-media-image-sizes/"],
     "budgets": {
       "nodes": 600,
       "maxDepth": 16,
