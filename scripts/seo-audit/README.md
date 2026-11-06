@@ -1,7 +1,7 @@
 # scripts/seo-audit/ — 多语言 / SEO 浏览器验收 harness
 
 > 零依赖：Node 24 内置 `fetch` / `WebSocket` + Chrome headless（CDP）+ 本地 Vercel 模拟服务器。
-> Phase B 建立；Phase C（内容质量）与 Phase D（工具意图区隔）更新了期望值；当前 v1.3.0。
+> Phase B 建立；Phase C（内容质量）、Phase D（工具意图区隔）与 Phase AR（五语言/FAQ 语义）更新了期望值；当前 v1.4.0。
 > 只读被测站点：不修改站点文件、不做 git 写操作、不部署；不为变绿放宽断言。
 
 ## 1. 快速开始
@@ -23,12 +23,12 @@ node scripts/seo-audit/run-seo-checks.mjs --label phase-c-final --evidence-dir a
 
 | 文件 | 作用 |
 |---|---|
-| `run-seo-checks.mjs` | 检查矩阵 A–H + 报告生成（唯一入口，v1.3.0） |
+| `run-seo-checks.mjs` | 检查矩阵 A–I + 报告生成（唯一入口，v1.4.0；2026-11-06 新增 I1/I2 FAQ 语义） |
 | `server.mjs` | Vercel 路由模拟：cleanUrls、trailingSlash（**先于 redirects 规范化**）、`/tools/*` rewrite、404.html、从 vercel.json 读取精确路径 301/308（Phase D：仅 vertical-collage 两条）；修复 404 响应头顺序与 `文件+尾斜杠` cleanUrl 映射两个 bug |
 
 CDP 客户端复用 `scripts/functional-audit/cdp.mjs`（headless 启动/WebSocket/eval/截图/错误收集）。
 
-## 3. 检查矩阵（A–H）
+## 3. 检查矩阵（A–I）
 
 | 组 | 检查 | 判定/期望（Phase D） |
 |---|---|---|
@@ -63,10 +63,18 @@ CDP 客户端复用 `scripts/functional-audit/cdp.mjs`（headless 启动/WebSock
 | **H1** | 工具意图区隔 | 5 语言 × square/squarecrop：title 不重复、H1 不重复；EN square 含 fill/blur/color/resize/no-crop 信号、squarecrop 含 crop 信号；10 页 `.tool-intent-switch` 互链指向对应语言另一个工具 |
 | **H2** | square-collage 恢复 | `/square-collage/` 本地 200 且无重定向、可索引、在 sitemap 期望集合；canonical 自引用、hreflang 仅 en+x-default；JSON-LD WebPage+BreadcrumbList；语言 nav ≥5 链接；`/square-collage` 无斜杠 1 跳规范化后 200 |
 | **H3** | 首页内链恢复 | 首页静态 HTML 含 `/square-collage/` 卡片链接；该页有 ≥1 站内入链 |
+| **I1** | FAQ 问句语义 | 所有可见 FAQ 标题与 FAQPage `Question.name` 必须以 `?`/`？` 结尾（禁止陈述句/卖点，L-42） |
+| **I2** | 可见 FAQ ↔ JSON-LD | 有 FAQPage 的页面：可见 FAQ 数量/顺序/文本与 `mainEntity[].name` 一一对应；有 JSON-LD 但无可见 FAQ 判 FAIL（L-27+L-42） |
 
 证据：渲染页截图（`shots/rendered-*.png`）+ 完整渲染 HTML（`html/rendered-*.html`）；JSON 每条断言含 `actual`；报告记录 git HEAD + dirty 路径/内容 digest。
 
 ## 4. 验收结果
+
+### 4.0 最新结果（2026-11-06 v1.4.0，含五语言 + FAQ I1/I2）
+
+命令：`node scripts/seo-audit/run-seo-checks.mjs --label phase-faq-semantics --evidence-dir audit/evidence/phase-faq`
+结果：**PASS 34 / FAIL 0 / WARN 0（exit 0）**；sitemap 67、渲染 30 页、可索引 67、本地化可索引 40、noindex 32。
+新增 **I1/I2** 在 roundedcorners/blurredframe ×5 语言修复后通过。
 
 ### 4.1 Phase D 最终结果（`--label phase-d-final --evidence-dir audit/evidence/phase-d`）
 
@@ -107,3 +115,4 @@ CDP 客户端复用 `scripts/functional-audit/cdp.mjs`（headless 启动/WebSock
 - **2026-11-06 v1.2.0（Phase C）**：期望值 60 可索引页 / 32 noindex / 2 个 301 旧页；新增 C6、E5、G1–G6；支持 `--evidence-dir`；server 实现 vercel.json 精确路径重定向。首次 Phase C 验收 27 PASS / 1 FAIL（blurredframe 缺 FAQPage）。
 - **2026-11-06 v1.2.1（Phase C 最终）**：server trailingSlash 先行；G2 跟随完整跳转链记录 hops；G3/E5 增加最终改动抽查。Phase C 28/0/0。
 - **2026-11-06 v1.3.0（Phase D）**：square-collage 恢复为独立索引页（sitemap 61 / indexable 61 / redirected 1）；移除 square 301，仅保留 vertical 两条；新增 C7（square/squarecrop lastmod）与 H1–H3（工具意图区隔/互链、square-collage 恢复、首页内链）。Phase D 最终 **32 PASS / 0 FAIL / 0 WARN（exit 0）**。
+- **2026-11-06 v1.4.0（Phase AR / L-42）**：五语言 Aspect Ratio Calculator 上线（sitemap 67 / 渲染 30 页）；新增 **I1 FAQ 问句语义** 与 **I2 可见 FAQ ↔ JSON-LD 一一对应**；发现并修复 roundedcorners/blurredframe ×5 语言的陈述句 FAQ；最新 **34 PASS / 0 FAIL / 0 WARN（exit 0）**。

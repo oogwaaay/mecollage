@@ -600,6 +600,45 @@ function parseJsonLdBlocks(parsed) {
   });
 }
 
+/** FAQ 问句语义：Question.name / 可见 FAQ 标题必须以问号结尾（L-42） */
+function normalizeFaqText(value) {
+  return decodeEntities(String(value ?? ''))
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function isQuestionText(value) {
+  const text = normalizeFaqText(value);
+  if (!text) return false;
+  return /[?？]$/.test(text);
+}
+
+/** 可见 FAQ 问题标题（兼容 h3.faq-question 与 button.faq-question > span.faq-question-text） */
+function visibleFaqQuestions(html) {
+  const heading = [...html.matchAll(/<(h[1-6])[^>]*class="[^"]*faq-question[^"]*"[^>]*>([\s\S]*?)<\/\1>/gi)]
+    .map((match) => normalizeFaqText(match[2]))
+    .filter(Boolean);
+  if (heading.length > 0) return heading;
+  return [...html.matchAll(/<span[^>]*class="[^"]*faq-question-text[^"]*"[^>]*>([\s\S]*?)<\/span>/gi)]
+    .map((match) => normalizeFaqText(match[1]))
+    .filter(Boolean);
+}
+
+/** 页面 FAQPage JSON-LD 里的 Question.name（按顺序） */
+function jsonLdFaqQuestions(parsed) {
+  const questions = [];
+  for (const block of parseJsonLdBlocks(parsed ?? {})) {
+    for (const node of block.graph ?? []) {
+      if (node?.['@type'] !== 'FAQPage') continue;
+      for (const question of node.mainEntity ?? []) {
+        if (question?.name) questions.push(normalizeFaqText(question.name));
+      }
+    }
+  }
+  return questions;
+}
+
 /** 去标签后的可见文本（静态 HTML） */
 function staticVisibleText(html) {
   const withoutHidden = html
@@ -1156,6 +1195,74 @@ async function runSitemapChecks() {
       ctx.measure('pages', rows);
       ctx.check(`10 个 square/squarecrop 页 lastmod 均为 2026-11-06（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
         actual: failed,
+      });
+    },
+  });
+}
+
+// ---------------------------------------------------------------------------
+// 检查 I：FAQ 问句语义 + 可见 FAQ 与 JSON-LD 一致（Phase AR / L-42）
+// ---------------------------------------------------------------------------
+async function runFaqChecks() {
+  const rows = [];
+  for (const [url, pageInfo] of inventory) {
+    let html = '';
+    try {
+      html = readFileSync(join(ROOT, pageInfo.rel), 'utf8');
+    } catch {
+      continue;
+    }
+    const visible = visibleFaqQuestions(html);
+    const jsonld = jsonLdFaqQuestions(pageInfo.parsed);
+    if (visible.length === 0 && jsonld.length === 0) continue;
+    rows.push({ url, visible, jsonld });
+  }
+
+  await runCase({
+    id: 'I1',
+    group: 'I-faq',
+    name: 'FAQ 问句语义：可见 FAQ 标题与 FAQPage Question.name 均以问号结尾（L-42）',
+    async fn(ctx) {
+      const offenders = [];
+      for (const row of rows) {
+        for (const [source, questions] of [['visible', row.visible], ['jsonld', row.jsonld]]) {
+          for (const question of questions) {
+            if (!isQuestionText(question)) offenders.push({ url: row.url, source, question });
+          }
+        }
+      }
+      ctx.measure('faqPages', rows.length);
+      ctx.measure('offenders', offenders);
+      ctx.check(`FAQ 问句语义合格（${rows.length} 个 FAQ 页面，0 个陈述句）`, offenders.length === 0, {
+        actual: offenders.slice(0, 20),
+      });
+    },
+  });
+
+  await runCase({
+    id: 'I2',
+    group: 'I-faq',
+    name: 'FAQPage JSON-LD 与可见 FAQ 一一对应（数量/顺序/文本，L-27+L-42）',
+    async fn(ctx) {
+      const mismatches = [];
+      let checked = 0;
+      for (const row of rows) {
+        if (row.jsonld.length === 0) continue;
+        checked += 1;
+        const problems = [];
+        if (row.visible.length === 0) problems.push('有 FAQPage JSON-LD 但没有可见 FAQ');
+        else if (row.visible.length !== row.jsonld.length) problems.push(`可见 ${row.visible.length} 条 ≠ JSON-LD ${row.jsonld.length} 条`);
+        else {
+          for (let i = 0; i < row.visible.length; i += 1) {
+            if (row.visible[i] !== row.jsonld[i]) problems.push(`第 ${i + 1} 条不一致：visible=${row.visible[i]} / jsonld=${row.jsonld[i]}`);
+          }
+        }
+        if (problems.length > 0) mismatches.push({ url: row.url, problems });
+      }
+      ctx.measure('checkedJsonLdFaqPages', checked);
+      ctx.measure('mismatches', mismatches);
+      ctx.check(`FAQPage 与可见 FAQ 一致（${checked - mismatches.length}/${checked}）`, mismatches.length === 0, {
+        actual: mismatches.slice(0, 15),
       });
     },
   });
@@ -2222,6 +2329,7 @@ async function main() {
   await runRobotsChecks();
   await runPhaseCChecks();
   await runPhaseDChecks();
+  await runFaqChecks();
 
   // 渲染证据清单补入 ENV-01
   const envCase = results.find((result) => result.id === 'ENV-01');
