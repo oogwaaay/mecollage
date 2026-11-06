@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>原型 · desktop-tool-first（1440×900）— MeCollage</title>
+  <link rel="stylesheet" href="../../../assets/css/design-tokens.css" />
+  <link rel="stylesheet" href="../../../assets/css/components.css" />
+  <style>
+    /* ===== 原型评审层（仅原型用；红色 = 评审标注） ===== */
+    .proto-note { position: relative; z-index: 30; display: grid; grid-template-columns: auto 1fr auto; gap: 10px 24px; align-items: center; padding: 10px 24px; background: rgba(26, 13, 14, 0.94); border-bottom: 1px solid rgba(255, 93, 93, 0.55); font-size: 11.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.88); }
+    .pn-left { display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+    .pn-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.04em; color: #ffd9d9; background: rgba(229, 57, 53, 0.2); border: 1px solid rgba(229, 57, 53, 0.6); border-radius: var(--mc-radius-pill); padding: 2px 8px; }
+    .pn-title { font-size: 12px; font-weight: 700; color: #fff; }
+    .pn-dim { color: rgba(255, 255, 255, 0.45); }
+    .proto-note p { margin: 0; }
+    .proto-note b { color: #fff; }
+    .proto-note .k { color: #ff9b9b; font-weight: 700; }
+    .pn-mid p + p { margin-top: 2px; }
+    .pn-right { text-align: right; }
+    .pn-legend { color: rgba(255, 255, 255, 0.62); font-size: 10.5px; }
+    .pn-legend em { color: #ff9b9b; font-style: normal; font-weight: 700; }
+    .pn-links { margin-top: 4px; display: flex; gap: 12px; justify-content: flex-end; }
+    .pn-links a { color: #9ee89e; font-size: 11px; text-decoration: none; }
+
+    .pmark { position: absolute; z-index: 90; display: flex; gap: 5px; align-items: flex-start; pointer-events: none; font-size: 9.5px; line-height: 1.25; color: #fff; }
+    .pmark__n { flex: none; width: 21px; height: 21px; border-radius: var(--mc-radius-circle); background: #e53935; border: 1.5px solid #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); font: 700 11px/18px var(--mc-font-sans); text-align: center; color: #fff; }
+    .pmark__t { max-width: 180px; background: rgba(183, 28, 28, 0.9); border: 1px solid rgba(255, 255, 255, 0.38); border-radius: 5px; padding: 2px 6px; font-weight: 600; text-shadow: none; }
+    .pmark--r { flex-direction: row-reverse; text-align: right; }
+    .pmark--dot .pmark__t { display: none; }
+    .foldline { position: absolute; left: 0; right: 0; z-index: 85; border-top: 2px dashed #ff5d5d; pointer-events: none; }
+    .foldline span { position: absolute; right: 10px; top: 4px; background: #e53935; color: #fff; font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 4px; }
+
+    /* ===== 页面本体（1440 视口，token only） ===== */
+    .screen { position: relative; width: 100%; margin: 0 auto; }
+    .ic { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .photo { display: block; width: 100%; height: 100%; }
+    /* 壁纸：components.css 里是绝对路径 /wallImage.webp（file:// 下失效、且原型位于 docs/ 下）。
+       这里用更高特异性（html body）+ 内联样式后加载，覆盖为相对仓库根的本地壁纸，离线可用。 */
+    html body .ghibli-background { background-image: url(../../../wallImage.webp); background-attachment: scroll; }
+    .wrap { width: 100%; max-width: var(--mc-container-content); margin: 0 auto; padding: 0 var(--mc-space-8); }
+
+    /* 紧凑页头：只有一层（原：全局 nav 72px + 工具 nav 84px + 意图条） */
+    .topbar { position: sticky; top: 0; z-index: 70; display: flex; align-items: center; gap: var(--mc-space-6); height: 60px; padding: 0 var(--mc-space-6); background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-glass-backdrop)); border-bottom: 1px solid var(--mc-border-subtle); }
+    .brand { display: inline-flex; align-items: center; gap: var(--mc-space-2); font-size: var(--mc-font-size-h4); font-weight: var(--mc-font-weight-bold); color: var(--mc-text-heading); text-decoration: none; letter-spacing: var(--mc-tracking-tight); text-shadow: var(--mc-text-shadow-heading); }
+    .brand .ic { width: 22px; height: 22px; color: var(--mc-color-brand); stroke-width: 2; }
+    .topnav { display: flex; align-items: center; gap: var(--mc-space-1); }
+    .topnav a { display: inline-flex; align-items: center; height: 40px; padding: 0 var(--mc-space-4); border-radius: var(--mc-radius-pill); color: var(--mc-text-body); font-size: var(--mc-font-size-caption); font-weight: var(--mc-font-weight-semibold); text-decoration: none; }
+    .topnav a:hover { background: var(--mc-surface-3); }
+    .topbar__right { margin-left: auto; display: flex; align-items: center; gap: var(--mc-space-2); }
+    .pill { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 var(--mc-space-4); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-pill); background: var(--mc-surface-3); color: var(--mc-text-body); font-size: var(--mc-font-size-caption); font-weight: var(--mc-font-weight-semibold); text-decoration: none; }
+    .pill .ic { width: 15px; height: 15px; }
+
+    /* 紧凑 intro：小标题 + 工具 segmented 同一行 */
+    .intro { display: flex; align-items: center; gap: var(--mc-space-6); padding-top: var(--mc-space-5); }
+    .intro__text { min-width: 0; }
+    .intro h1 { margin: 0; font-size: var(--mc-font-size-h2-sm); line-height: var(--mc-leading-tight); letter-spacing: var(--mc-tracking-tight); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-display); }
+    .intro p { margin: 4px 0 0; font-size: var(--mc-font-size-caption); color: var(--mc-text-secondary); }
+    .seg { display: flex; gap: var(--mc-space-1); margin-left: auto; padding: 4px; border: 1px solid var(--mc-border); border-radius: var(--mc-radius-pill); background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-md)); }
+    .seg a { display: inline-flex; align-items: center; height: 36px; padding: 0 var(--mc-space-4); border-radius: var(--mc-radius-pill); color: var(--mc-text-secondary); font-size: var(--mc-font-size-2xs); font-weight: var(--mc-font-weight-semibold); text-decoration: none; white-space: nowrap; }
+    .seg a.is-active { background: var(--mc-color-brand-tint-strong); color: var(--mc-text-heading); box-shadow: inset 0 0 0 1px var(--mc-border-brand); }
+
+    /* 工具区：首屏（<900px）内完成上传/预览/模式/设置/下载 */
+    .workspace { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: var(--mc-space-5); height: 656px; padding-top: var(--mc-space-4); }
+    .panel { background: var(--mc-surface-3); border: var(--mc-border-width) solid var(--mc-border); border-radius: var(--mc-radius-panel); box-shadow: var(--mc-shadow-e4), inset 0 1px 0 rgba(255, 255, 255, 0.05); backdrop-filter: blur(var(--mc-glass-backdrop)); }
+    .preview-panel { display: flex; flex-direction: column; padding: var(--mc-space-4); }
+    .pv-head { display: flex; align-items: center; gap: var(--mc-space-2); margin-bottom: var(--mc-space-2); }
+    .pv-head h2 { margin: 0; font-size: var(--mc-font-size-label); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-heading); }
+    .size-chip { padding: 2px 8px; border-radius: var(--mc-radius-pill); background: var(--mc-surface-0); border: 1px solid var(--mc-border-subtle); font-size: var(--mc-font-size-2xs); color: var(--mc-text-tertiary); }
+    .pv-head .spacer { margin-left: auto; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 var(--mc-space-3); border: 1px solid var(--mc-border-input); border-radius: var(--mc-radius-control); background: var(--mc-surface-2); color: var(--mc-text-body); font: 600 var(--mc-font-size-caption)/1 var(--mc-font-sans); cursor: pointer; }
+    .btn-ghost .ic { width: 16px; height: 16px; }
+    .stage { flex: 1; min-height: 0; display: grid; place-items: center; }
+    .sq { position: relative; width: min(100%, 520px); aspect-ratio: 1; overflow: hidden; border-radius: var(--mc-radius-lg); box-shadow: var(--mc-shadow-e2), 0 0 0 1px var(--mc-border); background: var(--mc-solid-bg); }
+    .sq .blur-bg { position: absolute; inset: -8%; filter: blur(14px) saturate(0.95) brightness(0.82); transform: scale(1.16); }
+    .sq .sharp { position: absolute; left: 0; right: 0; top: 12.5%; height: 75%; overflow: hidden; box-shadow: var(--mc-shadow-overlay-3); }
+    .sq .tag { position: absolute; left: 10px; top: 10px; padding: 3px 9px; border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); border: 1px solid var(--mc-border); color: var(--mc-text-primary); font-size: 9.5px; font-weight: 600; backdrop-filter: blur(var(--mc-blur-sm)); }
+    .pv-foot { display: flex; align-items: center; gap: var(--mc-space-2); min-height: 48px; margin-top: var(--mc-space-2); }
+    .drop-hint { display: flex; align-items: center; gap: var(--mc-space-2); flex: 1; min-height: 44px; padding: 0 var(--mc-space-3); border: 1px dashed var(--mc-border-brand); border-radius: var(--mc-radius-control); background: var(--mc-color-brand-wash); color: var(--mc-text-tertiary); font-size: var(--mc-font-size-2xs); }
+    .drop-hint .ic { width: 16px; height: 16px; color: var(--mc-text-heading); flex: none; }
+    .link-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 var(--mc-space-2); border: 0; background: transparent; color: var(--mc-text-link); font: 600 var(--mc-font-size-caption)/1 var(--mc-font-sans); cursor: pointer; }
+    .link-btn .ic { width: 15px; height: 15px; }
+
+    /* 右栏：模式 + 设置 + 下载（首屏同屏） */
+    .tool-panel { display: flex; flex-direction: column; gap: var(--mc-space-3); padding: var(--mc-space-4); overflow: hidden; }
+    .tool-panel h2 { margin: 0; font-size: var(--mc-font-size-label); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-heading); }
+    .modes { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mc-space-2); }
+    .mode { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; min-height: 76px; padding: var(--mc-space-2) var(--mc-space-3); border: 2px solid var(--mc-border-input); border-radius: var(--mc-radius-control); background: var(--mc-surface-2); color: var(--mc-text-body); text-align: left; font-family: var(--mc-font-sans); cursor: pointer; }
+    .mode .ic { width: 19px; height: 19px; color: var(--mc-text-heading); }
+    .mode b { font-size: var(--mc-font-size-caption); font-weight: var(--mc-font-weight-semibold); color: var(--mc-text-emphasis); text-shadow: var(--mc-text-shadow-body); }
+    .mode span { font-size: 9.5px; line-height: 1.25; color: var(--mc-text-muted); }
+    .mode .picked { position: absolute; top: 6px; right: 6px; display: none; place-items: center; width: 18px; height: 18px; border-radius: var(--mc-radius-circle); background: var(--mc-color-brand); color: var(--mc-text-on-brand-strong); }
+    .mode .picked .ic { width: 11px; height: 11px; color: inherit; stroke-width: 2.6; }
+    .mode[aria-pressed="true"] { background: var(--mc-color-brand-tint-strong); border-color: var(--mc-border-brand-strong); }
+    .mode[aria-pressed="true"] .picked { display: grid; }
+    .divider { height: 1px; background: var(--mc-border-subtle); }
+    .presets { display: flex; gap: 6px; padding: 0 0 var(--mc-space-1); }
+    .presets button { flex: 1; min-height: 36px; border: 1px solid var(--mc-border-input); border-radius: var(--mc-radius-pill); background: var(--mc-surface-2); color: var(--mc-text-body); font: 600 11px/1 var(--mc-font-sans); cursor: pointer; }
+    .presets button.is-active { background: var(--mc-color-brand-tint-strong); border-color: var(--mc-border-brand-strong); color: var(--mc-text-heading); }
+    .out-row { display: flex; align-items: center; justify-content: space-between; gap: var(--mc-space-2); font-size: 11px; color: var(--mc-text-muted); }
+    .out-row b { font-weight: 600; color: var(--mc-text-emphasis); }
+    .set-row { display: flex; align-items: center; gap: var(--mc-space-2); min-height: 40px; }
+    .set-row label { flex: none; width: 104px; font-size: var(--mc-font-size-caption); color: var(--mc-text-secondary); }
+    .set-row input[type="range"] { flex: 1; height: 40px; accent-color: var(--mc-color-brand); }
+    .set-row output { flex: none; width: 42px; text-align: right; font-size: var(--mc-font-size-caption); color: var(--mc-text-heading); font-variant-numeric: tabular-nums; }
+    .set-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--mc-space-2); }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field label { font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted); }
+    .sel { width: 100%; min-height: 40px; padding: 0 var(--mc-space-2); border: var(--mc-input-border); border-radius: var(--mc-radius-control); background: var(--mc-surface-3); color: var(--mc-text-primary); font: 500 var(--mc-font-size-caption)/1 var(--mc-font-sans); appearance: none; box-shadow: var(--mc-shadow-inset); }
+    .sel option { background: var(--mc-ink-950); }
+    .download { margin-top: auto; }
+    .btn-download { display: flex; align-items: center; justify-content: center; gap: var(--mc-space-2); width: 100%; min-height: 52px; border: 1px solid var(--mc-border-success-strong); border-radius: var(--mc-radius-control); background: var(--mc-gradient-success); color: var(--mc-text-primary); font: 700 var(--mc-font-size-body-sm)/1 var(--mc-font-sans); box-shadow: var(--mc-shadow-e2); cursor: pointer; }
+    .btn-download .ic { width: 18px; height: 18px; }
+    .download .hint { margin: 6px 0 0; text-align: center; font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted); }
+
+    /* 首屏底部信任条 */
+    .trust-strip { display: flex; align-items: center; gap: var(--mc-space-4); min-height: 48px; padding-top: var(--mc-space-3); }
+    .trust-strip .item { display: inline-flex; align-items: center; gap: 6px; font-size: var(--mc-font-size-caption); color: var(--mc-text-secondary); }
+    .trust-strip .item .ic { width: 15px; height: 15px; color: var(--mc-color-brand); }
+    .trust-strip .more { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font-size: var(--mc-font-size-caption); color: var(--mc-text-link); text-decoration: none; }
+    .trust-strip .more .ic { width: 15px; height: 15px; }
+
+    /* ===== 900px 之后：SEO 内容（P2-10） ===== */
+    .below { margin-top: var(--mc-space-6); padding: var(--mc-space-8) 0 var(--mc-space-6); background: var(--mc-surface-1); border-top: 1px solid var(--mc-border); }
+    .below .lead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--mc-space-4); margin-bottom: var(--mc-space-5); }
+    .below h2 { margin: 0; font-size: var(--mc-font-size-h2-sm); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-heading); }
+    .below .lead p { margin: 0; font-size: var(--mc-font-size-caption); color: var(--mc-text-muted); }
+    .howto { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--mc-space-3); margin-bottom: var(--mc-space-6); }
+    .howto .step { display: flex; gap: var(--mc-space-3); padding: var(--mc-space-4); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-card); background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); }
+    .howto .n { flex: none; display: grid; place-items: center; width: 30px; height: 30px; border-radius: var(--mc-radius-circle); background: var(--mc-color-brand-tint-strong); color: var(--mc-text-heading); font-size: var(--mc-font-size-caption); font-weight: 700; }
+    .howto b { display: block; font-size: var(--mc-font-size-caption); color: var(--mc-text-emphasis); }
+    .howto span { font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted); line-height: 1.45; }
+    .mode-table { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--mc-space-3); margin-bottom: var(--mc-space-5); }
+    .mode-card { padding: var(--mc-space-4); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-card); background: var(--mc-surface-2); }
+    .mode-card .ic { width: 20px; height: 20px; color: var(--mc-text-heading); }
+    .mode-card h3 { margin: var(--mc-space-2) 0 4px; font-size: var(--mc-font-size-label); color: var(--mc-text-emphasis); text-shadow: var(--mc-text-shadow-body); }
+    .mode-card p { margin: 0; font-size: var(--mc-font-size-2xs); line-height: var(--mc-leading-snug); color: var(--mc-text-muted); }
+    .mode-card .keeps { display: inline-flex; align-items: center; gap: 4px; margin-top: var(--mc-space-2); font-size: 9.5px; color: var(--mc-text-tertiary); }
+    .mode-card .keeps .ic { width: 12px; height: 12px; }
+    .intent { display: flex; align-items: center; gap: var(--mc-space-3); padding: var(--mc-space-4); border: 1px solid var(--mc-border-brand-subtle); border-radius: var(--mc-radius-card); background: var(--mc-color-brand-wash); }
+    .intent .ic { width: 20px; height: 20px; color: var(--mc-text-heading); flex: none; }
+    .intent p { margin: 0; font-size: var(--mc-font-size-caption); color: var(--mc-text-secondary); }
+    .intent a { color: var(--mc-text-link); font-weight: 700; text-decoration: none; }
+    .faq { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mc-space-2); margin-top: var(--mc-space-5); }
+    .faq details { overflow: hidden; border: 1px solid var(--mc-border); border-radius: var(--mc-radius-item); background: var(--mc-surface-2); }
+    .faq summary { display: flex; align-items: center; justify-content: space-between; gap: var(--mc-space-2); min-height: 52px; padding: var(--mc-space-3) var(--mc-space-4); cursor: pointer; list-style: none; font-size: var(--mc-font-size-caption); font-weight: var(--mc-font-weight-semibold); color: var(--mc-text-emphasis); text-shadow: var(--mc-text-shadow-body); }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary .ic { width: 15px; height: 15px; color: var(--mc-text-muted); }
+    .faq p { margin: 0; padding: 0 var(--mc-space-4) var(--mc-space-4); font-size: var(--mc-font-size-2xs); line-height: var(--mc-leading-normal); color: var(--mc-text-secondary); }
+    footer.site { margin-top: var(--mc-space-6); padding: var(--mc-space-5) var(--mc-space-8); text-align: center; border-top: 1px solid var(--mc-border-subtle); background: var(--mc-surface-1); }
+    footer.site .trust { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 0 var(--mc-space-2); font-size: var(--mc-font-size-caption); font-weight: var(--mc-font-weight-semibold); color: var(--mc-text-heading); }
+    footer.site .trust .ic { width: 14px; height: 14px; }
+    footer.site .links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--mc-space-4); }
+    footer.site .links a { display: inline-flex; align-items: center; min-height: 40px; font-size: var(--mc-font-size-caption); color: var(--mc-text-link); text-decoration: none; }
+    footer.site .copy { margin: var(--mc-space-1) 0 0; font-size: var(--mc-font-size-2xs); color: var(--mc-text-faint); }
+  </style>
+</head>
+<body>
+  <div class="ghibli-background" aria-hidden="true"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4 8.5 4 15.5c0 1.6.5 3 1.3 4.1C8 15 12.5 12 18 11c-4.8 2.3-8 5.7-9.6 10.4 1.1.6 2.3 1 3.6 1C18.5 22.4 20 13.6 20 4Z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.2 9h17.6M3.2 15h17.6M12 3c2.4 2.4 3.6 5.4 3.6 9S14.4 18.6 12 21M12 3c-2.4 2.4-3.6 5.4-3.6 9s1.2 6.6 3.6 9"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M11 3.5 12.6 8 17 9.6 12.6 11.2 11 15.7 9.4 11.2 5 9.6 9.4 8 11 3.5Z"/><path d="M18.5 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-blur" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" stroke-dasharray="2.4 3.2"/><circle cx="12" cy="12" r="3.6"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18h1.6a2 2 0 0 0 0-4H13a1.6 1.6 0 0 1 0-3.2h3.6A4.4 4.4 0 0 0 21 9.4 6.8 6.8 0 0 0 12 3Z"/><circle cx="7.6" cy="10.2" r="1"/><circle cx="10.2" cy="6.9" r="1"/><circle cx="14.6" cy="7" r="1"/></symbol>
+    <symbol id="i-resize" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></symbol>
+    <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6 3v13a2 2 0 0 0 2 2h13"/><path d="M3 6h13a2 2 0 0 1 2 2v13"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v12m0 0 4.5-4.5M12 16l-4.5-4.5"/><path d="M4 18v1.5A1.5 1.5 0 0 0 5.5 21h13a1.5 1.5 0 0 0 1.5-1.5V18"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.6"/><path d="M20 4v4h-4"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m0 0-5.5-5.5M19 12l-5.5 5.5"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.8" cy="9.8" r="1.5"/><path d="m4 17.5 4.8-4.8 3.8 3.8 2.9-2.9L20 18"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+
+    <symbol id="ph-lake" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+      <defs><linearGradient id="lkSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7b267"/><stop offset=".55" stop-color="#f4845f"/><stop offset="1" stop-color="#7a5c8e"/></linearGradient><linearGradient id="lkWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b4a78"/><stop offset="1" stop-color="#27324d"/></linearGradient></defs>
+      <rect width="400" height="300" fill="url(#lkSky)"/><circle cx="296" cy="92" r="33" fill="#ffe3a8" opacity=".95"/><path d="M0 190 70 128 132 178 206 118 280 180 340 138 400 190V300H0Z" fill="#5a4a6b"/><rect y="196" width="400" height="104" fill="url(#lkWater)"/><path d="M0 208h400M0 222h400M0 240h400M0 260h400" stroke="#ffffff" stroke-opacity=".08"/><path d="M258 200h44l-8 100h-26Z" fill="#ffcf8f" opacity=".32"/>
+    </symbol>
+    <symbol id="ph-portrait" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice">
+      <defs><linearGradient id="ptBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe3d8"/><stop offset="1" stop-color="#7fa892"/></linearGradient></defs>
+      <rect width="300" height="400" fill="url(#ptBg)"/><circle cx="150" cy="150" r="52" fill="#e8c4a2"/><path d="M96 146c0-40 24-64 54-64s54 24 54 64c-8-22-26-32-54-32s-46 10-54 32Z" fill="#3b322c"/><path d="M62 400c6-92 44-134 88-134s82 42 88 134Z" fill="#33513f"/>
+    </symbol>
+    <symbol id="ph-hills" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
+      <defs><linearGradient id="hlSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9ed7e8"/><stop offset="1" stop-color="#e8f3d6"/></linearGradient></defs>
+      <rect width="400" height="300" fill="url(#hlSky)"/><circle cx="320" cy="66" r="26" fill="#ffe9a8"/><path d="M0 210c60-52 110-52 170-10s130 34 230-24v124H0Z" fill="#7cb26a"/><path d="M0 250c80-40 150-30 220 4s120 22 180-8v54H0Z" fill="#4e8a56"/><path d="M60 190l14-30 14 30Z M92 196l12-24 12 24Z" fill="#335f3d"/><path d="M210 96c6-6 12-6 18 0M236 84c5-5 10-5 15 0" stroke="#ffffff" stroke-opacity=".8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </svg>
+
+  <!-- ===================== 原型注释条 ===================== -->
+  <aside class="proto-note">
+    <div class="pn-left">
+      <span class="pn-badge">原型 · R1</span>
+      <span class="pn-title">desktop-tool-first.html</span>
+      <span class="pn-dim">1440×900 · 静态高保真</span>
+    </div>
+    <div class="pn-mid">
+      <p><b>解决：</b>桌面工具页上传区在 y=485–607px；页头叠了长 H1 + 副标题胶囊 + 84px 工具导航 + 意图切换条；工具名三种叫法（Square Image / Square Image Converter / Fill, Blur or Resize…）。</p>
+      <p><b>审计：</b><span class="k">P0-1</span> <span class="k">P0-2</span> <span class="k">P2-1</span> <span class="k">P2-10</span> · 路线 <span class="k">R1</span>（可先用 components.css 覆盖层实现）</p>
+    </div>
+    <div class="pn-right">
+      <p class="pn-legend"><em>①</em> 紧凑单层页头 <em>②</em> 工具 segmented <em>③</em> 工具名统一 <em>④</em> 工具区进首屏 <em>⑤</em> 模式/设置/下载同屏 <em>⑥</em> SEO 下移</p>
+      <div class="pn-links"><a href="index.html">← 总览</a><a href="editor-interactions.html">← editor</a></div>
+    </div>
+  </aside>
+
+  <!-- ===================== 被评审页面（1440×900） ===================== -->
+  <div class="screen">
+    <header class="topbar">
+      <a class="brand" href="#"><svg class="ic" aria-hidden="true"><use href="#i-leaf"/></svg>MeCollage</a>
+      <nav class="topnav" aria-label="Site">
+        <a href="#">Collage Maker</a>
+        <a href="#">Guides</a>
+        <a href="#">FAQ</a>
+        <a href="#">About</a>
+      </nav>
+      <div class="topbar__right">
+        <span class="pill"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>100% on-device</span>
+        <a class="pill" href="#">EN</a>
+        <button class="pill" type="button" aria-label="Menu"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+      </div>
+    </header>
+
+    <div class="wrap">
+      <!-- 紧凑 intro：短标题 + 工具 segmented（P0-1/P0-2） -->
+      <div class="intro">
+        <div class="intro__text">
+          <h1>Square Image</h1>
+          <p>Make any photo square — blur background, color fill, resize or crop. Free, no sign-up.</p>
+        </div>
+        <nav class="seg" aria-label="Tools">
+          <a href="#">Collage Maker</a>
+          <a href="#">Square Crop</a>
+          <a href="#">Rounded Corners</a>
+          <a class="is-active" href="#" aria-current="page">Square Image</a>
+          <a href="#">Blurred Frame</a>
+        </nav>
+      </div>
+
+      <!-- 工具区：首屏完成上传/预览/模式/设置/下载 -->
+      <div class="workspace">
+        <section class="panel preview-panel" aria-label="Preview">
+          <div class="pv-head">
+            <h2>Preview</h2>
+            <span class="size-chip">1200 × 1200 px</span>
+            <span class="spacer"></span>
+            <button class="btn-ghost" type="button"><svg class="ic" aria-hidden="true"><use href="#i-refresh"/></svg>Replace photo</button>
+          </div>
+          <div class="stage">
+            <div class="sq">
+              <div class="blur-bg"><svg class="photo" aria-hidden="true"><use href="#ph-lake"/></svg></div>
+              <div class="sharp"><svg class="photo" aria-hidden="true"><use href="#ph-lake"/></svg></div>
+              <span class="tag">Blur background · whole photo kept</span>
+            </div>
+          </div>
+          <div class="pv-foot">
+            <span class="drop-hint"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg>Drop a new photo here to replace · JPG / PNG / WEBP</span>
+            <button class="link-btn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"/></svg>Try sample photo</button>
+          </div>
+        </section>
+
+        <aside class="panel tool-panel" aria-label="Tool settings">
+          <h2>Mode</h2>
+          <div class="modes" role="group" aria-label="Square modes">
+            <button class="mode" type="button" aria-pressed="true">
+              <span class="picked"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></span>
+              <svg class="ic" aria-hidden="true"><use href="#i-blur"/></svg><b>Blur background</b><span>Whole photo + blurred fill</span>
+            </button>
+            <button class="mode" type="button" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-palette"/></svg><b>Color background</b><span>Whole photo + solid fill</span></button>
+            <button class="mode" type="button" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-resize"/></svg><b>Resize to fit</b><span>Stretch to square</span></button>
+            <button class="mode" type="button" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-crop"/></svg><b>Crop to square</b><span>Centre 1:1 crop</span></button>
+          </div>
+          <div class="divider"></div>
+          <div class="set-row"><label for="blur">Background blur</label><input id="blur" type="range" min="0" max="100" value="42" /><output>42%</output></div>
+          <div class="presets" role="group" aria-label="Blur presets"><button type="button">Soft</button><button type="button" class="is-active">Medium</button><button type="button">Strong</button></div>
+          <div class="set-row"><label for="pad">Padding</label><input id="pad" type="range" min="0" max="30" value="12" /><output>12%</output></div>
+          <div class="set-grid">
+            <div class="field"><label for="size">Size</label><select class="sel" id="size"><option>1200 px</option><option>1080 px</option><option>Original</option></select></div>
+            <div class="field"><label for="fmt">Format</label><select class="sel" id="fmt"><option>JPEG</option><option>PNG</option><option>WEBP</option></select></div>
+            <div class="field"><label for="q">Quality</label><select class="sel" id="q"><option>85%</option><option>100%</option><option>70%</option></select></div>
+          </div>
+          <div class="divider"></div>
+          <div class="out-row"><span>Output estimate</span><b>1200 × 1200 · JPEG · ~1.8 MB</b></div>
+          <div class="download">
+            <button class="btn-download" type="button"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Download image</button>
+            <p class="hint">No watermark · No sign-up · Processed on your device</p>
+          </div>
+        </aside>
+      </div>
+
+      <!-- 首屏底部信任条 -->
+      <div class="trust-strip">
+        <span class="item"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>Photos never leave your device</span>
+        <span class="item"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Free · no watermark</span>
+        <span class="item"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>JPG / PNG / WEBP</span>
+        <a class="more" href="#">How it works<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+
+    <!-- ===================== 900px 之后：SEO 内容下移（P2-10） ===================== -->
+    <div class="below">
+      <div class="wrap">
+        <div class="lead">
+          <h2>How to make an image square</h2>
+          <p>Everything below is below the tool — kept for search, out of the way of the task.</p>
+        </div>
+        <div class="howto">
+          <div class="step"><span class="n">1</span><div><b>Add your photo</b><span>JPG, PNG or WEBP. Nothing is uploaded — processing happens in your browser.</span></div></div>
+          <div class="step"><span class="n">2</span><div><b>Pick a mode</b><span>Blur or color keeps the whole photo; resize stretches; crop cuts to the centre 1:1.</span></div></div>
+          <div class="step"><span class="n">3</span><div><b>Download</b><span>1200 px by default — Instagram-ready — or keep the original size.</span></div></div>
+        </div>
+
+        <div class="mode-table">
+          <article class="mode-card"><svg class="ic" aria-hidden="true"><use href="#i-blur"/></svg><h3>Blur background</h3><p>Blurred copy of the photo fills the square. The original stays sharp and complete.</p><span class="keeps"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Keeps the whole photo</span></article>
+          <article class="mode-card"><svg class="ic" aria-hidden="true"><use href="#i-palette"/></svg><h3>Color background</h3><p>Fill the extra space with a solid color — clean and lightweight.</p><span class="keeps"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Keeps the whole photo</span></article>
+          <article class="mode-card"><svg class="ic" aria-hidden="true"><use href="#i-resize"/></svg><h3>Resize to fit</h3><p>Stretch the whole image into a square — fastest, but proportions change.</p><span class="keeps"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Keeps the whole photo</span></article>
+          <article class="mode-card"><svg class="ic" aria-hidden="true"><use href="#i-crop"/></svg><h3>Crop to square</h3><p>Cut the photo to the centre 1:1 area — smallest file, but edges are lost.</p><span class="keeps"><svg class="ic" aria-hidden="true"><use href="#i-crop"/></svg>Loses edges</span></article>
+        </div>
+
+        <div class="intent">
+          <svg class="ic" aria-hidden="true"><use href="#i-crop"/></svg>
+          <p>Need a dedicated 1:1 crop workflow with pan &amp; zoom? <a href="#">Use Square Crop →</a></p>
+        </div>
+
+        <div class="faq">
+          <details open>
+            <summary>Can I make an image square without cropping?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+            <p>Yes — blur background and color background keep the entire photo and fill the square space around it. Nothing is cut off.</p>
+          </details>
+          <details>
+            <summary>What is the best square size for social media?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+            <p>1200 × 1200 px is the safest default for Instagram, Facebook, LinkedIn and X.</p>
+          </details>
+          <details>
+            <summary>What formats are supported?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+            <p>Upload JPG, PNG or WEBP; download JPEG, PNG or WEBP. All processing is local.</p>
+          </details>
+          <details>
+            <summary>Is this tool free?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+            <p>Yes — free, no watermarks, no sign-up, unlimited images.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site">
+      <p class="trust"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>Free · No sign-up · Photos never leave your device</p>
+      <nav class="links" aria-label="Footer">
+        <a href="#">Home</a><a href="#">About</a><a href="#">Blog</a><a href="#">Guides</a><a href="#">Privacy</a><a href="#">Terms</a>
+      </nav>
+      <p class="copy">© 2026 MeCollage</p>
+    </footer>
+
+    <!-- ===================== 评审标注 ===================== -->
+    <div class="foldline" style="top: 900px"><span>900px 首屏线</span></div>
+    <div class="pmark" style="top: 8px; left: 530px"><span class="pmark__n">1</span><span class="pmark__t">紧凑单层页头（原 nav + 工具 nav 两层）</span></div>
+    <div class="pmark" style="top: 140px; left: 700px"><span class="pmark__n">2</span><span class="pmark__t">工具 segmented（原 84px 工具导航）</span></div>
+    <div class="pmark" style="top: 88px; left: 360px"><span class="pmark__n">3</span><span class="pmark__t">工具名统一 “Square Image”</span></div>
+    <div class="pmark" style="top: 208px; left: 140px"><span class="pmark__n">4</span><span class="pmark__t">上传/预览进首屏（原 y=607）</span></div>
+    <div class="pmark pmark--r" style="top: 696px; right: 24px"><span class="pmark__n">5</span><span class="pmark__t">模式/设置/下载同屏</span></div>
+    <div class="pmark pmark--r" style="top: 906px; right: 24px"><span class="pmark__n">6</span><span class="pmark__t">SEO 下移（文本保留）</span></div>
+  </div>
+</body>
+</html>
