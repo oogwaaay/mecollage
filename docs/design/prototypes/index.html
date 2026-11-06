@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>MeCollage 交互原型 · 4 个方案（R0/R1）</title>
+  <link rel="stylesheet" href="../../../assets/css/design-tokens.css" />
+  <link rel="stylesheet" href="../../../assets/css/components.css" />
+  <style>
+    /* ===== 原型评审层 ===== */
+    .proto-note { position: relative; z-index: 30; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; padding: 10px 24px; background: rgba(26, 13, 14, 0.94); border-bottom: 1px solid rgba(255, 93, 93, 0.55); font-size: 11.5px; line-height: 1.5; color: rgba(255, 255, 255, 0.88); }
+    .pn-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.04em; color: #ffd9d9; background: rgba(229, 57, 53, 0.2); border: 1px solid rgba(229, 57, 53, 0.6); border-radius: var(--mc-radius-pill); padding: 2px 8px; white-space: nowrap; }
+    .pn-title { font-size: 12.5px; font-weight: 700; color: #fff; }
+    .proto-note p { margin: 0; }
+    .proto-note b { color: #fff; }
+    .proto-note .k { color: #ff9b9b; font-weight: 700; }
+    .pn-links { margin-left: auto; display: flex; gap: 14px; }
+    .pn-links a { color: #9ee89e; font-size: 11px; text-decoration: none; }
+
+    /* ===== 总览页本体（token only） ===== */
+    .ic { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    /* 壁纸：components.css 里是绝对路径 /wallImage.webp（file:// 下失效、且原型位于 docs/ 下）。
+       这里用更高特异性（html body）+ 内联样式后加载，覆盖为相对仓库根的本地壁纸，离线可用。 */
+    html body .ghibli-background { background-image: url(../../../wallImage.webp); background-attachment: scroll; }
+    .wrap { width: 100%; max-width: var(--mc-container-content); margin: 0 auto; padding: var(--mc-space-8) var(--mc-space-8) var(--mc-space-10); }
+    .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--mc-space-6); align-items: end; padding-bottom: var(--mc-space-6); border-bottom: 1px solid var(--mc-border-subtle); }
+    .eyebrow { display: inline-flex; align-items: center; gap: var(--mc-space-2); margin-bottom: var(--mc-space-3); font-size: var(--mc-font-size-caption); font-weight: 600; letter-spacing: var(--mc-tracking-wide); color: var(--mc-text-heading); }
+    .eyebrow .dot { width: 7px; height: 7px; border-radius: var(--mc-radius-circle); background: var(--mc-color-brand); box-shadow: 0 0 0 4px var(--mc-color-brand-tint); }
+    .hero h1 { margin: 0; font-size: var(--mc-font-size-h1-compact); line-height: var(--mc-leading-tight); letter-spacing: var(--mc-tracking-tight); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-display); }
+    .hero p.lead { max-width: 62ch; margin: var(--mc-space-2) 0 0; font-size: var(--mc-font-size-body-sm); line-height: var(--mc-leading-normal); color: var(--mc-text-secondary); }
+    .hero p.lead b { color: var(--mc-text-emphasis); }
+    .hero-meta { display: flex; flex-direction: column; align-items: flex-end; gap: var(--mc-space-2); }
+    .chips { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--mc-space-2); }
+    .chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 var(--mc-space-3); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-pill); background: var(--mc-surface-2); font-size: var(--mc-font-size-2xs); color: var(--mc-text-secondary); }
+    .chip b { color: var(--mc-text-heading); }
+    .hero-meta .hint { font-size: var(--mc-font-size-2xs); color: var(--mc-text-faint); }
+
+    /* 4 张方案卡片 */
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mc-space-5); margin-top: var(--mc-space-6); }
+    .plan { position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--mc-card-bg); border: var(--mc-card-border); border-radius: var(--mc-radius-panel); box-shadow: var(--mc-card-shadow), inset 0 1px 0 rgba(255, 255, 255, 0.05); backdrop-filter: blur(var(--mc-card-blur)); }
+    .plan__thumb { position: relative; height: 300px; overflow: hidden; border-bottom: 1px solid var(--mc-border); background: var(--mc-solid-bg); }
+    .plan__thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+    .plan__thumb--desktop img { object-position: center top; }
+    .plan__num { position: absolute; left: var(--mc-space-3); top: var(--mc-space-3); z-index: 2; display: grid; place-items: center; width: 30px; height: 30px; border-radius: var(--mc-radius-circle); background: var(--mc-color-brand); color: var(--mc-text-on-brand-strong); font-size: var(--mc-font-size-caption); font-weight: 800; box-shadow: var(--mc-shadow-brand); }
+    .plan__body { display: flex; flex-direction: column; gap: var(--mc-space-2); padding: var(--mc-space-5); flex: 1; }
+    .plan__kicker { font-size: var(--mc-font-size-2xs); font-weight: 700; letter-spacing: var(--mc-tracking-wide); color: var(--mc-text-muted); text-transform: uppercase; }
+    .plan__body h2 { margin: 0; font-size: var(--mc-font-size-h3); line-height: var(--mc-leading-tight); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-heading); }
+    .plan__body h2 small { display: block; margin-top: 2px; font-size: var(--mc-font-size-2xs); font-weight: 500; color: var(--mc-text-muted); letter-spacing: 0; }
+    .plan__body p { margin: 0; font-size: var(--mc-font-size-caption); line-height: var(--mc-leading-normal); color: var(--mc-text-tertiary); }
+    .plan__body p b { color: var(--mc-text-emphasis); }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: var(--mc-radius-tag); border: 1px solid var(--mc-border); background: var(--mc-color-brand-wash); color: var(--mc-text-heading); font-size: 10px; font-weight: 700; letter-spacing: 0.02em; }
+    .tag--route { background: var(--mc-surface-inverse); border-color: var(--mc-border-brand); color: var(--mc-text-primary); }
+    .plan__actions { display: flex; align-items: center; gap: var(--mc-space-2); margin-top: auto; padding-top: var(--mc-space-2); }
+    .btn-link { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 var(--mc-space-3); border: 1px solid var(--mc-border-input); border-radius: var(--mc-radius-control); background: var(--mc-surface-3); color: var(--mc-text-primary); font-size: var(--mc-font-size-caption); font-weight: 600; text-decoration: none; }
+    .btn-link--primary { background: var(--mc-gradient-brand); border-color: var(--mc-border-brand-strong); color: var(--mc-text-on-brand-strong); box-shadow: var(--mc-shadow-brand); }
+    .btn-link .ic { width: 15px; height: 15px; }
+    .plan__shots { margin-left: auto; display: flex; gap: var(--mc-space-2); font-size: var(--mc-font-size-2xs); }
+    .plan__shots a { color: var(--mc-text-link); text-decoration: none; }
+    .plan__shots a:hover { color: var(--mc-text-link-hover); }
+
+    /* 共性设计决策 */
+    .section { margin-top: var(--mc-space-8); padding: var(--mc-space-6); background: var(--mc-panel-bg); border: var(--mc-panel-border); border-radius: var(--mc-radius-panel); backdrop-filter: blur(var(--mc-glass-backdrop)); box-shadow: var(--mc-shadow-e3); }
+    .section > h2 { margin: 0 0 var(--mc-space-2); font-size: var(--mc-font-size-h3); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-heading); }
+    .section > p.sub { margin: 0 0 var(--mc-space-5); font-size: var(--mc-font-size-caption); color: var(--mc-text-muted); }
+    .decisions { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--mc-space-3); }
+    .decision { padding: var(--mc-space-4); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-card); background: var(--mc-surface-2); }
+    .decision .n { display: grid; place-items: center; width: 26px; height: 26px; margin-bottom: var(--mc-space-2); border-radius: var(--mc-radius-circle); background: var(--mc-color-brand-tint-strong); color: var(--mc-text-heading); font-size: var(--mc-font-size-2xs); font-weight: 800; }
+    .decision b { display: block; margin-bottom: 4px; font-size: var(--mc-font-size-label); color: var(--mc-text-emphasis); text-shadow: var(--mc-text-shadow-body); }
+    .decision span { font-size: var(--mc-font-size-2xs); line-height: var(--mc-leading-snug); color: var(--mc-text-muted); }
+
+    /* R0/R1 对应表 */
+    table { width: 100%; border-collapse: collapse; font-size: var(--mc-font-size-2xs); }
+    th, td { padding: var(--mc-space-3); text-align: left; vertical-align: top; border-bottom: 1px solid var(--mc-border-subtle); }
+    th { font-size: 10px; letter-spacing: var(--mc-tracking-wide); text-transform: uppercase; color: var(--mc-text-muted); }
+    td { color: var(--mc-text-tertiary); }
+    td b { color: var(--mc-text-emphasis); font-weight: 600; }
+    td code { font-size: 10.5px; color: var(--mc-text-heading); background: var(--mc-color-brand-wash); padding: 1px 5px; border-radius: 4px; }
+    .batch { display: inline-flex; align-items: center; height: 22px; padding: 0 8px; border-radius: var(--mc-radius-pill); font-size: 10px; font-weight: 800; }
+    .batch--r0 { background: var(--mc-color-brand-tint-strong); color: var(--mc-text-heading); }
+    .batch--r1 { background: var(--mc-surface-inverse); color: var(--mc-text-primary); border: 1px solid var(--mc-border-brand); }
+
+    /* 实现接口 */
+    .impl { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mc-space-4); }
+    .impl-col { padding: var(--mc-space-4); border: 1px solid var(--mc-border); border-radius: var(--mc-radius-card); background: var(--mc-surface-2); }
+    .impl-col h3 { margin: 0 0 var(--mc-space-2); font-size: var(--mc-font-size-label); color: var(--mc-text-heading); text-shadow: var(--mc-text-shadow-heading); }
+    .impl-col ul { margin: 0; padding-left: var(--mc-space-5); }
+    .impl-col li { margin-bottom: 6px; font-size: var(--mc-font-size-2xs); line-height: var(--mc-leading-normal); color: var(--mc-text-tertiary); }
+    .impl-col li b { color: var(--mc-text-emphasis); }
+    .impl-col code { font-size: 10.5px; color: var(--mc-text-heading); }
+
+    .footer { display: flex; align-items: center; gap: var(--mc-space-4); margin-top: var(--mc-space-6); padding-top: var(--mc-space-4); border-top: 1px solid var(--mc-border-subtle); font-size: var(--mc-font-size-2xs); color: var(--mc-text-faint); }
+    .footer a { color: var(--mc-text-link); text-decoration: none; }
+    .footer .spacer { margin-left: auto; }
+    footer.site { margin-top: var(--mc-space-8); padding: var(--mc-space-5) var(--mc-space-8); text-align: center; border-top: 1px solid var(--mc-border-subtle); background: var(--mc-surface-1); }
+    footer.site p { margin: 0; font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted); }
+    footer.site b { color: var(--mc-text-heading); }
+  </style>
+</head>
+<body>
+  <div class="ghibli-background" aria-hidden="true"></div>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m0 0-5.5-5.5M19 12l-5.5 5.5"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="8.8" cy="9.8" r="1.5"/><path d="m4 17.5 4.8-4.8 3.8 3.8 2.9-2.9L20 18"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  </svg>
+
+  <!-- ===================== 原型注释条 ===================== -->
+  <aside class="proto-note">
+    <span class="pn-badge">原型入口 · R0/R1</span>
+    <span class="pn-title">MeCollage 交互原型 · 4 个方案</span>
+    <p><b>用途：</b>把 <span class="k">INTERACTION-AUDIT.md</span> 的 P0/P1 建议落成可评审的高保真静态原型；只调整层级/顺序/反馈，不引入新视觉风格。</p>
+    <p class="pn-links"><a href="README.md">README（设计决策 + 实现接口）</a><a href="../INTERACTION-AUDIT.md">审计原文</a></p>
+  </aside>
+
+  <div class="wrap">
+    <header class="hero">
+      <div>
+        <span class="eyebrow"><span class="dot"></span>基于 INTERACTION-AUDIT v1.0 · 2026-11-06</span>
+        <h1>工具优先的四个原型</h1>
+        <p class="lead">现状不是功能坏了，而是<b>“不够像一个被设计过的产品”</b>：首屏没有主操作、两层导航互相竞争、反馈靠 alert()。这四个原型分别回答“移动端怎么把工具顶到第一屏”“编辑器怎么把反馈做成产品级”“桌面工具页的 IA 怎么收”，并标注了对应的审计条目与 R0/R1 路线。</p>
+      </div>
+      <div class="hero-meta">
+        <div class="chips">
+          <span class="chip"><b>390 × 844</b> 移动</span>
+          <span class="chip"><b>1440 × 900</b> 桌面</span>
+          <span class="chip"><b>tokens v1.0</b> + components.css</span>
+        </div>
+        <span class="hint">截图：screenshots/review（带标注）· screenshots/clean（设计本体）</span>
+      </div>
+    </header>
+
+    <!-- 4 个方案卡片 -->
+    <div class="grid">
+      <article class="plan">
+        <div class="plan__thumb"><span class="plan__num">1</span><img src="screenshots/clean/mobile-home-390x844.png" alt="mobile-home 原型首屏截图（390×844）" loading="lazy" /></div>
+        <div class="plan__body">
+          <span class="plan__kicker">移动首页 · 390×844</span>
+          <h2>首屏即上传<small>mobile-home.html</small></h2>
+          <p><b>解决：</b>上传区原本在 y=1148px（1.36 屏），顶部叠了 270px 堆叠导航 + 374px 工具导航 + 218px 重复工具卡。</p>
+          <p><b>做法：</b>56px 单层顶栏（汉堡收纳 About/Blog/GitHub）+ 横向工具 segmented + 首屏上传卡（含“试用示例照片”）；3 步说明替代重复工具卡；guides/FAQ 整体后置，文本可爬；底部保留简短信任文案。</p>
+          <div class="tags"><span class="tag">P0-1</span><span class="tag">P0-2</span><span class="tag">P0-3</span><span class="tag">P2-7</span><span class="tag">P2-10</span><span class="tag tag--route">R1</span></div>
+          <div class="plan__actions">
+            <a class="btn-link btn-link--primary" href="mobile-home.html">查看原型<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <span class="plan__shots"><a href="screenshots/clean/mobile-home-mobile-full.png">整页</a><a href="screenshots/review/mobile-home-390x844.png">标注版</a></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="plan">
+        <div class="plan__thumb"><span class="plan__num">2</span><img src="screenshots/clean/mobile-tool-390x844.png" alt="mobile-tool 原型首屏截图（390×844）" loading="lazy" /></div>
+        <div class="plan__body">
+          <span class="plan__kicker">移动工具页 · 390×844</span>
+          <h2>上传前置 + 模式卡<small>mobile-tool.html</small></h2>
+          <p><b>解决：</b>工具页上传区在 y=1193px；长 H1 三行 + 副标题胶囊 + 5 个工具 pill + 意图切换条都排在工具前面；工具名三种叫法。</p>
+          <p><b>做法：</b>短标题 ≤2 行 + 工具 segmented + 大上传卡 + 4 个模式卡（Blur / Color / Resize / Crop，选中态可见）；上传后预览态单独展示（含 44px 热区与自动滚动定位）；设置/下载下移到工具之后；SEO 与 FAQ 再往后。</p>
+          <div class="tags"><span class="tag">P0-1</span><span class="tag">P0-2</span><span class="tag">P0-4</span><span class="tag">P1-4</span><span class="tag">P1-8</span><span class="tag">P2-1</span><span class="tag tag--route">R1</span></div>
+          <div class="plan__actions">
+            <a class="btn-link btn-link--primary" href="mobile-tool.html">查看原型<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <span class="plan__shots"><a href="screenshots/clean/mobile-tool-mobile-full.png">整页</a><a href="screenshots/review/mobile-tool-390x844.png">标注版</a></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="plan">
+        <div class="plan__thumb plan__thumb--desktop"><span class="plan__num">3</span><img src="screenshots/clean/editor-interactions-1440x900.png" alt="编辑器交互原型截图（1440×900）" loading="lazy" /></div>
+        <div class="plan__body">
+          <span class="plan__kicker">编辑器交互 · 1440×900</span>
+          <h2>反馈与容错<small>editor-interactions.html</small></h2>
+          <p><b>解决：</b>12 处阻塞 alert()；撤销/重做只有键盘快捷键；导出无进度、无成功反馈且可连点；空照片格是 JS 硬编码的白色方块；空状态没有“试用示例”。</p>
+          <p><b>做法：</b>底部工具栏加可见 Undo/Redo（含禁用态）；toast 四态（成功/信息/错误/可撤销）；导出 loading 进度 + 成功反馈（文件名 + 2.4 MB）；空位改深色玻璃 + dashed 品牌绿；空状态给“试用示例照片”。下半部分是 4 个状态规格卡，供 R0 直接实现。</p>
+          <div class="tags"><span class="tag">P0-4</span><span class="tag">P1-1</span><span class="tag">P1-2</span><span class="tag">P1-3</span><span class="tag">P1-4</span><span class="tag">P2-2</span><span class="tag">P2-7</span><span class="tag tag--route">R0 + R1</span></div>
+          <div class="plan__actions">
+            <a class="btn-link btn-link--primary" href="editor-interactions.html">查看原型<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <span class="plan__shots"><a href="screenshots/clean/editor-interactions-desktop-full.png">整页</a><a href="screenshots/review/editor-interactions-1440x900.png">标注版</a></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="plan">
+        <div class="plan__thumb plan__thumb--desktop"><span class="plan__num">4</span><img src="screenshots/clean/desktop-tool-first-1440x900.png" alt="桌面工具页原型截图（1440×900）" loading="lazy" /></div>
+        <div class="plan__body">
+          <span class="plan__kicker">桌面工具页 · 1440×900</span>
+          <h2>工具优先 IA<small>desktop-tool-first.html</small></h2>
+          <p><b>解决：</b>桌面工具页上传区在 y=485–607px；页头叠了长 H1 + 副标题胶囊 + 84px 工具导航 + 意图切换条；工具名在导航/H1/正文里三种叫法。</p>
+          <p><b>做法：</b>紧凑单层页头 + 工具 segmented 与短标题同行；预览/模式/设置/下载全部进入首屏；工具名统一为 “Square Image”；“How it works”/模式对比/意图切换/FAQ 全部下移到 900px 之后，文本保留。</p>
+          <div class="tags"><span class="tag">P0-1</span><span class="tag">P0-2</span><span class="tag">P2-1</span><span class="tag">P2-10</span><span class="tag tag--route">R1</span></div>
+          <div class="plan__actions">
+            <a class="btn-link btn-link--primary" href="desktop-tool-first.html">查看原型<svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <span class="plan__shots"><a href="screenshots/clean/desktop-tool-first-desktop-full.png">整页</a><a href="screenshots/review/desktop-tool-first-1440x900.png">标注版</a></span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- 共性设计决策 -->
+    <section class="section">
+      <h2>五个共性设计决策</h2>
+      <p class="sub">四个原型共用同一套判断；视觉语言零新增，只复用 design-tokens.css + components.css。</p>
+      <div class="decisions">
+        <div class="decision"><span class="n">1</span><b>工具即页面</b><span>首屏 = 上传/预览 + 模式，营销与 SEO 内容后置；用 56px 单层顶栏替代 270px 堆叠导航。</span></div>
+        <div class="decision"><span class="n">2</span><b>一条明显路径</b><span>工具切换只保留一处（横向 segmented）；删除首页重复工具卡；GitHub/About 收进汉堡菜单。</span></div>
+        <div class="decision"><span class="n">3</span><b>反馈不阻塞</b><span>alert() → toast 四态；导出 loading + 成功（含大小）；上传后滚动到预览并提示。</span></div>
+        <div class="decision"><span class="n">4</span><b>可逆与容错</b><span>可见 Undo/Redo；可撤销 toast；关闭前未保存提示；空状态提供“试用示例照片”。</span></div>
+        <div class="decision"><span class="n">5</span><b>克制、可信</b><span>沿用壁纸 + 深色玻璃 + 薄荷绿 + 大圆角；44px 触控目标；不新增渐变/发光/图标库。</span></div>
+      </div>
+    </section>
+
+    <!-- 与 R0/R1 对应 -->
+    <section class="section">
+      <h2>与审计路线图的对应</h2>
+      <p class="sub">R0 = 小步 CSS/JS（1–2 天）；R1 = 布局与 IA（1–2 周，需 5 语言同步）。</p>
+      <table>
+        <thead><tr><th>改动</th><th>批次</th><th>类型</th><th>落点</th><th>覆盖审计项</th></tr></thead>
+        <tbody>
+          <tr><td><b>toast 四态 + 替换 alert()</b></td><td><span class="batch batch--r0">R0</span></td><td>JS + i18n</td><td>editor-interactions · 规格 A</td><td>P1-1</td></tr>
+          <tr><td><b>可见 Undo/Redo</b></td><td><span class="batch batch--r0">R0</span></td><td>HTML + JS</td><td>editor-interactions · 底部工具栏</td><td>P1-2</td></tr>
+          <tr><td><b>导出 loading + 成功反馈</b></td><td><span class="batch batch--r0">R0</span></td><td>JS + CSS</td><td>editor-interactions · 右栏 / 规格 B</td><td>P1-4</td></tr>
+          <tr><td><b>空位深色玻璃 + dashed</b></td><td><span class="batch batch--r0">R0</span></td><td>JS 样式常量 + CSS</td><td>editor-interactions · 规格 D</td><td>P2-2</td></tr>
+          <tr><td><b>空状态“试用示例照片”</b></td><td><span class="batch batch--r0">R0</span></td><td>HTML + JS</td><td>editor-interactions · 规格 C</td><td>P2-7</td></tr>
+          <tr><td><b>上传后滚动/聚焦 + toast</b></td><td><span class="batch batch--r0">R0</span></td><td>JS</td><td>mobile-tool · 预览态</td><td>P0-4</td></tr>
+          <tr><td><b>44px 触控热区</b></td><td><span class="batch batch--r0">R0</span></td><td>CSS</td><td>四个原型全部</td><td>P1-8</td></tr>
+          <tr><td><b>移动端单层顶栏 + 汉堡 / segmented</b></td><td><span class="batch batch--r1">R1</span></td><td>CSS 覆盖层 + JS</td><td>mobile-home / mobile-tool</td><td>P0-1 P0-2 P0-3</td></tr>
+          <tr><td><b>工具区前置、SEO 下移</b></td><td><span class="batch batch--r1">R1</span></td><td>布局（CSS 顺序）</td><td>首页 + 4 工具页 × 5 语言</td><td>P0-1 P2-10</td></tr>
+          <tr><td><b>工具名统一 / 文案收敛</b></td><td><span class="batch batch--r1">R1</span></td><td>文案（5 语言）</td><td>工具页 + 导航</td><td>P2-1</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 实现接口 -->
+    <section class="section">
+      <h2>下一步实现接口（给 R0/R1 的交接）</h2>
+      <p class="sub">原型只写 docs/design/prototypes/，不改站点文件；以下是落地时需要新增/修改的具体位置。</p>
+      <div class="impl">
+        <div class="impl-col">
+          <h3>CSS（components.css 追加，token only）</h3>
+          <ul>
+            <li><code>.mc-appbar</code>：56px 单层顶栏（替代移动端 270px 堆叠导航）</li>
+            <li><code>.mc-seg</code>：横向工具 segmented（44px 触控；桌面 36–40px）</li>
+            <li><code>.mc-toast</code> + <code>--success / --info / --danger / --undo</code> 四态（基于 <code>--mc-surface-toast</code>）</li>
+            <li><code>.mc-photo-slot</code>：空位深色玻璃 + <code>--mc-border-brand-solid</code> dashed（替换 JS 内联浅色）</li>
+            <li><code>.mc-export-progress</code>：8px 轨道 + 品牌绿进度</li>
+            <li>≤768px 时背景 blur 从 18px 降到 12px（性能，P2-9，需真机验证）</li>
+          </ul>
+        </div>
+        <div class="impl-col">
+          <h3>JS（mecollage-main.js，小步替换）</h3>
+          <ul>
+            <li><code>showToast(type, message, action?)</code>，替换 12 处 <code>alert()</code>，文案走 i18n 键</li>
+            <li><b>导出状态机</b>：disable → progress → success（文件名/大小）→ 可撤销；失败可重试</li>
+            <li><b>上传后</b> <code>scrollIntoView(preview)</code> + 聚焦画布 + “N 张照片已添加”</li>
+            <li><b>Undo/Redo</b>：复用现有 stack，加按钮 disabled 态与快捷键提示</li>
+            <li><b>示例照片</b>：内置 3–4 张本地图（data URI / 站内资产），一键填充</li>
+            <li><b>beforeunload</b>：images.length &gt; 0 时提示（P1-3）</li>
+          </ul>
+        </div>
+      </div>
+      <p class="sub" style="margin-top: var(--mc-space-4); margin-bottom: 0"><b>页面矩阵：</b>移动布局改动 = 首页 + 4 工具页 × 5 语言（共 5 组模板）；R0 的 CSS/JS 项可先做全站覆盖层，不必逐页改 HTML（见审计 §5）。<b>风险：</b>5 语言副本同步（L-02）、SEO 文本位置调整需保持可爬、编辑器画布尺寸由 JS 计算（L-20，勿加 max-height）。</p>
+    </section>
+
+    <div class="footer">
+      <a href="README.md">README.md</a>
+      <span>·</span>
+      <a href="../DESIGN-TOKENS.md">DESIGN-TOKENS.md</a>
+      <span>·</span>
+      <a href="../COMPONENT-RECIPES.md">COMPONENT-RECIPES.md</a>
+      <span>·</span>
+      <a href="../INTERACTION-AUDIT.md">INTERACTION-AUDIT.md</a>
+      <span class="spacer">原型只写 docs/design/prototypes/ · 未修改站点文件 · 未部署</span>
+    </div>
+  </div>
+
+  <footer class="site">
+    <p><b>MeCollage</b> 交互原型 · 2026-11-06 · 复现截图：<code style="color:var(--mc-text-heading)">node docs/design/prototypes/_capture.mjs</code></p>
+  </footer>
+</body>
+</html>

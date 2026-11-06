@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>原型 · mobile-home（390×844）— MeCollage</title>
+  <!-- 真实 token / 组件层（只读复用，不修改站点文件） -->
+  <link rel="stylesheet" href="../../../assets/css/design-tokens.css" />
+  <link rel="stylesheet" href="../../../assets/css/components.css" />
+  <style>
+    /* =========================================================================
+     * 原型评审层（仅本章节目录使用；不是站点设计的一部分，不部署）
+     * 红色 = 评审标注；页面本体一律使用 --mc-* token。
+     * ========================================================================= */
+    .proto-note {
+      position: relative;
+      z-index: 30;
+      padding: 12px 16px;
+      background: rgba(26, 13, 14, 0.94);
+      border-bottom: 1px solid rgba(255, 93, 93, 0.55);
+      font-size: 12px;
+      line-height: 1.55;
+      color: rgba(255, 255, 255, 0.88);
+    }
+    .proto-note p { margin: 2px 0 0; }
+    .proto-note b { color: #fff; }
+    .proto-note .k { color: #ff9b9b; font-weight: 700; }
+    .pn-head { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; margin-bottom: 3px; }
+    .pn-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.04em; color: #ffd9d9;
+      background: rgba(229, 57, 53, 0.2); border: 1px solid rgba(229, 57, 53, 0.6);
+      border-radius: var(--mc-radius-pill); padding: 2px 8px; white-space: nowrap;
+    }
+    .pn-title { font-size: 12.5px; font-weight: 700; color: #fff; }
+    .pn-dim { color: rgba(255, 255, 255, 0.45); }
+    .pn-links { margin-left: auto; display: flex; gap: 10px; }
+    .pn-links a { color: #9ee89e; font-size: 11px; text-decoration: none; }
+    .pn-legend { color: rgba(255, 255, 255, 0.62); font-size: 11px; }
+    .pn-legend em { color: #ff9b9b; font-style: normal; font-weight: 700; }
+
+    .pmark {
+      position: absolute; z-index: 80; display: flex; gap: 5px; align-items: flex-start;
+      pointer-events: none; font-size: 9px; line-height: 1.25; color: #fff;
+    }
+    .pmark__n {
+      flex: none; width: 20px; height: 20px; border-radius: var(--mc-radius-circle);
+      background: #e53935; border: 1.5px solid #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      font: 700 11px/17px var(--mc-font-sans); text-align: center; color: #fff;
+    }
+    .pmark__t {
+      max-width: 130px; background: rgba(183, 28, 28, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.38); border-radius: 5px;
+      padding: 2px 5px; font-weight: 600; text-shadow: none;
+    }
+    .pmark--r { flex-direction: row-reverse; text-align: right; }
+    .foldline { position: absolute; left: 0; right: 0; z-index: 55; border-top: 2px dashed #ff5d5d; pointer-events: none; }
+    .foldline span {
+      position: absolute; right: 10px; top: 4px; background: #e53935; color: #fff;
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 6px; border-radius: 4px;
+    }
+
+    /* =========================================================================
+     * 页面本体（390 视口）。全部取值来自 --mc-* token。
+     * ========================================================================= */
+    .screen { position: relative; width: 100%; max-width: 390px; margin: 0 auto; padding-bottom: var(--mc-space-6); }
+    .ic { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    /* 壁纸：components.css 里是绝对路径 /wallImage.webp（file:// 下失效、且原型位于 docs/ 下）。
+       这里用更高特异性（html body）+ 内联样式后加载，覆盖为相对仓库根的本地壁纸，离线可用。 */
+    html body .ghibli-background { background-image: url(../../../wallImage.webp); background-attachment: scroll; }
+
+    /* ---- 顶栏 56px：Logo + 语言 + 汉堡（P0-3） ---- */
+    .appbar {
+      position: sticky; top: 0; z-index: 70; display: flex; align-items: center; gap: 8px;
+      height: 56px; padding: 0 var(--mc-space-4);
+      background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-glass-backdrop));
+      border-bottom: 1px solid var(--mc-border-subtle);
+    }
+    .brand {
+      display: inline-flex; align-items: center; gap: var(--mc-space-2);
+      font-size: var(--mc-font-size-h4); font-weight: var(--mc-font-weight-bold);
+      color: var(--mc-text-heading); text-decoration: none;
+      letter-spacing: var(--mc-tracking-tight); text-shadow: var(--mc-text-shadow-heading);
+    }
+    .brand .ic { width: 22px; height: 22px; color: var(--mc-color-brand); stroke-width: 2; }
+    .appbar__actions { margin-left: auto; display: flex; align-items: center; gap: var(--mc-space-1); }
+    .iconbtn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      min-width: 44px; height: 44px; padding: 0 10px;
+      border: 1px solid var(--mc-border); border-radius: var(--mc-radius-pill);
+      background: var(--mc-surface-3); color: var(--mc-text-primary);
+      font: 600 var(--mc-font-size-caption)/1 var(--mc-font-sans);
+      letter-spacing: var(--mc-tracking-wider); cursor: pointer;
+    }
+    .iconbtn .ic { width: 18px; height: 18px; }
+    .iconbtn--menu { padding: 0; width: 44px; }
+
+    /* ---- 汉堡抽屉：收纳 Home/Blog/Guides/About/GitHub/语言（P0-2/P0-3） ---- */
+    .menu {
+      position: absolute; top: 56px; left: 0; right: 0; z-index: 65; display: none;
+      padding: var(--mc-space-3) var(--mc-space-4) var(--mc-space-4);
+      background: var(--mc-surface-menu); backdrop-filter: blur(var(--mc-glass-backdrop));
+      border-bottom: 1px solid var(--mc-border); box-shadow: var(--mc-shadow-e5);
+    }
+    .screen.menu-open .menu { display: block; }
+    .menu a {
+      display: flex; align-items: center; justify-content: space-between;
+      min-height: 44px; padding: 0 var(--mc-space-1);
+      border-bottom: 1px solid var(--mc-border-subtle);
+      color: var(--mc-text-body); text-decoration: none;
+      font-size: var(--mc-font-size-body-sm); font-weight: var(--mc-font-weight-semibold);
+    }
+    .menu a:last-child { border-bottom: 0; }
+    .menu .is-active { color: var(--mc-text-heading); }
+    .menu .tag {
+      font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted);
+      background: var(--mc-surface-0); border: 1px solid var(--mc-border-subtle);
+      border-radius: var(--mc-radius-pill); padding: 2px 8px;
+    }
+
+    /* ---- 工具切换：横向 segmented（P0-1/P0-2） ---- */
+    .segwrap { position: relative; z-index: 20; }
+    .seg {
+      display: flex; gap: var(--mc-space-2); overflow-x: auto;
+      padding: var(--mc-space-3) var(--mc-space-4) 0;
+      scrollbar-width: none;
+      -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
+      mask-image: linear-gradient(90deg, #000 calc(100% - 26px), transparent);
+    }
+    .seg::-webkit-scrollbar { display: none; }
+    .seg a {
+      flex: none; display: inline-flex; align-items: center; height: 44px; padding: 0 var(--mc-space-4);
+      border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill);
+      background: var(--mc-surface-2); color: var(--mc-text-secondary);
+      font-size: var(--mc-font-size-label); font-weight: var(--mc-font-weight-semibold);
+      text-decoration: none; white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+    .seg a.is-active {
+      background: var(--mc-color-brand-tint-strong);
+      border-color: var(--mc-border-brand-strong);
+      color: var(--mc-text-heading);
+    }
+
+    /* ---- 首屏上传卡（P0-1 + P2-7 示例照片） ---- */
+    .hero {
+      position: relative; margin: var(--mc-space-4) var(--mc-space-4) 0;
+      padding: var(--mc-space-6) var(--mc-space-5);
+      border: var(--mc-border-width-strong) dashed var(--mc-border-brand-solid);
+      border-radius: var(--mc-radius-2xl);
+      background: var(--mc-surface-0);
+      backdrop-filter: blur(var(--mc-blur-md));
+      box-shadow: var(--mc-shadow-e2), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      text-align: center;
+    }
+    .hero__icon {
+      display: grid; place-items: center; width: 56px; height: 56px;
+      margin: 0 auto var(--mc-space-4);
+      border-radius: var(--mc-radius-circle);
+      background: var(--mc-color-brand); color: var(--mc-text-on-brand-soft);
+      box-shadow: var(--mc-shadow-brand);
+    }
+    .hero__icon .ic { width: 28px; height: 28px; stroke-width: 2; }
+    .hero h1 {
+      margin: 0 0 var(--mc-space-2);
+      font-size: var(--mc-font-size-h3-lg); line-height: var(--mc-leading-tight);
+      letter-spacing: var(--mc-tracking-tight); color: var(--mc-text-heading);
+      text-shadow: var(--mc-text-shadow-display);
+    }
+    .hero__sub { margin: 0; font-size: var(--mc-font-size-label-sm); color: var(--mc-text-secondary); }
+    .dz-actions { display: flex; flex-direction: column; gap: var(--mc-space-2); margin: var(--mc-space-5) 0 var(--mc-space-3); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--mc-space-2);
+      min-height: 48px; padding: 0 var(--mc-space-5);
+      border: 0; border-radius: var(--mc-radius-control);
+      font: 600 var(--mc-font-size-body-sm)/1 var(--mc-font-sans);
+      color: var(--mc-text-primary); text-decoration: none; cursor: pointer;
+    }
+    .btn .ic { width: 19px; height: 19px; }
+    .btn--upload {
+      background: var(--mc-gradient-brand);
+      border: 1px solid var(--mc-border-brand-strong);
+      color: var(--mc-text-on-brand-strong);
+      box-shadow: var(--mc-shadow-brand);
+      text-shadow: none;
+    }
+    .btn--sample {
+      min-height: 44px;
+      background: var(--mc-surface-inverse);
+      border: 1px solid var(--mc-border);
+      color: var(--mc-text-primary);
+      box-shadow: none;
+    }
+    .dz-hint { margin: 0; font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted); }
+    .dz-privacy {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin: var(--mc-space-2) 0 0;
+      font-size: var(--mc-font-size-2xs); color: var(--mc-text-tertiary);
+    }
+    .dz-privacy .ic { width: 13px; height: 13px; color: var(--mc-color-brand); }
+
+    /* ---- 3 步说明（P2-7） ---- */
+    .steps {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--mc-space-2);
+      margin: var(--mc-space-4) var(--mc-space-4) 0; padding: var(--mc-space-3) var(--mc-space-2);
+      background: var(--mc-card-bg); border: var(--mc-card-border);
+      border-radius: var(--mc-radius-card); backdrop-filter: blur(var(--mc-card-blur));
+      box-shadow: var(--mc-shadow-e1);
+    }
+    .step { text-align: center; }
+    .step__n {
+      display: grid; place-items: center; width: 28px; height: 28px;
+      margin: 0 auto var(--mc-space-1);
+      border-radius: var(--mc-radius-circle);
+      background: var(--mc-color-brand-tint-strong); border: 1px solid var(--mc-border-brand);
+      color: var(--mc-text-heading); font: 700 var(--mc-font-size-xs)/1 var(--mc-font-sans);
+    }
+    .step b { display: block; font-size: var(--mc-font-size-caption); color: var(--mc-text-emphasis); text-shadow: var(--mc-text-shadow-body); }
+    .step span { display: block; margin-top: 2px; font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted); }
+
+    /* ---- 信任标签（非交互，44px 只约束可点元素） ---- */
+    .trustrow {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: var(--mc-space-2);
+      margin: var(--mc-space-3) var(--mc-space-4) 0; padding: 0; list-style: none;
+    }
+    .trustrow li {
+      display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 var(--mc-space-3);
+      border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill);
+      background: var(--mc-surface-2); font-size: var(--mc-font-size-2xs); color: var(--mc-text-secondary);
+    }
+    .trustrow .ic { width: 13px; height: 13px; color: var(--mc-color-brand); }
+
+    /* ---- 工具之后的 SEO 内容（P2-10） ---- */
+    .section {
+      margin: var(--mc-space-6) var(--mc-space-4) 0; padding: var(--mc-space-5) var(--mc-space-4);
+      background: var(--mc-panel-bg); border: var(--mc-panel-border);
+      border-radius: var(--mc-radius-panel);
+      backdrop-filter: blur(var(--mc-glass-backdrop)); box-shadow: var(--mc-shadow-e3);
+    }
+    .section__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--mc-space-2); margin-bottom: var(--mc-space-3); }
+    .section h2 { margin: 0; font-size: var(--mc-font-size-h3-lg); line-height: var(--mc-leading-tight); letter-spacing: var(--mc-tracking-tight); }
+    .section__link { font-size: var(--mc-font-size-caption); color: var(--mc-text-link); text-decoration: none; white-space: nowrap; }
+    .guides { display: grid; grid-template-columns: 1fr 1fr; gap: var(--mc-space-2); }
+    .guide {
+      display: flex; flex-direction: column; gap: 2px; min-height: 96px;
+      padding: var(--mc-space-3); border-radius: var(--mc-radius-item);
+      background: var(--mc-surface-2); border: 1px solid var(--mc-border);
+      color: inherit; text-decoration: none;
+    }
+    .guide__ic {
+      display: grid; place-items: center; width: 32px; height: 32px;
+      margin-bottom: var(--mc-space-1);
+      border-radius: var(--mc-radius-tag);
+      background: var(--mc-color-brand-wash); color: var(--mc-text-heading);
+    }
+    .guide__ic .ic { width: 18px; height: 18px; }
+    .guide b { font-size: var(--mc-font-size-label-sm); font-weight: var(--mc-font-weight-semibold); line-height: 1.35; color: var(--mc-text-emphasis); text-shadow: var(--mc-text-shadow-body); }
+    .guide span { font-size: var(--mc-font-size-2xs); color: var(--mc-text-muted); }
+
+    .faq details {
+      margin-bottom: var(--mc-space-2); overflow: hidden;
+      border: 1px solid var(--mc-border); border-radius: var(--mc-radius-item);
+      background: var(--mc-surface-2);
+    }
+    .faq details:last-child { margin-bottom: 0; }
+    .faq summary {
+      display: flex; align-items: center; justify-content: space-between; gap: var(--mc-space-2);
+      min-height: 48px; padding: var(--mc-space-3) var(--mc-space-3);
+      cursor: pointer; list-style: none;
+      font-size: var(--mc-font-size-label-sm); font-weight: var(--mc-font-weight-semibold);
+      color: var(--mc-text-emphasis); text-shadow: var(--mc-text-shadow-body);
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary .ic { width: 16px; height: 16px; color: var(--mc-text-muted); transition: transform var(--mc-duration-base) var(--mc-ease); }
+    .faq details[open] summary .ic { transform: rotate(180deg); }
+    .faq p { margin: 0; padding: 0 var(--mc-space-3) var(--mc-space-3); font-size: var(--mc-font-size-caption); line-height: var(--mc-leading-normal); color: var(--mc-text-secondary); }
+
+    /* ---- 底部简短信任文案（要求保留） ---- */
+    .app-footer {
+      margin-top: var(--mc-space-6); padding: var(--mc-space-5) var(--mc-space-4) var(--mc-space-3);
+      text-align: center; border-top: 1px solid var(--mc-border-subtle);
+      background: var(--mc-surface-1); backdrop-filter: blur(var(--mc-blur-lg));
+    }
+    .footer-trust {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 5px;
+      margin: 0 0 var(--mc-space-2);
+      font-size: var(--mc-font-size-caption); font-weight: var(--mc-font-weight-semibold);
+      color: var(--mc-text-heading);
+    }
+    .footer-trust .ic { width: 14px; height: 14px; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0 var(--mc-space-4); margin: 0 0 var(--mc-space-1); }
+    .footer-links a {
+      display: inline-flex; align-items: center; min-height: 44px;
+      font-size: var(--mc-font-size-label); color: var(--mc-text-link); text-decoration: none;
+    }
+    .footer-copy { margin: 0; font-size: var(--mc-font-size-2xs); color: var(--mc-text-faint); }
+  </style>
+</head>
+<body>
+  <div class="ghibli-background" aria-hidden="true"></div>
+
+  <!-- SVG 图标 sprite（内联，离线可用；不用 Font Awesome CDN） -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20 4C10 4 4 8.5 4 15.5c0 1.6.5 3 1.3 4.1C8 15 12.5 12 18 11c-4.8 2.3-8 5.7-9.6 10.4 1.1.6 2.3 1 3.6 1C18.5 22.4 20 13.6 20 4Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3.2 9h17.6M3.2 15h17.6M12 3c2.4 2.4 3.6 5.4 3.6 9S14.4 18.6 12 21M12 3c-2.4 2.4-3.6 5.4-3.6 9s1.2 6.6 3.6 9"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M11 3.5 12.6 8 17 9.6 12.6 11.2 11 15.7 9.4 11.2 5 9.6 9.4 8 11 3.5Z"/><path d="M18.5 15.5l.9 2.1 2.1.9-2.1.9-.9 2.1-.9-2.1-2.1-.9 2.1-.9.9-2.1Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></symbol>
+    <symbol id="i-story" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 5.5h2"/><path d="m8.5 16 2.3-3 1.7 1.8 1.4-1.5 1.6 2.7"/></symbol>
+    <symbol id="i-square" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="m4 14.5 4.2-4.2 4 4 3-3 4.8 4.6"/></symbol>
+    <symbol id="i-portrait" viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="m6.8 17.5 3.7-4.6 2.8 2.8 1.8-1.8 2.1 2.6"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m0 0-5.5-5.5M19 12l-5.5 5.5"/></symbol>
+  </svg>
+
+  <!-- ===================== 原型注释条（顶部） ===================== -->
+  <aside class="proto-note">
+    <div class="pn-head">
+      <span class="pn-badge">原型 · R1</span>
+      <span class="pn-title">mobile-home.html · 390×844</span>
+      <span class="pn-dim">静态高保真</span>
+      <span class="pn-links"><a href="index.html">← 总览</a><a href="mobile-tool.html">下一个 →</a></span>
+    </div>
+    <p><b>解决：</b>首屏没有主操作（原上传区 y=1148px / 1.36 屏）、270px 堆叠导航、两层工具入口重复、SEO 内容压在工具前面。</p>
+    <p><b>审计：</b><span class="k">P0-1</span> <span class="k">P0-2</span> <span class="k">P0-3</span> <span class="k">P2-7</span> <span class="k">P2-10</span> · <span class="k">R1</span>（44px 触控 = P1-8 / R0）· 红色虚线 = App 内容区 844px 首屏线（注释条不计）</p>
+    <p class="pn-legend"><em>①</em> 单层顶栏 56px <em>②</em> 工具收进横向 segmented <em>③</em> 首屏即上传（含示例照片） <em>④</em> 3 步说明 <em>⑤</em> SEO 内容后置 <em>⑥</em> 信任 footer</p>
+  </aside>
+
+  <!-- ===================== 被评审页面（390×844） ===================== -->
+  <div class="screen" id="screen">
+    <header class="appbar">
+      <a class="brand" href="#"><svg class="ic" aria-hidden="true"><use href="#i-leaf"/></svg>MeCollage</a>
+      <div class="appbar__actions">
+        <button class="iconbtn" type="button" aria-label="Language: English"><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg>EN</button>
+        <button class="iconbtn iconbtn--menu" type="button" aria-label="Open menu" aria-expanded="false" id="menuBtn"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+      </div>
+    </header>
+
+    <!-- 汉堡菜单：收纳 Home / Guides / FAQ / About / GitHub + 语言（P0-2） -->
+    <nav class="menu" aria-label="Menu">
+      <a href="#">Home</a>
+      <a href="#" class="is-active">Collage Maker <span class="tag">current</span></a>
+      <a href="#">Guides &amp; tutorials</a>
+      <a href="#">FAQ</a>
+      <a href="#">About</a>
+      <a href="#">GitHub <span class="tag">opens repo</span></a>
+      <a href="#">Language <span class="tag">English</span></a>
+    </nav>
+
+    <!-- 工具切换：横向 segmented（原为 374px 高的 5 个全宽 pill） -->
+    <div class="segwrap">
+      <nav class="seg" aria-label="Tools">
+        <a class="is-active" href="#" aria-current="page">Collage Maker</a>
+        <a href="#">Square Crop</a>
+        <a href="#">Rounded Corners</a>
+        <a href="#">Square Image</a>
+        <a href="#">Blurred Frame</a>
+      </nav>
+    </div>
+
+    <main>
+      <!-- 首屏绝对主角：上传 / 拖入区（P0-1） -->
+      <section class="hero" aria-labelledby="heroTitle">
+        <span class="hero__icon"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg></span>
+        <h1 id="heroTitle">Make a collage in seconds</h1>
+        <p class="hero__sub">Drop photos here, or choose them from your device.</p>
+        <div class="dz-actions">
+          <a class="btn btn--upload" href="#"><svg class="ic" aria-hidden="true"><use href="#i-upload"/></svg>Choose photos</a>
+          <a class="btn btn--sample" href="#"><svg class="ic" aria-hidden="true"><use href="#i-sparkle"/></svg>Try sample photos</a>
+        </div>
+        <p class="dz-hint">JPG · PNG · WEBP &nbsp;·&nbsp; up to 20 photos</p>
+        <p class="dz-privacy"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>Private — photos never leave your device.</p>
+      </section>
+
+      <!-- 3 步说明：把"能做什么"提前，替代首屏下的重复工具卡 -->
+      <section class="steps" aria-label="How it works">
+        <div class="step"><span class="step__n">1</span><b>Add photos</b><span>Up to 20 at once</span></div>
+        <div class="step"><span class="step__n">2</span><b>Arrange</b><span>Grid &amp; filters</span></div>
+        <div class="step"><span class="step__n">3</span><b>Export</b><span>PNG or JPG</span></div>
+      </section>
+
+      <ul class="trustrow" aria-label="Why MeCollage">
+        <li><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>On-device</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>No sign-up</li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Free forever</li>
+      </ul>
+
+      <!-- ↓↓↓ 以下全部在首屏线之后：SEO 内容只调整位置，不删文本（P2-10） ↓↓↓ -->
+      <section class="section" aria-labelledby="guidesTitle">
+        <div class="section__head">
+          <h2 id="guidesTitle">Guides &amp; tutorials</h2>
+          <a class="section__link" href="#">All guides →</a>
+        </div>
+        <div class="guides">
+          <a class="guide" href="#">
+            <span class="guide__ic"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg></span>
+            <b>How to Make a Collage</b><span>Step-by-step tutorial</span>
+          </a>
+          <a class="guide" href="#">
+            <span class="guide__ic"><svg class="ic" aria-hidden="true"><use href="#i-story"/></svg></span>
+            <b>Instagram Story Collage</b><span>Perfect 9:16</span>
+          </a>
+          <a class="guide" href="#">
+            <span class="guide__ic"><svg class="ic" aria-hidden="true"><use href="#i-square"/></svg></span>
+            <b>Square Collage</b><span>1:1 for posts</span>
+          </a>
+          <a class="guide" href="#">
+            <span class="guide__ic"><svg class="ic" aria-hidden="true"><use href="#i-portrait"/></svg></span>
+            <b>Vertical Collage</b><span>9:16 wallpaper</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section faq" aria-labelledby="faqTitle">
+        <div class="section__head"><h2 id="faqTitle">Frequently asked questions</h2></div>
+        <details open>
+          <summary>What is MeCollage?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+          <p>A free browser-based collage maker with grid, gutter, radius, filters, text and stickers. Everything is processed on your device.</p>
+        </details>
+        <details>
+          <summary>How many images can I add?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+          <p>Up to 20 photos per collage. JPG, PNG and WEBP are supported.</p>
+        </details>
+        <details>
+          <summary>What aspect ratios are supported?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+          <p>1:1, 4:5, 9:16, 3:4, 4:3 and 16:9 — plus a custom grid up to 10 × 10.</p>
+        </details>
+        <details>
+          <summary>How do I export my collage?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+          <p>Tap Export in the bottom toolbar, pick PNG or JPG, and the file downloads directly. No account needed.</p>
+        </details>
+        <details>
+          <summary>Is MeCollage free?<svg class="ic" aria-hidden="true"><use href="#i-chevron"/></svg></summary>
+          <p>Yes — free, no watermarks, no sign-up. Photos never leave your browser.</p>
+        </details>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <p class="footer-trust"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>Free · No sign-up · Photos never leave your device</p>
+      <nav class="footer-links" aria-label="Footer">
+        <a href="#">Home</a><a href="#">About</a><a href="#">Blog</a><a href="#">Guides</a><a href="#">Privacy</a><a href="#">Terms</a>
+      </nav>
+      <p class="footer-copy">© 2026 MeCollage</p>
+    </footer>
+
+    <!-- ===================== 评审标注（红色） ===================== -->
+    <div class="foldline" style="top: 844px"><span>844px 首屏线</span></div>
+    <div class="pmark" style="top: 8px; left: 132px"><span class="pmark__n">1</span><span class="pmark__t">顶栏 56px</span></div>
+    <div class="pmark pmark--r" style="top: 62px; right: 6px"><span class="pmark__n">2</span><span class="pmark__t">工具 segmented</span></div>
+    <div class="pmark" style="top: 148px; left: 10px"><span class="pmark__n">3</span><span class="pmark__t">首屏即上传</span></div>
+    <div class="pmark pmark--r" style="top: 530px; right: 8px"><span class="pmark__n">4</span><span class="pmark__t">3 步说明 · 44px</span></div>
+    <div class="pmark pmark--r" style="top: 792px; right: 8px"><span class="pmark__n">5</span><span class="pmark__t">SEO 后置</span></div>
+    <div class="pmark pmark--r" style="bottom: 4px; right: 8px"><span class="pmark__n">6</span><span class="pmark__t">信任 footer</span></div>
+  </div>
+
+  <script>
+    // 原型交互（仅演示开合，不涉及站点实现）
+    (() => {
+      const screen = document.getElementById('screen');
+      const btn = document.getElementById('menuBtn');
+      btn.addEventListener('click', () => {
+        const open = screen.classList.toggle('menu-open');
+        btn.setAttribute('aria-expanded', String(open));
+        btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      });
+      document.querySelector('.menu').addEventListener('click', () => {
+        screen.classList.remove('menu-open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    })();
+  </script>
+</body>
+</html>
