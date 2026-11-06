@@ -18,11 +18,11 @@
 - **存量债务 → 基线内不判错**：95 个手写页的历史硬编码不是本轮要一次清完的，基线记录它；
 - **token 与文档一致性 → FAIL**：`DESIGN-TOKENS.md` 必须覆盖全部 `--mc-*` 且不能出现不存在的 token。
 
-`check-layout.mjs` 把交互审计里会反复回归的 5 类问题变成可执行检查（见 §2）；`check-performance.mjs` 把性能预算变成可执行回归门禁（见 §3，`--bench` 参考不设门槛，L-37）。
+`check-layout.mjs` 把交互审计里会反复回归的 6 类问题（A–F）变成可执行检查（见 §2）；`check-performance.mjs` 把性能预算变成可执行回归门禁（见 §3，`--bench` 参考不设门槛，L-37）。
 
-## 2. `check-layout.mjs` — 布局 / 触控 / 壁纸 / 反馈门禁（v1.0.0）
+## 2. `check-layout.mjs` — 布局 / 触控 / 壁纸 / 反馈 / 导航门禁（v1.1.0）
 
-把「移动端横向溢出、固定壁纸被打断、触控目标过小、alert 式反馈、AI 大库提前加载」变成可执行门禁。背景见 `audit/design-migration/MOBILE-OVERFLOW.md`、`WALLPAPER.md`、`docs/design/INTERACTION-AUDIT.md`。
+把「移动端横向溢出、固定壁纸被打断、触控目标过小、alert 式反馈、AI 大库提前加载、导航角色混淆」变成可执行门禁。背景见 `audit/design-migration/MOBILE-OVERFLOW.md`、`WALLPAPER.md`、`docs/design/INTERACTION-AUDIT.md`。
 
 ```bash
 # 默认：390 全量（95 页）+ 代表页 1440/360/320（快）
@@ -44,6 +44,7 @@ node scripts/design-audit/check-layout.mjs --json audit/design-migration/verify/
 | A | 横向溢出 | `documentElement.scrollWidth - innerWidth ≤ 1px`（每种宽度 × 每个页面） | 溢出会让固定壁纸露出深色兜底（L-34） |
 | B | 固定壁纸层 | 非 404 页：`.ghibli-background` 存在、`position: fixed`、rect 覆盖视口、`background-image` 含 `wallImage` | `404.html` 是独立实底主题，豁免 |
 | C | 触控目标 | 独立控件（button/`.toolbar-btn`/`.lang-selector-toggle`/`.nav-link`/`.tool-nav-link`/`.remove-btn`/`.mode-btn`/`.download-btn`/select/range 等）≥ 44×44 | 默认 **WARN**；`--strict-touch` 升级 FAIL；正文行内 `<a>` 不算 |
+| F | 导航角色分离（静态） | ① `.tool-nav` 不含 Home；② about/contact 无 `.tool-nav`；③ 首页无 `.home-tool-entry`；④ **所有页面必须有 `.footer-tools`**（footer 内或 `.footer-tools--standalone`），5 链接 + 语言前缀正确；⑤ 全局 nav 含 Contact 且不含具体工具；⑥ GitHub 入口纯图标（`.github-link__icon` + `aria-label`，不得带文字） | 迁移脚本：`scripts/design-system/nav-role-separation.mjs` / `nav-global-cleanup.mjs` / `footer-tools-standalone.mjs` / `github-icon-link.mjs`（L-40）；类名检测用前缀 `class="footer-tools` |
 | D | 反馈方式 | `assets/js/*.js` 中**不得**出现 `alert()` 调用（注释除外） | 产品反馈用 `window.mcUI.toast`（L-32） |
 | E | 首屏资源 | 初始 HTML（`index.html`、`*/index.html`）不得静态 `<script>` 引入 `onnxruntime` / `face-api` | AI 大库应在用户点击时 `ensureLibs()` 懒加载（ADR-0007 D5） |
 
@@ -133,8 +134,11 @@ node scripts/design-audit/run-token-audit.mjs --list-tokens
 - 触控目标默认 WARN（视觉尺寸可小于 44px，热区用 padding/伪元素扩大）；需要强约束时加 `--strict-touch`。
 - A 项只测整页横向溢出，不测局部被裁切/`overflow: hidden` 掩盖。
 - 不测首屏主操作 y 坐标（R1 工具优先需用 `audit/design-migration/` 截图/metrics 人工复核，见 L-33）。
+- F 是静态 HTML 检查，不验证视觉/交互；GitHub 图标"可见"需配合离线截图（内联 SVG 不依赖 FA CDN）。
 
 ## 9. 维护记录
+
+- **2026-11-06（R2 Phase 1+2A+2B-1+2B-2 导航）**：`check-layout` 新增 **F 项**（导航角色分离：tool-nav 无 Home / 内容页无 tool-nav / 首页无重复卡 / 所有页面必须有 footer-tools / 全局 nav 无工具 / GitHub 纯图标 + aria-label）；版本 v1.1.0；配套迁移脚本 4 个（nav-role-separation / nav-global-cleanup / footer-tools-standalone / github-icon-link）；94/94 页 footer-tools、470 链接 200、54 页 GitHub 纯图标。
 
 - **2026-11-06（R2）**：新增 `check-performance.mjs` v1.0.0 + `performance-budget.json`（A 静态 gzip 体积 / B 390×844 渲染结构 / C 滚动 A/B 参考）；性能判据 = 超预算 FAIL、>90% WARN，**headless FPS 不作门槛**（L-37）；与 `scripts/functional-audit/run-mobile-touch.mjs` 一起构成 R2 门禁链（L-38/L-39）；文档 §1–§9 重新编号（check-performance 为 §3）。
 

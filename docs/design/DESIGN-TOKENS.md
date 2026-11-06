@@ -743,6 +743,7 @@ index bundle → pages bundle → i18n.css（54 页，部分在 body 末尾）�
 - **footer-tools**：**全部 94 个站点页**（除 404）必须有 5 个真实工具链接（本地化前缀 + `data-i18n` 标签 + `aria-label`/`nav.tools`）：有 footer 的放在 footer 内；40 个无 footer 的本地化/指南页使用 `.footer-tools--standalone`（Phase 2B-1，R2）。既保 SEO 内链也作为无 JS 兜底。
 - 桌面把 `.tool-nav` 降级为轻量上下文 tab（透明、无第二层导航容器）；移动保持横向滚动。
 - 工具入口：首页/工具页内的 `.tool-nav` + 所有有 footer 页面的 `.footer-tools`；内容页 footer 兜底，全局 nav 不再承担工具入口。
+- **GitHub 入口**：右上角为纯图标按钮（内联 SVG，不依赖 Font Awesome CDN；44×44；`aria-label` + `title` 本地化）；页脚保留 "GitHub Issues" 文字链接作为发现性/无 JS 兜底。
 - 门禁：`check-layout.mjs` **F 项**（静态）检查以上规则，**所有页面必须有 footer-tools**（含无 footer 页的 standalone 变体）。
 
 **硬性约束**：

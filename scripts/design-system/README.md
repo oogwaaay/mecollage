@@ -105,3 +105,15 @@ node scripts/design-system/footer-tools-standalone.mjs --apply --json out.json -
 - 给 40 个没有 `<footer>` 的本地化/指南页插入 `.footer-tools--standalone`（5 个真实工具链接，本地化前缀/文案来自 i18n JSON，无 JS 也正确）；
 - 不重建整站 footer、不改内容/URL；幂等；
 - 门禁：`check-layout.mjs` F 项（所有页面必须有 footer-tools）。
+
+
+## `github-icon-link.mjs` — GitHub 导航图标化
+
+```bash
+node scripts/design-system/github-icon-link.mjs            # dry-run
+node scripts/design-system/github-icon-link.mjs --apply --json out.json --report out.md
+```
+
+- 54 个有全局导航的页面：GitHub 入口从「文字 + Font Awesome 图标」改为**纯图标内联 SVG**（44×44，aria-label/title 本地化）；
+- 不依赖 Font Awesome CDN（断网也可见）；页脚保留 "GitHub Issues" 文字链接；
+- 幂等；门禁 `check-layout` F（图标存在 / aria-label / 不得带文字）。
