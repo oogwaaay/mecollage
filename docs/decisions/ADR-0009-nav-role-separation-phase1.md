@@ -1,8 +1,8 @@
 # ADR-0009: 导航角色分离 Phase 1+2A+2B-1+2B-2 —— 全局 wayfinding 与页面上下文工具切换
 
-- 状态：**Phase 1+2A 已生产部署（`d363e0f`，验收 41/0/2，PR #6 已合并）；Phase 2B-1 + Phase 2B-2 已实现并本地过门禁，在同一 PR #7（`feat/footer-tools-standalone`），待合并 / Preview / 维护者批准**（Tools 下拉**不做**；Contact 表单/真机待）
+- 状态：**Accepted**（Phase 1+2A+2B-1+2B-2 **全部已生产上线**：Phase 1+2A `d363e0f`（41/0/2，PR #6）；Phase 2B-1+2B-2 `6279a80`（验收 **41 PASS / 0 FAIL / 2 WARN**，PR #7 merged → `main` `2963040`，`git diff 6279a80 main` 为空）。Tools 下拉**不做**；Contact 表单/真机待）
 - 日期：2026-11-06
-- 分支：Phase 1+2A `feat/nav-role-separation`（从 `main` `5ad5adf` 起，生产部署 `d363e0f`，已合并）；Phase 2B-1 + 2B-2 `feat/footer-tools-standalone`（从 `main` `87f8be5` 起，PR #7 未合并）
+- 分支：Phase 1+2A `feat/nav-role-separation`（从 `main` `5ad5adf` 起，生产部署 `d363e0f`，PR #6 已合并）；Phase 2B-1 + 2B-2 `feat/footer-tools-standalone`（从 `main` `87f8be5` 起，生产部署 `6279a80`，PR #7 已合并 `main` `2963040`）
 - 关联：[ADR-0008](ADR-0008-r2-mobile-touch-performance-blog-search.md)（R2 总决策与性能预算）、[INTERACTION-AUDIT.md](../design/INTERACTION-AUDIT.md) P0-2（两层导航）/P2-3（Contact）/P2-4（博客搜索）、[prototypes/r2/README.md](../design/prototypes/r2/README.md)（`single-layer-nav` 原型）、L-20261106-40、`scripts/design-system/nav-role-separation.mjs`、`nav-global-cleanup.mjs`、`footer-tools-standalone.mjs`、`github-icon-link.mjs`、`scripts/design-audit/check-layout.mjs` F 项
 
 ## 背景
@@ -135,13 +135,15 @@ F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PAS
   - Phase 2B-1：`footer-tools-standalone.mjs` 迁移 **40 页**（40 处变更，0 异常）：40 个无 footer 页插入 `.footer-tools--standalone`（5 真实链接/本地化前缀）；CSS 新增 `.footer-tools--standalone`；**94/94 非 404 页面都有 footer-tools**；不重建 footer、不做 Tools 下拉、不改 URL/结构。
   - Phase 2B-2：`github-icon-link.mjs` 迁移 **54 页**（54 处变更，0 异常）：右上角 GitHub 入口「FA 图标 + 文字」→ **纯图标内联 SVG**（44×44、22px 图标、`aria-label`/`title` 本地化 `nav.github_view` 5 键、`currentColor`）；CSS 新增 `§22`（胶囊/hover/focus ring/≤768 隐藏）；页脚 "GitHub Issues" 文字链接保留兜底。
 - **门禁**：`check-layout` 新增/扩展 F 项（静态：tool-nav 无 Home / 内容页无 tool-nav / 首页无重复卡 / **所有页面必须有 footer-tools（footer 内或 standalone）**、5 链接、语言前缀 / 全局 nav 含 Contact 且无工具 / **GitHub 链接纯图标（内联 SVG + aria-label、无文字）**）；类名检测前缀匹配；H11/C2/runbook/scripts README/AGENTS/lessons 同步；token 基线随 HTML 变化下降并被人工复核刷新（**338/153/1560 → 334/151/1553**，token 273 / hash `3db11395ede1`）。
-- **上线记录**：Phase 1+2A 于 2026-11-06 生产部署 `d363e0f`（Preview 38/0/5、生产 **41/0/2**，PR #6 已合并 `main` `87f8be5`）；Phase 2B-1 + 2B-2 在同一条 PR #7（`feat/footer-tools-standalone`）未合并，待批准。
+- **上线记录**：
+  - Phase 1+2A：2026-11-06 生产部署 `d363e0f`（Preview 38/0/5、生产 **41/0/2**，PR #6 已合并 `main` `87f8be5`）。
+  - Phase 2B-1 + 2B-2：生产部署 `6279a80`（Preview `mecollage-591ukugxx…` **38/0/5**、生产 `https://mecollage-1908btck5-keeey-is-projects.vercel.app` → 别名 **https://www.mecollage.top**，验收 **41 PASS / 0 FAIL / 2 WARN（exit 0）**；生产冒烟：GitHub 纯图标/aria 本地化/无文字、standalone footer-tools、工具页图标全 PASS；PR #7 **MERGED**（`gh pr merge 7 --rebase`）→ `main` `2963040`；`git diff 6279a80 main` 为空，生产内容 = main）。批准原话「批准生产部署、批准合并。」（`audit/evidence/design-tokens/nav-2b-production-approval.md`）。
 - **风险**：桌面视觉变化（84→44px、透明 tab、GitHub 44×44 胶囊）与 standalone FooterTools 的视觉间距需 Preview 截图复核；40 页仍无完整 footer（用户明确不做）；footer-tools 文案由生成时 i18n JSON 决定，切换语言依赖 `data-i18n`（键保留）；移动端顶栏隐藏 GitHub 图标（靠 footer 文字兜底）；不动 URL/广告/统计/导出。
 - **部署面**：站点 HTML 会部署；`scripts/`、`docs/` 已在 `.vercelignore`；`404.html` 保持独立、不迁移。
 
 ## 验证
 
-- 迁移与门禁（2026-11-06，本地工作区；Phase 2B-1/2B-2 未 commit）：
+- 迁移与门禁（2026-11-06，发布前本地验证 + 生产复跑）：
   ```bash
   node scripts/design-system/nav-role-separation.mjs            # dry-run：幂等，期望 0 pending change
   node scripts/design-system/nav-global-cleanup.mjs             # dry-run：幂等，期望 0 pending change
@@ -157,18 +159,18 @@ F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PAS
 - **迁移报告**：Phase 1 —— 94 页 / **85 变更** / 0 异常 / 40 无 footer 跳过（`audit/design-migration/r2/nav-role-separation-apply.{md,json}`）；Phase 2A —— 94 页扫描 / **54 变更**（square→contact）/ 0 异常 / 40 无全局导航跳过（`audit/design-migration/r2/nav-global-apply.{md,json}`）；Phase 2B-1 —— 94 页扫描 / **40 变更** / 0 异常 / 0 跳过（`audit/design-migration/r2/footer-standalone-apply.{md,json}`）；Phase 2B-2 —— **54 变更** / 0 异常（`audit/design-migration/r2/github-icon-apply.{md,json}`，dry-run 同目录）。
 - **Phase 2B-1 关键修复（类名检测 bug）**：F 首版用 `class="footer-tools"` 精确匹配，standalone 多类名（`class="footer-tools footer-tools--standalone"`）导致 40 页被误判“缺少 footer-tools”（`footer-layout.md` FAIL 5/1）；三个脚本统一前缀匹配 `class="footer-tools` 后复跑 **PASS 6/6**（`footer-layout2.md`，95 页）。
 - **实测（本地 CDP）**：1440 首页全局导航 **[Home, Blog, About, Contact]**、`.tool-nav` 5 links/44px、`homeCards:0`、footer-tools 在 `<footer>` 内；工具页全局导航同 [Home, Blog, About, Contact] 且无 Square/`/tools/`、`.tool-nav` 4 links 无 Home；about `toolNav:false`；390×844 首页 nav **60px**、上传区 top **109px**、`scrollWidth=390`；**Phase 2B-1**：`birthday-collage-maker.html` 桌面 `.footer-tools--standalone` **5 links**（不在 footer 内，href `/`+/tools/*）；`es/free-collage-maker.html` 390 **5 links、`scrollWidth=390`（0 溢出）**；94/94 页面有 footer-tools，**470 个 footer 工具链接全部 200**。**Phase 2B-2**：1440 首页 GitHub 按钮 **`text=""`**、`aria-label="View on GitHub"`、`title="View on GitHub"`、href `https://github.com/oogwaaay/mecollage/issues`、按钮 **44×44**、SVG **22px**；`/zh/` aria/title **「在 GitHub 上查看」**、`text=""`；390 下 `display:none`、nav 60、`scrollWidth=390`、菜单按钮存在；54 页均含 `github-link__icon`/`aria-label`、无文字（静态复算 54/0/0/0）。截图 `audit/design-migration/r2/nav-phase1/*.png`、`footer-standalone/*.png`、`github-icon/{home-desktop-1440,home-mobile-390,zh-home-desktop-1440}.png`。
-- **门禁结果**：`check-layout` **PASS 6/6（95 页，A/B/C/D/E/F 全 PASS）**——Phase 1 后 `nav-final-layout.{json,md}`；Phase 2B-1 后 `footer-layout2.{json,md}`（95 页）；**Phase 2B-2 后 `github-layout.{json,md}`（15:16，95 页，含 GitHub 纯图标规则）**；fingerprint 无 FAIL/WARN。production（Phase 1+2A）：`d363e0f` 生产验收 **41/0/2**（`audit/evidence/design-tokens/nav-prod-verify-d363e0f-*.md`）。
-- 未做：Phase 2B-1/2B-2 的 PR #7 合并 + Preview/生产（待批准）、真机、Tools 下拉（用户明确不做）、Contact 表单（用户稍后布置）。
+- **门禁结果**：`check-layout` **PASS 6/6（95 页，A/B/C/D/E/F 全 PASS）**——Phase 1 后 `nav-final-layout.{json,md}`；Phase 2B-1 后 `footer-layout2.{json,md}`（95 页）；**Phase 2B-2 后 `github-layout.{json,md}`（15:16，95 页，含 GitHub 纯图标规则）**；fingerprint 无 FAIL/WARN。生产验收：Phase 1+2A `d363e0f` **41/0/2**（`nav-prod-verify-d363e0f-*.md`）；Phase 2B-1+2B-2 `6279a80` **41/0/2（exit 0）**（`audit/evidence/design-tokens/2b-prod-verify-6279a80-*.md`、`2b-prod-smoke-6279a80.txt`）。
+- 上线状态：Phase 2B-1/2B-2 已生产上线 `6279a80`（41/0/2，PR #7 merged → `main` `2963040`，内容等价 diff 为空）；未做仅 Contact 表单 / 真机 / Tools 下拉。
 
 ## 未做 / 后续
 
-- **Phase 1+2A 已生产上线**（`d363e0f`，生产验收 41/0/2，PR #6 已合并 `main` `87f8be5`）；**Phase 2B-1 + Phase 2B-2 在 PR #7（`feat/footer-tools-standalone`）未合并**，等待维护者批准合并 + Preview + 生产。
+- **全部上线完成**：Phase 1+2A（`d363e0f`，41/0/2，PR #6）+ Phase 2B-1+2B-2（`6279a80`，41/0/2，PR #7，`main` `2963040`，`git diff 6279a80 main` 为空）。
 - **Tools 下拉：不做**（用户明确）；工具入口已固定在 `.tool-nav` + `.footer-tools`（footer 内/standalone）且全站每页至少一个可爬工具入口（470 链接全 200）。
 - **40 页不做完整 footer**（用户明确）：这些页面只有 `.footer-tools--standalone`，没有版权/语言/社交等完整页脚；若未来需要统一整站页脚，另立 ADR。
 - **GitHub 图标 only 已定**（用户明确）：不再做“图标 + 文字”；移动端顶栏隐藏图标、通过页脚 "GitHub Issues" 文字链接可达（若真机发现发现性不足，再评估移动端常驻入口）。
-- **Contact 表单**：由用户稍后自行布置（三方案见 ADR-0008 D3：A mailto 推荐 / B 第三方 / C 自建；B 需 H8 账户操作 + 隐私政策更新）；本 ADR 只把全局导航的 Contact 链接接到既有 contact 页。
-- **Preview + 真机**：桌面 84→44px、standalone FooterTools、GitHub 44×44 胶囊的视觉需 Preview 截图复核；移动端真实手势/长按菜单（mobile-touch 已覆盖结构，真机未测）。
-- **R2-B 博客搜索的视觉/CSS** 与导航/页脚/GitHub 图标交叉处（blog 页全局 nav/tool-nav/footer-tools）需在 Preview 一起抽查。
+- **Contact 表单（未做）**：由用户稍后自行布置（三方案见 ADR-0008 D3：A mailto 推荐 / B 第三方 / C 自建；B 需 H8 账户操作 + 隐私政策更新）；本 ADR 只把全局导航的 Contact 链接接到既有 contact 页。
+- **真机（未做）**：iOS Safari / Android Chrome 的菜单、滚动后导出、触控拖拽与真机性能 profiling；headless/合成触摸只代表结构回归。
+- **R2-B 博客搜索的视觉/CSS** 与导航/页脚/GitHub 图标交叉处（blog 页全局 nav/tool-nav/footer-tools）已随 2B 上线一起上生产，后续如需调整按新变更走 runbook。
 - 旧 bundle / components.css 体积 WARN（性能预算 A 项）仍在，不属本 Phase。
 
 ## 回滚
@@ -179,4 +181,5 @@ F 接入 H11/C2/runbook；迁移/导航类改动必须跑 `check-layout`（F PAS
 - 只回滚 footer-tools：删除 `components.css §21` 中 `.footer-tools*` 并用 git revert 恢复页面（脚本无 `--remove`）。
 - 只回滚 tool-nav 降级：revert 对应 CSS 提交（页面 HTML 不变，回到 84px 玻璃条）。
 - 只回滚 Phase 2A：`git revert` 对应提交或把全局导航的 `data-page="contact"` 手动改回原 `data-page="square"` 链接（54 页）；F 门禁会因此 FAIL，需同步回滚 F 规则/记 known-issue。
+- **生产回滚（Phase 2B-1+2B-2 已上线 `6279a80`）**：按 runbook §6 在 Vercel Dashboard 把上一版生产 Promote/Rollback（上一版为 Phase 1+2A 的 `d363e0f`）；或 `git revert 430eef2 acf4eec adc9326 6279a80` 后重新部署（批准记录给出的回滚路径）。生产内容 = `main` `2963040`（`git diff 6279a80 main` 为空），回滚后重建 main 部署即可。
 - 不改 URL/数据/广告，无数据迁移；回滚后按 runbook §4.6 复跑 check-layout（F）/functional/mobile-touch/SEO。
