@@ -22,7 +22,7 @@
 
 > 状态只前进不删除；`closed` 的条目永久保留（防止"删了就当没发生"）。`regressed` 的条目回到 `open` 流程处理，但保留复发历史。
 
-## 3. 索引（首批 17 条，2026-11-05 审计 + Phase A 提炼）
+## 3. 索引（36 条，2026-11-05 审计 + Phase A 提炼；2026-11-06 交互改造补 L-31~L-36）
 
 | ID | 标题 | 状态 | 严重度 | 关联文件 | 日期 |
 |---|---|---|---|---|---|
@@ -49,6 +49,13 @@
 | [L-20261106-27](L-20261106-27-jsonld-must-come-from-real-content-and-cover-same-class.md) | JSON-LD 必须由真实内容生成并覆盖同类页 | closed（Phase E FAQ 修正，生产验收） | P3 | 60 可索引 HTML、`scripts/seo-audit` | 2026-11-06 |
 | [L-20261106-28](L-20261106-28-tool-merge-requires-feature-parity.md) | 工具页合并前必须验证功能对等；301 不能替代功能迁移 | closed（Phase D 意图区隔，生产验收） | P1 | `public/tools/square*`、ADR-0005 | 2026-11-06 |
 | [L-20261106-29](L-20261106-29-internal-link-targets-must-state-metric.md) | “站内入链 40+”必须先定义口径 | closed（Phase E 生产验收） | P3 | `audit/evidence/phase-e/link-counts.json` | 2026-11-06 |
+| [L-20261106-30](L-20261106-30-design-values-hardcoded-and-drift.md) | 设计值与组件样式无单一事实源，硬编码+多语言复制持续漂移；需 token 单一事实源 + 审计基线门禁 | **mitigated**（token/统一层/门禁已落地，存量迁移 G2–G3 未完成） | P1 | `assets/css/design-tokens.css`、`assets/css/components.css`、`scripts/design-audit/`、95 个 HTML | 2026-11-06 |
+| [L-20261106-31](L-20261106-31-js-runtime-inline-styles-bypass-tokens.md) | JS 运行时直接写内联样式绕过设计 token（画布白方块；token 审计曾漏扫 JS） | mitigated（class/token 化 + v1.1 JS 扫描落地；审计 JS 裸色 0） | P1 | `assets/js/mecollage-main.js`、`assets/css/components.css`、`scripts/design-audit/run-token-audit.mjs` | 2026-11-06 |
+| [L-20261106-32](L-20261106-32-alert-feedback-and-dead-toast.md) | alert 阻塞反馈 + toast 样式死代码：反馈不可翻译/不可撤销/无重试 | mitigated（15→0 + toast 接线；check-layout D PASS、functional 51/0/2） | P1 | `assets/js/mecollage-main.js`、`assets/js/ui.js`、`assets/pages-C2UaL6ML.css`、`scripts/design-audit/check-layout.mjs` | 2026-11-06 |
+| [L-20261106-33](L-20261106-33-seo-first-layout-hides-primary-action.md) | SEO 内容优先的 DOM 顺序把主操作推到首屏外（移动端上传区 y=1148/1193px） | mitigated（R1 落地：上传区 1148→109 / 1193→259–434px；桌面不变） | P1 | `assets/css/components.css` §17、`assets/js/ui.js`、`docs/design/INTERACTION-AUDIT.md` | 2026-11-06 |
+| [L-20261106-34](L-20261106-34-mobile-overflow-breaks-fixed-wallpaper.md) | 移动端横向溢出破坏固定壁纸层与布局（390 下 7 页、320 下 30 页） | mitigated（check-layout --full 95 页 × 4 宽度 PASS 5/0/0） | P1 | `assets/css/components.css` §12、`scripts/design-audit/check-layout.mjs`、`audit/design-migration/MOBILE-OVERFLOW.md` | 2026-11-06 |
+| [L-20261106-35](L-20261106-35-behavior-change-must-update-acceptance-assertions.md) | 改用户可见行为必须同步更新验收断言（harness 曾只读 alert dialog） | mitigated（IDX-19/21/22 改 dialog+toast 兼容口径；functional 51/0/2） | P2 | `scripts/functional-audit/run-tests.mjs`、`assets/js/mecollage-main.js`、ADR-0007 | 2026-11-06 |
+| [L-20261106-36](L-20261106-36-html2canvas-foreignobject-scroll-blank-export.md) | html2canvas foreignObject 按页面滚动偏移克隆，自动滚动后导出全白（hash d2b3285） | mitigated（options 加 scrollX/scrollY:0；IDX-14/15/16 PASS、导出产物非白） | P0 | `assets/js/mecollage-main.js`、`scripts/functional-audit/run-tests.mjs`、`audit/design-migration/r0/README.md` | 2026-11-06 |
 | [L-20261105-18](L-20261105-18-production-deploy-is-manual.md) | 生产部署不是 main push 自动上线；是手动 CLI/Dashboard，且 AI 执行需明确授权 | closed（Phase A 实测并已记录流程） | P2 | `docs/runbooks/preview-deploy.md`、`ADR-0001` | 2026-11-05 |
 | [L-20261105-19](L-20261105-19-preview-export-shared-transform.md) | 预览与导出禁止各写一套几何公式 | closed（生产验证） | P0 | `public/tools/*/index.html`、`mecollage-main.js` | 2026-11-05 |
 | [L-20261105-20](L-20261105-20-css-clamp-vs-js-sizing.md) | CSS max-height/min-height/box-sizing 会静默覆盖 JS 尺寸与比例 | closed（生产验证） | P0 | `index.html`、`mecollage-main.js` | 2026-11-05 |

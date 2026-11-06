@@ -1,6 +1,151 @@
 // MeCollage Pro 主应用程序
 // 严格按照交互示意图实现
+
+// ---------------------------------------------------------------------------
+// R0 交互反馈工具层（2026-11-06，IMPLEMENTATION-SPEC.md §2.2 / §3.1）
+// 约定：
+//  1) 反馈优先走 window.mcUI.toast(...)（assets/js/ui.js 提供，可能未加载）；
+//  2) 文案优先 window.i18n.t(key, params)，缺键时用英文 fallback；
+//  3) ui.js 缺失/异常时降级为「#mc-toast-stack > .mc-toast > .mc-toast__msg」
+//     原生 DOM toast（复用 components.css §14 的视觉），并 console.error；
+//  4) 任何情况下都不回退阻塞式 alert()。
+// ---------------------------------------------------------------------------
+const MC_TOAST_DEFAULTS = { type: 'info', duration: 3200 };
+const MC_TOAST_MAX = 3;
+
+function mcI18n(key, params, fallback) {
+  const values = params || {};
+  let text = '';
+  const i18n = window.i18n;
+  if (i18n && typeof i18n.t === 'function') {
+    try {
+      const translated = i18n.t(key, values);
+      if (translated && translated !== key) text = String(translated);
+    } catch (error) {
+      console.error(`[MeCollage] i18n.t("${key}") 调用失败：`, error);
+    }
+  }
+  if (!text) {
+    text = String(fallback || key);
+    Object.keys(values).forEach((name) => {
+      text = text.split(`{${name}}`).join(String(values[name]));
+    });
+  }
+  return text;
+}
+
+function mcMountToastStack() {
+  let stack = document.getElementById('mc-toast-stack');
+  if (!stack) {
+    stack = document.createElement('div');
+    stack.id = 'mc-toast-stack';
+    stack.setAttribute('role', 'status');
+    stack.setAttribute('aria-live', 'polite');
+    document.body.appendChild(stack);
+  }
+  return stack;
+}
+
+function mcShowToastFallback(message, options = {}) {
+  try {
+    const stack = mcMountToastStack();
+    const toast = document.createElement('div');
+    toast.className = `mc-toast mc-toast--${options.type || MC_TOAST_DEFAULTS.type}`;
+    toast.setAttribute('role', 'status');
+
+    const msg = document.createElement('span');
+    msg.className = 'mc-toast__msg';
+    msg.textContent = String(message);
+    toast.appendChild(msg);
+
+    const remove = () => { if (toast.parentNode) toast.parentNode.removeChild(toast); };
+
+    if (options.actionLabel && typeof options.onAction === 'function') {
+      const action = document.createElement('button');
+      action.type = 'button';
+      action.className = 'mc-toast__action';
+      action.textContent = String(options.actionLabel);
+      action.addEventListener('click', () => {
+        remove();
+        try {
+          options.onAction();
+        } catch (error) {
+          console.error('[MeCollage] toast action 执行失败：', error);
+        }
+      });
+      toast.appendChild(action);
+    }
+
+    const close = document.createElement('button');
+    close.type = 'button';
+    close.className = 'mc-toast__close';
+    close.setAttribute('aria-label', 'Close');
+    close.textContent = '×';
+    close.addEventListener('click', remove);
+    toast.appendChild(close);
+
+    stack.appendChild(toast);
+    while (stack.children.length > MC_TOAST_MAX) stack.removeChild(stack.firstElementChild);
+
+    const duration = Number(options.duration ?? MC_TOAST_DEFAULTS.duration);
+    if (duration > 0) setTimeout(remove, duration);
+    return true;
+  } catch (error) {
+    console.error('[MeCollage] 内联 toast 渲染失败：', error);
+    return false;
+  }
+}
+
+function mcToast(message, options = {}) {
+  const ui = window.mcUI;
+  if (ui && typeof ui.toast === 'function') {
+    try {
+      ui.toast(message, options);
+      return true;
+    } catch (error) {
+      console.error('[MeCollage] mcUI.toast 调用失败，改用内联 toast：', error);
+    }
+  } else {
+    console.error(`[MeCollage] mcUI 未就绪，toast 降级为内联 DOM：${message}`);
+  }
+  return mcShowToastFallback(message, options);
+}
+
+/** 估算 data URL 的字节数（base64 → bytes，用于导出成功 toast 的大小文案） */
+function mcEstimateDataUrlBytes(dataUrl) {
+  if (typeof dataUrl !== 'string') return 0;
+  const commaIndex = dataUrl.indexOf(',');
+  const base64 = commaIndex === -1 ? '' : dataUrl.slice(commaIndex + 1);
+  return Math.floor((base64.length * 3) / 4);
+}
+
+/** 字节数 → 可读大小（KB/MB） */
+function mcFormatBytes(bytes) {
+  if (!Number.isFinite(bytes) || bytes <= 0) return '0 KB';
+  if (bytes >= 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
+
 class MeCollagePro {
+  // R0：AI 懒加载用的外部库（原首页静态 <script> 已移除，改为 ensureLibs 动态加载）
+  static EXTERNAL_LIBS = {
+    html2canvas: {
+      url: 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+      global: 'html2canvas',
+      crossOrigin: 'anonymous',
+    },
+    ort: {
+      url: 'https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.1/dist/ort.min.js',
+      global: 'ort',
+      crossOrigin: 'anonymous',
+    },
+    faceapi: {
+      url: 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/dist/face-api.min.js',
+      global: 'faceapi',
+      crossOrigin: 'anonymous',
+    },
+  };
+
   constructor() {
     this.images = [];
     this.maxImages = 20;
@@ -53,6 +198,12 @@ class MeCollagePro {
     this.isAiModelsLoaded = false;
     this.isProcessingAi = false;
 
+    // R0 交互状态（2026-11-06）
+    this.isExporting = false; // 导出中：防连点 + 按钮 aria-busy
+    this._unsavedChanges = false; // 未导出改动：beforeunload 保护
+    this._libPromises = {}; // ensureLibs() 动态加载缓存（失败清除，允许重试）
+    this._touchReorder = null; // 触控拖拽排序的进行中状态
+
     this.init();
   }
 
@@ -101,6 +252,9 @@ class MeCollagePro {
     if (collageCanvas) {
       collageCanvas.style.display = 'none';
     }
+
+    // R0：同步可见 Undo/Redo 的禁用态（初始均为 disabled）
+    this.updateUndoRedoState();
   }
 
   /**
@@ -257,6 +411,19 @@ class MeCollagePro {
       aiBgRemovalBtn.addEventListener('click', () => this.applyAiBgRemoval());
     }
 
+    // R0：可见撤销/重做按钮（P1-2；快捷键仍由 handleKeyDown 处理）
+    const undoBtn = document.getElementById('undoBtn');
+    const redoBtn = document.getElementById('redoBtn');
+    if (undoBtn) {
+      undoBtn.addEventListener('click', () => this.undo());
+    }
+    if (redoBtn) {
+      redoBtn.addEventListener('click', () => this.redo());
+    }
+
+    // R0：未保存保护（P1-3）：有未导出的拼图时离开/刷新给出提示
+    window.addEventListener('beforeunload', (e) => this.handleBeforeUnload(e));
+
     // 添加全局鼠标事件监听器，用于拖拽功能
     document.addEventListener('mousemove', (e) => this.handleGlobalMouseMove(e));
     document.addEventListener('mouseup', () => this.handleGlobalMouseUp());
@@ -313,18 +480,44 @@ class MeCollagePro {
     // 限制最多20张图片
     const remainingSlots = this.maxImages - this.images.length;
     if (remainingSlots <= 0) {
-      alert(`You can add up to ${this.maxImages} images per collage.`);
+      this.showErrorToast(
+        'toast.error.max_images',
+        { max: this.maxImages },
+        `You can add up to ${this.maxImages} images per collage.`,
+      );
       return;
     }
     if (files.length > remainingSlots) {
-      alert(`Only ${remainingSlots} more image(s) can be added (max ${this.maxImages}).`);
+      this.showInfoToast(
+        'photos.remaining',
+        { n: remainingSlots },
+        `You can add ${remainingSlots} more photo(s) (max ${this.maxImages}).`,
+      );
     }
     const filesToProcess = files.slice(0, remainingSlots);
+    if (filesToProcess.length === 0) return;
+
+    // 批次全部 settle（成功/失败）后只做一次过渡，避免每张图都滚动/弹 toast
+    let settled = 0;
+    let added = 0;
+    const finishOne = () => {
+      settled += 1;
+      if (settled < filesToProcess.length) return;
+      if (added > 0) {
+        this.markDirty();
+        this.announcePhotosAdded(added);
+      }
+    };
 
     filesToProcess.forEach(file => {
       const reader = new FileReader();
       reader.onerror = () => {
-        alert(`Could not read "${file.name}". Please try another image.`);
+        this.showErrorToast(
+          'toast.error.file_read',
+          { name: file.name },
+          `Could not read "${file.name}". Please try another image.`,
+        );
+        finishOne();
       };
       reader.onload = (e) => {
         const img = new Image();
@@ -336,18 +529,164 @@ class MeCollagePro {
             height: img.height,
             filter: 'none' // 初始滤镜
           });
+          added += 1;
           this.updateImageCount();
           this.renderCollage();
           this.showCollageCanvas();
+          this.updateUndoRedoState();
+          finishOne();
         };
         img.onerror = () => {
           // HEIC/损坏文件在多数浏览器无法解码：给出明确反馈，避免“选了文件没反应”
-          alert(`Could not decode "${file.name}". Supported formats: PNG, JPG, WEBP.`);
+          this.showErrorToast(
+            'toast.error.file_decode',
+            { name: file.name },
+            `Could not decode "${file.name}". Supported formats: PNG, JPG, WEBP.`,
+          );
+          finishOne();
         };
         img.src = e.target.result;
       };
       reader.readAsDataURL(file);
     });
+  }
+
+  /**
+   * R0：标记存在未保存改动（beforeunload 保护用）
+   */
+  markDirty() {
+    this._unsavedChanges = true;
+  }
+
+  /**
+   * R0：未保存保护（P1-3）。导出成功后解除。
+   */
+  handleBeforeUnload(e) {
+    if (!this._unsavedChanges || this.images.length === 0) return undefined;
+    const message = mcI18n('beforeunload.unsaved', {}, 'You have unsaved changes. Export your collage before leaving?');
+    e.preventDefault();
+    e.returnValue = message; // 兼容旧浏览器
+    return message;
+  }
+
+  /**
+   * R0：图片添加完成后的过渡（P0-4）：滚动到画布 + 聚焦 + toast
+   * 优先用 window.mcUI.announcePhotosAdded；ui.js 未就绪时本地降级。
+   */
+  announcePhotosAdded(count) {
+    const ui = window.mcUI;
+    if (ui && typeof ui.announcePhotosAdded === 'function') {
+      try {
+        ui.announcePhotosAdded(count);
+        return;
+      } catch (error) {
+        console.error('[MeCollage] mcUI.announcePhotosAdded 调用失败，改用本地过渡：', error);
+      }
+    }
+    const canvasContainer = document.querySelector('.canvas-container');
+    if (canvasContainer) {
+      try {
+        canvasContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (error) {
+        canvasContainer.scrollIntoView();
+      }
+      if (!canvasContainer.hasAttribute('tabindex')) canvasContainer.setAttribute('tabindex', '-1');
+      try {
+        canvasContainer.focus({ preventScroll: true });
+      } catch (error) {
+        canvasContainer.focus();
+      }
+    }
+    mcToast(
+      mcI18n('toast.photos_added', { n: count }, `${count} photo(s) added — arrange, filter and export when ready.`),
+      { type: 'success' },
+    );
+  }
+
+  /**
+   * R0：非阻塞错误反馈（替代 alert），可选 retry action
+   */
+  showErrorToast(key, params, fallback, options = {}) {
+    const message = mcI18n(key, params, fallback);
+    console.error(`[MeCollage] ${message}`);
+    mcToast(message, { type: 'error', duration: 6000, ...options });
+    return message;
+  }
+
+  /**
+   * R0：非阻塞信息反馈（替代 alert）
+   */
+  showInfoToast(key, params, fallback, options = {}) {
+    const message = mcI18n(key, params, fallback);
+    mcToast(message, { type: 'info', ...options });
+    return message;
+  }
+
+  /**
+   * R0：同步可见 Undo/Redo 按钮的禁用态（P1-2）
+   */
+  updateUndoRedoState() {
+    const undoBtn = document.getElementById('undoBtn');
+    const redoBtn = document.getElementById('redoBtn');
+    if (undoBtn) undoBtn.disabled = this.undoStack.length === 0;
+    if (redoBtn) redoBtn.disabled = this.redoStack.length === 0;
+  }
+
+  /**
+   * R0：动态加载外部库（AI 懒加载，P1-5）。只加载一次；失败可重试。
+   * @param {Array<'html2canvas'|'ort'|'faceapi'>} names
+   * @returns {Promise<void>}
+   */
+  ensureLibs(names = []) {
+    const order = ['html2canvas', 'ort', 'faceapi'];
+    const requested = order.filter(name => names.includes(name));
+    return requested.reduce(
+      (chain, name) => chain.then(() => this.loadLib(name)),
+      Promise.resolve(),
+    );
+  }
+
+  /**
+   * 加载单个外部库（缓存 Promise；成功后复用，失败后清除以便重试）
+   */
+  loadLib(name) {
+    const config = MeCollagePro.EXTERNAL_LIBS[name];
+    if (!config) return Promise.reject(new Error(`Unknown library: ${name}`));
+    if (window[config.global]) return Promise.resolve();
+
+    if (this._libPromises[name]) return this._libPromises[name];
+
+    const promise = new Promise((resolve, reject) => {
+      const existing = document.querySelector(`script[data-mc-lib="${name}"]`);
+      if (existing) {
+        existing.addEventListener('load', () => resolve());
+        existing.addEventListener('error', () => reject(new Error(`Failed to load ${name}`)));
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = config.url;
+      script.async = false;
+      if (config.crossOrigin) script.crossOrigin = config.crossOrigin;
+      script.dataset.mcLib = name;
+      script.addEventListener('load', () => {
+        if (window[config.global]) {
+          resolve();
+        } else {
+          reject(new Error(`${name} loaded without exposing window.${config.global}`));
+        }
+      });
+      script.addEventListener('error', () => {
+        script.remove();
+        reject(new Error(`Failed to load ${name}`));
+      });
+      document.head.appendChild(script);
+    });
+
+    this._libPromises[name] = promise.catch((error) => {
+      delete this._libPromises[name]; // 允许重试
+      throw error;
+    });
+    return this._libPromises[name];
   }
 
   /**
@@ -471,6 +810,7 @@ class MeCollagePro {
     document.querySelector(`[data-ratio="${ratio}"]`).classList.add('active');
     
     this.renderCollage();
+    this.markDirty();
   }
 
   /**
@@ -480,8 +820,8 @@ class MeCollagePro {
     const root = document.documentElement;
     root.style.setProperty('--gutter', `${this.gutter}px`);
     root.style.setProperty('--radius', `${this.radius}px`);
+    this.markDirty();
   }
-
   /**
    * 根据图片数量和纵横比计算网格布局
    */
@@ -751,6 +1091,8 @@ class MeCollagePro {
     this.undoStack.push(this.snapshot());
     this.redoStack = []; // 清空重做栈
     if (this.undoStack.length > 20) this.undoStack.shift();
+    this.markDirty();
+    this.updateUndoRedoState();
   }
   
   /**
@@ -773,6 +1115,9 @@ class MeCollagePro {
     
     // 重新渲染
     this.renderCollage();
+    this.updateUndoRedoState();
+    this.markDirty();
+    mcToast(mcI18n('toast.undo_success', {}, 'Undone'), { type: 'undo', duration: 2400 });
   }
   
   /**
@@ -795,6 +1140,8 @@ class MeCollagePro {
     
     // 重新渲染
     this.renderCollage();
+    this.updateUndoRedoState();
+    this.markDirty();
   }
   
   /**
@@ -873,7 +1220,8 @@ class MeCollagePro {
     innerContainer.style.overflow = 'hidden';
     innerContainer.style.borderRadius = `var(--radius, 0px)`;
     innerContainer.style.minHeight = '100px';
-    innerContainer.style.backgroundColor = '#f1f5f9';
+    // R0：底色走 token（深色玻璃），不再写裸色值
+    innerContainer.style.backgroundColor = 'var(--mc-surface-1)';
     
     // 添加图片
     const img = document.createElement('img');
@@ -897,6 +1245,9 @@ class MeCollagePro {
     // 添加拖拽手柄组件
     const dragHandle = document.createElement('div');
     dragHandle.className = 'drag-handle';
+    // R0：从拖拽手柄起手时不让页面滚动抢走手势（触控排序）；手柄区域很小，不影响页面滚动
+    dragHandle.style.touchAction = 'none';
+    dragHandle.setAttribute('aria-hidden', 'true');
     
     // 添加白点
     const dots = document.createElement('div');
@@ -907,19 +1258,18 @@ class MeCollagePro {
     innerContainer.appendChild(dragHandle);
     
     // 添加删除按钮 - 放在外层容器，避免被裁剪
+    // R0：颜色/背景/边框/阴影改由 components.css 的 .remove-btn 接管（含 44px ::after 热区），
+    //     这里只保留定位/尺寸/透明度/变换/事件状态等布局与行为样式。
     const removeBtn = document.createElement('button');
     removeBtn.className = 'remove-btn';
     removeBtn.innerHTML = '🗑️';
     removeBtn.title = 'Remove image';
+    removeBtn.setAttribute('aria-label', mcI18n('app.remove_image', {}, 'Remove image'));
     removeBtn.style.position = 'absolute';
     removeBtn.style.top = '-0.25rem';
     removeBtn.style.right = '-0.25rem';
     removeBtn.style.width = '1.5rem';
     removeBtn.style.height = '1.5rem';
-    removeBtn.style.background = 'rgba(255, 255, 255, 0.95)';
-    removeBtn.style.color = '#ef4444';
-    removeBtn.style.border = 'none';
-    removeBtn.style.borderRadius = '50%';
     removeBtn.style.fontSize = '0.75rem';
     removeBtn.style.cursor = 'pointer';
     removeBtn.style.display = 'flex';
@@ -928,7 +1278,6 @@ class MeCollagePro {
     removeBtn.style.opacity = '0';
     removeBtn.style.transform = 'translate(0, 0)';
     removeBtn.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-    removeBtn.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.15)';
     removeBtn.style.zIndex = '100';
     removeBtn.style.pointerEvents = 'none';
     removeBtn.style.userSelect = 'none';
@@ -951,6 +1300,9 @@ class MeCollagePro {
     outerContainer.addEventListener('dragover', (e) => this.handleDragOverImage(e));
     outerContainer.addEventListener('dragleave', (e) => this.handleDragLeaveImage(e));
     outerContainer.addEventListener('drop', (e) => this.handleDropImage(e, index));
+
+    // R0：触控/手写笔排序（HTML5 drag 仅鼠标可用；鼠标路径保持不变）
+    this.bindTouchReorder(outerContainer, index);
     
     // 添加点击事件（选择图片）
     outerContainer.addEventListener('click', () => {
@@ -961,7 +1313,6 @@ class MeCollagePro {
     outerContainer.addEventListener('mouseenter', () => {
       removeBtn.style.opacity = '1';
       removeBtn.style.transform = 'scale(1.05)';
-      removeBtn.style.boxShadow = '0 3px 12px rgba(0, 0, 0, 0.2)';
       removeBtn.style.pointerEvents = 'auto';
     });
     
@@ -982,7 +1333,7 @@ class MeCollagePro {
       menuBtn.style.right = '2rem';
       menuBtn.style.width = '1.5rem';
       menuBtn.style.height = '1.5rem';
-      menuBtn.style.background = 'rgba(255, 255, 255, 0.9)';
+      menuBtn.style.background = 'var(--mc-overlay-control-bg)';
       menuBtn.style.border = 'none';
       menuBtn.style.borderRadius = '50%';
       menuBtn.style.fontSize = '0.75rem';
@@ -1036,25 +1387,25 @@ class MeCollagePro {
     outerContainer.style.display = 'inline-block';
     
     // 创建内层容器
+    // R0：占位色/悬停色改由 components.css §18（深色玻璃 + dashed 品牌绿）接管，
+    //     这里只保留尺寸/圆角等布局样式。
     const innerContainer = document.createElement('div');
     innerContainer.className = 'image-inner-container';
     innerContainer.style.position = 'relative';
     innerContainer.style.overflow = 'hidden';
     innerContainer.style.borderRadius = `var(--radius, 0px)`;
     innerContainer.style.minHeight = '0';
-    innerContainer.style.backgroundColor = '#f1f5f9';
     
-    // 创建添加按钮
+    // 创建添加按钮（颜色/边框/悬停由 .add-image-btn 组件样式接管）
     const btn = document.createElement('button');
     btn.className = 'add-image-btn';
     btn.innerHTML = '+';
-    btn.title = 'Add image';
+    const addImageLabel = mcI18n('app.add_image_title', {}, 'Add image');
+    btn.title = addImageLabel;
+    btn.setAttribute('aria-label', addImageLabel);
     btn.style.width = '100%';
     btn.style.height = '100%';
-    btn.style.background = 'transparent';
-    btn.style.border = 'none';
     btn.style.fontSize = '2rem';
-    btn.style.color = '#94a3b8';
     btn.style.cursor = 'pointer';
     btn.style.display = 'flex';
     btn.style.alignItems = 'center';
@@ -1063,17 +1414,6 @@ class MeCollagePro {
     
     btn.addEventListener('click', () => {
       document.getElementById('fileInput').click();
-    });
-    
-    // 添加悬停效果
-    innerContainer.addEventListener('mouseenter', () => {
-      btn.style.color = '#64748b';
-      innerContainer.style.background = '#e2e8f0';
-    });
-    
-    innerContainer.addEventListener('mouseleave', () => {
-      btn.style.color = '#94a3b8';
-      innerContainer.style.background = '#f1f5f9';
     });
     
     innerContainer.appendChild(btn);
@@ -1115,7 +1455,7 @@ class MeCollagePro {
     
     // 添加悬停样式，提供清晰的视觉反馈
     const container = e.currentTarget;
-    container.style.boxShadow = '0 0 0 2px #3b82f6';
+    container.style.boxShadow = '0 0 0 2px var(--mc-color-focus)';
     container.style.transform = 'scale(1.05)';
     container.style.transition = 'all 0.2s ease';
   }
@@ -1172,15 +1512,114 @@ class MeCollagePro {
   }
 
   /**
+   * R0：触控/手写笔拖拽排序（P1-6）。
+   * - 鼠标路径保持 HTML5 drag 不变（functional 回归依赖）；
+   * - 触控/笔：长按 250ms 启动 → setPointerCapture → 半透明 ghost →
+   *   elementFromPoint 找目标格 → 释放复用 reorderImages()；
+   * - .drag-handle 已设 touch-action:none，保证从手柄起手时手势不被页面滚动抢占；
+   * - 中途滚动/取消会清理状态，不产生重排。
+   */
+  bindTouchReorder(container, index) {
+    const LONG_PRESS_MS = 250;
+    let pressTimer = null;
+    let state = null;
+
+    const clearPress = () => {
+      if (pressTimer) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+      }
+    };
+
+    const resetVisual = () => {
+      container.classList.remove('touch-reorder-active');
+      container.style.opacity = '';
+      container.style.transform = '';
+      container.style.zIndex = '';
+      document.querySelectorAll('.image-outer-container.touch-reorder-target').forEach((node) => {
+        node.classList.remove('touch-reorder-target');
+      });
+    };
+
+    const finish = (event) => {
+      clearPress();
+      if (!state) return;
+      const { pointerId, fromIndex, targetIndex } = state;
+      state = null;
+      resetVisual();
+      try {
+        if (event && container.hasPointerCapture && container.hasPointerCapture(pointerId)) {
+          container.releasePointerCapture(pointerId);
+        }
+      } catch (error) {
+        console.error('[MeCollage] releasePointerCapture 失败：', error);
+      }
+      if (fromIndex !== targetIndex && targetIndex >= 0) {
+        this.reorderImages(fromIndex, targetIndex);
+        this.markDirty();
+      }
+    };
+
+    container.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'mouse') return;
+      if (event.target.closest('.remove-btn')) return;
+      if (event.button !== undefined && event.button !== 0) return;
+      clearPress();
+      const pointerId = event.pointerId;
+      pressTimer = setTimeout(() => {
+        pressTimer = null;
+        state = { pointerId, fromIndex: index, targetIndex: index };
+        try {
+          container.setPointerCapture(pointerId);
+        } catch (error) {
+          console.error('[MeCollage] setPointerCapture 失败：', error);
+        }
+        container.classList.add('touch-reorder-active');
+        container.style.opacity = '0.6';
+        container.style.transform = 'scale(1.02)';
+        container.style.zIndex = '1000';
+        if (navigator.vibrate) {
+          try { navigator.vibrate(10); } catch (error) { /* 忽略震动失败 */ }
+        }
+      }, LONG_PRESS_MS);
+    });
+
+    container.addEventListener('pointermove', (event) => {
+      if (!state || event.pointerId !== state.pointerId) {
+        // 长按未完成就移动 = 用户在滚动页面，取消长按
+        if (pressTimer) clearPress();
+        return;
+      }
+      event.preventDefault();
+      const hit = document.elementFromPoint(event.clientX, event.clientY);
+      const target = hit ? hit.closest('.image-outer-container') : null;
+      if (!target) return;
+      const containers = Array.from(document.querySelectorAll('#collageGrid .image-outer-container'));
+      const targetIndex = containers.indexOf(target);
+      if (targetIndex === -1) return;
+      state.targetIndex = targetIndex;
+      containers.forEach((node, i) => {
+        node.classList.toggle('touch-reorder-target', i === targetIndex && i !== state.fromIndex);
+      });
+    });
+
+    container.addEventListener('pointerup', finish);
+    container.addEventListener('pointercancel', finish);
+    container.addEventListener('pointerleave', () => { if (!state) clearPress(); });
+  }
+
+  /**
    * 删除图片
    */
   removeImage(index) {
     this.images.splice(index, 1);
     this.updateImageCount();
     this.renderCollage();
+    this.markDirty();
     
     // 如果没有图片了，恢复到初始状态
     if (this.images.length === 0) {
+      this._unsavedChanges = false;
       const uploadScreen = document.getElementById('uploadScreen');
       const collageCanvas = document.getElementById('collageCanvas');
       const sidebar = document.querySelector('.sidebar');
@@ -1310,6 +1749,7 @@ class MeCollagePro {
     }
     
     this.renderCollage();
+    this.markDirty();
   }
 
   /**
@@ -1679,7 +2119,7 @@ class MeCollagePro {
       margin: 0 0 1rem 0;
       font-size: 1.25rem;
       font-weight: 600;
-      color: #1e293b;
+      color: var(--mc-slate-500);
     `;
     
     const input = document.createElement('input');
@@ -1724,7 +2164,7 @@ class MeCollagePro {
         width: 100%;
         padding: 0.5rem;
         background-color: ${color};
-        border: 2px solid ${layer.color === color ? '#3b82f6' : '#e2e8f0'};
+        border: 2px solid ${layer.color === color ? 'var(--mc-color-action)' : 'var(--mc-border-input)'};
         border-radius: 0.5rem;
         cursor: pointer;
         transition: all 0.2s ease;
@@ -1737,7 +2177,7 @@ class MeCollagePro {
         layer.color = color;
         // 更新所有颜色按钮的边框
         colorGrid.querySelectorAll('button').forEach(btn => {
-          btn.style.border = `2px solid ${btn.title === color ? '#3b82f6' : '#e2e8f0'}`;
+          btn.style.border = `2px solid ${btn.title === color ? 'var(--mc-color-action)' : 'var(--mc-border-input)'}`;
         });
         this.renderCollage();
       });
@@ -1772,7 +2212,7 @@ class MeCollagePro {
     confirmBtn.textContent = window.i18n.t('dialog.ok');
     confirmBtn.style.cssText = `
       padding: 0.5rem 1rem;
-      background-color: #3b82f6;
+      background-color: var(--mc-color-action);
       color: white;
       border: none;
       border-radius: 0.5rem;
@@ -1803,6 +2243,7 @@ class MeCollagePro {
     confirmBtn.addEventListener('click', () => {
       layer.content = input.value;
       this.renderCollage();
+      this.markDirty();
       document.body.removeChild(dialog);
     });
     
@@ -1840,72 +2281,127 @@ class MeCollagePro {
 
   /**
    * 导出拼图
+   * R0（P1-4）：开始时禁用按钮 + aria-busy + progress toast；成功给「已导出 + 尺寸/大小」，
+   * 失败给可重试 toast；无论成败恢复按钮。**导出结果（白底/scale 2/quality 1.0）保持不变。**
    */
-  exportCollage() {
+  async exportCollage() {
+    if (this.isExporting) return;
     const collageCanvas = document.getElementById('collageCanvas');
     const collageGrid = document.getElementById('collageGrid');
+    const exportBtn = document.getElementById('exportBtn');
     if (!collageGrid || !collageCanvas) {
-      alert(window.i18n ? window.i18n.t('error.canvas_not_found') : 'Canvas not found');
-      return;
-    }
-    if (typeof html2canvas === 'undefined') {
-      alert('Export feature requires html2canvas library');
+      this.showErrorToast('error.canvas_not_found', {}, 'Canvas not found');
       return;
     }
 
-    const gridRect = collageGrid.getBoundingClientRect();
-    if (!gridRect.width || !gridRect.height) return;
+    this.isExporting = true;
+    if (exportBtn) {
+      exportBtn.disabled = true;
+      exportBtn.setAttribute('aria-busy', 'true');
+    }
+    const restoreExportButton = () => {
+      this.isExporting = false;
+      if (exportBtn) {
+        exportBtn.disabled = false;
+        exportBtn.removeAttribute('aria-busy');
+      }
+    };
+    const retry = () => { this.exportCollage(); };
 
-    // 只捕获确定尺寸的离屏容器，避免 padding/border-box 导致裁切与比例错误
-    const wrapper = document.createElement('div');
-    wrapper.style.cssText = `position:fixed;left:0;top:0;width:${gridRect.width}px;height:${gridRect.height}px;background:#ffffff;overflow:hidden;z-index:-1;pointer-events:none;`;
+    mcToast(mcI18n('export.progress', {}, 'Rendering collage…'), { type: 'info', duration: 3200 });
 
-    const gridClone = collageGrid.cloneNode(true);
-    gridClone.style.width = '100%';
-    gridClone.style.height = '100%';
-    gridClone.style.margin = '0';
-    gridClone.style.maxHeight = 'none';
-    gridClone.querySelectorAll('.add-image-outer-container, .add-image-btn, .remove-btn, .drag-handle, .image-menu-btn, .text-delete-btn, .sticker-delete-btn').forEach(el => el.remove());
-    wrapper.appendChild(gridClone);
+    let cleanup = () => {};
+    try {
+      // html2canvas 正常是静态 <script> 引入；若被拦截/未加载，按懒加载约定再试一次
+      if (typeof html2canvas === 'undefined') {
+        await this.ensureLibs(['html2canvas']);
+      }
+      if (typeof html2canvas === 'undefined') {
+        throw new Error('html2canvas is not available');
+      }
 
-    // 文字图层（位置与预览一致：相对网格左上角，x/y 为 0-1 比例）
-    this.textLayers.forEach(layer => {
-      const el = document.createElement('div');
-      el.className = 'text-layer';
-      el.textContent = layer.content;
-      el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;color:${layer.color};font-weight:${layer.fontWeight};pointer-events:none;white-space:nowrap;z-index:10;`;
-      wrapper.appendChild(el);
-    });
-    // 贴纸图层
-    this.stickerLayers.forEach(layer => {
-      const el = document.createElement('div');
-      el.className = 'sticker-layer';
-      el.textContent = layer.content;
-      el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;pointer-events:none;white-space:nowrap;z-index:11;`;
-      wrapper.appendChild(el);
-    });
+      const gridRect = collageGrid.getBoundingClientRect();
+      if (!gridRect.width || !gridRect.height) {
+        throw new Error('collage grid has no measurable size');
+      }
 
-    document.body.appendChild(wrapper);
-    const cleanup = () => { if (wrapper.parentNode) wrapper.parentNode.removeChild(wrapper); };
+      // 只捕获确定尺寸的离屏容器，避免 padding/border-box 导致裁切与比例错误
+      const wrapper = document.createElement('div');
+      wrapper.style.cssText = `position:fixed;left:0;top:0;width:${gridRect.width}px;height:${gridRect.height}px;background:#ffffff;overflow:hidden;z-index:-1;pointer-events:none;`;
 
-    html2canvas(wrapper, {
-      backgroundColor: '#ffffff',
-      scale: 2,
-      useCORS: true,
-      allowTaint: true,
-      logging: false,
-      foreignObjectRendering: true
-    }).then(canvas => {
+      const gridClone = collageGrid.cloneNode(true);
+      gridClone.style.width = '100%';
+      gridClone.style.height = '100%';
+      gridClone.style.margin = '0';
+      gridClone.style.maxHeight = 'none';
+      gridClone.querySelectorAll('.add-image-outer-container, .add-image-btn, .remove-btn, .drag-handle, .image-menu-btn, .text-delete-btn, .sticker-delete-btn').forEach(el => el.remove());
+      wrapper.appendChild(gridClone);
+
+      // 文字图层（位置与预览一致：相对网格左上角，x/y 为 0-1 比例）
+      this.textLayers.forEach(layer => {
+        const el = document.createElement('div');
+        el.className = 'text-layer';
+        el.textContent = layer.content;
+        el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;color:${layer.color};font-weight:${layer.fontWeight};pointer-events:none;white-space:nowrap;z-index:10;`;
+        wrapper.appendChild(el);
+      });
+      // 贴纸图层
+      this.stickerLayers.forEach(layer => {
+        const el = document.createElement('div');
+        el.className = 'sticker-layer';
+        el.textContent = layer.content;
+        el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;pointer-events:none;white-space:nowrap;z-index:11;`;
+        wrapper.appendChild(el);
+      });
+
+      document.body.appendChild(wrapper);
+      cleanup = () => { if (wrapper.parentNode) wrapper.parentNode.removeChild(wrapper); };
+
+      // R0 备注：foreignObjectRendering 会按 html2canvas 的 scrollX/scrollY（默认取当前滚动位置）
+      // 计算克隆文档偏移；上传后会自动滚动到画布，若页面已滚动，不传 0 会导出全白画布。
+      // 离屏 wrapper 始终 position:fixed 在视口左上角，因此这里固定 scrollX/scrollY = 0。
+      // 其余导出参数（白底 / scale 2 / useCORS / allowTaint / foreignObjectRendering）保持不变。
+      const renderedCanvas = await html2canvas(wrapper, {
+        backgroundColor: '#ffffff',
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        foreignObjectRendering: true,
+        scrollX: 0,
+        scrollY: 0
+      });
       cleanup();
+
+      const dataUrl = renderedCanvas.toDataURL('image/png', 1.0);
       const link = document.createElement('a');
       link.download = `mecollage-${Date.now()}.png`;
-      link.href = canvas.toDataURL('image/png', 1.0);
+      link.href = dataUrl;
       link.click();
-    }).catch(error => {
+
+      // R0：成功后解除未保存保护 + 反馈尺寸与文件大小
+      this._unsavedChanges = false;
+      const sizeLabel = `${renderedCanvas.width}×${renderedCanvas.height} px · ${mcFormatBytes(mcEstimateDataUrlBytes(dataUrl))}`;
+      mcToast(
+        mcI18n('toast.export_success', { size: sizeLabel }, `Collage exported · ${sizeLabel}`),
+        { type: 'success', duration: 6000 },
+      );
+    } catch (error) {
       cleanup();
       console.error('Export failed:', error);
-      alert('Export failed. Please try again.');
-    });
+      this.showErrorToast(
+        'toast.export_failed',
+        {},
+        'Export failed. Please try again.',
+        {
+          duration: 8000,
+          actionLabel: mcI18n('toast.retry', {}, 'Retry'),
+          onAction: retry,
+        },
+      );
+    } finally {
+      restoreExportButton();
+    }
   }
 
   /**
@@ -1946,7 +2442,7 @@ class MeCollagePro {
 
     // 验证输入
     if (isNaN(rows) || isNaN(cols) || rows < 1 || cols < 1 || rows > 10 || cols > 10) {
-      alert('Please enter valid grid dimensions (1-10)');
+      this.showErrorToast('toast.error.grid_invalid', {}, 'Please enter valid grid dimensions (1-10)');
       return;
     }
 
@@ -1954,7 +2450,11 @@ class MeCollagePro {
     const addNeeded = this.images.length < this.maxImages ? 1 : 0;
     const gridCapacity = rows * cols;
     if (this.images.length + addNeeded > gridCapacity) {
-      alert(`Current grid (${rows}×${cols}) can only hold ${gridCapacity - addNeeded} photos. You have ${this.images.length} photos.`);
+      this.showErrorToast(
+        'toast.error.grid_capacity',
+        { capacity: gridCapacity - addNeeded, count: this.images.length },
+        `Current grid (${rows}×${cols}) can only hold ${gridCapacity - addNeeded} photos. You have ${this.images.length} photos.`,
+      );
       return;
     }
 
@@ -1962,13 +2462,14 @@ class MeCollagePro {
     this.customGridRows = rows;
     this.customGridCols = cols;
     this.useCustomGrid = true;
+    this.markDirty();
 
     // 重新渲染拼图
     this.renderCollage();
   }
 
   /**
-   * 加载 AI 模型
+   * 加载 AI 模型（R1：库按需动态加载，不阻塞首屏）
    */
   async loadAiModels() {
     if (this.isAiModelsLoaded) return true;
@@ -1976,6 +2477,12 @@ class MeCollagePro {
     try {
       this.isProcessingAi = true;
       this.updateAiBtnState(true);
+
+      // AI 库改为懒加载（原首页静态 <script> 已移除）
+      await this.ensureLibs(['ort', 'faceapi']);
+      if (typeof faceapi === 'undefined') {
+        throw new Error('face-api unavailable');
+      }
       
       const MODEL_URL = 'https://cdn.jsdelivr.net/npm/@vladmandic/face-api/model/';
       await Promise.all([
@@ -1991,7 +2498,16 @@ class MeCollagePro {
       console.error('Failed to load AI models:', error);
       this.isProcessingAi = false;
       this.updateAiBtnState(false);
-      alert('Failed to load AI models. Please check your internet connection.');
+      this.showErrorToast(
+        'toast.error.ai_models',
+        {},
+        'Failed to load AI models. Please check your internet connection.',
+        {
+          duration: 8000,
+          actionLabel: mcI18n('toast.retry', {}, 'Retry'),
+          onAction: () => { this.applySmartFaceCenter(); },
+        },
+      );
       return false;
     }
   }
@@ -2005,12 +2521,16 @@ class MeCollagePro {
     
     if (aiFaceCenterBtn) {
       aiFaceCenterBtn.disabled = processing;
-      aiFaceCenterBtn.textContent = processing ? window.i18n.t('ai.processing') : window.i18n.t('ai.apply_face_center');
+      aiFaceCenterBtn.textContent = processing
+        ? mcI18n('ai.processing', {}, 'Processing…')
+        : mcI18n('ai.apply_face_center', {}, 'Apply to All Photos');
     }
     
     if (aiBgRemovalBtn) {
       aiBgRemovalBtn.disabled = processing;
-      aiBgRemovalBtn.textContent = processing ? window.i18n.t('ai.processing') : window.i18n.t('ai.remove_bg');
+      aiBgRemovalBtn.textContent = processing
+        ? mcI18n('ai.processing', {}, 'Processing…')
+        : mcI18n('ai.remove_bg', {}, 'Remove Background');
     }
   }
 
@@ -2061,14 +2581,15 @@ class MeCollagePro {
       }
       
       this.renderCollage();
+      this.markDirty();
       if (detected === 0) {
-        alert(window.i18n ? window.i18n.t('ai.no_face') : 'No faces detected in some photos.');
+        this.showInfoToast('ai.no_face', {}, 'No faces detected in some photos.');
       } else {
-        alert(window.i18n ? window.i18n.t('ai.face_detected') : 'Faces detected and centered!');
+        mcToast(mcI18n('ai.face_detected', {}, 'Faces detected and centered!'), { type: 'success' });
       }
     } catch (error) {
       console.error('Face centering failed:', error);
-      alert('Face centering failed. Please try again.');
+      this.showErrorToast('toast.error.ai_face', {}, 'Face centering failed. Please try again.');
     } finally {
       this.isProcessingAi = false;
       this.updateAiBtnState(false);
@@ -2086,7 +2607,7 @@ class MeCollagePro {
     }
     
     if (indexToProcess === -1) {
-      alert('Please select a photo first');
+      this.showErrorToast('toast.error.select_photo', {}, 'Please select a photo first');
       return;
     }
     
@@ -2122,9 +2643,10 @@ class MeCollagePro {
       delete image.faceCenter;
       
       this.renderCollage();
+      this.markDirty();
     } catch (error) {
       console.error('Background removal failed:', error);
-      alert('Background removal failed. Please try again.');
+      this.showErrorToast('toast.error.ai_bg', {}, 'Background removal failed. Please try again.');
     } finally {
       this.isProcessingAi = false;
       this.updateAiBtnState(false);

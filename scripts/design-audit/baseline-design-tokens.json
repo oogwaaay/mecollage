@@ -1,0 +1,947 @@
+{
+  "tool": "design-token-audit",
+  "version": "1.1.0",
+  "generatedAt": "2026-11-05T19:11:12.130Z",
+  "gitHead": "fedc3ee6f348abca8e70dae8e9004fd333d96dea",
+  "tokenHash": "3db11395ede1",
+  "tokenCount": 273,
+  "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
+  "totals": {
+    "colors": 338,
+    "fontSizes": 18,
+    "radii": 153,
+    "relativeFontSizes": 363,
+    "inlineStyleAttrs": 1560,
+    "styleBlocks": 95,
+    "jsColors": 0
+  },
+  "counts": {
+    "404.html": {
+      "colors": 3,
+      "fontSizes": 4,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "about.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "assets/css/components.css": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/css/i18n.css": {
+      "colors": 6,
+      "fontSizes": 0,
+      "radii": 2,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/index-vAuRGWiM.css": {
+      "colors": 183,
+      "fontSizes": 13,
+      "radii": 28,
+      "relativeFontSizes": 1,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/i18n.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/mecollage-main.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/ui.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/pages-C2UaL6ML.css": {
+      "colors": 14,
+      "fontSizes": 1,
+      "radii": 4,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "birthday-collage-maker.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/ai-powered-enhancements/index.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/collage-design-tips/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/custom-grid-layout-feature/index.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/holiday-collage-guide/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/how-to-make-photo-collage/index.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/index.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/mobile-collage-tips/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/portfolio-collage-tips/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "blog/social-media-collage-guide/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "christmas-collage-maker.html": {
+      "colors": 4,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 10,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "coi-serviceworker.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "contact.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 12,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/about.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/birthday-collage-maker.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/christmas-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/contact.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 12,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/free-collage-maker.html": {
+      "colors": 4,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/how-to-make-a-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 7,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 11,
+      "relativeFontSizes": 26,
+      "inlineStyleAttrs": 61,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/instagram-story-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/privacy.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 15,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/square-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/terms.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/tools/blurredframe/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 24,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/tools/roundedcorners/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/tools/square/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/tools/squarecrop/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 1,
+      "inlineStyleAttrs": 19,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/vertical-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/wedding-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "free-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 7,
+      "inlineStyleAttrs": 14,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "how-to-make-a-collage.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 15,
+      "inlineStyleAttrs": 30,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "index.html": {
+      "colors": 7,
+      "fontSizes": 0,
+      "radii": 13,
+      "relativeFontSizes": 28,
+      "inlineStyleAttrs": 68,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "instagram-story-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 12,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/about.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/birthday-collage-maker.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/christmas-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/contact.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 12,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/free-collage-maker.html": {
+      "colors": 4,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/how-to-make-a-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 7,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 11,
+      "relativeFontSizes": 26,
+      "inlineStyleAttrs": 61,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/instagram-story-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/privacy.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 15,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/square-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/terms.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/tools/blurredframe/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 24,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/tools/roundedcorners/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/tools/square/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/tools/squarecrop/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 1,
+      "inlineStyleAttrs": 19,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/vertical-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/wedding-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "privacy.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 15,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "public/tools/blurredframe/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 9,
+      "inlineStyleAttrs": 40,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "public/tools/roundedcorners/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 9,
+      "inlineStyleAttrs": 41,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "public/tools/square/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 14,
+      "inlineStyleAttrs": 62,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "public/tools/squarecrop/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 10,
+      "inlineStyleAttrs": 46,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "square-collage.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "terms.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/about.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/birthday-collage-maker.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/christmas-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/contact.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 12,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/free-collage-maker.html": {
+      "colors": 4,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/how-to-make-a-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 7,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 11,
+      "relativeFontSizes": 26,
+      "inlineStyleAttrs": 61,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/instagram-story-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/privacy.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 15,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/square-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/terms.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/tools/blurredframe/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 24,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/tools/roundedcorners/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/tools/square/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/tools/squarecrop/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 1,
+      "inlineStyleAttrs": 19,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/vertical-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/wedding-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "vertical-collage.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 10,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "wedding-collage-maker.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/about.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/birthday-collage-maker.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/christmas-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/contact.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 12,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/free-collage-maker.html": {
+      "colors": 4,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/how-to-make-a-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 7,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 11,
+      "relativeFontSizes": 26,
+      "inlineStyleAttrs": 61,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/instagram-story-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/privacy.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 15,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/square-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 4,
+      "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/terms.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 13,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/tools/blurredframe/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 24,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/tools/roundedcorners/index.html": {
+      "colors": 3,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/tools/square/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 26,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/tools/squarecrop/index.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 1,
+      "inlineStyleAttrs": 19,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/vertical-collage.html": {
+      "colors": 1,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/wedding-collage-maker.html": {
+      "colors": 2,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    }
+  }
+}

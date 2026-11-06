@@ -1,0 +1,419 @@
+/* ============================================================================
+ * MeCollage Design Tokens — v1.0.0 (2026-11-06)
+ * ============================================================================
+ * 单一事实源（Single Source of Truth）：本项目的颜色 / 字体 / 间距 / 圆角 /
+ * 阴影 / 模糊 / 动效 / 层级 / 布局尺寸，一律以本文件为准。
+ *
+ * 事实来源：从线上实际生效的 CSS 产物与 95 个 HTML 的内联样式提取
+ * （assets/index-vAuRGWiM.css、assets/pages-C2UaL6ML.css、assets/css/i18n.css、
+ *  各 HTML 的 <style> 块与 style 属性），提取过程与证据见：
+ *   docs/design/DESIGN-TOKENS.md
+ *
+ * 使用规则（新代码必须遵守）：
+ *   1. 新页面 / 新组件只允许使用本文件的 --mc-* 变量，禁止再写裸色值、
+ *      裸 font-size / border-radius（存量页面的迁移见 DESIGN-TOKENS.md §7）。
+ *   2. 组件优先使用 Tier 2 语义 token（--mc-surface-* / --mc-text-* /
+ *      --mc-border-* / --mc-shadow-* 等）；Tier 1 原始色仅用于装饰与渐变。
+ *   3. 本文件刻意 **不覆盖** 旧变量（--primary-color / --card-bg 等）。
+ *      旧 bundle 里的 --primary-color 是蓝色 #4A90E2，而页面标题实际用薄荷绿
+ *      #8FD68F，两者语义冲突；重定义会改变存量页面视觉。迁移时按
+ *      DESIGN-TOKENS.md 映射表逐个替换，不要在本文件里做兼容别名。
+ *   4. 本文件只声明变量，不写任何选择器样式；引入方式：
+ *        <link rel="stylesheet" href="/assets/css/design-tokens.css">
+ *      必须放在两个 bundle 之后、页面内联 <style> 之前/之后均可（变量生效
+ *      不依赖顺序，但组件样式若引用 token 需保证变量已定义）。
+ *   5. 修改 token 后必须运行：
+ *        node scripts/design-audit/run-token-audit.mjs --check-docs
+ *      并同步更新 docs/design/DESIGN-TOKENS.md 的 token 表。
+ *   6. 废弃 token 先标记 @deprecated 并保留至少一个发布周期，不得直接删除。
+ * ========================================================================== */
+
+:root {
+  /* -------------------------------------------------------------------------
+   * Tier 1 — 原始色板（Primitive palette）
+   * 只允许用于装饰、渐变、图形；组件语义请用 Tier 2。
+   * ---------------------------------------------------------------------- */
+
+  /* 品牌绿（薄荷绿系）：页面标题 / 链接 / 激活态 / 强调 */
+  --mc-green-100: #e5ffe5;   /* 薄荷绿上的浅色文字 */
+  --mc-green-300: #8fd68f;   /* 品牌主色（全站出现频率最高的颜色） */
+  --mc-green-400: #66bb6a;   /* 品牌 hover / 成功态 */
+  --mc-green-500: #4caf50;   /* 品牌深色 / 渐变终点 */
+  --mc-green-600: #7cb342;   /* 装饰绿 */
+  --mc-green-700: #388e3c;   /* 深绿描边 / 阴影 */
+  --mc-green-900: #0b2e1b;   /* 浅绿底上的深色文字 */
+  --mc-green-950: #0f2410;   /* 更深文字（upload CTA 等） */
+
+  /* 功能蓝：主操作按钮（历史遗留语义，见映射表） */
+  --mc-blue-400: #87ceeb;    /* 天空蓝装饰 */
+  --mc-blue-300: #b0e0e6;    /* 浅天空蓝装饰 */
+  --mc-blue-500: #4a90e2;    /* 主操作按钮 */
+  --mc-blue-600: #357abd;    /* 主操作按钮 hover */
+
+  /* 点缀色：徽章 / 图标 / 插画层 */
+  --mc-purple-400: #ba68c8;
+  --mc-purple-600: #9c27b0;
+  --mc-orange-400: #ff8c42;
+  --mc-orange-600: #ff6b35;
+  --mc-yellow-400: #ffd700;
+  --mc-pink-300: #ffb6c1;
+
+  /* 中性色 */
+  --mc-white: #ffffff;
+  --mc-white-soft: #f9fbff;   /* 旧 bundle 的 --text-primary */
+  --mc-slate-100: #f1f5f9;    /* 浅色占位块底 */
+  --mc-slate-200: #e2e8f0;    /* 浅色占位块描边 */
+  --mc-slate-400: #94a3b8;    /* 浅色占位块图标 */
+  --mc-slate-500: #64748b;    /* 浅色占位块文字 */
+  --mc-ink-900: #111827;     /* toast 深色底 */
+  --mc-ink-950: #141414;     /* <select> option 深色底 */
+  --mc-black: #000000;
+
+  /* 实底深色主题（404 页面在用；玻璃主题之外的例外） */
+  --mc-solid-bg: #101512;
+  --mc-solid-text: #f2f7f3;
+  --mc-solid-text-secondary: #cfe8d1;
+  --mc-solid-text-muted: #b9c9bc;
+  --mc-solid-text-faint: #93a497;
+
+  /* -------------------------------------------------------------------------
+   * Tier 2 — 语义色（Semantic colors）
+   * ---------------------------------------------------------------------- */
+
+  /* 背景 / 玻璃表面（叠在壁纸上的半透明黑） */
+  --mc-surface-canvas: transparent;          /* body 本身透明，背景由壁纸层提供 */
+  --mc-surface-0: rgba(0, 0, 0, 0.20);       /* 上传区 / 轻量凹槽 */
+  --mc-surface-1: rgba(0, 0, 0, 0.25);       /* 卡片、侧栏 */
+  --mc-surface-2: rgba(0, 0, 0, 0.30);       /* 面板、工具导航、FAQ 项 */
+  --mc-surface-3: rgba(0, 0, 0, 0.35);       /* 预览区、输入框、设置卡片 */
+  --mc-surface-4: rgba(0, 0, 0, 0.40);       /* 上传区、强调面板 */
+  --mc-surface-hover: rgba(0, 0, 0, 0.35);   /* 卡片 hover */
+  --mc-surface-inverse: rgba(255, 255, 255, 0.06);       /* 浅色玻璃（浅色 CTA 卡） */
+  --mc-surface-inverse-hover: rgba(255, 255, 255, 0.12);
+  --mc-surface-inverse-strong: rgba(255, 255, 255, 0.15); /* quick-link 底 */
+  --mc-surface-toast: rgba(17, 24, 39, 0.95);
+  --mc-surface-menu: rgba(17, 24, 39, 0.72);   /* 语言/下拉菜单浮层（比 toast 略透明） */
+  --mc-surface-scrim: rgba(6, 10, 8, 0.38);    /* 壁纸压暗层：保证固定壁纸上的文字对比度 */
+  --mc-surface-solid: var(--mc-solid-bg);
+
+  /* 文字 */
+  --mc-text-primary: #ffffff;                          /* 导航 / 标题 / 深底上的强调 */
+  --mc-text-body: rgba(255, 255, 255, 0.90);            /* 正文 */
+  --mc-text-secondary: rgba(255, 255, 255, 0.85);      /* 次级正文 */
+  --mc-text-muted: rgba(255, 255, 255, 0.70);          /* 辅助说明 */
+  --mc-text-faint: rgba(255, 255, 255, 0.50);          /* placeholder / 禁用提示 */
+  --mc-text-tertiary: rgba(255, 255, 255, 0.80);       /* 卡片描述 / 工具按钮 */
+  --mc-text-emphasis: rgba(255, 255, 255, 0.95);       /* 次级标题 / FAQ 问题 */
+  --mc-text-on-brand: var(--mc-green-900);             /* 浅绿底上的文字 */
+  --mc-text-on-brand-strong: var(--mc-green-950);
+  --mc-text-on-brand-soft: rgba(0, 0, 0, 0.80);        /* 浅绿圆形按钮上的深色图标 */
+  --mc-text-heading: var(--mc-green-300);              /* 页面标题 / 小节标题的薄荷绿 */
+  --mc-text-link: var(--mc-green-300);
+  --mc-text-link-hover: var(--mc-green-400);
+  --mc-text-solid: var(--mc-solid-text);
+  --mc-text-solid-secondary: var(--mc-solid-text-secondary);
+  --mc-text-solid-muted: var(--mc-solid-text-muted);
+  --mc-text-solid-faint: var(--mc-solid-text-faint);
+
+  /* 边框 */
+  --mc-border-subtle: rgba(255, 255, 255, 0.10);   /* 分隔线、弱描边 */
+  --mc-border: rgba(255, 255, 255, 0.18);          /* 玻璃卡片默认描边 */
+  --mc-border-input: rgba(255, 255, 255, 0.20);    /* 输入框 / 图标按钮 */
+  --mc-border-strong: rgba(255, 255, 255, 0.25);   /* pill / 强调描边 */
+  --mc-border-brand-subtle: rgba(143, 214, 143, 0.25);
+  --mc-border-brand: rgba(143, 214, 143, 0.40);
+  --mc-border-brand-strong: rgba(143, 214, 143, 0.60);
+  --mc-border-brand-solid: #8fd68f;                /* 虚线 dropzone / 强强调 */
+  --mc-border-brand-heavy: rgba(143, 214, 143, 0.80); /* 拖拽 / 激活强描边 */
+  --mc-border-success-strong: rgba(76, 175, 80, 0.80); /* 拖拽完成态描边 */
+  --mc-border-track: rgba(255, 255, 255, 0.30);    /* 滑块轨道 / 弱分隔 */
+
+  /* 品牌 / 操作 / 状态 */
+  --mc-color-brand: #8fd68f;
+  /* 专题页（生日/婚礼/圣诞等）允许覆盖的强调色：默认品牌绿，
+     在页面级 :root 覆盖即可，例如 --mc-color-theme-accent: #e91e63; */
+  --mc-color-theme-accent: var(--mc-color-brand);
+  --mc-color-brand-hover: #66bb6a;
+  --mc-color-brand-active: #4caf50;
+  --mc-color-brand-contrast: #0b2e1b;
+  --mc-color-brand-wash: rgba(143, 214, 143, 0.10);        /* 极浅底 */
+  --mc-color-brand-haze: rgba(143, 214, 143, 0.15);        /* drag-over / 表列底 */
+  --mc-color-brand-tint: rgba(143, 214, 143, 0.20);        /* hover 底 */
+  --mc-color-brand-tint-strong: rgba(143, 214, 143, 0.30); /* active / 选中底 */
+  --mc-color-action: var(--mc-blue-500);
+  --mc-color-action-hover: var(--mc-blue-600);
+  --mc-color-success: var(--mc-green-400);
+  --mc-color-success-hover: var(--mc-green-500);
+  --mc-color-danger: #ef4444;                      /* 删除 / 危险操作（画布控件） */
+  --mc-color-info: var(--mc-blue-500);              /* 信息态（toast info / 帮助提示） */
+  --mc-color-warning: var(--mc-orange-400);         /* 警告态（toast warning / 限制提示） */
+  --mc-color-focus: rgba(143, 214, 143, 0.50);     /* focus ring */
+  --mc-color-focus-contrast: rgba(255, 255, 255, 0.60);
+  --mc-color-selection: rgba(143, 214, 143, 0.30); /* 文本选中（新增，此前未定义） */
+
+  /* 光面叠加控件（叠加在照片/画布上的浅色控件；与玻璃主题并存） */
+  --mc-overlay-control-bg: rgba(255, 255, 255, 0.95);   /* 白色圆形按钮 */
+  --mc-overlay-control-text: var(--mc-slate-500);
+  --mc-overlay-control-danger: var(--mc-color-danger);
+  --mc-overlay-placeholder-bg: var(--mc-slate-100);     /* 空图片格占位 */
+  --mc-overlay-placeholder-border: var(--mc-slate-200);
+  --mc-overlay-placeholder-text: var(--mc-slate-400);
+  --mc-overlay-placeholder-text-hover: var(--mc-slate-500);
+  --mc-overlay-dot: var(--mc-slate-500);                /* 拖拽手柄白点 */
+
+  /* 文字阴影（玻璃主题下保证可读性，属于视觉规范而非装饰） */
+  --mc-text-shadow-body: 1px 1px 3px rgba(0, 0, 0, 0.40);
+  --mc-text-shadow-heading: 2px 2px 6px rgba(0, 0, 0, 0.50);
+  --mc-text-shadow-display: 3px 3px 12px rgba(0, 0, 0, 0.60), 0 0 30px rgba(0, 0, 0, 0.40);
+
+  /* -------------------------------------------------------------------------
+   * 渐变（Gradients）
+   * ---------------------------------------------------------------------- */
+  --mc-gradient-brand: linear-gradient(135deg, rgba(143, 214, 143, 0.45) 0%, rgba(102, 187, 106, 0.70) 100%);
+  --mc-gradient-action: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  --mc-gradient-action-hover: linear-gradient(135deg, #357abd 0%, #4a90e2 100%);
+  --mc-gradient-success: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+  --mc-gradient-success-hover: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  --mc-gradient-step: linear-gradient(135deg, #4a90e2 0%, #4caf50 100%);
+  --mc-gradient-title: linear-gradient(135deg, #4a90e2 0%, #66bb6a 50%, #ba68c8 100%);
+  --mc-gradient-badge-orange: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%);
+  --mc-gradient-badge-green: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+  --mc-gradient-badge-blue: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+  --mc-gradient-badge-purple: linear-gradient(135deg, #ba68c8 0%, #9c27b0 100%);
+
+  /* -------------------------------------------------------------------------
+   * 字体（Typography）
+   * ---------------------------------------------------------------------- */
+  --mc-font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --mc-font-weight-regular: 400;
+  --mc-font-weight-medium: 500;
+  --mc-font-weight-semibold: 600;
+  --mc-font-weight-bold: 700;
+
+  /* 字号：以 rem 表达，root 16px 时为注释中的 px 值 */
+  --mc-font-size-display: 3.5rem;   /* 56px — hero 主标题 */
+  --mc-font-size-h1: 2.5rem;        /* 40px — 页面标题（桌面） */
+  --mc-font-size-h1-compact: 2rem;  /* 32px — 页面标题（移动端） */
+  --mc-font-size-h2: 1.8rem;        /* 28.8px — 区块标题 */
+  --mc-font-size-h3: 1.4rem;        /* 22.4px — 卡片 / 步骤标题 */
+  --mc-font-size-h4: 1.2rem;        /* 19.2px — 小标题 */
+  --mc-font-size-lead: 1.1rem;      /* 17.6px — 文章正文 / 引导语 */
+  --mc-font-size-body: 1rem;        /* 16px */
+  --mc-font-size-body-sm: 0.95rem;  /* 15.2px */
+  --mc-font-size-label: 0.9rem;     /* 14.4px — 按钮 / 标签 */
+  --mc-font-size-caption: 0.85rem;  /* 13.6px — 辅助信息 */
+  --mc-font-size-xs: 0.8rem;        /* 12.8px — 角标 / tag */
+  --mc-font-size-2xs: 0.75rem;      /* 12px — 最小尺寸 */
+
+  /* 存量高频字号（实测出现次数最高的一组；为迁移提供就近 token） */
+  --mc-font-size-h2-sm: 1.6rem;     /* 25.6px — CTA / 小号区块标题 */
+  --mc-font-size-h3-lg: 1.5rem;     /* 24px — 工具页设置标题 / 步骤数字 */
+  --mc-font-size-card-title: 1.3rem;/* 20.8px — 卡片标题 */
+  --mc-font-size-xl: 1.25rem;       /* 20px — 工具页控件 */
+  --mc-font-size-lg: 1.125rem;      /* 18px — 大号正文 */
+  --mc-font-size-label-sm: 0.875rem;/* 14px — 工具页标签（px 值与 .875rem 等价） */
+  --mc-font-size-icon: 3rem;        /* 48px — 功能图标 */
+  --mc-font-size-icon-lg: 4rem;     /* 64px — 上传区图标 */
+
+  --mc-leading-tight: 1.2;     /* 大标题 */
+  --mc-leading-snug: 1.5;      /* 卡片 / 表单 */
+  --mc-leading-normal: 1.6;    /* 正文默认 */
+  --mc-leading-relaxed: 1.8;   /* 博客长文 */
+
+  --mc-tracking-tight: -0.02em;  /* 大标题 */
+  --mc-tracking-normal: 0;       /* 正文 */
+  --mc-tracking-wide: 0.02em;    /* 按钮 / 标签 */
+  --mc-tracking-wider: 0.03em;   /* 语言切换等小控件 */
+
+  /* -------------------------------------------------------------------------
+   * 间距（Spacing）— 4px 基准的 rem 阶梯
+   * 存量页面存在 0.35/0.45/0.55/0.6/0.65/0.85/1.1rem 等非标值，
+   * 新代码一律取最近的阶梯值：0.25 / 0.5 / 0.75 / 1 / 1.25 / 1.5 / 2 / 2.5 / 3 / 4rem
+   * ---------------------------------------------------------------------- */
+  --mc-space-1: 0.25rem;   /* 4px */
+  --mc-space-2: 0.5rem;    /* 8px */
+  --mc-space-3: 0.75rem;   /* 12px */
+  --mc-space-4: 1rem;      /* 16px */
+  --mc-space-5: 1.25rem;   /* 20px */
+  --mc-space-6: 1.5rem;    /* 24px */
+  --mc-space-8: 2rem;      /* 32px */
+  --mc-space-10: 2.5rem;   /* 40px */
+  --mc-space-12: 3rem;     /* 48px */
+  --mc-space-16: 4rem;     /* 64px */
+
+  /* 语义间距（组件默认值） */
+  --mc-space-page-x: var(--mc-space-8);          /* .page-content 左右内边距（桌面） */
+  --mc-space-page-x-compact: var(--mc-space-4);  /* 移动端 */
+  --mc-space-panel: var(--mc-space-12);          /* 大玻璃面板内边距 */
+  --mc-space-panel-compact: var(--mc-space-6);
+  --mc-space-card: var(--mc-space-8);            /* 卡片内边距 */
+  --mc-space-section: var(--mc-space-8);         /* 区块间距 */
+  --mc-space-stack: var(--mc-space-4);           /* 元素纵向间距 */
+  --mc-space-inline: var(--mc-space-2);          /* 行内元素间距 */
+
+  /* -------------------------------------------------------------------------
+   * 圆角（Radius）
+   * ---------------------------------------------------------------------- */
+  --mc-radius-xs: 6px;
+  --mc-radius-sm: 8px;
+  --mc-radius-md: 12px;
+  --mc-radius-lg: 16px;
+  --mc-radius-xl: 20px;
+  --mc-radius-2xl: 24px;
+  --mc-radius-3xl: 30px;
+  --mc-radius-pill: 999px;
+  --mc-radius-circle: 50%;
+
+  /* 语义圆角（推荐组件使用） */
+  --mc-radius-control: var(--mc-radius-md);   /* 按钮 / 输入框 */
+  --mc-radius-card: var(--mc-radius-xl);      /* 内容卡片 */
+  --mc-radius-item: var(--mc-radius-lg);      /* FAQ / 列表项 */
+  --mc-radius-tag: 10px;                      /* 标签 / 小徽章 */
+  --mc-radius-panel: var(--mc-radius-3xl);    /* 页面级大面板 */
+  --mc-radius-sidebar: var(--mc-radius-2xl);  /* 侧边栏 */
+
+  /* -------------------------------------------------------------------------
+   * 模糊（Blur）— 玻璃拟态
+   * ---------------------------------------------------------------------- */
+  --mc-blur-xs: 5px;    /* 导航 pill 背后的轻模糊 */
+  --mc-blur-sm: 6px;    /* 小控件 */
+  --mc-blur-md: 8px;    /* 导航 / 菜单 / 副标题胶囊 */
+  --mc-blur-lg: 10px;   /* 卡片 / 下拉菜单 */
+  --mc-blur-xl: 18px;   /* 大面板 / 侧栏 / 画布（标准玻璃层） */
+
+  /* -------------------------------------------------------------------------
+   * 阴影（Shadow）
+   * 玻璃主题使用较大的暗色阴影；实底主题可另调
+   * ---------------------------------------------------------------------- */
+  --mc-shadow-e1: 0 4px 12px rgba(0, 0, 0, 0.20);   /* 列表项 hover */
+  --mc-shadow-e2: 0 10px 35px rgba(0, 0, 0, 0.28);  /* 卡片 / 上传区 */
+  --mc-shadow-e3: 0 12px 40px rgba(0, 0, 0, 0.30);  /* 标准卡片 */
+  --mc-shadow-e4: 0 20px 60px rgba(0, 0, 0, 0.35);  /* 页面级面板 */
+  --mc-shadow-e5: 0 18px 48px rgba(0, 0, 0, 0.40);  /* 面板 hover / 浮层 */
+  --mc-shadow-toast: 0 6px 18px rgba(0, 0, 0, 0.25);
+  --mc-shadow-inset: inset 0 2px 6px rgba(0, 0, 0, 0.40); /* 内嵌输入框 */
+  --mc-shadow-brand: 0 8px 24px rgba(143, 214, 143, 0.30);       /* 绿色 CTA / drag-over */
+  --mc-shadow-brand-strong: 0 12px 32px rgba(143, 214, 143, 0.40); /* drag-over 激活 */
+  --mc-shadow-overlay-1: 0 2px 8px rgba(0, 0, 0, 0.15);   /* 画布白色控件 */
+  --mc-shadow-overlay-2: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --mc-shadow-overlay-3: 0 3px 12px rgba(0, 0, 0, 0.20);
+
+  /* -------------------------------------------------------------------------
+   * 边框（Border）
+   * ---------------------------------------------------------------------- */
+  --mc-border-width: 1px;
+  --mc-border-width-strong: 2px;
+
+  /* -------------------------------------------------------------------------
+   * 动效（Motion）
+   * 统一使用 ease；玻璃主题的动作幅度小（1–5px）
+   * ---------------------------------------------------------------------- */
+  --mc-duration-fast: 0.15s;
+  --mc-duration-base: 0.20s;
+  --mc-duration-medium: 0.25s;
+  --mc-duration-slow: 0.30s;
+  --mc-duration-slower: 0.50s;
+  --mc-ease: ease;
+  --mc-ease-in-out: ease-in-out;
+
+  --mc-lift-1: -1px;
+  --mc-lift-2: -2px;
+  --mc-lift-3: -3px;
+  --mc-lift-5: -5px;
+  --mc-press-scale: 1.02;   /* drag-over 放大 */
+  --mc-hover-scale: 1.1;    /* 删除按钮等图标 hover */
+
+  /* -------------------------------------------------------------------------
+   * 布局（Layout）
+   * 断点无法用于 @media（CSS 变量不能作媒体查询值），这里作为常量供 JS /
+   * 文档 / 设计稿引用；CSS 中仍写字面值。主断点 768px 覆盖 80% 场景。
+   * ---------------------------------------------------------------------- */
+  --mc-container-content: 1200px;   /* 内容页 / 工具页容器 */
+  --mc-container-app: 1800px;       /* 拼图编辑器三栏布局 */
+  --mc-container-narrow: 800px;     /* 说明文案 / 404 */
+  --mc-container-404: 720px;
+
+  --mc-sidebar-width: 320px;        /* 编辑器左侧栏 */
+  --mc-sidebar-width-min: 240px;    /* 1280px 以下收缩 */
+  --mc-tool-panel-width: 300px;     /* 工具页设置面板 */
+  --mc-editor-grid-gap: var(--mc-space-6);
+
+  --mc-bp-sm: 600px;
+  --mc-bp-md: 768px;                /* 主断点（全站 61 处） */
+  --mc-bp-tool: 992px;              /* 工具页/内联块移动断点（30 处，与 bundle 的 960 并存） */
+  --mc-bp-lg: 960px;
+  --mc-bp-xl: 1024px;
+  --mc-bp-2xl: 1280px;
+
+  /* 层级（z-index）— 与有效样式对齐；i18n.css 的 1000/999 冲突见文档 §10 */
+  --mc-z-background: -1;    /* 壁纸层 */
+  --mc-z-content: 1;        /* 应用容器 */
+  --mc-z-decor: 2;          /* 背景装饰层 */
+  --mc-z-toolbar: 5;        /* 画布工具条 */
+  --mc-z-dropdown: 50;      /* 语言 / 下拉菜单 */
+  --mc-z-nav: 100;          /* 顶部导航（sticky） */
+  --mc-z-overlay: 150;      /* 画布全屏模式 */
+  --mc-z-fab: 200;          /* 返回顶部 */
+  --mc-z-modal: 999;        /* 模态 / 菜单遮罩（i18n.css 现有值） */
+  --mc-z-toast: 9999;       /* 全局 toast */
+
+  /* -------------------------------------------------------------------------
+   * Tier 3 — 组件 token（Component tokens）
+   * 只收高频、跨页面复用且需要固定取值的组件；更多组件配方见
+   * docs/design/COMPONENT-RECIPES.md
+   * ---------------------------------------------------------------------- */
+  --mc-glass-backdrop: var(--mc-blur-xl);
+
+  --mc-card-bg: var(--mc-surface-1);
+  --mc-card-border: var(--mc-border-width) solid var(--mc-border);
+  --mc-card-radius: var(--mc-radius-card);
+  --mc-card-shadow: var(--mc-shadow-e3);
+  --mc-card-shadow-hover: var(--mc-shadow-e5);
+  --mc-card-padding: var(--mc-space-card);
+  --mc-card-blur: var(--mc-blur-lg);
+
+  --mc-panel-bg: var(--mc-surface-2);
+  --mc-panel-border: var(--mc-border-width) solid var(--mc-border);
+  --mc-panel-radius: var(--mc-radius-panel);
+  --mc-panel-shadow: var(--mc-shadow-e4);
+  --mc-panel-padding: var(--mc-space-panel);
+
+  --mc-button-radius: var(--mc-radius-control);
+  --mc-button-font-weight: var(--mc-font-weight-semibold);
+  --mc-button-primary-bg: var(--mc-gradient-action);
+  --mc-button-primary-bg-hover: var(--mc-gradient-action-hover);
+  --mc-button-success-bg: var(--mc-gradient-success);
+  --mc-button-success-bg-hover: var(--mc-gradient-success-hover);
+  --mc-button-secondary-bg: var(--mc-surface-4);
+  --mc-button-secondary-border: var(--mc-border-width) solid var(--mc-border-input);
+  --mc-button-shadow: var(--mc-shadow-e2);
+
+  --mc-input-bg: var(--mc-surface-3);
+  --mc-input-border: var(--mc-border-width) solid var(--mc-border-input);
+  --mc-input-radius: var(--mc-radius-md);
+  --mc-input-shadow: var(--mc-shadow-inset);
+  --mc-input-focus-border: var(--mc-border-brand-strong);
+  --mc-input-focus-shadow: 0 0 0 3px var(--mc-color-focus);
+
+  --mc-focus-ring-color: var(--mc-color-focus);
+  --mc-focus-ring-width: 3px;
+  --mc-focus-ring-offset: 2px;
+
+  /* 交互 / 移动端（R0/R1 新增；见 docs/design/INTERACTION-AUDIT.md §4） */
+  --mc-tap-target-min: 44px;        /* 触控目标最小热区（Apple HIG / WCAG 2.5.5） */
+  --mc-toast-radius: var(--mc-radius-sm);
+  --mc-toast-max-width: min(92vw, 420px);
+  --mc-mobile-nav-height: 56px;     /* 移动端顶栏高度 */
+}
+
+/* 尊重系统减少动效偏好：仅把过渡/动画时长降到 0，不改布局与颜色 */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mc-duration-fast: 0s;
+    --mc-duration-base: 0s;
+    --mc-duration-medium: 0s;
+    --mc-duration-slow: 0s;
+    --mc-duration-slower: 0s;
+  }
+}

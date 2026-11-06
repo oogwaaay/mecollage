@@ -94,7 +94,7 @@
         body {
             font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: transparent;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             line-height: 1.6;
         }
 
@@ -119,36 +119,35 @@
         }
 
         .page-title {
-            font-size: 2.5rem;
+            font-size: var(--mc-font-size-h1);
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #8fd68f;
-            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
-                         0 0 30px rgba(0, 0, 0, 0.4);
+            color: var(--mc-color-brand);
+            text-shadow: var(--mc-text-shadow-display);
             text-align: center;
         }
 
         .page-subtitle {
-            font-size: 1.2rem;
-            color: #8fd68f;
+            font-size: var(--mc-font-size-h4);
+            color: var(--mc-color-brand);
             text-align: center;
             margin-bottom: 3rem;
-            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-            background: rgba(0, 0, 0, 0.25);
+            text-shadow: var(--mc-text-shadow-heading);
+            background: var(--mc-surface-1);
             display: inline-block;
             padding: 0.6rem 1.8rem;
-            border-radius: 20px;
-            backdrop-filter: blur(8px);
+            border-radius: var(--mc-radius-xl);
+            backdrop-filter: blur(var(--mc-blur-md));
         }
 
         /* 工具导航 */
         .tool-nav {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
+            background: var(--mc-surface-2);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
             padding: 1rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
             margin-bottom: 2rem;
         }
 
@@ -160,45 +159,45 @@
         }
 
         .tool-nav-link {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             text-decoration: none;
             font-weight: 500;
             padding: 0.75rem 1.5rem;
-            border-radius: 20px;
+            border-radius: var(--mc-radius-xl);
             transition: all 0.3s ease;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--mc-surface-0);
+            border: 1px solid var(--mc-border-subtle);
         }
 
         .tool-nav-link:hover {
-            background-color: rgba(143, 214, 143, 0.2);
-            border-color: rgba(143, 214, 143, 0.4);
-            color: #8fd68f;
+            background-color: var(--mc-color-brand-tint);
+            border-color: var(--mc-border-brand);
+            color: var(--mc-color-brand);
             transform: translateY(-2px);
         }
 
         .tool-nav-link.active {
-            background-color: rgba(143, 214, 143, 0.3);
-            border-color: rgba(143, 214, 143, 0.6);
-            color: #8fd68f;
+            background-color: var(--mc-color-brand-tint-strong);
+            border-color: var(--mc-border-brand-strong);
+            color: var(--mc-color-brand);
         }
 
         /* 联系页面特有样式 */
         .contact-section {
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
+            background: var(--mc-surface-3);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
         }
 
         .section-title {
-            font-size: 1.8rem;
+            font-size: var(--mc-font-size-h2);
             font-weight: 700;
             margin-bottom: 1.5rem;
-            color: #8fd68f;
+            color: var(--mc-color-brand);
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
         }
 
@@ -208,7 +207,7 @@
         }
 
         .community-support p {
-            font-size: 1.1rem;
+            font-size: var(--mc-font-size-lead);
             margin-bottom: 2rem;
             max-width: 800px;
             margin-left: auto;
@@ -223,67 +222,67 @@
         }
 
         .support-option {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
+            background: var(--mc-surface-2);
+            border-radius: var(--mc-radius-xl);
             padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--mc-border-subtle);
             transition: all 0.3s ease;
         }
 
         .support-option:hover {
-            background: rgba(143, 214, 143, 0.1);
-            border-color: rgba(143, 214, 143, 0.3);
+            background: var(--mc-color-brand-wash);
+            border-color: var(--mc-color-brand-tint-strong);
             transform: translateY(-2px);
         }
 
         .support-option i {
-            font-size: 2.5rem;
-            color: #8fd68f;
+            font-size: var(--mc-font-size-h1);
+            color: var(--mc-color-brand);
             margin-bottom: 1rem;
         }
 
         .support-option h3 {
-            font-size: 1.3rem;
+            font-size: var(--mc-font-size-card-title);
             margin-bottom: 0.75rem;
-            color: rgba(255, 255, 255, 0.95);
+            color: var(--mc-text-emphasis);
         }
 
         .support-option p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: var(--mc-font-size-body-sm);
+            color: var(--mc-text-tertiary);
             margin-bottom: 1rem;
         }
 
         .support-option a {
             display: inline-block;
-            background: rgba(143, 214, 143, 0.3);
-            color: #8fd68f;
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-color-brand);
             text-decoration: none;
             padding: 0.6rem 1.2rem;
-            border-radius: 16px;
+            border-radius: var(--mc-radius-lg);
             font-weight: 600;
             transition: all 0.3s ease;
-            border: 1px solid rgba(143, 214, 143, 0.4);
+            border: 1px solid var(--mc-border-brand);
         }
 
         .support-option a:hover {
-            background: rgba(143, 214, 143, 0.4);
-            border-color: rgba(143, 214, 143, 0.6);
+            background: var(--mc-border-brand);
+            border-color: var(--mc-border-brand-strong);
             transform: translateY(-2px);
         }
 
         /* Contact Method Styles */
         .contact-method {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
+            background: var(--mc-surface-2);
+            border-radius: var(--mc-radius-xl);
             padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--mc-border-subtle);
             transition: all 0.3s ease;
         }
 
         .contact-method:hover {
-            background: rgba(143, 214, 143, 0.1);
-            border-color: rgba(143, 214, 143, 0.3);
+            background: var(--mc-color-brand-wash);
+            border-color: var(--mc-color-brand-tint-strong);
             transform: translateY(-2px);
         }
 
@@ -292,30 +291,30 @@
             align-items: center;
             gap: 1rem;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
         }
 
         .contact-link i {
-            font-size: 2.5rem;
-            color: #8fd68f;
+            font-size: var(--mc-font-size-h1);
+            color: var(--mc-color-brand);
         }
 
         .contact-link h3 {
-            font-size: 1.3rem;
+            font-size: var(--mc-font-size-card-title);
             margin-bottom: 0.25rem;
-            color: rgba(255, 255, 255, 0.95);
+            color: var(--mc-text-emphasis);
         }
 
         .contact-link p {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: var(--mc-font-size-body-sm);
+            color: var(--mc-text-tertiary);
             margin: 0;
         }
 
         /* Quick Help Section */
         .quick-help {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
+            background: var(--mc-surface-2);
+            border-radius: var(--mc-radius-xl);
             padding: 2rem;
             margin-top: 2rem;
         }
@@ -330,39 +329,39 @@
 
         .quick-help-link {
             display: inline-block;
-            background: rgba(143, 214, 143, 0.3);
-            color: #8fd68f;
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-color-brand);
             text-decoration: none;
             padding: 0.75rem 1.5rem;
-            border-radius: 20px;
+            border-radius: var(--mc-radius-xl);
             font-weight: 600;
             transition: all 0.3s ease;
-            border: 1px solid rgba(143, 214, 143, 0.4);
+            border: 1px solid var(--mc-border-brand);
         }
 
         .quick-help-link:hover {
-            background: rgba(143, 214, 143, 0.4);
-            border-color: rgba(143, 214, 143, 0.6);
+            background: var(--mc-border-brand);
+            border-color: var(--mc-border-brand-strong);
             transform: translateY(-2px);
         }
 
         /* About Section */
         .about-section {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 20px;
+            background: var(--mc-surface-2);
+            border-radius: var(--mc-radius-xl);
             padding: 1.5rem;
             margin-top: 1.5rem;
         }
 
         /* FAQ Section */
         .faq-section {
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
+            background: var(--mc-surface-3);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
             padding: 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
         }
 
         .faq-container {
@@ -377,16 +376,16 @@
         }
 
         .faq-item {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
+            background: var(--mc-surface-2);
+            border-radius: var(--mc-radius-lg);
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--mc-border-subtle);
             transition: all 0.3s ease;
         }
 
         .faq-item:hover {
-            background-color: rgba(143, 214, 143, 0.1);
-            border-color: rgba(143, 214, 143, 0.3);
+            background-color: var(--mc-color-brand-wash);
+            border-color: var(--mc-color-brand-tint-strong);
         }
 
         .faq-question {
@@ -400,14 +399,14 @@
             align-items: center;
             cursor: pointer;
             text-align: left;
-            font-size: 1.1rem;
+            font-size: var(--mc-font-size-lead);
             font-weight: 600;
-            color: rgba(255, 255, 255, 0.95);
+            color: var(--mc-text-emphasis);
             transition: all 0.3s ease;
         }
 
         .faq-question:hover {
-            color: #8fd68f;
+            color: var(--mc-color-brand);
         }
 
         .faq-question-text {
@@ -415,15 +414,15 @@
         }
 
         .faq-icon {
-            font-size: 0.9rem;
-            color: #8fd68f;
+            font-size: var(--mc-font-size-label);
+            color: var(--mc-color-brand);
             transition: transform 0.3s ease;
         }
 
         .faq-answer {
             padding: 0 1.5rem 1.5rem;
-            background: rgba(0, 0, 0, 0.2);
-            color: rgba(255, 255, 255, 0.85);
+            background: var(--mc-surface-0);
+            color: var(--mc-text-secondary);
             line-height: 1.6;
         }
 
@@ -438,16 +437,16 @@
             }
 
             .page-title {
-                font-size: 2rem;
+                font-size: var(--mc-font-size-h1-compact);
             }
 
             .page-subtitle {
-                font-size: 1rem;
+                font-size: var(--mc-font-size-body);
                 padding: 0.5rem 1.2rem;
             }
 
             .section-title {
-                font-size: 1.5rem;
+                font-size: var(--mc-font-size-h3-lg);
             }
 
             .support-options {
@@ -468,6 +467,8 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
     <!-- Google Adsense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
       crossorigin="anonymous"></script>
@@ -693,7 +694,7 @@
             </section>
 
             <footer>
-                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about/" style="color: #8fd68f;"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: #8fd68f;"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact/" style="color: #8fd68f;"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy/" style="color: #8fd68f;"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms/" style="color: #8fd68f;"><span data-i18n="footer.terms">Terms of Service</span></a></p>
+                <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: var(--mc-color-brand);"><span data-i18n="footer.home">Back to Home</span></a> | <a href="/about/" style="color: var(--mc-color-brand);"><span data-i18n="nav.about">About</span></a> | <a href="/blog/" style="color: var(--mc-color-brand);"><span data-i18n="nav.blog">Blog</span></a> | <a href="/contact/" style="color: var(--mc-color-brand);"><span data-i18n="footer.contact">Contact</span></a> | <a href="/privacy/" style="color: var(--mc-color-brand);"><span data-i18n="footer.privacy">Privacy Policy</span></a> | <a href="/terms/" style="color: var(--mc-color-brand);"><span data-i18n="footer.terms">Terms of Service</span></a></p>
             </footer>
         </div>
     </div>
@@ -723,5 +724,6 @@
             });
         });
     </script>
+    <script src="/assets/js/ui.js" defer></script>
 </body>
 </html>

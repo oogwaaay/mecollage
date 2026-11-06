@@ -53,7 +53,7 @@
         body {
             font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background-color: transparent;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             line-height: 1.6;
         }
 
@@ -69,23 +69,22 @@
             max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(18px);
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: var(--mc-surface-3);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-3xl);
+            box-shadow: var(--mc-panel-shadow);
+            border: 1px solid var(--mc-border);
             margin-top: 2rem;
             margin-bottom: 2rem;
         }
 
         /* 文章标题 */
         .blog-post-title {
-            font-size: 2.5rem;
+            font-size: var(--mc-font-size-h1);
             font-weight: 700;
             margin-bottom: 1rem;
-            color: #8fd68f;
-            text-shadow: 3px 3px 12px rgba(0, 0, 0, 0.6),
-                         0 0 30px rgba(0, 0, 0, 0.4);
+            color: var(--mc-color-brand);
+            text-shadow: var(--mc-text-shadow-display);
             text-align: center;
         }
 
@@ -93,8 +92,8 @@
         .blog-post-meta {
             text-align: center;
             margin-bottom: 2rem;
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+            color: var(--mc-text-tertiary);
+            font-size: var(--mc-font-size-label);
         }
 
         .blog-post-date {
@@ -107,17 +106,17 @@
         }
 
         .blog-post-content h2 {
-            font-size: 1.8rem;
+            font-size: var(--mc-font-size-h2);
             font-weight: 600;
             margin: 2rem 0 1rem;
-            color: #8fd68f;
+            color: var(--mc-color-brand);
         }
 
         .blog-post-content h3 {
-            font-size: 1.4rem;
+            font-size: var(--mc-font-size-h3);
             font-weight: 600;
             margin: 1.5rem 0 0.75rem;
-            color: rgba(255, 255, 255, 0.95);
+            color: var(--mc-text-emphasis);
         }
 
         .blog-post-content p {
@@ -138,19 +137,19 @@
         .blog-post-content blockquote {
             margin: 1.5rem 0;
             padding: 1rem 1.5rem;
-            background: rgba(143, 214, 143, 0.1);
-            border-left: 4px solid #8fd68f;
-            border-radius: 8px;
+            background: var(--mc-color-brand-wash);
+            border-left: 4px solid var(--mc-color-brand);
+            border-radius: var(--mc-radius-sm);
             font-style: italic;
         }
 
         /* 代码块样式 */
         .blog-post-content code {
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--mc-surface-2);
             padding: 0.2rem 0.4rem;
             border-radius: 4px;
             font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
+            font-size: var(--mc-font-size-label);
         }
 
         /* 返回博客首页链接 */
@@ -158,33 +157,33 @@
             display: inline-block;
             margin: 2rem 0;
             padding: 0.75rem 1.5rem;
-            background: rgba(143, 214, 143, 0.3);
-            color: white;
+            background: var(--mc-color-brand-tint-strong);
+            color: var(--mc-text-primary);
             text-decoration: none;
-            border-radius: 12px;
+            border-radius: var(--mc-radius-md);
             font-weight: 500;
             transition: all 0.3s ease;
-            border: 1px solid rgba(143, 214, 143, 0.4);
+            border: 1px solid var(--mc-border-brand);
         }
 
         .back-to-blog:hover {
-            background: rgba(143, 214, 143, 0.4);
+            background: var(--mc-border-brand);
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(143, 214, 143, 0.3);
+            box-shadow: var(--mc-shadow-brand);
         }
 
         /* 相关文章推荐 */
         .related-posts {
             margin-top: 3rem;
             padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.18);
+            border-top: 1px solid var(--mc-border);
         }
 
         .related-posts-title {
-            font-size: 1.5rem;
+            font-size: var(--mc-font-size-h3-lg);
             font-weight: 600;
             margin-bottom: 1.5rem;
-            color: #8fd68f;
+            color: var(--mc-color-brand);
         }
 
         .related-posts-grid {
@@ -194,31 +193,31 @@
         }
 
         .related-post-card {
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 16px;
+            background: var(--mc-surface-0);
+            border-radius: var(--mc-radius-lg);
             padding: 1.5rem;
             text-decoration: none;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--mc-text-body);
             transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--mc-border-subtle);
         }
 
         .related-post-card:hover {
-            background: rgba(143, 214, 143, 0.1);
-            border-color: rgba(143, 214, 143, 0.3);
+            background: var(--mc-color-brand-wash);
+            border-color: var(--mc-color-brand-tint-strong);
             transform: translateY(-5px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 12px 24px var(--mc-surface-0);
         }
 
         .related-post-title {
-            font-size: 1.2rem;
+            font-size: var(--mc-font-size-h4);
             font-weight: 600;
             margin-bottom: 0.5rem;
         }
 
         .related-post-excerpt {
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.7);
+            font-size: var(--mc-font-size-label);
+            color: var(--mc-text-muted);
             line-height: 1.6;
         }
 
@@ -230,15 +229,15 @@
             }
 
             .blog-post-title {
-                font-size: 2rem;
+                font-size: var(--mc-font-size-h1-compact);
             }
 
             .blog-post-content h2 {
-                font-size: 1.5rem;
+                font-size: var(--mc-font-size-h3-lg);
             }
 
             .blog-post-content h3 {
-                font-size: 1.2rem;
+                font-size: var(--mc-font-size-h4);
             }
 
             .related-posts-grid {
@@ -246,6 +245,8 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
     <!-- Google Adsense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280689992387509" 
       crossorigin="anonymous"></script>
@@ -406,7 +407,7 @@
                             <a href="/instagram-story-collage/" class="related-post-card"><h4 class="related-post-title">Instagram Story Collages</h4><p class="related-post-excerpt">Create 9:16 collages designed for Stories.</p></a>
                         </div>
                     </div>
-                    <a href="/" style="display:inline-block;margin-top:1rem;padding:0.8rem 1.5rem;background:#8fd68f;color:#1a2e1a;text-decoration:none;border-radius:12px;font-weight:600;">Start Your Collage</a>
+                    <a href="/" style="display:inline-block;margin-top:1rem;padding:0.8rem 1.5rem;background: var(--mc-color-brand);color:#1a2e1a;text-decoration:none;border-radius: var(--mc-radius-md);font-weight:600;">Start Your Collage</a>
                     <a href="/blog/" class="back-to-blog" style="display:block;margin-top:1.5rem;"><i class="fas fa-arrow-left"></i> Back to Blog Home</a>
                 </div>
             </article>
@@ -414,12 +415,13 @@
         </main>
 
         <footer>
-            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: #8fd68f;" data-i18n="footer.home">Back to Home</a> | <a href="/about/" style="color: #8fd68f;" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: #8fd68f;" data-i18n="nav.blog">Blog</a> | <a href="/contact/" style="color: #8fd68f;" data-i18n="footer.contact">Contact</a> | <a href="/privacy/" style="color: #8fd68f;" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms/" style="color: #8fd68f;" data-i18n="footer.terms">Terms of Service</a></p>
+            <p><span data-i18n="footer.copyright">© 2026 MeCollage. All rights reserved.</span> | <a href="/" style="color: var(--mc-color-brand);" data-i18n="footer.home">Back to Home</a> | <a href="/about/" style="color: var(--mc-color-brand);" data-i18n="nav.about">About</a> | <a href="/blog/" style="color: var(--mc-color-brand);" data-i18n="nav.blog">Blog</a> | <a href="/contact/" style="color: var(--mc-color-brand);" data-i18n="footer.contact">Contact</a> | <a href="/privacy/" style="color: var(--mc-color-brand);" data-i18n="footer.privacy">Privacy Policy</a> | <a href="/terms/" style="color: var(--mc-color-brand);" data-i18n="footer.terms">Terms of Service</a></p>
         </footer>
     </div>
 
     <!-- 多语言支持 -->
     <link rel="stylesheet" href="/assets/css/i18n.css">
     <script src="/assets/js/i18n.js"></script>
+    <script src="/assets/js/ui.js" defer></script>
 </body>
 </html>

@@ -42,22 +42,11 @@
         })();
     </script>
     <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Noto Sans SC', sans-serif; background-color: transparent;
-            color: rgba(255, 255, 255, 0.9); min-height: 100vh; padding: 40px 20px; } .container { max-width: 1000px; margin: 0 auto; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
-            border-radius: 20px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); } h1 { font-size: 2.5em; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); text-align: center; } table { width: 100%; border-collapse: collapse; margin: 40px 0; } th, td { padding: 15px; text-align: center; border-bottom: 1px solid #ddd; } th { background: #667eea; color: white; } .mecollage-col { background: rgba(143, 214, 143, 0.15); font-weight: 600; } .check { color: #4caf50; font-size: 1.2em; } .cross { color: #f44336; font-size: 1.2em; } .cta-button { display: block; width: 250px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
-            color: rgba(255, 255, 255, 0.9); color: white; text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; } .highlight { background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); padding: 30px; border-radius: 10px; margin: 30px 0; border-left: 4px solid #ffc107; }</style>
-        .ghibli-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
+            color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; } .container { max-width: 1000px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); } h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); text-align: center; } table { width: 100%; border-collapse: collapse; margin: 40px 0; } th, td { padding: 15px; text-align: center; border-bottom: 1px solid #ddd; } th { background: #667eea; color: var(--mc-text-primary); } .mecollage-col { background: var(--mc-color-brand-haze); font-weight: 600; } .check { color: var(--mc-color-brand-active); font-size: 1.2em; } .cross { color: #f44336; font-size: 1.2em; } .cta-button { display: block; width: 250px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
+            color: var(--mc-text-body); color: var(--mc-text-primary); text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; } .highlight { background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); padding: 30px; border-radius: var(--mc-radius-tag); margin: 30px 0; border-left: 4px solid #ffc107; }</style>
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
 
 </head>
 <body>
@@ -66,7 +55,7 @@
         <h1>免費拼圖工具對比</h1>
         <p class="subtitle">看看為什麼 MeCollage 是 Canva、Fotor 和 FotoJet 的真正免費替代品</p>
         <a href="/tw/" class="cta-button"><i class="fas fa-plus"></i> 試用 MeCollage</a>
-        <h2 style="color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px;">功能對比</h2>
+        <h2 style="color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 50px 0 30px;">功能對比</h2>
         <table>
             <thead><tr><th>功能</th><th class="mecollage-col">MeCollage</th><th>Canva</th><th>Fotor</th><th>FotoJet</th></tr></thead>
             <tbody>
@@ -76,16 +65,17 @@
                 <tr><td>開源代碼</td><td class="mecollage-col"><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td><td><span class="cross">✗</span></td></tr>
             </tbody>
         </table>
-        <div class="highlight"><h3>💡 為什麼選擇 MeCollage？</h3><p style="color: rgba(255, 255, 255, 0.9); line-height: 1.8;">大多數「免費」拼圖工具只是免費試用。它們添加浮水印、限制匯出或強制你建立帳戶。MeCollage 完全不同 - 我們<strong>完全免費</strong>，無隱藏費用，無浮水印，無需註冊。只是純粹、簡單的拼圖製作。</p></div>
+        <div class="highlight"><h3>💡 為什麼選擇 MeCollage？</h3><p style="color: var(--mc-text-body); line-height: 1.8;">大多數「免費」拼圖工具只是免費試用。它們添加浮水印、限制匯出或強制你建立帳戶。MeCollage 完全不同 - 我們<strong>完全免費</strong>，無隱藏費用，無浮水印，無需註冊。只是純粹、簡單的拼圖製作。</p></div>
         <a href="/tw/" class="cta-button"><i class="fas fa-plus"></i> 開始免費創作</a>
     </div>
 
-<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:0.9rem;">
+<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
   <a class="language-link" data-language-nav="true" href="/free-collage-maker/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
   <a class="language-link" data-language-nav="true" href="/zh/free-collage-maker/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
   <a class="language-link" data-language-nav="true" href="/tw/free-collage-maker/" hreflang="zh-TW" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
   <a class="language-link" data-language-nav="true" href="/ja/free-collage-maker/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
   <a class="language-link" data-language-nav="true" href="/es/free-collage-maker/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
 </nav>
+<script src="/assets/js/ui.js" defer></script>
 </body>
 </html>

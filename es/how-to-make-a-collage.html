@@ -42,29 +42,18 @@
         })();
     </script>
     <style>* { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: 'Noto Sans SC', sans-serif; background-color: transparent;
-            color: rgba(255, 255, 255, 0.9); min-height: 100vh; padding: 40px 20px; } .container { max-width: 900px; margin: 0 auto; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(18px);
-            border-radius: 20px; padding: 60px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); } h1 { font-size: 2.5em; color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); text-align: center; } h2 { color: #8fd68f; text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); margin: 50px 0 30px; } h3 { color: #8fd68f; margin: 30px 0 15px; } p { color: rgba(255, 255, 255, 0.9); line-height: 1.8; } .step { display: flex; margin: 30px 0; padding: 25px; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border-radius: 10px; border-left: 4px solid #8fd68f; } .step-number { font-size: 2.5em; font-weight: bold; color: #8fd68f; margin-right: 25px; min-width: 60px; } .cta-button { display: block; width: 250px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
-            color: rgba(255, 255, 255, 0.9); color: white; text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; }</style>
-        .ghibli-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
+            color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; } .container { max-width: 900px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl));
+            border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); } h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); text-align: center; } h2 { color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 50px 0 30px; } h3 { color: var(--mc-color-brand); margin: 30px 0 15px; } p { color: var(--mc-text-body); line-height: 1.8; } .step { display: flex; margin: 30px 0; padding: 25px; background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg)); border-radius: var(--mc-radius-tag); border-left: 4px solid var(--mc-color-brand); } .step-number { font-size: 2.5em; font-weight: bold; color: var(--mc-color-brand); margin-right: 25px; min-width: 60px; } .cta-button { display: block; width: 250px; margin: 40px auto; padding: 15px 30px; background-color: transparent;
+            color: var(--mc-text-body); color: var(--mc-text-primary); text-align: center; text-decoration: none; border-radius: 50px; font-weight: 600; }</style>
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
 
 </head>
 <body>
     <div class="ghibli-background"></div>
     <div class="container">
         <h1>Cómo Hacer un Collage de Fotos</h1>
-        <p style="text-align: center; font-size: 1.2em; color: rgba(255, 255, 255, 0.9); margin-bottom: 40px;">Guía paso a paso para crear collages stunning en minutos</p>
+        <p style="text-align: center; font-size: 1.2em; color: var(--mc-text-body); margin-bottom: 40px;">Guía paso a paso para crear collages stunning en minutos</p>
         <a href="/es/" class="cta-button"><i class="fas fa-plus"></i> Comenzar Ahora</a>
         <h2>Tutorial Paso a Paso</h2>
         <div class="step"><div class="step-number">1</div><div class="step-content"><h3>Elige la Relación de Aspecto</h3><p>1:1 Cuadrado para posts de Instagram, 9:16 Vertical para Stories, 16:9 Horizontal para banners.</p></div></div>
@@ -75,12 +64,13 @@
         <a href="/es/" class="cta-button"><i class="fas fa-plus"></i> Comienza a Hacer Tu Collage</a>
     </div>
 
-<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size:0.9rem;">
+<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
   <a class="language-link" data-language-nav="true" href="/how-to-make-a-collage/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
   <a class="language-link" data-language-nav="true" href="/zh/how-to-make-a-collage/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
   <a class="language-link" data-language-nav="true" href="/tw/how-to-make-a-collage/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
   <a class="language-link" data-language-nav="true" href="/ja/how-to-make-a-collage/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
   <a class="language-link" data-language-nav="true" href="/es/how-to-make-a-collage/" hreflang="es" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
 </nav>
+<script src="/assets/js/ui.js" defer></script>
 </body>
 </html>
