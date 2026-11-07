@@ -352,6 +352,7 @@ async function runIndexGroup() {
         fileInput: !!document.getElementById('fileInput'),
         html2canvas: typeof window.html2canvas,
         i18n: typeof window.i18n,
+        adsense: [...document.scripts].filter((s) => /adsbygoogle|pagead2/.test(s.src)).map((s) => s.src),
       })`);
       await ctx.screenshot('index-loaded');
       ctx.measure('title', state.title);
@@ -362,6 +363,7 @@ async function runIndexGroup() {
       ctx.check('文件输入存在', state.fileInput === true);
       ctx.check('无未捕获 JS 异常', pageLoads['/']?.exceptions.length === 0, { actual: pageLoads['/']?.exceptions });
       ctx.check('无页面级未处理错误', pageLoads['/']?.faErrors.length === 0, { actual: pageLoads['/']?.faErrors });
+      ctx.check('无 AdSense 脚本（2026-11-07 已移除接入）', state.adsense.length === 0, { actual: state.adsense });
       ctx.check('html2canvas 已加载（导出依赖）', state.html2canvas === 'function', { actual: state.html2canvas, level: 'WARN' });
     },
   });
@@ -2006,7 +2008,7 @@ async function runAspectRatioGroup() {
       ctx.check('hreflang = 5 语言 + x-default', info.hreflangs.length === 6 && requiredHreflangs.every((code) => info.hreflangs.includes(code)), { actual: info.hreflangs });
       ctx.check('JSON-LD = SoftwareApplication + FAQPage + BreadcrumbList', ['SoftwareApplication', 'FAQPage', 'BreadcrumbList'].every((type) => info.types.includes(type)), { actual: info.types });
       ctx.check('语言菜单 5 项（四语言已发布）', info.langOptions === 5, { actual: info.langOptions });
-      ctx.check('无 AdSense 脚本（维护者决定先不放广告）', info.adsense === false, { actual: info.adsense });
+      ctx.check('无 AdSense 脚本（2026-11-07 已移除接入）', info.adsense === false, { actual: info.adsense });
     },
   });
 
@@ -2187,7 +2189,7 @@ async function runSocialMediaSizesGroup() {
       ctx.check('hreflang = 完整 5 语言 + x-default（四语言已发布）', JSON.stringify(info.hreflangs) === JSON.stringify(['en', 'es', 'ja', 'x-default', 'zh-CN', 'zh-TW']), { actual: info.hreflangs });
       ctx.check('JSON-LD 含 WebPage + Article + FAQPage + BreadcrumbList', ['WebPage', 'Article', 'FAQPage', 'BreadcrumbList'].every((type) => info.types.includes(type)), { actual: info.types });
       ctx.check('FAQ 可见 6 条 = JSON-LD 6 条', info.faqVisible === 6 && info.faqJson === 6, { actual: { visible: info.faqVisible, json: info.faqJson } });
-      ctx.check('无 AdSense 脚本（本轮不加广告）', info.adsense === false, { actual: info.adsense });
+      ctx.check('无 AdSense 脚本（2026-11-07 已移除接入）', info.adsense === false, { actual: info.adsense });
       const internalHits = await page.eval(`(() => {
         const terms = ['search that started','keyword research','search volume','backlink','maintainer','not expected to rank','internal note','内部说明','搜索量','关键词研究','外链建设'];
         const text = document.body.innerText.toLowerCase();

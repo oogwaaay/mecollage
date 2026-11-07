@@ -106,7 +106,7 @@ CDP 客户端复用 `scripts/functional-audit/cdp.mjs`（headless 启动/WebSock
 - 真实渲染只覆盖任务列出的 25 页；其余为静态 HTML 检查（canonical/hreflang/lang/sitemap/JSON-LD/description/链接图/lastmod）。
 - blog 字数为“去 script/style/标签后的静态可见文本”的拉丁词数统计，与人工字数可能有 ±数词差异。
 - 本地服务器模拟 Vercel 路由 + vercel.json 精确路径 301/308；无斜杠旧 URL 的 2 跳与 Preview 实测一致；与线上 Cloudflare 边缘行为仍可能有差异，本阶段不部署。
-- 不检查线上响应头/AdSense/GA、翻译质量/薄内容定性、关键词蚕食、富结果资格。
+- 不检查线上响应头/GA/第三方统计、翻译质量/薄内容定性、关键词蚕食、富结果资格。
 
 ## 6. 维护记录
 
