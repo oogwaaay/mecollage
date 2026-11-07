@@ -2197,7 +2197,7 @@ function renderMarkdown(report) {
   out.push('- 真实渲染只覆盖任务列出的 25 个页面；其余页面为静态 HTML 检查（canonical/hreflang/lang/sitemap/JSON-LD/description/链接图）。');
   out.push('- blog 字数按「去 script/style/标签后的静态可见文本」的拉丁词数统计（不含导航/页脚以外无法区分；与人工字数可能有 ±数词差异）。');
   out.push('- 本地服务器模拟 Vercel 路由（cleanUrls/trailingSlash/tools rewrite/404）+ vercel.json 精确路径 301；与线上 Cloudflare 边缘行为可能有差异，本阶段不部署。');
-  out.push('- 不检查线上响应头/AdSense/GA、翻译质量/薄内容定性、关键词蚕食、结构化数据富结果资格。');
+  out.push('- 不检查线上响应头/GA/第三方统计、翻译质量/薄内容定性、关键词蚕食、结构化数据富结果资格。');
   out.push('- 工作区可能正被 Lead 修改：报告头部记录 dirty 文件数与内容 digest；以同快照复跑结果为准。');
   out.push('');
   return out.join('\n');

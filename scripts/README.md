@@ -7,7 +7,7 @@
 # verify-site.mjs — 部署验收脚本
 
 > Phase A（安全止血）起引入的**可重复执行部署验收基线**，供 Vercel Preview 与生产共用。
-> 当前版本：`verify-site.mjs` v1.1.0（2026-11-05）
+> 当前版本：`verify-site.mjs` v1.2.0（2026-11-07；AdSense 移除后的验收口径）
 > 关联：`AGENTS.md` H7（证据标准）、`docs/runbooks/preview-deploy.md`、`audit/evidence/phase-a/verification/`
 
 ## 1. 是什么
@@ -76,14 +76,14 @@ VERCEL_AUTOMATION_BYPASS_SECRET='<secret>' \
 
 | 分类 | 检查 | PASS 条件 |
 |---|---|---|
-| a) 关键页面 | `/`、`/about/`、`/tools/square/`、`/blog/`、`/privacy/`、`/zh/`、`/es/`、`/ja/`、`/tw/` | 最终状态 200（最终路径、HTML content-type 不匹配仅 WARN） |
+| a) 关键页面 | `/`、`/about/`、`/tools/square/`、`/blog/`、`/privacy/`、`/zh/`、`/es/`、`/ja/`、`/tw/` | 最终状态 200、**不含广告脚本**（`pagead2`/`adsbygoogle`；最终路径、HTML content-type 不匹配仅 WARN） |
 | b) 安全响应头 | 首页 `/` 与工具页 `/tools/square/` | 六项头全部存在且取值合格：`strict-transport-security`（含 `max-age=`）、`x-content-type-options: nosniff`、`x-frame-options`（`DENY`/`SAMEORIGIN`）、`referrer-policy`、`permissions-policy`、`content-security-policy-report-only` |
 | c) 重定向 | `/?lang=zh|es|ja|tw` → `/{lang}/`；`/?lang=en` → `/`；`/about` → `/about/`；`/public/tools/square/` → `/tools/square/` | 单跳、最终 200、最终 URL 不含 `?lang=`、无循环；`/about` 与 `/public/tools/square/` 单跳且最终 200 |
 | c) 跨主机 | `http://mecollage.top/`、`https://mecollage.top/` | 最终 HTTPS + 主机 `www.mecollage.top` + 200（仅生产域参与判定，见 §5） |
 | d) 404 页 | 随机 `/this-page-should-not-exist-<token>/` | 最终 404；响应体含 404 页标记（`data-404-page` / `"Page not found"` / `<title>` 或 `<h1>` 含 `404`，任一即可）；**不含** `pagead2`/`adsbygoogle`；**不含** `location.replace(`；含 noindex（`<meta name="robots">` 或 `X-Robots-Tag`） |
 | e) 软 404 | `/404` 与 `/404/` | 状态码**只记录不判 FAIL**（Vercel 静态站通常 200，记 WARN）；noindex / 无广告脚本 / 无 `location.replace(` 为 FAIL 级 |
-| f) 遗留文件 | `design-system.md`、`需求理解确认.txt`、`.htaccess`、`.nojekyll`、`check_keys.js`、`sync_keys.js`、`zh-tw.json`、`assets/js/index-CurY6_0Y.js`、`assets/js/index-CurY6_0Y.js.backup`、`/test-section/` | 最终 404（删除或 `.vercelignore` 排除）；200 → FAIL |
-| g) 关键资产 | `/ads.txt`、`/sitemap.xml`、`/robots.txt`、`/assets/js/mecollage-main.js`、`/assets/js/i18n.js`、`/assets/index-vAuRGWiM.css`、`/assets/pages-C2UaL6ML.css`、`/wallImage.webp`、`/i18n/zh.json` | 最终 200；`ads.txt` 内容须与 `google.com, pub-9280689992387509, DIRECT, f08c47fec0942fa0` 一致（trim 后逐字节）；sitemap/robots/i18n 的轻量结构检查仅 WARN |
+| f) 遗留文件 | `design-system.md`、`需求理解确认.txt`、`.htaccess`、`.nojekyll`、`check_keys.js`、`sync_keys.js`、`zh-tw.json`、`assets/js/index-CurY6_0Y.js`、`assets/js/index-CurY6_0Y.js.backup`、`/test-section/`、`/ads.txt`（2026-11-07 移除 AdSense 接入） | 最终 404（删除或 `.vercelignore` 排除）；200 → FAIL |
+| g) 关键资产 | `/sitemap.xml`、`/robots.txt`、`/assets/js/mecollage-main.js`、`/assets/js/i18n.js`、`/assets/index-vAuRGWiM.css`、`/assets/pages-C2UaL6ML.css`、`/wallImage.webp`、`/i18n/zh.json` | 最终 200；sitemap/robots/i18n 的轻量结构检查仅 WARN |
 | h) 默认域 | `https://mecollage.vercel.app/` | 200 且 `X-Robots-Tag` 含 `noindex`（仅生产域参与判定） |
 
 **404 页标记是 Phase A 实现约束**：新 `404.html` 至少包含 `data-404-page`、“Page not found”文案、`<title>` 含 404、`<h1>` 含 404 中的**任意一个**，否则 d) 判 FAIL（当前 Phase A 分支的 404 页四个全有）。noindex 接受 `<meta name="robots" content="…noindex…">` 或响应头 `X-Robots-Tag: noindex`。
@@ -194,10 +194,11 @@ Vercel Dashboard → Project → Settings → Deployment Protection → 临时�
 - 脚本带 `cache-control: no-cache`；HTML 在 Cloudflare 侧为 `DYNAMIC` 不缓存，但静态资产可能命中边缘缓存（对状态/字节校验影响低）。
 - `本地仓库 HEAD` 字段只是**当前工作目录的 git HEAD**，用于把证据与提交对应，**不是线上部署证明**；生产内容是否已更新需另行确认（截至 baseline，生产仍为 `main` HEAD `afd3be4`）。
 - Preview 认证由 Vercel CLI（`vercel curl`）在请求层绕过，脚本本身不处理认证；使用 runbook 方式 D 可产出完整 JSON 证据（cookie 通过 `--header` 传入，值在证据中脱敏）。
-- 不检查渲染层 i18n、GA4/AdSense 业务逻辑、性能/CWV、HTML 语义等（属其他阶段范围）。
+- 不检查渲染层 i18n、GA4/统计业务逻辑、性能/CWV、HTML 语义等（属其他阶段范围）。
 
 ## 9. 维护记录
 
+- **v1.2.0（2026-11-07）**：移除 AdSense 接入后的验收口径更新——关键页面（a）新增「不含广告脚本」断言；`/ads.txt` 由关键资产（g）移入遗留文件（f，预期 404，文件已删除）；移除 Publisher ID 内容一致性断言。
 - **v1.1.0（2026-11-05）**：新增 `--header`（可重复）与 `VERCEL_AUTOMATION_BYPASS_SECRET`（自动注入 `x-vercel-protection-bypass`）；新增 `BLOCKED` 判定（302 → `vercel.com/sso-api` 即停止跟随、单条汇总、退出码 2）；命令行 `--header` 值脱敏；报告记录自定义请求头名称与 `bypassSource`；修复 Markdown 分类汇总计数。
 - **v1.0.0（2026-11-05）**：首版，a–h 检查矩阵、手动重定向跟随、JSON/Markdown 输出、跨主机 N/A、退出码 1/2。
 

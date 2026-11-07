@@ -38,15 +38,12 @@ import { performance } from 'node:perf_hooks';
 // ---------------------------------------------------------------------------
 
 const TOOL = 'verify-site';
-const VERSION = '1.1.0';
+const VERSION = '1.2.0';
 const MAX_REDIRECTS = 10;
 const DEFAULT_TIMEOUT_MS = 10_000;
 const MAX_BODY_BYTES = 3 * 1024 * 1024; // 单响应体读取上限（防御性）
 
 const USER_AGENT = `MeCollage-VerifySite/${VERSION} (deployment acceptance; https://www.mecollage.top)`;
-
-/** Phase A 后 ads.txt 必须保持的内容（迁移前后唯一 Publisher ID，不得替换） */
-const EXPECTED_ADS_TXT = 'google.com, pub-9280689992387509, DIRECT, f08c47fec0942fa0';
 
 /** 生产域（含 apex；apex 会 307 → www） */
 const PRODUCTION_HOSTS = new Set(['www.mecollage.top', 'mecollage.top']);
@@ -112,7 +109,7 @@ const LANG_REDIRECTS = [
   { lang: 'en', expectedPath: '/' },
 ];
 
-/** f) 遗留文件 / 死资源：Phase A 后应全部 404（删除或 .vercelignore 排除） */
+/** f) 遗留文件 / 死资源：应全部 404（删除或 .vercelignore 排除；2026-11-07 起含已移除的 ads.txt） */
 const LEGACY_FILES = [
   { path: '/design-system.md', label: '设计系统文档' },
   { path: '/需求理解确认.txt', label: '中文需求文档（URL 编码后请求）' },
@@ -124,11 +121,11 @@ const LEGACY_FILES = [
   { path: '/assets/js/index-CurY6_0Y.js', label: '死代码 bundle' },
   { path: '/assets/js/index-CurY6_0Y.js.backup', label: '死代码备份' },
   { path: '/test-section/', label: '测试页' },
+  { path: '/ads.txt', label: 'AdSense ads.txt（2026-11-07 移除接入）' },
 ];
 
-/** g) 关键资产：必须 200（Phase A 不得误删） */
+/** g) 关键资产：必须 200（不得误删；2026-11-07 起不再含已移除的 ads.txt） */
 const KEY_ASSETS = [
-  { path: '/ads.txt', label: 'AdSense ads.txt', kind: 'ads-txt' },
   { path: '/sitemap.xml', label: 'Sitemap', kind: 'sitemap' },
   { path: '/robots.txt', label: 'robots.txt', kind: 'robots' },
   { path: '/assets/js/mecollage-main.js', label: '主 JS', kind: 'js' },
@@ -146,8 +143,8 @@ const CATEGORIES = [
   { id: 'redirects', letter: 'c', title: '重定向与 URL 规范化', description: '?lang=、尾斜杠、/public 路径、http→https、apex→www' },
   { id: 'notfound', letter: 'd', title: '不存在的 URL（404 页）', description: '随机 404 路径的状态码、页面标记、无广告/无自动跳转、noindex' },
   { id: 'soft404', letter: 'e', title: '软 404（/404 与 /404/）', description: '状态记录 + noindex + 无广告/无自动跳转（状态不强制 404）' },
-  { id: 'legacy', letter: 'f', title: '遗留文件暴露面', description: 'Phase A 应删除或 .vercelignore 排除的文件必须 404' },
-  { id: 'assets', letter: 'g', title: '关键资产回归', description: 'ads.txt / sitemap / robots / JS / CSS / 图片 / i18n 必须 200' },
+  { id: 'legacy', letter: 'f', title: '遗留文件暴露面', description: 'Phase A 应删除或 .vercelignore 排除的文件必须 404；ads.txt 于 2026-11-07 移除' },
+  { id: 'assets', letter: 'g', title: '关键资产回归', description: 'sitemap / robots / JS / CSS / 图片 / i18n 必须 200' },
   { id: 'default-domain', letter: 'h', title: '默认域 noindex', description: 'mecollage.vercel.app 不得与主域重复收录（X-Robots-Tag noindex）' },
 ];
 
@@ -845,6 +842,12 @@ async function checkPages() {
           detail: `content-type: ${result.final.contentType ?? '(无)'}`,
         }),
       );
+      const adHits = detectAdScripts(result.final.body);
+      assertions.push(
+        check('不含广告脚本（pagead2 / adsbygoogle）', adHits.length === 0, {
+          detail: adHits.length > 0 ? `命中：${adHits.join('、')}` : '无命中',
+        }),
+      );
       const title = extractTitle(result.final.body);
       const htmlLang = extractHtmlLang(result.final.body);
       evidenceLines.push(`最终 URL：${code(result.final.url, 200)}`);
@@ -852,6 +855,7 @@ async function checkPages() {
       evidenceLines.push(`content-type：${code(result.final.contentType ?? '(无)', 120)}`);
       evidenceLines.push(`title：${title ? code(title) : '`(无 <title>)`'}`);
       evidenceLines.push(`html lang：${htmlLang ? code(htmlLang) : '`(无 lang 属性)`'}`);
+      evidenceLines.push(`广告脚本命中：${adHits.length ? `**${adHits.join('、')}**` : '无'}`);
     }
     items.push(
       buildItem({
@@ -859,7 +863,7 @@ async function checkPages() {
         category: 'pages',
         name: `关键页面 ${path}`,
         url,
-        expected: '最终状态 200，返回 HTML',
+        expected: '最终状态 200，返回 HTML，不含广告脚本',
         assertions,
         evidence: {
           ...responseEvidence(result),
@@ -1375,13 +1379,6 @@ async function checkLegacy() {
 function assetSpecificLines(asset, result) {
   const lines = [];
   const body = result.final?.body ?? '';
-  if (asset.kind === 'ads-txt') {
-    const actual = body.trim().replace(/\r\n/g, '\n');
-    const matches = actual === EXPECTED_ADS_TXT;
-    lines.push(`期望内容：${code(EXPECTED_ADS_TXT, 220)}`);
-    lines.push(`实际内容：${matches ? '一致' : `**不一致**（${code(actual, 220)}）`}`);
-    return { matches, lines };
-  }
   if (asset.kind === 'sitemap') {
     const locCount = (body.match(/<loc>/gi) ?? []).length;
     lines.push(`<urlset>：${/<urlset\b/i.test(body) ? '存在' : '**缺失**'} · <loc> 数量：\`${locCount}\``);
@@ -1427,15 +1424,6 @@ async function checkAssets() {
       const specific = assetSpecificLines(asset, result);
       evidenceLines.push(...specific.lines);
 
-      if (asset.kind === 'ads-txt' && specific.matches !== undefined) {
-        assertions.push(
-          check('ads.txt 内容与既有 Publisher ID 一致', specific.matches, {
-            detail: specific.matches
-              ? '与期望值逐字节一致（trim 后）'
-              : `内容被改动；期望 ${code(EXPECTED_ADS_TXT, 200)}`,
-          }),
-        );
-      }
       if (asset.kind === 'sitemap' && status === 200) {
         assertions.push(
           check('sitemap 含 <urlset>', /<urlset\b/i.test(result.final.body), {
