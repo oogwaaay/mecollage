@@ -7,7 +7,7 @@
 # verify-site.mjs — 部署验收脚本
 
 > Phase A（安全止血）起引入的**可重复执行部署验收基线**，供 Vercel Preview 与生产共用。
-> 当前版本：`verify-site.mjs` v1.1.0（2026-11-05）
+> 当前版本：`verify-site.mjs` v1.2.0（2026-11-07；AdSense 移除后的验收口径）
 > 关联：`AGENTS.md` H7（证据标准）、`docs/runbooks/preview-deploy.md`、`audit/evidence/phase-a/verification/`
 
 ## 1. 是什么
