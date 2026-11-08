@@ -59,7 +59,7 @@ open audit/evidence/phase-f/browser/report.md
 
 退出码：`0` = 无 FAIL（允许 WARN）；`1` = 存在 FAIL；`2` = 运行器/环境错误（定位不到 Chrome、fixtures 生成失败等）。
 
-## 5. 测试矩阵（53 用例）
+## 5. 测试矩阵（77 用例）
 
 | 分组 | 用例 | 覆盖 |
 |---|---|---|
@@ -68,6 +68,7 @@ open audit/evidence/phase-f/browser/report.md
 | `/tools/squarecrop/`（8） | CRP-01 ~ CRP-08 | 加载/fitScale；滑块缩放边界 10–300；滚轮方向/步长/上下边界；拖拽平移；**拖拽边界**（能否把图拖出画布）；导出 original=短边/1200；导出内容随 zoom/pan 变化；PNG 格式 + 下载拦截 |
 | `/tools/roundedcorners/`（6） | RND-01 ~ RND-06 | 加载/滑块范围 0–50；radius 0/25/50 角与中心 alpha；导出 512/1024/custom 256/original；PNG 透明 + 圆角随输出尺寸等比缩放（归一化 alpha 采样）；自定义宽高 300×200；radius=50 圆形模式（横图）预览/导出 |
 | `/tools/blurredframe/`（7） | BLR-01 ~ BLR-07 | 加载/默认参数；aspect ratio 是否改变 canvas/导出比例（含 4:3、16:9）；mainScale；bgScale；blurIntensity；导出 1200/custom 320；主图拖拽平移 |
+| 圣诞模式（6） | XMAS-01 ~ XMAS-06 | `/#christmas` 入口：banner/面板/8 预设/圣诞贴纸/尺寸 chip/1200:630 比例；4 张照片 + 2×2 预设；固定尺寸导出 PNG 1080×1080；JPG 1200×630；移动端 390×844 无溢出 + 控件 ≥44px；默认编辑器不受影响 |
 | 环境/覆盖（2） | ENV-01、ENV-02 | 环境信息记录；8 项无法自动验证/需人工确认项 |
 
 判定规则：用例内任一断言 FAIL → 用例 FAIL；仅 WARN → WARN；全 PASS → PASS。**FAIL = 自动证据证明功能不符预期；WARN = 无法自动判定/设计记录项**。
@@ -180,7 +181,7 @@ node scripts/functional-audit/run-mobile-touch.mjs --json /tmp/mt.json --md /tmp
 - 触摸源：`Emulation.setTouchEmulationEnabled({enabled:true,maxTouchPoints:5})` + `Input.dispatchTouchEvent`（touchStart/touchMove/touchEnd）；Chrome 会把触摸合成为 `pointerdown/move/up`（pointerType=`touch`）与 `click`；
 - 观测注入（`Page.addScriptToEvaluateOnNewDocument`）：patch `HTMLCanvasElement.prototype.toDataURL` 采样导出 canvas 像素（nonWhite 比例）、patch `HTMLAnchorElement.prototype.click` 记录下载动作（不产生文件）、收集页面异常与拖拽 pointer 事件序列。
 
-### 13.3 用例矩阵（6）
+### 13.3 用例矩阵（9）
 
 | ID | 分组 | 断言口径 |
 |---|---|---|
@@ -190,6 +191,9 @@ node scripts/functional-audit/run-mobile-touch.mjs --json /tmp/mt.json --md /tmp
 | `MT-04` | touch | 上传 3 张 fixture → 在 `.drag-handle` 上 `touchStart` 长按 250ms（断言 `.touch-reorder-active` + opacity 0.6）→ 分步 `touchMove` 到第 3 格 → `touchEnd`；断言图片顺序变化且集合一致、pointerup 正常结束、拖拽期间页面不被滚动 |
 | `MT-05` | export | 上传 2 张 → `window.scrollTo(0,600)`（断言 scrollY>0）→ 点 `#exportBtn` → 捕获 `toDataURL`：canvas ≥600×600、**nonWhite 采样比例 >1%**（防 L-36 全白回归）、按钮恢复、无异常/toast 错误 |
 | `MT-06` | a11y | `#undoBtn/#redoBtn/#exportBtn/#layoutBtn/#filterBtn/#textBtn/#stickerBtn/#aiBtn` 与 `.mc-menu-btn`、`.lang-selector-toggle` 的 rect ≥44×44；编辑器态无横向溢出 |
+| `MT-07` | tool-page | Aspect Ratio Calculator 390×844：无横向溢出、控件 ≥44px、触摸 9:16 换算 |
+| `MT-08` | size-chart | Social Media Image Sizes 390×844：无溢出、输入控件 ≥44px、标准尺寸匹配 |
+| `MT-09` | touch | 触屏拖拽贴纸/文字（Pointer Events）：layer 相对坐标变化、元素位置变化、页面不滚动（`touch-action: none`）、拖拽后 `isDragging` 复位、未误删图层 |
 
 ### 13.4 判定与限制（别把合成事件当真实手势）
 
@@ -220,4 +224,5 @@ node scripts/functional-audit/run-mobile-touch.mjs --json /tmp/mt.json --md /tmp
 
 - **2026-11-05 v1.0.0**：首版。CDP harness + 本地 Vercel 模拟服务器 + Pillow fixtures + 53 用例矩阵 + report.md/json + shots；基线 PASS 42 / FAIL 7 / WARN 4。
 - **2026-11-05 v1.1.0**：Phase F 修复后回归。新增/升级断言（resize=拉伸铺满与独立绘制一致、squarecrop 拖拽受边界约束、blurredframe 保持所选比例、首页 4:3 按钮）；规格同步（squarecrop 缩放下限 100%、blurredframe 默认 mainScale=80）；结果 PASS 52 / FAIL 0 / WARN 1。
+- **2026-11-08 v1.3.0**：新增 `christmas` 功能组 XMAS-01~06（`/#christmas` 圣诞模式与固定尺寸导出）+ `run-mobile-touch` MT-09（贴纸/文字触屏拖拽）。产品侧把 `mousedown` 拖拽改为 Pointer Events（触屏可用），同步更新 `instrument.mjs` 的 `fa.dragText` 为指针事件（L-44/L-46）；回归 functional 75/0/2、mobile 9/0/0。
 - **2026-11-06 v1.2.0**：新增 `run-mobile-touch.mjs`（R2-A，390×844 CDP 触摸模拟；6 用例：移动导航结构/行为、语言抽屉、触控拖拽排序、滚动后导出、触控目标）。**首次实跑发现 2 个静态门禁漏测的产品缺陷**（MT-02 导航面板 off-screen、MT-06 底栏触控目标 14–24px，见 §13.5 / L-38）；Lead 修复 components.css 后连续两次复跑 **PASS 6 / FAIL 0 / WARN 0**。正式教训：L-38（交互态门禁缺口）；R2-B 博客搜索的 `[hidden]` 被 author CSS 覆盖问题记为 L-39。

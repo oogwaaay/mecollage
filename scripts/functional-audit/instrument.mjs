@@ -168,14 +168,19 @@ export const INSTRUMENT_SOURCE = String.raw`
   fa.dispatch = (el, type, init) => el.dispatchEvent(new MouseEvent(type, Object.assign({ bubbles: true, cancelable: true }, init)));
   fa.dblclick = (el) => el.dispatchEvent(new MouseEvent('dblclick', { bubbles: true, cancelable: true }));
   fa.keydown = (key, ctrl) => document.dispatchEvent(new KeyboardEvent('keydown', { key, ctrlKey: !!ctrl, metaKey: false, bubbles: true, cancelable: true }));
+  // 2026-11-08：文字/贴纸拖拽改为 Pointer Events（触屏可用）；测试用 pointer 序列模拟鼠标拖拽
+  fa.pointer = (el, type, init) => el.dispatchEvent(new PointerEvent(type, Object.assign({
+    bubbles: true, cancelable: true, pointerId: 1, pointerType: 'mouse', isPrimary: true,
+    button: type === 'pointerup' ? 0 : 0,
+  }, init)));
   fa.dragText = (dx, dy) => {
     const el = document.querySelector('.text-wrapper');
     if (!el) return false;
     const r = el.getBoundingClientRect();
     const cx = r.x + r.width / 2, cy = r.y + r.height / 2;
-    fa.dispatch(el, 'mousedown', { clientX: cx, clientY: cy });
-    fa.dispatch(document, 'mousemove', { clientX: cx + dx, clientY: cy + dy });
-    fa.dispatch(document, 'mouseup', { clientX: cx + dx, clientY: cy + dy });
+    fa.pointer(el, 'pointerdown', { clientX: cx, clientY: cy, buttons: 1 });
+    fa.pointer(document, 'pointermove', { clientX: cx + dx, clientY: cy + dy, buttons: 1 });
+    fa.pointer(document, 'pointerup', { clientX: cx + dx, clientY: cy + dy, buttons: 0 });
     return true;
   };
   fa.dragCanvas = (sel, fromX, fromY, toX, toY) => {

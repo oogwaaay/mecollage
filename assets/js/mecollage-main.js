@@ -432,9 +432,10 @@ class MeCollagePro {
     // R0：未保存保护（P1-3）：有未导出的拼图时离开/刷新给出提示
     window.addEventListener('beforeunload', (e) => this.handleBeforeUnload(e));
 
-    // 添加全局鼠标事件监听器，用于拖拽功能
-    document.addEventListener('mousemove', (e) => this.handleGlobalMouseMove(e));
-    document.addEventListener('mouseup', () => this.handleGlobalMouseUp());
+    // 拖拽使用 Pointer Events：鼠标/触屏/触控笔统一走 pointermove/up（触屏拖贴纸/文字）
+    document.addEventListener('pointermove', (e) => this.handleGlobalMouseMove(e));
+    document.addEventListener('pointerup', () => this.handleGlobalMouseUp());
+    document.addEventListener('pointercancel', () => this.handleGlobalMouseUp());
     document.addEventListener('keydown', (e) => this.handleKeyDown(e));
   }
 
@@ -1980,12 +1981,19 @@ class MeCollagePro {
         deleteBtn.style.opacity = '0';
       });
       
-      // 添加拖拽功能 - 使用全局拖拽事件
-      textWrapper.addEventListener('mousedown', (e) => {
+      // 添加拖拽功能 - Pointer Events（鼠标 + 触屏 + 触控笔）
+      textWrapper.style.touchAction = 'none';
+      textWrapper.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.pointerType === 'touch' && e.isPrimary === false) return;
+        if (e.target && e.target.closest && e.target.closest('.text-delete-btn')) return;
         e.stopPropagation();
-        
-        // 开始拖拽，传递鼠标事件
+
+        // 开始拖拽，传递指针事件（clientX/Y 与鼠标事件一致）
         this.startDrag(textWrapper, layer, 'text', e);
+        if (textWrapper.setPointerCapture) {
+          try { textWrapper.setPointerCapture(e.pointerId); } catch (error) { /* 忽略不支持的环境 */ }
+        }
       });
       
       // 组装元素
@@ -2038,12 +2046,20 @@ class MeCollagePro {
       stickerElement.style.pointerEvents = 'all';
       stickerElement.style.cursor = 'move';
       
-      // 添加拖拽功能 - 使用全局拖拽事件
-      stickerElement.addEventListener('mousedown', (e) => {
+      // 添加拖拽功能 - Pointer Events（鼠标 + 触屏 + 触控笔）
+      stickerElement.style.touchAction = 'none';
+      stickerElement.style.userSelect = 'none';
+      stickerElement.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.pointerType === 'touch' && e.isPrimary === false) return;
+        if (e.target && e.target.closest && e.target.closest('.sticker-delete-btn')) return;
         e.stopPropagation();
-        
-        // 开始拖拽，传递鼠标事件
+
+        // 开始拖拽，传递指针事件
         this.startDrag(stickerElement, layer, 'sticker', e);
+        if (stickerElement.setPointerCapture) {
+          try { stickerElement.setPointerCapture(e.pointerId); } catch (error) { /* 忽略不支持的环境 */ }
+        }
       });
       
       stickerContainer.appendChild(stickerElement);
