@@ -204,6 +204,13 @@ class MeCollagePro {
     this._libPromises = {}; // ensureLibs() 动态加载缓存（失败清除，允许重试）
     this._touchReorder = null; // 触控拖拽排序的进行中状态
 
+    // Christmas mode（/#christmas 深链）：默认关闭；开启后只做加法式 UI/导出增强
+    this.isChristmasMode = false;
+    this.christmasBackground = 'snow';
+    this.exportFormat = 'png';
+    this.exportTarget = null;
+    this._settingXmasTarget = false;
+
     this.init();
   }
 
@@ -213,6 +220,7 @@ class MeCollagePro {
   init() {
     this.bindEvents();
     this.updateStyles();
+    this.setupChristmasMode();
     // 使用setTimeout确保DOM元素已经完全加载
     setTimeout(() => {
       this.initUIState();
@@ -424,9 +432,10 @@ class MeCollagePro {
     // R0：未保存保护（P1-3）：有未导出的拼图时离开/刷新给出提示
     window.addEventListener('beforeunload', (e) => this.handleBeforeUnload(e));
 
-    // 添加全局鼠标事件监听器，用于拖拽功能
-    document.addEventListener('mousemove', (e) => this.handleGlobalMouseMove(e));
-    document.addEventListener('mouseup', () => this.handleGlobalMouseUp());
+    // 拖拽使用 Pointer Events：鼠标/触屏/触控笔统一走 pointermove/up（触屏拖贴纸/文字）
+    document.addEventListener('pointermove', (e) => this.handleGlobalMouseMove(e));
+    document.addEventListener('pointerup', () => this.handleGlobalMouseUp());
+    document.addEventListener('pointercancel', () => this.handleGlobalMouseUp());
     document.addEventListener('keydown', (e) => this.handleKeyDown(e));
   }
 
@@ -802,15 +811,22 @@ class MeCollagePro {
    */
   setAspectRatio(ratio) {
     this.currentAspectRatio = ratio;
-    
-    // 更新按钮状态
+
+    // 更新按钮状态（Christmas 模式会注入 1200:630 按钮；缺失时不要报错）
     document.querySelectorAll('.aspect-ratio-btn').forEach(btn => {
       btn.classList.remove('active');
     });
-    document.querySelector(`[data-ratio="${ratio}"]`).classList.add('active');
-    
+    const activeRatioButton = document.querySelector(`[data-ratio="${ratio}"]`);
+    if (activeRatioButton) activeRatioButton.classList.add('active');
+
     this.renderCollage();
     this.markDirty();
+
+    // 手动改比例后，旧的固定导出尺寸不再匹配；清空并等待用户重新选尺寸
+    if (this.isChristmasMode && !this._settingXmasTarget) {
+      this.exportTarget = null;
+      this._syncChristmasExportUI();
+    }
   }
 
   /**
@@ -868,6 +884,13 @@ class MeCollagePro {
     collageCanvas.querySelectorAll('.standalone-add-container').forEach(el => el.remove());
 
     let { rows, cols } = this.calculateGridLayout();
+    // 自定义网格（含 Christmas 预设）容量小于照片数时回退自动布局，避免网格溢出
+    if (this.useCustomGrid && this.images.length > rows * cols) {
+      const savedUseCustomGrid = this.useCustomGrid;
+      this.useCustomGrid = false;
+      ({ rows, cols } = this.calculateGridLayout());
+      this.useCustomGrid = savedUseCustomGrid;
+    }
 
     const ratioParts = this.currentAspectRatio.split(':').map(Number);
     const exactRatio = (ratioParts[0] || 1) / (ratioParts[1] || 1);
@@ -904,7 +927,8 @@ class MeCollagePro {
     collageGrid.style.aspectRatio = `${ratioParts[0]} / ${ratioParts[1]}`;
     collageGrid.innerHTML = '';
 
-    const hasAdd = this.images.length < this.maxImages;
+    // 自定义网格填满后不再渲染“+”，避免第 N+1 个格子把网格撑出画布
+    const hasAdd = this.images.length < this.maxImages && (!this.useCustomGrid || this.images.length < rows * cols);
 
     if (this.images.length === 1) {
       // 单图：铺满整个画布；“+”按钮放到网格外，避免占用一行导致图片被压扁
@@ -1957,12 +1981,19 @@ class MeCollagePro {
         deleteBtn.style.opacity = '0';
       });
       
-      // 添加拖拽功能 - 使用全局拖拽事件
-      textWrapper.addEventListener('mousedown', (e) => {
+      // 添加拖拽功能 - Pointer Events（鼠标 + 触屏 + 触控笔）
+      textWrapper.style.touchAction = 'none';
+      textWrapper.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.pointerType === 'touch' && e.isPrimary === false) return;
+        if (e.target && e.target.closest && e.target.closest('.text-delete-btn')) return;
         e.stopPropagation();
-        
-        // 开始拖拽，传递鼠标事件
+
+        // 开始拖拽，传递指针事件（clientX/Y 与鼠标事件一致）
         this.startDrag(textWrapper, layer, 'text', e);
+        if (textWrapper.setPointerCapture) {
+          try { textWrapper.setPointerCapture(e.pointerId); } catch (error) { /* 忽略不支持的环境 */ }
+        }
       });
       
       // 组装元素
@@ -2015,12 +2046,20 @@ class MeCollagePro {
       stickerElement.style.pointerEvents = 'all';
       stickerElement.style.cursor = 'move';
       
-      // 添加拖拽功能 - 使用全局拖拽事件
-      stickerElement.addEventListener('mousedown', (e) => {
+      // 添加拖拽功能 - Pointer Events（鼠标 + 触屏 + 触控笔）
+      stickerElement.style.touchAction = 'none';
+      stickerElement.style.userSelect = 'none';
+      stickerElement.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        if (e.pointerType === 'touch' && e.isPrimary === false) return;
+        if (e.target && e.target.closest && e.target.closest('.sticker-delete-btn')) return;
         e.stopPropagation();
-        
-        // 开始拖拽，传递鼠标事件
+
+        // 开始拖拽，传递指针事件
         this.startDrag(stickerElement, layer, 'sticker', e);
+        if (stickerElement.setPointerCapture) {
+          try { stickerElement.setPointerCapture(e.pointerId); } catch (error) { /* 忽略不支持的环境 */ }
+        }
       });
       
       stickerContainer.appendChild(stickerElement);
@@ -2325,9 +2364,22 @@ class MeCollagePro {
         throw new Error('collage grid has no measurable size');
       }
 
+      // Christmas 模式：可按固定像素尺寸导出；默认编辑器保持原有“视口 CSS 尺寸 × 2”
+      const usesXmasExport = this.isChristmasMode && this.exportTarget;
+      const outWidth = usesXmasExport ? this.exportTarget.width : gridRect.width;
+      const outHeight = usesXmasExport ? this.exportTarget.height : gridRect.height;
+      const outputScale = outWidth / gridRect.width;
+      const exportFormat = this.isChristmasMode ? this.exportFormat : 'png';
+      const exportBackground = this.isChristmasMode ? this._getChristmasCanvasColor() : '#ffffff';
+
       // 只捕获确定尺寸的离屏容器，避免 padding/border-box 导致裁切与比例错误
       const wrapper = document.createElement('div');
-      wrapper.style.cssText = `position:fixed;left:0;top:0;width:${gridRect.width}px;height:${gridRect.height}px;background:#ffffff;overflow:hidden;z-index:-1;pointer-events:none;`;
+      wrapper.style.cssText = `position:fixed;left:0;top:0;width:${outWidth}px;height:${outHeight}px;background:${exportBackground};overflow:hidden;z-index:-1;pointer-events:none;`;
+      if (usesXmasExport) {
+        // 固定尺寸导出时按比例放大间距/圆角，保持与预览一致的观感
+        wrapper.style.setProperty('--gutter', `${this.gutter * outputScale}px`);
+        wrapper.style.setProperty('--radius', `${this.radius * outputScale}px`);
+      }
 
       const gridClone = collageGrid.cloneNode(true);
       gridClone.style.width = '100%';
@@ -2342,7 +2394,7 @@ class MeCollagePro {
         const el = document.createElement('div');
         el.className = 'text-layer';
         el.textContent = layer.content;
-        el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;color:${layer.color};font-weight:${layer.fontWeight};pointer-events:none;white-space:nowrap;z-index:10;`;
+        el.style.cssText = `position:absolute;left:${layer.x * outWidth}px;top:${layer.y * outHeight}px;transform:translate(-50%,-50%);font-size:${layer.fontSize * (usesXmasExport ? outputScale : 1)}px;color:${layer.color};font-weight:${layer.fontWeight};pointer-events:none;white-space:nowrap;z-index:10;`;
         wrapper.appendChild(el);
       });
       // 贴纸图层
@@ -2350,7 +2402,7 @@ class MeCollagePro {
         const el = document.createElement('div');
         el.className = 'sticker-layer';
         el.textContent = layer.content;
-        el.style.cssText = `position:absolute;left:${layer.x * gridRect.width}px;top:${layer.y * gridRect.height}px;transform:translate(-50%,-50%);font-size:${layer.fontSize}px;pointer-events:none;white-space:nowrap;z-index:11;`;
+        el.style.cssText = `position:absolute;left:${layer.x * outWidth}px;top:${layer.y * outHeight}px;transform:translate(-50%,-50%);font-size:${layer.fontSize * (usesXmasExport ? outputScale : 1)}px;pointer-events:none;white-space:nowrap;z-index:11;`;
         wrapper.appendChild(el);
       });
 
@@ -2362,8 +2414,8 @@ class MeCollagePro {
       // 离屏 wrapper 始终 position:fixed 在视口左上角，因此这里固定 scrollX/scrollY = 0。
       // 其余导出参数（白底 / scale 2 / useCORS / allowTaint / foreignObjectRendering）保持不变。
       const renderedCanvas = await html2canvas(wrapper, {
-        backgroundColor: '#ffffff',
-        scale: 2,
+        backgroundColor: exportBackground,
+        scale: usesXmasExport ? 1 : 2,
         useCORS: true,
         allowTaint: true,
         logging: false,
@@ -2373,9 +2425,10 @@ class MeCollagePro {
       });
       cleanup();
 
-      const dataUrl = renderedCanvas.toDataURL('image/png', 1.0);
+      const isJpeg = exportFormat === 'jpg';
+      const dataUrl = renderedCanvas.toDataURL(isJpeg ? 'image/jpeg' : 'image/png', isJpeg ? 0.92 : 1.0);
       const link = document.createElement('a');
-      link.download = `mecollage-${Date.now()}.png`;
+      link.download = `mecollage-${Date.now()}.${isJpeg ? 'jpg' : 'png'}`;
       link.href = dataUrl;
       link.click();
 
@@ -2652,6 +2705,39 @@ class MeCollagePro {
       this.updateAiBtnState(false);
     }
   }
+
+  /* ==========================================================================
+   * Christmas mode（/#christmas 深链）
+   * 只做加法：默认编辑器（无 hash）不加载 CSS、不注入 UI、不改导出行为。
+   * ======================================================================== */
+
+  setupChristmasMode() {
+    if (typeof location === 'undefined' || location.hash !== '#christmas') return;
+    this.isChristmasMode = true;
+    this.exportFormat = 'png';
+    this.exportTarget = { width: 1080, height: 1080 };
+    if (document.getElementById('christmasModeScript')) return;
+    const script = document.createElement('script');
+    script.id = 'christmasModeScript';
+    script.src = '/assets/js/christmas-mode.js';
+    script.onload = () => {
+      if (window.MeCollageChristmas) window.MeCollageChristmas.install(this);
+    };
+    document.body.appendChild(script);
+  }
+
+  _syncChristmasExportUI() {
+    if (window.MeCollageChristmas) window.MeCollageChristmas.syncExportUI(this);
+  }
+
+  _getChristmasCanvasColor() {
+    const canvas = document.getElementById('collageGrid');
+    if (!canvas) return '#ffffff';
+    const color = window.getComputedStyle(canvas).backgroundColor;
+    if (!color || color === 'rgba(0, 0, 0, 0)' || color === 'transparent') return '#ffffff';
+    return color;
+  }
+
 }
 
 

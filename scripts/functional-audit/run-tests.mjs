@@ -999,6 +999,187 @@ async function runIndexGroup() {
 // ---------------------------------------------------------------------------
 // 博客搜索（R2）
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// 圣诞模式（/#christmas 深链）：新增 UI 只在 hash 模式出现，默认编辑器不受影响
+// ---------------------------------------------------------------------------
+
+async function xmasExport(selector = '.xm-download') {
+  const before = await page.eval('__fa.cap.h2c.length');
+  await page.eval(`document.querySelector(${JSON.stringify(selector)}).click()`);
+  await page.waitFor(`__fa.cap.h2c.length >= ${before + 1}`, { timeoutMs: 30000 });
+  const capture = await page.eval('__fa.cap.h2c.slice(-1)[0]');
+  const click = await page.eval('__fa.cap.clicks.slice(-1)[0]');
+  return { capture, click };
+}
+
+async function runChristmasModeGroup() {
+  // 从 /blog/ 进入，强制真实文档导航（同文档只改 hash 不会重新初始化编辑器）
+  await gotoPage('/blog/');
+  await gotoPage('/#christmas');
+  await runCase(page, {
+    id: 'XMAS-01',
+    group: 'christmas',
+    page: '/#christmas',
+    name: '圣诞模式入口：banner / 面板 / 8 预设 / 圣诞贴纸 / 尺寸 chip / 1200:630 比例',
+    async fn(ctx) {
+      const state = await page.eval(`({
+        mode: window.mecollage.isChristmasMode,
+        banner: !!document.getElementById('christmasModeBanner'),
+        panel: !!document.getElementById('christmasPanel'),
+        presets: document.querySelectorAll('.xm-preset').length,
+        xmasStickers: document.querySelectorAll('.christmas-sticker').length,
+        sizeChips: document.querySelectorAll('.xm-chip[data-size]').length,
+        formatChips: document.querySelectorAll('.xm-chip[data-format]').length,
+        ratioBtn: !!document.querySelector('.aspect-ratio-btn[data-ratio="1200:630"]'),
+        exportTarget: window.mecollage.exportTarget,
+        bgClassOnCanvas: document.getElementById('collageGrid').classList.contains('xmas-bg-snow'),
+      })`);
+      ctx.measure('state', state);
+      ctx.check('Christmas 模式已开启', state.mode === true, { actual: state });
+      ctx.check('顶部 banner 存在', state.banner === true, { actual: state });
+      ctx.check('侧栏面板存在', state.panel === true, { actual: state });
+      ctx.check('8 个布局预设', state.presets === 8, { actual: state });
+      ctx.check('≥10 个圣诞贴纸（与已有 emoji 去重后）', state.xmasStickers >= 10, { actual: state });
+      ctx.check('3 个导出尺寸 chip', state.sizeChips === 3, { actual: state });
+      ctx.check('PNG/JPG 两个格式 chip', state.formatChips === 2, { actual: state });
+      ctx.check('1200:630 比例按钮已注入', state.ratioBtn === true, { actual: state });
+      ctx.check('默认导出尺寸 1080×1080', state.exportTarget?.width === 1080 && state.exportTarget?.height === 1080, { actual: state.exportTarget });
+      ctx.check('默认画布背景为 Snow', state.bgClassOnCanvas === true, { actual: state });
+      ctx.check('无未捕获 JS 异常', (pageLoads['/#christmas']?.exceptions || []).length === 0, { actual: pageLoads['/#christmas']?.exceptions });
+      await ctx.screenshot('christmas-mode-loaded');
+    },
+  });
+
+  await uploadImages(multiFixtures(4));
+  await page.eval("document.querySelectorAll('.xm-preset')[4].click()");
+  await sleep(300);
+  await runCase(page, {
+    id: 'XMAS-02',
+    group: 'christmas',
+    page: '/#christmas',
+    name: '4 张照片 + 2×2 预设：自定义网格生效 / 不再渲染“+” / 背景 class 正确',
+    async fn(ctx) {
+      const state = await page.eval(`({
+        count: __fa.count('.image-outer-container'),
+        useCustomGrid: window.mecollage.useCustomGrid,
+        rows: window.mecollage.customGridRows,
+        cols: window.mecollage.customGridCols,
+        addBtn: __fa.count('#collageGrid .add-image-btn'),
+        bg: getComputedStyle(document.getElementById('collageGrid')).backgroundColor,
+        canvasVisible: getComputedStyle(document.getElementById('collageCanvas')).display !== 'none',
+      })`);
+      ctx.measure('state', state);
+      ctx.check('4 张照片已上传', state.count === 4, { actual: state });
+      ctx.check('2×2 自定义网格已应用', state.useCustomGrid === true && state.rows === 2 && state.cols === 2, { actual: state });
+      ctx.check('网格填满后不再渲染“+”按钮', state.addBtn === 0, { actual: state });
+      ctx.check('画布背景为 Snow token 色', state.bg === 'rgb(229, 255, 229)', { actual: state.bg });
+      ctx.check('画布已显示', state.canvasVisible === true, { actual: state });
+      await ctx.screenshot('christmas-mode-preset');
+    },
+  });
+
+  await runCase(page, {
+    id: 'XMAS-03',
+    group: 'christmas',
+    page: '/#christmas',
+    name: '默认导出：PNG / 1080×1080（固定像素）',
+    async fn(ctx) {
+      const { capture, click } = await xmasExport();
+      ctx.measure('capture', { canvasW: capture.canvasW, canvasH: capture.canvasH, scale: capture.scale, download: click?.download });
+      ctx.check('导出 canvas 宽 = 1080', capture.canvasW === 1080, { actual: capture });
+      ctx.check('导出 canvas 高 = 1080', capture.canvasH === 1080, { actual: capture });
+      ctx.check('下载文件为 .png', /\.png$/.test(click?.download || ''), { actual: click });
+      await ctx.screenshot('christmas-mode-export-png');
+    },
+  });
+
+  await page.eval("document.querySelector('.xm-chip[data-format=\"jpg\"]').click(); document.querySelector('.xm-chip[data-size=\"1200x630\"]').click();");
+  await sleep(400);
+  await runCase(page, {
+    id: 'XMAS-04',
+    group: 'christmas',
+    page: '/#christmas',
+    name: 'JPG + 卡片尺寸：1200×630 精确导出',
+    async fn(ctx) {
+      const state = await page.eval(`({ format: window.mecollage.exportFormat, target: window.mecollage.exportTarget, ratio: window.mecollage.currentAspectRatio })`);
+      ctx.measure('state', state);
+      ctx.check('格式切到 JPG', state.format === 'jpg', { actual: state });
+      ctx.check('目标尺寸 1200×630', state.target?.width === 1200 && state.target?.height === 630, { actual: state.target });
+      ctx.check('画布比例切到 1200:630', state.ratio === '1200:630', { actual: state.ratio });
+      const { capture, click } = await xmasExport();
+      ctx.measure('capture', { canvasW: capture.canvasW, canvasH: capture.canvasH, download: click?.download });
+      ctx.check('导出 canvas 宽 = 1200', capture.canvasW === 1200, { actual: capture });
+      ctx.check('导出 canvas 高 = 630', capture.canvasH === 630, { actual: capture });
+      ctx.check('下载文件为 .jpg', /\.jpg$/.test(click?.download || ''), { actual: click });
+      await ctx.screenshot('christmas-mode-export-jpg');
+    },
+  });
+
+  // 移动端：Christmas 模式面板在 390×844 下不横向溢出，导出/尺寸控件 ≥44px
+  await page.enableDomains({ width: 390, height: 844 });
+  await gotoPage('/blog/');
+  await gotoPage('/#christmas');
+  await uploadImages(multiFixtures(2).slice(0, 2));
+  await runCase(page, {
+    id: 'XMAS-05',
+    group: 'christmas',
+    page: '/#christmas',
+    name: '移动端 390×844：圣诞模式无横向溢出 / 触控目标 ≥44px',
+    async fn(ctx) {
+      const state = await page.eval(`(() => {
+        const box = (selector) => {
+          const el = document.querySelector(selector);
+          if (!el) return null;
+          const rect = el.getBoundingClientRect();
+          return { w: Math.round(rect.width), h: Math.round(rect.height), visible: rect.width > 0 && rect.height > 0 };
+        };
+        return {
+          innerWidth: window.innerWidth,
+          scrollWidth: document.documentElement.scrollWidth,
+          banner: box('.xm-banner'),
+          panel: box('.xm-panel'),
+          download: box('.xm-download'),
+          sizeChip: box('.xm-chip[data-size]'),
+          overflow: document.documentElement.scrollWidth - window.innerWidth,
+        };
+      })()`);
+      ctx.measure('state', state);
+      ctx.check('390 宽无横向溢出', state.overflow <= 0, { actual: state });
+      ctx.check('banner 可见', state.banner && state.banner.visible, { actual: state.banner });
+      ctx.check('圣诞面板可见', state.panel && state.panel.visible, { actual: state.panel });
+      ctx.check('导出按钮触控高度 ≥ 44px', Boolean(state.download) && state.download.h >= 44, { actual: state.download });
+      ctx.check('尺寸 chip 触控高度 ≥ 44px', Boolean(state.sizeChip) && state.sizeChip.h >= 44, { actual: state.sizeChip });
+      await ctx.screenshot('christmas-mode-mobile-390');
+    },
+  });
+  await page.enableDomains({ width: 1440, height: 1000 });
+
+  await gotoPage('/blog/');
+  await gotoPage('/');
+  await runCase(page, {
+    id: 'XMAS-06',
+    group: 'christmas',
+    page: '/',
+    name: '默认编辑器不受影响：无 Christmas banner/面板/额外贴纸',
+    async fn(ctx) {
+      const state = await page.eval(`({
+        mode: window.mecollage.isChristmasMode,
+        banner: !!document.getElementById('christmasModeBanner'),
+        panel: !!document.getElementById('christmasPanel'),
+        stickers: document.querySelectorAll('.sticker-btn').length,
+        xmasStickers: document.querySelectorAll('.christmas-sticker').length,
+        ratioExtra: !!document.querySelector('.aspect-ratio-btn[data-ratio="1200:630"]'),
+      })`);
+      ctx.measure('state', state);
+      ctx.check('默认页不开启圣诞模式', state.mode === false, { actual: state });
+      ctx.check('默认页无 banner / 面板', state.banner === false && state.panel === false, { actual: state });
+      ctx.check('默认页贴纸仍为原有 12 个', state.stickers === 12 && state.xmasStickers === 0, { actual: state });
+      ctx.check('默认页无额外 1200:630 比例按钮', state.ratioExtra === false, { actual: state });
+    },
+  });
+}
+
 async function runBlogGroup() {
   await gotoPage('/blog/');
 
@@ -2583,6 +2764,7 @@ async function main() {
 
   // 4) 运行测试矩阵
   await runIndexGroup();
+  await runChristmasModeGroup();
   await runBlogGroup();
   await runContactGroup();
   await runSquareGroup();

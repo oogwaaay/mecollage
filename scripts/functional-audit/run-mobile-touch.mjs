@@ -753,6 +753,129 @@ async function runTouchReorder() {
   await c.end();
 }
 
+
+/**
+ * MT-09：贴纸 / 文字的触屏拖拽（Pointer Events 版）。
+ * 覆盖：触屏按住 layer → 移动 → 释放；layer 相对坐标变化；页面不滚动；拖拽后状态复位。
+ */
+async function runTextStickerTouchDrag() {
+  const c = createCase('MT-09', 'touch', '贴纸/文字触屏拖拽（Pointer Events：位置变化 / 页面不滚动 / 状态复位）');
+  try {
+    await page.navigate(`${server.url}/`);
+    const ready = await waitHomeReady();
+    c.check('编辑器就绪', ready);
+    await page.setFiles('#fileInput', [fixtures.files[0]]);
+    const loaded = await waitImageCount(1);
+    c.check('上传 1 张 fixture 完成', loaded);
+    await sleep(600);
+
+    // 直接调用公开方法添加图层（拖拽手势才是本用例要测的）
+    await page.eval("window.mecollage.addTextLayer(); window.mecollage.addStickerLayer('🎄');");
+    await waitFor("document.querySelectorAll('.text-wrapper').length === 1 && document.querySelectorAll('.sticker-layer').length === 1", {
+      timeoutMs: 10000,
+    });
+    await sleep(400);
+
+    const readLayers = () => page.eval(`(() => ({
+      text: window.mecollage.textLayers.map((layer) => ({ x: layer.x, y: layer.y, id: layer.id })),
+      sticker: window.mecollage.stickerLayers.map((layer) => ({ x: layer.x, y: layer.y, id: layer.id })),
+    }))()`);
+
+    async function dragLayer(selector, layerKey) {
+      const geometry = await page.eval(`(() => {
+        const el = document.querySelector(${JSON.stringify(selector)});
+        if (!el) return null;
+        el.scrollIntoView({ block: 'center' });
+        const rect = el.getBoundingClientRect();
+        return {
+          x: rect.x + rect.width / 2,
+          y: rect.y + rect.height / 2,
+          w: rect.width,
+          h: rect.height,
+          scrollY: window.scrollY,
+        };
+      })()`);
+      if (!geometry) return { geometry: null };
+      await sleep(150);
+      await dispatchTouch('touchStart', [{ x: geometry.x, y: geometry.y }]);
+      await sleep(80);
+      for (let i = 1; i <= 5; i += 1) {
+        await dispatchTouch('touchMove', [{ x: geometry.x + (50 * i) / 5, y: geometry.y - (35 * i) / 5 }]);
+        await sleep(60);
+      }
+      await dispatchTouch('touchEnd', []);
+      await sleep(500);
+      const after = await page.eval(`(() => {
+        const el = document.querySelector(${JSON.stringify(selector)});
+        const rect = el.getBoundingClientRect();
+        return {
+          text: window.mecollage.textLayers.map((layer) => ({ x: layer.x, y: layer.y, id: layer.id })),
+          sticker: window.mecollage.stickerLayers.map((layer) => ({ x: layer.x, y: layer.y, id: layer.id })),
+          rect: { x: rect.x, y: rect.y },
+          scrollY: window.scrollY,
+          isDragging: window.mecollage.isDragging,
+        };
+      })()`);
+      return { geometry, after, layerKey };
+    }
+
+    const before = await readLayers();
+    c.measure('layersBefore', before);
+
+    const textDrag = await dragLayer('.text-wrapper', 'text');
+    c.measure('textDrag', textDrag);
+    const textAfter = textDrag.after;
+    c.check('文字 layer 存在且可定位', Boolean(textDrag.geometry && textDrag.geometry.w > 0), { actual: textDrag.geometry });
+    c.check(
+      '触屏拖拽后文字相对坐标变化（x 或 y 变化 > 0.02）',
+      Boolean(textAfter) && Math.abs(textAfter.text[0].x - before.text[0].x) + Math.abs(textAfter.text[0].y - before.text[0].y) > 0.02,
+      { actual: { before: before.text[0], after: textAfter && textAfter.text[0] } },
+    );
+    c.check(
+      '触屏拖拽后文字元素位置变化',
+      Boolean(textAfter) && (Math.abs(textAfter.rect.x - textDrag.geometry.x) > 2 || Math.abs(textAfter.rect.y - textDrag.geometry.y) > 2),
+      { actual: { before: textDrag.geometry, after: textAfter && textAfter.rect } },
+    );
+    c.check('拖拽过程中页面未被滚动（touch-action: none）', Boolean(textAfter) && textAfter.scrollY === textDrag.geometry.scrollY, {
+      actual: { before: textDrag.geometry && textDrag.geometry.scrollY, after: textAfter && textAfter.scrollY },
+    });
+
+    const stickerDrag = await dragLayer('.sticker-layer', 'sticker');
+    c.measure('stickerDrag', stickerDrag);
+    const stickerAfter = stickerDrag.after;
+    c.check('贴纸 layer 存在且可定位', Boolean(stickerDrag.geometry && stickerDrag.geometry.w > 0), { actual: stickerDrag.geometry });
+    c.check(
+      '触屏拖拽后贴纸相对坐标变化（x 或 y 变化 > 0.02）',
+      Boolean(stickerAfter) && Math.abs(stickerAfter.sticker[0].x - before.sticker[0].x) + Math.abs(stickerAfter.sticker[0].y - before.sticker[0].y) > 0.02,
+      { actual: { before: before.sticker[0], after: stickerAfter && stickerAfter.sticker[0] } },
+    );
+    c.check(
+      '触屏拖拽后贴纸元素位置变化',
+      Boolean(stickerAfter) && (Math.abs(stickerAfter.rect.x - stickerDrag.geometry.x) > 2 || Math.abs(stickerAfter.rect.y - stickerDrag.geometry.y) > 2),
+      { actual: { before: stickerDrag.geometry, after: stickerAfter && stickerAfter.rect } },
+    );
+    c.check('拖拽过程中页面未被滚动（touch-action: none）', Boolean(stickerAfter) && stickerAfter.scrollY === stickerDrag.geometry.scrollY, {
+      actual: { before: stickerDrag.geometry && stickerDrag.geometry.scrollY, after: stickerAfter && stickerAfter.scrollY },
+    });
+
+    const finalState = await readLayers();
+    c.check('拖拽结束后 isDragging 已复位', Boolean(textAfter && stickerAfter) && textAfter.isDragging === false && stickerAfter.isDragging === false, {
+      actual: { text: textAfter && textAfter.isDragging, sticker: stickerAfter && stickerAfter.isDragging },
+    });
+    c.check(
+      '拖拽未误删图层（文字/贴纸各 1 个）',
+      finalState.text.length === 1 && finalState.sticker.length === 1,
+      { actual: { text: finalState.text.length, sticker: finalState.sticker.length } },
+    );
+
+    await c.screenshot('文字/贴纸触屏拖拽后', '09-text-sticker-touch-drag.png');
+  } catch (error) {
+    c.record.error = String(error && error.stack ? error.stack : error);
+    console.error('❌ [MT-09] 执行异常：', String(error).slice(0, 300));
+  }
+  await c.end();
+}
+
 async function runScrollExport() {
   const c = createCase('MT-05', 'export', '滚动后导出（scrollTo(0,600) → #exportBtn → 导出像素非全白、无异常）');
   try {
@@ -1197,6 +1320,7 @@ try {
   await runNavBehavior();
   await runLanguageDrawer();
   await runTouchReorder();
+  await runTextStickerTouchDrag();
   await runScrollExport();
   await runTouchTargets();
   await runAspectRatioTouch();
