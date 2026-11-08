@@ -1,0 +1,231 @@
+/* ============================================================================
+ * Christmas mode — additive editor UI, loaded only when the editor is opened
+ * from /#christmas (see assets/js/mecollage-main.js setupChristmasMode()).
+ *
+ * 约定：只使用 --mc-* token；不新增页面；默认编辑器（无 hash）不加载本文件、
+ * 不出现任何新 UI。本文件不在首屏链路里，不影响默认页面性能预算。
+ * ========================================================================== */
+
+/* ---------- 顶部提示条 ---------- */
+.xm-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mc-space-2) var(--mc-space-3);
+  max-width: 1400px;
+  margin: var(--mc-space-4) auto 0;
+  padding: var(--mc-space-3) var(--mc-space-4);
+  border: var(--mc-border-width) solid var(--mc-border-brand);
+  border-radius: var(--mc-radius-lg);
+  background: var(--mc-color-brand-haze);
+  backdrop-filter: blur(var(--mc-blur-lg));
+}
+.xm-banner__icon {
+  font-size: var(--mc-font-size-h4);
+  line-height: 1;
+}
+.xm-banner__title {
+  color: var(--mc-text-emphasis);
+  font-weight: var(--mc-font-weight-bold);
+}
+.xm-banner__hint {
+  flex: 1 1 260px;
+  color: var(--mc-text-secondary);
+  font-size: var(--mc-font-size-caption);
+}
+.xm-banner__exit {
+  min-height: var(--mc-tap-target-min);
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--mc-space-3);
+  border: var(--mc-border-width) solid var(--mc-border);
+  border-radius: var(--mc-radius-pill);
+  color: var(--mc-text-link);
+  font-size: var(--mc-font-size-caption);
+  font-weight: var(--mc-font-weight-semibold);
+}
+
+/* ---------- 侧栏面板 ---------- */
+.xm-panel {
+  position: relative;
+  border: var(--mc-border-width) solid var(--mc-border-brand);
+  border-radius: var(--mc-radius-item);
+  background: var(--mc-color-brand-haze);
+  padding: var(--mc-space-3);
+  margin-bottom: var(--mc-space-4);
+}
+.xm-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--mc-space-1) var(--mc-space-2);
+  margin-bottom: var(--mc-space-2);
+}
+.xm-panel__title {
+  color: var(--mc-text-emphasis);
+  font-size: var(--mc-font-size-caption);
+  font-weight: var(--mc-font-weight-bold);
+}
+.xm-panel__exit {
+  color: var(--mc-text-link);
+  font-size: var(--mc-font-size-caption);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.xm-hint {
+  margin: 0 0 var(--mc-space-3);
+  color: var(--mc-text-muted);
+  font-size: var(--mc-font-size-caption);
+  line-height: var(--mc-leading-snug);
+}
+.xm-group {
+  margin-top: var(--mc-space-3);
+}
+.xm-label {
+  display: block;
+  margin-bottom: var(--mc-space-1);
+  color: var(--mc-text-muted);
+  font-size: var(--mc-font-size-2xs);
+  font-weight: var(--mc-font-weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* 布局预设：4 列小格子 */
+.xm-presets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+.xm-preset {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: stretch;
+  min-height: var(--mc-tap-target-min);
+  padding: 5px;
+  border: var(--mc-border-width) solid var(--mc-border);
+  border-radius: var(--mc-radius-sm);
+  background: var(--mc-surface-2);
+  color: var(--mc-text-secondary);
+  font-size: var(--mc-font-size-2xs);
+  text-align: center;
+  cursor: pointer;
+}
+.xm-preset:hover,
+.xm-preset:focus-visible {
+  border-color: var(--mc-border-brand);
+  outline: none;
+}
+.xm-preset.is-active {
+  border-color: var(--mc-color-theme-accent);
+  background: var(--mc-color-brand-haze);
+}
+.xm-mini {
+  display: grid;
+  gap: 2px;
+  aspect-ratio: 1 / 1;
+  padding: 3px;
+  border: var(--mc-border-width) solid var(--mc-border);
+  border-radius: var(--mc-radius-xs);
+  background: var(--mc-surface-3);
+}
+.xm-mini i {
+  display: block;
+  border: var(--mc-border-width) solid var(--mc-border-brand);
+  background: var(--mc-color-brand-tint-strong);
+}
+.xm-lg-12 { grid-template-columns: repeat(2, 1fr); }
+.xm-lg-21 { grid-template-rows: repeat(2, 1fr); }
+.xm-lg-13 { grid-template-columns: repeat(3, 1fr); }
+.xm-lg-31 { grid-template-rows: repeat(3, 1fr); }
+.xm-lg-22 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+.xm-lg-14 { grid-template-columns: repeat(4, 1fr); }
+.xm-lg-23 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
+.xm-lg-33 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
+
+/* 背景色板 */
+.xm-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.xm-swatch {
+  width: var(--mc-tap-target-min);
+  height: var(--mc-tap-target-min);
+  padding: 0;
+  border: 2px solid var(--mc-border);
+  border-radius: var(--mc-radius-sm);
+  cursor: pointer;
+}
+.xm-swatch:hover,
+.xm-swatch:focus-visible {
+  border-color: var(--mc-border-brand);
+  outline: none;
+}
+.xm-swatch.is-active {
+  border-color: var(--mc-color-theme-accent);
+  box-shadow: 0 0 0 2px var(--mc-color-brand-haze);
+}
+
+/* 格式 / 尺寸 chips */
+.xm-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.xm-chip {
+  min-height: var(--mc-tap-target-min);
+  padding: 0 var(--mc-space-2);
+  border: var(--mc-border-width) solid var(--mc-border);
+  border-radius: var(--mc-radius-pill);
+  background: var(--mc-surface-2);
+  color: var(--mc-text-secondary);
+  font-size: var(--mc-font-size-2xs);
+  cursor: pointer;
+}
+.xm-chip:hover,
+.xm-chip:focus-visible {
+  border-color: var(--mc-border-brand);
+  outline: none;
+}
+.xm-chip.is-active {
+  background: var(--mc-color-brand-haze);
+  border-color: var(--mc-color-theme-accent);
+  color: var(--mc-text-emphasis);
+}
+
+/* 下载按钮 */
+.xm-download {
+  width: 100%;
+  min-height: var(--mc-tap-target-min);
+  margin-top: var(--mc-space-1);
+  padding: 0 var(--mc-space-3);
+  border: var(--mc-border-width) solid var(--mc-color-theme-accent);
+  border-radius: var(--mc-radius-pill);
+  background: var(--mc-color-theme-accent);
+  color: var(--mc-green-900);
+  font-size: var(--mc-font-size-label);
+  font-weight: var(--mc-font-weight-bold);
+  cursor: pointer;
+}
+.xm-download:hover,
+.xm-download:focus-visible {
+  background: var(--mc-color-brand);
+  outline: none;
+}
+
+/* ---------- 画布背景（预览与导出共用 class） ---------- */
+.collage-grid.xmas-bg-snow { background: var(--mc-green-100); }
+.collage-grid.xmas-bg-forest { background: var(--mc-green-900); }
+.collage-grid.xmas-bg-pine { background: var(--mc-green-950); }
+.collage-grid.xmas-bg-warm { background: var(--mc-orange-600); }
+.collage-grid.xmas-bg-gold { background: var(--mc-yellow-400); }
+
+.xm-swatch.xmas-bg-snow { background: var(--mc-green-100); }
+.xm-swatch.xmas-bg-forest { background: var(--mc-green-900); }
+.xm-swatch.xmas-bg-pine { background: var(--mc-green-950); }
+.xm-swatch.xmas-bg-warm { background: var(--mc-orange-600); }
+.xm-swatch.xmas-bg-gold { background: var(--mc-yellow-400); }

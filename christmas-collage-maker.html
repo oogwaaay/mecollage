@@ -3,214 +3,578 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Create festive Christmas photo collages with MeCollage. Free online holiday collage maker with Christmas stickers and decorations." />
-    <meta name="keywords" content="christmas collage, holiday collage, christmas photo collage, festive collage, xmas collage maker" />
-    <meta property="og:title" content="Christmas Collage Maker - Create Festive Holiday Photo Collages" />
-    <meta property="og:description" content="Make beautiful Christmas collages with photos, holiday stickers, and festive designs. Free online tool." />
+    <meta name="description" content="Make a Christmas photo collage in your browser. Use 2, 4, 6 or more photos, add text and emoji, and download a PNG. Free, no signup, no watermark." />
+    <meta property="og:title" content="Christmas Collage Maker - Free Christmas Photo Collage" />
+    <meta property="og:description" content="Make a Christmas photo collage in your browser. Use 2, 4, 6 or more photos, add text and emoji, then download a PNG. Free, no signup, no watermark." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.mecollage.top/christmas-collage-maker/" />
-    <title>Christmas Collage Maker - Create Festive Holiday Photo Collages</title>
+    <title>Christmas Collage Maker - Free Christmas Photo Collage</title>
   <link rel="alternate" hreflang="en" href="https://www.mecollage.top/christmas-collage-maker/" />
   <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/christmas-collage-maker/" />
 
   <link rel="canonical" href="https://www.mecollage.top/christmas-collage-maker/" />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script>
-        (function() {
-            const init = () => {
-                const webP = new Image();
-                webP.onload = webP.onerror = function() {
-                    const isSupported = webP.height === 2;
-                    if (isSupported) {
-                        document.documentElement.classList.add('webp-supported');
-                    }
-                    if (document.readyState === 'loading') {
-                        document.addEventListener('DOMContentLoaded', setBackgroundImage, { once: true });
-                    } else {
-                        setBackgroundImage();
-                    }
-                };
-                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
-            };
-            function setBackgroundImage() {
-                const bgElement = document.querySelector('.ghibli-background');
-                if (bgElement) {
-                    const isWebP = document.documentElement.classList.contains('webp-supported');
-                    bgElement.style.backgroundImage = isWebP ? 'url(/wallImage.webp)' : 'url(/wallImage.png)';
-                }
-            }
-            if ('requestIdleCallback' in window) {
-                window.requestIdleCallback(init);
-            } else {
-                window.addEventListener('load', init, { once: true });
-            }
-        })();
-    </script>
     <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
     <style>
-        .ghibli-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--mc-font-sans);
+            color: var(--mc-text-body);
+        }
+        .page-wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: var(--mc-space-10) var(--mc-space-5) var(--mc-space-16);
+        }
+        .page-card {
+            background: var(--mc-surface-1);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-3xl);
+            box-shadow: var(--mc-panel-shadow);
+            backdrop-filter: blur(var(--mc-blur-xl));
+            padding: var(--mc-space-12) var(--mc-space-10);
+        }
+        .crumb {
+            display: flex;
+            align-items: center;
+            gap: var(--mc-space-2);
+            margin-bottom: var(--mc-space-5);
+            font-size: var(--mc-font-size-caption);
+            color: var(--mc-text-muted);
+        }
+        .crumb a {
+            color: var(--mc-text-secondary);
+        }
+        .hero {
+            text-align: center;
+        }
+        .hero .eyebrow {
+            display: inline-block;
+            margin: 0 0 var(--mc-space-4);
+            padding: var(--mc-space-1) var(--mc-space-4);
+            border: var(--mc-border-width) solid var(--mc-border-brand);
+            border-radius: var(--mc-radius-pill);
+            background: var(--mc-color-brand-haze);
+            color: var(--mc-color-brand);
+            font-size: var(--mc-font-size-caption);
+            font-weight: var(--mc-font-weight-bold);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+        .hero h1 {
+            margin: 0 0 var(--mc-space-4);
+            color: var(--mc-color-theme-accent);
+            font-size: var(--mc-font-size-display);
+        }
+        .hero .sub {
+            max-width: 720px;
+            margin: 0 auto var(--mc-space-6);
+            font-size: var(--mc-font-size-lead);
+            line-height: var(--mc-leading-relaxed);
+            color: var(--mc-text-body);
+        }
+        .quick {
+            max-width: 820px;
+            margin: 0 auto var(--mc-space-6);
+            padding: var(--mc-space-5) var(--mc-space-6);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-left: 4px solid var(--mc-color-theme-accent);
+            border-radius: var(--mc-radius-lg);
+            background: var(--mc-surface-3);
+            text-align: left;
+        }
+        .quick p {
+            margin: 0;
+            line-height: var(--mc-leading-relaxed);
+        }
+        .quick strong {
+            color: var(--mc-text-emphasis);
+        }
+        .cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--mc-space-3);
+            margin-bottom: var(--mc-space-4);
+        }
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: var(--mc-tap-target-min);
+            padding: 0 var(--mc-space-6);
+            border: var(--mc-border-width) solid var(--mc-border-brand);
+            border-radius: var(--mc-radius-pill);
+            color: var(--mc-color-brand);
+            font-size: var(--mc-font-size-label);
+            font-weight: var(--mc-font-weight-bold);
+            text-decoration: none;
+        }
+        .cta--primary {
+            background: var(--mc-color-theme-accent);
+            border-color: var(--mc-color-theme-accent);
+            color: var(--mc-green-900);
+        }
+        .trust {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--mc-space-1) var(--mc-space-4);
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: var(--mc-font-size-caption);
+            color: var(--mc-text-secondary);
+        }
+        .trust li::before {
+            content: "✓";
+            margin-right: var(--mc-space-1);
+            color: var(--mc-color-brand);
+            font-weight: var(--mc-font-weight-bold);
+        }
+        .section {
+            margin-top: var(--mc-space-16);
+        }
+        .section-head {
+            max-width: 820px;
+            margin: 0 auto var(--mc-space-6);
+            text-align: center;
+        }
+        .section-head h2 {
+            margin: 0 0 var(--mc-space-2);
+        }
+        .section-head p,
+        .section-lead {
+            margin: 0;
+            color: var(--mc-text-secondary);
+            line-height: var(--mc-leading-relaxed);
+        }
+        .section h2 {
+            text-align: center;
+        }
+        .section-lead {
+            max-width: 780px;
+            margin: 0 auto var(--mc-space-6);
+            text-align: center;
+        }
+        .inline-link {
+            color: var(--mc-text-link);
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: transparent;
-            color: var(--mc-text-body);
-            min-height: 100vh;
-            padding: 40px 20px;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: var(--mc-surface-4);
-            backdrop-filter: blur(var(--mc-blur-xl));
-            
-            border-radius: var(--mc-radius-xl);
-            padding: 60px;
-            box-shadow: 0 20px 60px var(--mc-surface-2);
-        }
-        h1 {
-            font-size: 2.5em;
-            color: #1e5631;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .subtitle {
-            text-align: center;
-            color: var(--mc-text-body);
-            font-size: 1.2em;
-            margin-bottom: 40px;
-        }
-        .cta-button {
-            display: block;
-            width: 250px;
-            margin: 40px auto;
-            padding: 15px 30px;
-            background-color: transparent;
-            color: var(--mc-text-body);
-            color: var(--mc-text-primary);
-            text-align: center;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1em;
-            transition: transform 0.2s;
-        }
-        .cta-button:hover {
-            transform: scale(1.05);
-        }
-        .features {
+        .layout-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--mc-space-3);
         }
-        .feature {
-            padding: 30px;
-            background: var(--mc-surface-2); backdrop-filter: blur(var(--mc-blur-lg));
-            border-radius: var(--mc-radius-tag);
+        .layout-card {
+            margin: 0;
+            padding: var(--mc-space-3);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-lg);
+            background: var(--mc-surface-2);
+        }
+        .layout-card figcaption {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: var(--mc-space-2);
+        }
+        .layout-card b {
+            color: var(--mc-text-emphasis);
+            font-size: var(--mc-font-size-label);
+        }
+        .layout-card span {
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-2xs);
+        }
+        .mini {
+            display: grid;
+            gap: 4px;
+            aspect-ratio: 4 / 3;
+            padding: var(--mc-space-1);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-sm);
+            background: var(--mc-surface-3);
+        }
+        .mini i {
+            display: block;
+            border: var(--mc-border-width) solid var(--mc-border-brand);
+            border-radius: var(--mc-radius-xs);
+            background: var(--mc-color-brand-tint-strong);
+        }
+        .lg-12 { grid-template-columns: repeat(2, 1fr); }
+        .lg-21 { grid-template-rows: repeat(2, 1fr); }
+        .lg-13 { grid-template-columns: repeat(3, 1fr); }
+        .lg-31 { grid-template-rows: repeat(3, 1fr); }
+        .lg-22 { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); }
+        .lg-14 { grid-template-columns: repeat(4, 1fr); }
+        .lg-23 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(2, 1fr); }
+        .lg-33 { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
+        .layout-note {
+            margin: var(--mc-space-4) 0 0;
+            text-align: center;
+            font-size: var(--mc-font-size-caption);
+            color: var(--mc-text-muted);
+        }
+        .layout-note a {
+            color: var(--mc-text-link);
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+        }
+
+        .idea-grid,
+        .free-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--mc-space-4);
+        }
+        .free-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .card {
+            padding: var(--mc-space-5);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-lg);
+            background: var(--mc-surface-2);
+        }
+        .card .ico {
+            display: block;
+            margin-bottom: var(--mc-space-2);
+            font-size: var(--mc-font-size-h3);
+            line-height: 1;
+        }
+        .card h3 {
+            margin: 0 0 var(--mc-space-2);
+            color: var(--mc-text-emphasis);
+        }
+        .card p {
+            margin: 0;
+            color: var(--mc-text-secondary);
+            font-size: var(--mc-font-size-body-sm);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--mc-space-3);
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            counter-reset: step;
+        }
+        .steps li {
+            padding: var(--mc-space-4);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-lg);
+            background: var(--mc-surface-2);
+            counter-increment: step;
+        }
+        .steps li::before {
+            content: counter(step);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            margin-bottom: var(--mc-space-2);
+            border-radius: var(--mc-radius-circle);
+            background: var(--mc-color-theme-accent);
+            color: var(--mc-green-900);
+            font-size: var(--mc-font-size-caption);
+            font-weight: var(--mc-font-weight-bold);
+        }
+        .steps b {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--mc-text-emphasis);
+        }
+        .steps p {
+            margin: 0;
+            color: var(--mc-text-secondary);
+            font-size: var(--mc-font-size-body-sm);
+            line-height: var(--mc-leading-relaxed);
+        }
+
+        .prose {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+        .prose p {
+            color: var(--mc-text-secondary);
+            line-height: var(--mc-leading-relaxed);
+        }
+        .prose a {
+            color: var(--mc-text-link);
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
+        }
+
+        .ratio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--mc-space-3);
+        }
+        .ratio-card {
+            padding: var(--mc-space-3);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-lg);
+            background: var(--mc-surface-2);
             text-align: center;
         }
-        .feature i {
-            font-size: 2em;
-            color: #228b22;
-            margin-bottom: 15px;
+        .ratio-swatch {
+            width: 62px;
+            margin: 0 auto var(--mc-space-2);
+            border: var(--mc-border-width) solid var(--mc-border-brand);
+            border-radius: var(--mc-radius-xs);
+            background: var(--mc-color-brand-tint-strong);
+        }
+        .rs-11 { aspect-ratio: 1 / 1; }
+        .rs-45 { aspect-ratio: 4 / 5; }
+        .rs-916 { aspect-ratio: 9 / 16; }
+        .rs-169 { aspect-ratio: 16 / 9; width: 88px; }
+        .ratio-card b {
+            display: block;
+            color: var(--mc-text-emphasis);
+        }
+        .ratio-card span {
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-2xs);
+        }
+
+        .faq-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: var(--mc-space-6);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-panel);
+            background: var(--mc-card-bg);
+            backdrop-filter: blur(var(--mc-blur-lg));
+        }
+        .faq-title {
+            margin: 0 0 var(--mc-space-5);
+            text-align: center;
+        }
+        .faq-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--mc-space-3);
+        }
+        .faq-item {
+            padding: var(--mc-space-4);
+            border: var(--mc-border-width) solid var(--mc-border);
+            border-radius: var(--mc-radius-item);
+            background: var(--mc-surface-2);
+        }
+        .faq-question {
+            margin: 0;
+        }
+        .faq-answer {
+            margin: var(--mc-space-2) 0 0;
+        }
+
+        .final {
+            margin-top: var(--mc-space-16);
+            text-align: center;
+        }
+        .final .cta {
+            margin-bottom: var(--mc-space-4);
+        }
+        .fineprint {
+            margin: var(--mc-space-2) auto 0;
+            max-width: 780px;
+            color: var(--mc-text-muted);
+            font-size: var(--mc-font-size-caption);
+            line-height: var(--mc-leading-relaxed);
+        }
+        .language-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--mc-space-1) var(--mc-space-4);
+            margin-top: var(--mc-space-6);
+            font-size: var(--mc-font-size-label);
+        }
+        .language-links a {
+            color: var(--mc-text-secondary);
+        }
+        .page-footer {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 var(--mc-space-5) var(--mc-space-8);
+        }
+
+        @media (max-width: 900px) {
+            .page-card { padding: var(--mc-space-8) var(--mc-space-6); }
+            .idea-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 680px) {
+            .page-wrap { padding: var(--mc-space-6) var(--mc-space-3) var(--mc-space-12); }
+            .page-card { padding: var(--mc-space-6) var(--mc-space-4); border-radius: var(--mc-radius-2xl); }
+            .hero h1 { font-size: var(--mc-font-size-h1-compact); }
+            .layout-grid { grid-template-columns: repeat(2, 1fr); }
+            .idea-grid, .free-grid, .ratio-grid { grid-template-columns: 1fr; }
+            .ratio-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps { grid-template-columns: 1fr; }
+            .cta-row .cta { width: 100%; }
+            .faq-section { padding: var(--mc-space-4); }
         }
     </style>
     <link rel="stylesheet" href="/assets/css/design-tokens.css">
     <link rel="stylesheet" href="/assets/css/components.css">
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/christmas-collage-maker/#webpage","url":"https://www.mecollage.top/christmas-collage-maker/","name":"Christmas Collage Maker - Create Festive Holiday Photo Collages","description":"Create festive Christmas photo collages with MeCollage. Free online holiday collage maker with Christmas stickers and decorations.","inLanguage":"en"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.mecollage.top/"},{"@type":"ListItem","position":2,"name":"🎄 Christmas Collage Maker","item":"https://www.mecollage.top/christmas-collage-maker/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/christmas-collage-maker/#webpage","url":"https://www.mecollage.top/christmas-collage-maker/","name":"Christmas Collage Maker - Free Christmas Photo Collage","description":"Make a Christmas photo collage in your browser. Use 2, 4, 6 or more photos, add text and emoji, and download a PNG. Free, no signup, no watermark.","inLanguage":"en"},{"@type":"FAQPage","@id":"https://www.mecollage.top/christmas-collage-maker/#faq","mainEntity":[{"@type":"Question","name":"What size should a Christmas collage be?","acceptedAnswer":{"@type":"Answer","text":"Use 1:1 for feed posts, 4:5 for portrait posts, 9:16 for Stories and 16:9 for card fronts or thumbnails. Choose the ratio before you add photos and the editor keeps it through export. If you need exact pixels for a platform, check its size chart first."}},{"@type":"Question","name":"How many photos can I use in a Christmas collage?","acceptedAnswer":{"@type":"Answer","text":"Up to 20 photos in one collage. Four photos in a 2 × 2 grid suit a Christmas card; nine in a 3 × 3 grid suit a month-in-review post. The more photos you add, the smaller each cell becomes."}},{"@type":"Question","name":"Is the Christmas collage maker free?","acceptedAnswer":{"@type":"Answer","text":"Yes. The editor is free, exports PNG without a watermark, and does not limit how many collages you make."}},{"@type":"Question","name":"Do I need to sign up to make a Christmas collage?","acceptedAnswer":{"@type":"Answer","text":"No account, email address or social login is needed. Open the editor, add photos and download the result."}},{"@type":"Question","name":"Can I make a Christmas collage on my phone?","acceptedAnswer":{"@type":"Answer","text":"Yes. MeCollage runs in a mobile browser, so you can pick photos from your camera roll and export a PNG without installing an app. A larger screen makes fine-tuning text and spacing easier."}},{"@type":"Question","name":"Are my photos uploaded to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Photos are processed in your browser with Canvas and never uploaded. Closing the tab clears the current collage, so download the PNG when you are happy with it."}}]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.mecollage.top/"},{"@type":"ListItem","position":2,"name":"Christmas Collage Maker","item":"https://www.mecollage.top/christmas-collage-maker/"}]}]}</script>
 </head>
 <body>
     <div class="ghibli-background"></div>
-    <div class="container">
-        <h1>🎄 Christmas Collage Maker</h1>
-        <p class="subtitle">Create festive holiday photo collages for Christmas</p>
-<p style="color: rgba(255, 255, 255, 0.88); line-height: 1.8; text-align: center; margin: 0 auto 2.5rem; max-width: 820px;">Need a single holiday photo in a square format? Crop to 1:1 with the <a href="/tools/squarecrop/" style="color: var(--mc-color-brand);">square crop</a> tool, or keep the whole scene using the <a href="/tools/square/" style="color: var(--mc-color-brand);">square image converter</a>.</p>
+    <main class="page-wrap">
+        <article class="page-card">
+            <nav class="crumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span>Christmas Collage Maker</span></nav>
 
-        <a href="/" class="cta-button">
-            <i class="fas fa-snowflake"></i> Start Creating
-        </a>
+            <header class="hero">
+                <p class="eyebrow">Christmas 2026</p>
+                <h1>Christmas Collage Maker</h1>
+                <p class="sub">Turn your holiday photos into a Christmas collage in your browser — free, no signup, no watermark.</p>
+                <div class="quick">
+                    <p><strong>Quick answer:</strong> Make a Christmas photo collage with 2, 4, 6, 9 or more photos. Upload your pictures, choose a ratio, arrange them in a grid, then add text or emoji and download a PNG. Everything runs in your browser, so your photos never leave your device.</p>
+                </div>
+                <div class="cta-row">
+                    <a class="cta cta--primary" href="/#christmas">Start a Christmas collage</a>
+                    <a class="cta" href="#layouts">See 8 layout ideas</a>
+                </div>
+                <ul class="trust">
+                    <li>Free to use</li>
+                    <li>No signup</li>
+                    <li>No watermark</li>
+                    <li>Up to 20 photos</li>
+                    <li>Photos stay on your device</li>
+                </ul>
+            </header>
 
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-snowflake"></i>
-                <h3>Christmas Stickers</h3>
-                <p>🎄🎅🎁⭐❄️ Holiday-themed emojis and decorations</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-palette"></i>
-                <h3>Festive Filters</h3>
-                <p>Apply seasonal filters to enhance your holiday photos</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-font"></i>
-                <h3>Custom Messages</h3>
-                <p>Add "Merry Christmas" and personalized greetings</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-gift"></i>
-                <h3>Perfect for Sharing</h3>
-                <p>Create digital Christmas cards and social media posts</p>
-            </div>
-        </div>
+            <section class="section" id="layouts">
+                <div class="section-head">
+                    <h2>8 Christmas collage layouts</h2>
+                    <p>The editor fits photos to the ratio automatically. To match one of these arrangements exactly, open <b>Layout → Custom</b> and set the rows and columns.</p>
+                </div>
+                <div class="layout-grid">
+                    <figure class="layout-card"><div class="mini lg-12"><i></i><i></i></div><figcaption><b>2 photos side by side</b><span>1 × 2 · two favourites</span></figcaption></figure>
+                    <figure class="layout-card"><div class="mini lg-21"><i></i><i></i></div><figcaption><b>2 photos stacked</b><span>2 × 1 · a tall before / after</span></figcaption></figure>
+                    <figure class="layout-card"><div class="mini lg-13"><i></i><i></i><i></i></div><figcaption><b>3 photos in a row</b><span>1 × 3 · a festive strip</span></figcaption></figure>
+                    <figure class="layout-card"><div class="mini lg-31"><i></i><i></i><i></i></div><figcaption><b>3 photos stacked</b><span>3 × 1 · a tall card</span></figcaption></figure>
+                    <figure class="layout-card"><div class="mini lg-22"><i></i><i></i><i></i><i></i></div><figcaption><b>4 photos grid</b><span>2 × 2 · the classic card</span></figcaption></figure>
+                    <figure class="layout-card"><div class="mini lg-14"><i></i><i></i><i></i><i></i></div><figcaption><b>4 photos strip</b><span>1 × 4 · photo-booth strip</span></figcaption></figure>
+                    <figure class="layout-card"><div class="mini lg-23"><i></i><i></i><i></i><i></i><i></i><i></i></div><figcaption><b>6 photos grid</b><span>2 × 3 · a December week</span></figcaption></figure>
+                    <figure class="layout-card"><div class="mini lg-33"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><figcaption><b>9 photos grid</b><span>3 × 3 · the month in nine moments</span></figcaption></figure>
+                </div>
+                <p class="layout-note">These are layout examples, not downloadable templates — every one is built with the same grid editor. For more control, read the <a href="/blog/custom-grid-layout-feature/">custom grid layouts guide</a>.</p>
+            </section>
 
-        <h2 style="text-align: center; color: #1e5631; margin: 50px 0 30px;">Christmas Collage Ideas</h2>
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-sleigh"></i>
-                <h3>Family Christmas</h3>
-                <p>Combine annual Christmas photos to show how your family grows</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-cookie-bite"></i>
-                <h3>Baking Memories</h3>
-                <p>Collage of Christmas cookies, gingerbread houses, and treats</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-tree"></i>
-                <h3>Decorating Fun</h3>
-                <p>Tree trimming, light hanging, and home decoration moments</p>
-            </div>
-            <div class="feature">
-                <i class="fas fa-gift"></i>
-                <h3>Gift Opening</h3>
-                <p>Capture the excitement of Christmas morning gift exchanges</p>
-            </div>
-        </div>
+            <section class="section" id="ideas">
+                <div class="section-head">
+                    <h2>Christmas photo collage ideas</h2>
+                    <p>Six ideas that work with any camera roll. Pick the layout first, then the photos.</p>
+                </div>
+                <div class="idea-grid">
+                    <article class="card"><span class="ico" aria-hidden="true">📈</span><h3>Family through the years</h3><p>One photo from each Christmas, oldest to newest, in a 4-photo or 9-photo grid. Same wall, same people, a different year — add “Merry Christmas” in the corner and keep the spacing wide so faces stay visible.</p></article>
+                    <article class="card"><span class="ico" aria-hidden="true">🍪</span><h3>Baking day</h3><p>Gingerbread, cookies, flour on the counter: six photos in a 2 × 3 grid with a retro or glow filter. A short line like “Baking memories” works better than a long caption.</p></article>
+                    <article class="card"><span class="ico" aria-hidden="true">🎄</span><h3>Tree decorating</h3><p>Before, during and after in a 2 × 2 grid. If the room is dark, lift the exposure with a filter and keep the tree in the same corner of each frame.</p></article>
+                    <article class="card"><span class="ico" aria-hidden="true">🎁</span><h3>Christmas morning</h3><p>The gift-opening sequence fits a 9-photo grid. Put the quiet “before” photo first, the happiest reaction last, and leave the centre cell for the family portrait.</p></article>
+                    <article class="card"><span class="ico" aria-hidden="true">💌</span><h3>Christmas card</h3><p>Two or four photos, a 1:1 or 4:5 ratio and a short greeting. Download the PNG and send it as an e-card, or print it as the front of a physical card.</p></article>
+                    <article class="card"><span class="ico" aria-hidden="true">🗓️</span><h3>December recap</h3><p>One photo per December moment, nine in a 3 × 3 grid, posted on New Year’s Eve. It doubles as a year-in-review post without a second edit.</p></article>
+                </div>
+            </section>
 
-        <a href="/" class="cta-button">
-            <i class="fas fa-snowflake"></i> Create Your Christmas Collage
-        </a>
-    </div>
+            <section class="section" id="how-to">
+                <div class="section-head">
+                    <h2>How to make a Christmas collage</h2>
+                    <p>Five steps, no account needed.</p>
+                </div>
+                <ol class="steps">
+                    <li><b>Pick your photos</b><p>Choose 2 to 20 photos from your phone or computer. Portrait and landscape shots can be mixed in one collage.</p></li>
+                    <li><b>Choose a ratio</b><p>1:1 for feed posts, 4:5 for portrait posts, 9:16 for Stories, 16:9 for cards and thumbnails. 3:4 and 4:3 are there for printing.</p></li>
+                    <li><b>Arrange the grid</b><p>Leave it on Auto and the editor fits the photos to the ratio. Switch to Custom to set rows and columns, from 1 × 1 up to 10 × 10.</p></li>
+                    <li><b>Decorate</b><p>Add text, emoji stickers and a filter, then adjust the gutter spacing and rounded corners until the collage feels finished.</p></li>
+                    <li><b>Export</b><p>Download a PNG and post it, print it, or attach it to a message. Nothing is stored on our side.</p></li>
+                </ol>
+                <p class="section-lead">Photo order matters. Put the strongest photo first, keep the middle cells for the family portrait, and drag photos to reorder them before you decorate. A two- or four-photo collage is usually easier to read on a phone than a nine-photo grid, so start small and add photos only if the story needs them.</p>
+            </section>
 
-<nav class="language-links" aria-label="Language versions" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
-  <a class="language-link" data-language-nav="true" href="/christmas-collage-maker/" hreflang="en" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
-  <a class="language-link" data-language-nav="true" href="/zh/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
-  <a class="language-link" data-language-nav="true" href="/tw/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
-  <a class="language-link" data-language-nav="true" href="/ja/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
-  <a class="language-link" data-language-nav="true" href="/es/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
-</nav>
-    <nav class="footer-tools footer-tools--standalone" aria-label="Tools" data-i18n-aria-label="nav.tools">
-    <a href="/" data-i18n="tool.collage_maker">Collage Maker</a>
-    <a href="/tools/squarecrop/" data-i18n="tool.square_crop">Square Crop</a>
-    <a href="/tools/roundedcorners/" data-i18n="tool.rounded_corners">Rounded Corners</a>
-    <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
-    <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
-    <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+            <section class="section" id="free">
+                <div class="section-head">
+                    <h2>A free Christmas collage maker that runs in your browser</h2>
+                    <p>MeCollage is a browser tool, not a subscription. No account, no watermark, no export limit.</p>
+                </div>
+                <div class="free-grid">
+                    <div class="card"><span class="ico" aria-hidden="true">🆓</span><h3>Free, with no watermark</h3><p>The collage you export is the collage you keep. No logo, no upsell, no paywall at the download step.</p></div>
+                    <div class="card"><span class="ico" aria-hidden="true">🔒</span><h3>Photos are not uploaded</h3><p>Images are loaded locally in your browser and never sent to a server. Closing the tab clears them.</p></div>
+                    <div class="card"><span class="ico" aria-hidden="true">🖼️</span><h3>Up to 20 photos</h3><p>Enough for a card, a recap, or a full month of December moments in one grid.</p></div>
+                    <div class="card"><span class="ico" aria-hidden="true">📱</span><h3>Works on phones and tablets</h3><p>Open it in Safari, Chrome, Edge or Firefox — there is no app to install.</p></div>
+                </div>
+                <p class="section-lead">Because everything runs in the browser, there is nothing to install and nothing to wait for. Pick a ratio, arrange the grid, add a greeting and download the PNG in the same tab. The editor keeps no copy of your photos: once you close the tab, the collage is gone unless you saved it.</p>
+            </section>
+
+            <section class="section" id="holiday">
+                <div class="section-head"><h2>More holiday photo collage ideas</h2></div>
+                <div class="prose">
+                    <p>The same layouts work for the rest of the year: a 4-photo grid for Thanksgiving dinner, a 9-photo recap for New Year’s Eve, a two-photo before/after for a winter birthday. Change the greeting and pick a different filter — the structure stays the same.</p>
+                    <p>For step-by-step holiday projects, read the <a href="/blog/holiday-collage-guide/">holiday collage guide</a>, or browse the <a href="/blog/collage-design-tips/">collage design tips</a> before you start. If you want a general-purpose tool instead, compare the <a href="/free-collage-maker/">free collage maker</a> options first. A Christmas collage also makes a useful family card: choose a 4:5 or 1:1 ratio, add the year in the corner, and keep the greeting short enough to read on a phone.</p>
+                </div>
+            </section>
+
+            <section class="section" id="sizes">
+                <div class="section-head">
+                    <h2>What size should a Christmas collage be?</h2>
+                    <p>Match the ratio to where the collage will live. The editor keeps the ratio you choose and exports a PNG.</p>
+                </div>
+                <div class="ratio-grid">
+                    <div class="ratio-card"><div class="ratio-swatch rs-11"></div><b>1:1 square</b><span>Instagram and Facebook feed</span></div>
+                    <div class="ratio-card"><div class="ratio-swatch rs-45"></div><b>4:5 portrait</b><span>Portrait posts and cards</span></div>
+                    <div class="ratio-card"><div class="ratio-swatch rs-916"></div><b>9:16 vertical</b><span>Stories, Reels, TikTok</span></div>
+                    <div class="ratio-card"><div class="ratio-swatch rs-169"></div><b>16:9 wide</b><span>Video thumbnails and card fronts</span></div>
+                </div>
+                <p class="layout-note">Need an exact pixel size? Check the <a href="/social-media-image-sizes/">social media image size chart</a> or use the <a href="/tools/aspectratiocalculator/">aspect ratio calculator</a>. Working with one photo instead? <a href="/tools/squarecrop/">Crop it to a square</a> with the square crop tool, keep the whole scene with the <a href="/tools/square/">square image converter</a>, or round the corners with the <a href="/tools/roundedcorners/">rounded corners</a> tool.</p>
+            </section>
+
+            <section class="section" id="faq">
+                <div class="faq-section">
+                    <h2 class="faq-title">Christmas collage FAQ</h2>
+                    <div class="faq-list">
+                        <div class="faq-item"><h3 class="faq-question">What size should a Christmas collage be?</h3><p class="faq-answer">Use 1:1 for feed posts, 4:5 for portrait posts, 9:16 for Stories and 16:9 for card fronts or thumbnails. Choose the ratio before you add photos and the editor keeps it through export. If you need exact pixels for a platform, check its size chart first.</p></div>
+                        <div class="faq-item"><h3 class="faq-question">How many photos can I use in a Christmas collage?</h3><p class="faq-answer">Up to 20 photos in one collage. Four photos in a 2 × 2 grid suit a Christmas card; nine in a 3 × 3 grid suit a month-in-review post. The more photos you add, the smaller each cell becomes.</p></div>
+                        <div class="faq-item"><h3 class="faq-question">Is the Christmas collage maker free?</h3><p class="faq-answer">Yes. The editor is free, exports PNG without a watermark, and does not limit how many collages you make.</p></div>
+                        <div class="faq-item"><h3 class="faq-question">Do I need to sign up to make a Christmas collage?</h3><p class="faq-answer">No account, email address or social login is needed. Open the editor, add photos and download the result.</p></div>
+                        <div class="faq-item"><h3 class="faq-question">Can I make a Christmas collage on my phone?</h3><p class="faq-answer">Yes. MeCollage runs in a mobile browser, so you can pick photos from your camera roll and export a PNG without installing an app. A larger screen makes fine-tuning text and spacing easier.</p></div>
+                        <div class="faq-item"><h3 class="faq-question">Are my photos uploaded to a server?</h3><p class="faq-answer">No. Photos are processed in your browser with Canvas and never uploaded. Closing the tab clears the current collage, so download the PNG when you are happy with it.</p></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="final">
+                <a class="cta cta--primary" href="/#christmas">Start a Christmas collage</a>
+                <p class="fineprint">Last updated: November 2026</p>
+                <p class="fineprint">Santa Claus, candy canes, wreaths and other traditional Christmas symbols are fine to use in your own photos. Please don’t add brand logos, film or TV characters, or artwork you don’t have the rights to.</p>
+            </section>
+
+            <nav class="language-links" aria-label="Language versions">
+                <a class="language-link" data-language-nav="true" href="/christmas-collage-maker/" hreflang="en" aria-current="page">English</a>
+                <a class="language-link" data-language-nav="true" href="/zh/" hreflang="zh-CN">简体中文</a>
+                <a class="language-link" data-language-nav="true" href="/tw/" hreflang="zh-TW">繁體中文</a>
+                <a class="language-link" data-language-nav="true" href="/ja/" hreflang="ja">日本語</a>
+                <a class="language-link" data-language-nav="true" href="/es/" hreflang="es">Español</a>
             </nav>
-<script src="/assets/js/ui.js" defer></script>
+        </article>
+    </main>
+    <nav class="footer-tools footer-tools--standalone page-footer" aria-label="Tools" data-i18n-aria-label="nav.tools">
+        <a href="/" data-i18n="tool.collage_maker">Collage Maker</a>
+        <a href="/tools/squarecrop/" data-i18n="tool.square_crop">Square Crop</a>
+        <a href="/tools/roundedcorners/" data-i18n="tool.rounded_corners">Rounded Corners</a>
+        <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
+        <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
+        <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+    </nav>
+    <script src="/assets/js/ui.js" defer></script>
 </body>
 </html>
