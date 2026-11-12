@@ -159,9 +159,14 @@ const EN_TOOL_INTENT_SIGNALS = {
   square: /(fill|blur|color|resize|no crop|without cropping)/i,
   squarecrop: /crop/i,
 };
-/** Phase D：sitemap 中 square/squarecrop 10 页的 lastmod 期望 */
-const TOOL_LASTMOD_URLS = Object.values(TOOL_INTENT_BASES).flatMap((base) =>
-  LANGUAGES.map((lang) => langUrl(lang.key, base)),
+/** Phase D / 2026-11-12：sitemap 中 square/squarecrop 10 页的 lastmod 期望（EN 为 Phase D 日期，本地化页 2026-11-12 内容修复） */
+const TOOL_LASTMOD_EXPECTED = Object.fromEntries(
+  LANGUAGES.flatMap((lang) =>
+    Object.values(TOOL_INTENT_BASES).map((base) => [
+      langUrl(lang.key, base),
+      lang.key === 'en' ? '2026-11-06' : '2026-11-12',
+    ]),
+  ),
 );
 
 /** 3 篇 Phase C 扩写 blog（URL 不变，不 301） */
@@ -1185,16 +1190,16 @@ async function runSitemapChecks() {
   await runCase({
     id: 'C7',
     group: 'C-sitemap',
-    name: 'sitemap lastmod：square / squarecrop 10 页 = 2026-11-06（Phase D 更新）',
+    name: 'sitemap lastmod：square / squarecrop 10 页（EN = 2026-11-06；本地化 = 2026-11-12）',
     async fn(ctx) {
       const byPath = new Map(entries.map((entry) => [normalizeSlashes(new URL(entry.loc, PROD_ORIGIN).pathname), entry]));
-      const rows = TOOL_LASTMOD_URLS.map((url) => {
+      const rows = Object.entries(TOOL_LASTMOD_EXPECTED).map(([url, expected]) => {
         const entry = byPath.get(url);
-        return { url, lastmod: entry?.lastmod ?? null, inSitemap: Boolean(entry), ok: Boolean(entry) && entry.lastmod === '2026-11-06' };
+        return { url, expected, lastmod: entry?.lastmod ?? null, inSitemap: Boolean(entry), ok: Boolean(entry) && entry.lastmod === expected };
       });
       const failed = rows.filter((row) => !row.ok);
       ctx.measure('pages', rows);
-      ctx.check(`10 个 square/squarecrop 页 lastmod 均为 2026-11-06（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
+      ctx.check(`10 个 square/squarecrop 页 lastmod 符合预期（EN 2026-11-06 / 本地化 2026-11-12）（${rows.length - failed.length}/${rows.length}）`, failed.length === 0, {
         actual: failed,
       });
     },
