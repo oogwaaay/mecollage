@@ -99,6 +99,7 @@ const GROUP_TITLES = {
   blurredframe: '/tools/blurredframe/（Blurred Frame）',
   aspectratio: '/tools/aspectratiocalculator/（Aspect Ratio Calculator）',
   socialmedia: '/social-media-image-sizes/（Social Media Image Sizes）',
+  split: '/split-image/（Split Image）',
   coverage: '覆盖范围与人工确认项',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
@@ -2564,6 +2565,29 @@ async function runSocialMediaSizesLocalesGroup() {
   });
 }
 
+async function runSplitGroup() {
+  await runCase(page, {
+    id: 'SPL-01',
+    group: 'split',
+    page: '/split-image/',
+    name: '切图工具：上传 / 2×2 / 3×3 / 网格预览',
+    async fn(ctx) {
+      await gotoPage('/split-image/');
+      await page.setFiles('#splitFile', [FIXTURES.landscape]);
+      await page.waitFor("document.getElementById('splitWorkspace') && !document.getElementById('splitWorkspace').hidden", { timeoutMs: 10000 });
+      const first = await page.eval("({ status: document.getElementById('splitStatus').textContent, w: document.getElementById('splitPreview').width, h: document.getElementById('splitPreview').height })");
+      ctx.check('上传后预览出现', first.w > 0 && first.h > 0, { actual: first });
+      ctx.check('默认 2×2 = 4 张', /4/.test(first.status), { actual: first.status });
+      await page.eval("document.querySelector('[data-mode=\"3x3\"]').click(); 1");
+      await sleep(200);
+      const second = await page.eval("({ status: document.getElementById('splitStatus').textContent, cols: getComputedStyle(document.getElementById('splitGrid')).getPropertyValue('--cols') })");
+      ctx.check('3×3 = 9 张', /9/.test(second.status), { actual: second.status });
+      ctx.check('网格列数为 3', second.cols.trim() === '3', { actual: second.cols });
+      await ctx.screenshot('split-tool');
+    },
+  });
+}
+
 async function runCoverageGroup() {
   await runCase(page, {
     id: 'ENV-01',
@@ -2814,6 +2838,7 @@ async function main() {
   await runAspectRatioGroup();
   await runSocialMediaSizesGroup();
   await runSocialMediaSizesLocalesGroup();
+  await runSplitGroup();
   await runCoverageGroup();
 
   // 5) 汇总与报告

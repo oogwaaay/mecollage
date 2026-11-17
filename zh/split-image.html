@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="免费在线切图：把一张图片切成 2×2、3×3、横切或竖切，打包下载全部切片。适合小红书、朋友圈九宫格，不上传、无需注册。" />
+    <meta name="keywords" content="在线切图, 九宫格切图, 图片分割, 切片工具, 小红书九宫格" />
+    <meta property="og:title" content="在线图片分割 – 免费九宫格切图" />
+    <meta property="og:description" content="把一张图片切成 2×2、3×3 或长条，打包下载全部切片。浏览器内完成，不上传。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/zh/split-image/" />
+    <title>在线图片分割 – 免费九宫格切图 | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/zh/split-image/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/split-image/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/split-image/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/split-image/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/split-image/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/split-image/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/split-image/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/zh-free-collage-maker.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="在线图片分割 – 免费九宫格切图 - MeCollage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/split-image.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 760px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+        .faq-item { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .faq-question { font-size: 1.05em; margin-bottom: 6px; }
+        .faq-item p { line-height: 1.7; color: var(--mc-text-body); }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .split-label { font-weight: 600; color: var(--mc-text-primary); }
+        .split-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/zh/split-image/#webpage","url":"https://www.mecollage.top/zh/split-image/","name":"在线图片分割 – 免费九宫格切图","description":"免费在线切图：把一张图片切成 2×2、3×3、横切或竖切，打包下载全部切片。适合小红书、朋友圈九宫格，不上传、无需注册。","inLanguage":"zh-CN"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://www.mecollage.top/zh/"},{"@type":"ListItem","position":2,"name":"图片分割","item":"https://www.mecollage.top/zh/split-image/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/zh/split-image/#faq","mainEntity":[{"@type":"Question","name":"怎么把一张图切成九宫格？","acceptedAnswer":{"@type":"Answer","text":"选 3×3 切法，加入图片后点「下载 ZIP」，会得到 tile-1.png 到 tile-9.png 共 9 张切片。"}},{"@type":"Question","name":"支持哪些切法？","acceptedAnswer":{"@type":"Answer","text":"横切 2 块、竖切 2 块、2×2 和 3×3。预览里的网格线就是实际切割位置。"}},{"@type":"Question","name":"图片会被上传吗？","acceptedAnswer":{"@type":"Answer","text":"不会。图片在浏览器里打开，用 canvas 切割并在本地打包成 ZIP。"}},{"@type":"Question","name":"切片是什么格式？","acceptedAnswer":{"@type":"Answer","text":"PNG，一张切片一个文件，全部放在一个 ZIP 里，透明背景会保留。"}},{"@type":"Question","name":"切图会损失画质吗？","acceptedAnswer":{"@type":"Answer","text":"不会。每张切片保留原图像素和分辨率，只是按切割线裁掉边缘。"}},{"@type":"Question","name":"这个切图工具免费吗？","acceptedAnswer":{"@type":"Answer","text":"免费，无需注册，也没有水印。"}}]}]}</script>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>在线图片分割</h1>
+        <p class="subtitle">把一张图切成 2×2、3×3 或长条，打包下载全部切片。</p>
+
+        <section class="split-tool" id="splitTool" aria-label="图片分割工具">
+            <div class="split-drop" id="splitDrop">
+                <input type="file" id="splitFile" accept="image/*" hidden>
+                <button type="button" id="splitPick"><i class="fas fa-upload"></i> 选择图片</button>
+                <p>支持 PNG、JPG、WebP · 在浏览器里处理，不上传</p>
+            </div>
+            <div class="split-workspace" id="splitWorkspace" hidden>
+                <div class="split-preview-wrap">
+                    <canvas id="splitPreview"></canvas>
+                    <div class="split-grid" id="splitGrid" aria-hidden="true"></div>
+                </div>
+                <div class="split-controls">
+                    <span class="split-label">切成</span>
+                    <div class="split-modes" role="group" aria-label="切割方式">
+                        <button type="button" data-mode="2x1" aria-pressed="false">横切 2 块</button>
+                        <button type="button" data-mode="1x2" aria-pressed="false">竖切 2 块</button>
+                        <button type="button" data-mode="2x2" aria-pressed="true">2×2</button>
+                        <button type="button" data-mode="3x3" aria-pressed="false">3×3</button>
+                    </div>
+                    <p class="split-status" id="splitStatus" role="status"></p>
+                    <button type="button" class="split-download" id="splitDownload"><i class="fas fa-download"></i> 下载 ZIP</button>
+                </div>
+            </div>
+        </section>
+
+        <p class="intro">发小红书九宫格、做轮播图、把一张大图切成打印小页，以前要一张张裁。这里一次切完：图片留在你的设备上，网格线就是切割位置，所有切片打包成一个 ZIP。</p>
+
+        <div class="features">
+            <div class="feature"><i class="fas fa-table-cells"></i><h3>九宫格</h3><p>3×3 做小红书九宫格，2×2 做四宫格。</p></div>
+            <div class="feature"><i class="fas fa-images"></i><h3>轮播 / 长条</h3><p>横切 2 块或竖切 2 块，适合轮播、故事和打印排版。</p></div>
+            <div class="feature"><i class="fas fa-lock"></i><h3>不上传</h3><p>canvas 在本地切割像素，不发送到服务器。</p></div>
+        </div>
+
+        <h2>切图只要 3 步</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 加入图片</h3><p>拖入文件，或从设备里选择一张图片。</p></div>
+            <div class="step"><h3>2. 选切法</h3><p>横切 2 块、竖切 2 块、2×2 或 3×3，预览会显示切割线。</p></div>
+            <div class="step"><h3>3. 下载 ZIP</h3><p>每张切片都是原分辨率的 PNG，全部打包在一个压缩包里。</p></div>
+        </div>
+
+        <p class="links">想把切片再加文字或边框拼回去？用 <a href="/zh/combine-images/">在线图片拼接</a>。想做竖版长图，试试 <a href="/zh/vertical-collage/">纵向拼图</a>。</p>
+
+        <h2 id="faq-heading">图片分割常见问题</h2>
+        <div class="faq">
+            <div class="faq-item"><h3 class="faq-question">怎么把一张图切成九宫格？</h3><p>选 3×3 切法，加入图片后点「下载 ZIP」，会得到 tile-1.png 到 tile-9.png 共 9 张切片。</p></div>
+            <div class="faq-item"><h3 class="faq-question">支持哪些切法？</h3><p>横切 2 块、竖切 2 块、2×2 和 3×3。预览里的网格线就是实际切割位置。</p></div>
+            <div class="faq-item"><h3 class="faq-question">图片会被上传吗？</h3><p>不会。图片在浏览器里打开，用 canvas 切割并在本地打包成 ZIP。</p></div>
+            <div class="faq-item"><h3 class="faq-question">切片是什么格式？</h3><p>PNG，一张切片一个文件，全部放在一个 ZIP 里，透明背景会保留。</p></div>
+            <div class="faq-item"><h3 class="faq-question">切图会损失画质吗？</h3><p>不会。每张切片保留原图像素和分辨率，只是按切割线裁掉边缘。</p></div>
+            <div class="faq-item"><h3 class="faq-question">这个切图工具免费吗？</h3><p>免费，无需注册，也没有水印。</p></div>
+        </div>
+    </div>
+
+<nav class="language-links" aria-label="语言版本" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
+  <a class="language-link" data-language-nav="true" href="/split-image/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
+  <a class="language-link" data-language-nav="true" href="/zh/split-image/" hreflang="zh-CN" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
+  <a class="language-link" data-language-nav="true" href="/tw/split-image/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
+  <a class="language-link" data-language-nav="true" href="/ja/split-image/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
+  <a class="language-link" data-language-nav="true" href="/es/split-image/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
+</nav>
+    <nav class="footer-tools footer-tools--standalone" aria-label="工具" data-i18n-aria-label="nav.tools">
+    <a href="/zh/" data-i18n="tool.collage_maker">拼图制作</a>
+    <a href="/zh/tools/squarecrop/" data-i18n="tool.square_crop">方形裁剪</a>
+    <a href="/zh/tools/roundedcorners/" data-i18n="tool.rounded_corners">圆角工具</a>
+    <a href="/zh/tools/square/" data-i18n="tool.square_image">方形图片</a>
+    <a href="/zh/tools/blurredframe/" data-i18n="tool.blurred_frame">模糊边框</a>
+    <a href="/zh/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">宽高比计算器</a>
+            </nav>
+<script>window.MC_SPLIT_I18N = { ready: '就绪：{n} 张切片', working: '正在生成切片…', done: '完成：{n} 张切片', error: '请选择一张有效的图片。' };</script>
+<script src="/assets/js/split-image.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>

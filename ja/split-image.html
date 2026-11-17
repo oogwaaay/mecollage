@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="画像を2×2・3×3・横2分割・縦2分割に切り分け、ZIPで一括ダウンロード。アップロード不要・無料・登録なし。" />
+    <meta name="keywords" content="画像 分割, 画像 切り分け, グリッド 分割, 9分割, Instagram グリッド" />
+    <meta property="og:title" content="画像を分割 – 無料グリッド分割ツール" />
+    <meta property="og:description" content="1枚の画像を2×2・3×3・短冊に切り分け、すべてのタイルをZIPで保存。ブラウザ内処理。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/ja/split-image/" />
+    <title>画像を分割 – 無料グリッド分割ツール | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/ja/split-image/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/split-image/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/split-image/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/split-image/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/split-image/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/split-image/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/split-image/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/ja-free-collage-maker.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="画像を分割 – 無料グリッド分割ツール - MeCollage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/split-image.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 760px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+        .faq-item { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .faq-question { font-size: 1.05em; margin-bottom: 6px; }
+        .faq-item p { line-height: 1.7; color: var(--mc-text-body); }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .split-label { font-weight: 600; color: var(--mc-text-primary); }
+        .split-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/ja/split-image/#webpage","url":"https://www.mecollage.top/ja/split-image/","name":"画像を分割 – 無料グリッド分割ツール","description":"画像を2×2・3×3・横2分割・縦2分割に切り分け、ZIPで一括ダウンロード。アップロード不要・無料・登録なし。","inLanguage":"ja"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://www.mecollage.top/ja/"},{"@type":"ListItem","position":2,"name":"画像を分割","item":"https://www.mecollage.top/ja/split-image/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/ja/split-image/#faq","mainEntity":[{"@type":"Question","name":"画像を9分割するには？","acceptedAnswer":{"@type":"Answer","text":"3×3を選び、画像を追加して「ZIPをダウンロード」を押すと、tile-1.png〜tile-9.pngの9枚が得られます。"}},{"@type":"Question","name":"分割方法は？","acceptedAnswer":{"@type":"Answer","text":"横2分割、縦2分割、2×2、3×3の4種類。プレビューの線が実際のカット位置です。"}},{"@type":"Question","name":"画像はアップロードされますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。ブラウザ内で開き、canvasで切り分け、ZIPも端末内で作成します。"}},{"@type":"Question","name":"タイルの形式は？","acceptedAnswer":{"@type":"Answer","text":"PNGで1タイル1ファイル、すべて1つのZIPに入ります。透過も保持されます。"}},{"@type":"Question","name":"画質は落ちますか？","acceptedAnswer":{"@type":"Answer","text":"落ちません。各タイルは元のピクセルと解像度を保ち、境界で切り取るだけです。"}},{"@type":"Question","name":"無料ですか？","acceptedAnswer":{"@type":"Answer","text":"無料です。登録も透かしもありません。"}}]}]}</script>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>画像を分割</h1>
+        <p class="subtitle">1枚の画像を2×2・3×3・短冊に切り分け、すべてのタイルをまとめて保存。</p>
+
+        <section class="split-tool" id="splitTool" aria-label="画像分割ツール">
+            <div class="split-drop" id="splitDrop">
+                <input type="file" id="splitFile" accept="image/*" hidden>
+                <button type="button" id="splitPick"><i class="fas fa-upload"></i> 画像を選択</button>
+                <p>PNG・JPG・WebP対応 · ブラウザ内で処理、アップロードなし</p>
+            </div>
+            <div class="split-workspace" id="splitWorkspace" hidden>
+                <div class="split-preview-wrap">
+                    <canvas id="splitPreview"></canvas>
+                    <div class="split-grid" id="splitGrid" aria-hidden="true"></div>
+                </div>
+                <div class="split-controls">
+                    <span class="split-label">分割方法</span>
+                    <div class="split-modes" role="group" aria-label="分割方法">
+                        <button type="button" data-mode="2x1" aria-pressed="false">横2分割</button>
+                        <button type="button" data-mode="1x2" aria-pressed="false">縦2分割</button>
+                        <button type="button" data-mode="2x2" aria-pressed="true">2×2</button>
+                        <button type="button" data-mode="3x3" aria-pressed="false">3×3</button>
+                    </div>
+                    <p class="split-status" id="splitStatus" role="status"></p>
+                    <button type="button" class="split-download" id="splitDownload"><i class="fas fa-download"></i> ZIPをダウンロード</button>
+                </div>
+            </div>
+        </section>
+
+        <p class="intro">Instagramのグリッド投稿、カルーセル、印刷用の分割に。1枚ずつ切り抜く代わりに、一度で切り分けられます。画像は端末の中だけに留まり、プレビューの線がそのままカット位置になり、すべてのタイルが1つのZIPにまとまります。</p>
+
+        <div class="features">
+            <div class="feature"><i class="fas fa-table-cells"></i><h3>グリッド投稿</h3><p>3×3で9枚のグリッド、2×2で4枚のセットに。</p></div>
+            <div class="feature"><i class="fas fa-images"></i><h3>カルーセル</h3><p>横2分割・縦2分割でストーリーズや印刷にも。</p></div>
+            <div class="feature"><i class="fas fa-lock"></i><h3>アップロードなし</h3><p>canvasが端末内でピクセルを切り分けます。</p></div>
+        </div>
+
+        <h2>画像分割は3ステップ</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 画像を追加</h3><p>ファイルをドロップするか、端末から選びます。</p></div>
+            <div class="step"><h3>2. 分割方法を選ぶ</h3><p>横2分割・縦2分割・2×2・3×3。プレビューに切り取り線が出ます。</p></div>
+            <div class="step"><h3>3. ZIPをダウンロード</h3><p>各タイルを元の解像度のPNGで書き出し、1つのZIPにまとめます。</p></div>
+        </div>
+
+        <p class="links">切り分けた画像を文字や枠でまとめ直すなら <a href="/ja/combine-images/">画像を結合</a>。縦長のレイアウトは <a href="/ja/vertical-collage/">縦長コラージュ</a> へ。</p>
+
+        <h2 id="faq-heading">画像分割のよくある質問</h2>
+        <div class="faq">
+            <div class="faq-item"><h3 class="faq-question">画像を9分割するには？</h3><p>3×3を選び、画像を追加して「ZIPをダウンロード」を押すと、tile-1.png〜tile-9.pngの9枚が得られます。</p></div>
+            <div class="faq-item"><h3 class="faq-question">分割方法は？</h3><p>横2分割、縦2分割、2×2、3×3の4種類。プレビューの線が実際のカット位置です。</p></div>
+            <div class="faq-item"><h3 class="faq-question">画像はアップロードされますか？</h3><p>いいえ。ブラウザ内で開き、canvasで切り分け、ZIPも端末内で作成します。</p></div>
+            <div class="faq-item"><h3 class="faq-question">タイルの形式は？</h3><p>PNGで1タイル1ファイル、すべて1つのZIPに入ります。透過も保持されます。</p></div>
+            <div class="faq-item"><h3 class="faq-question">画質は落ちますか？</h3><p>落ちません。各タイルは元のピクセルと解像度を保ち、境界で切り取るだけです。</p></div>
+            <div class="faq-item"><h3 class="faq-question">無料ですか？</h3><p>無料です。登録も透かしもありません。</p></div>
+        </div>
+    </div>
+
+<nav class="language-links" aria-label="言語版" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
+  <a class="language-link" data-language-nav="true" href="/split-image/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
+  <a class="language-link" data-language-nav="true" href="/zh/split-image/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
+  <a class="language-link" data-language-nav="true" href="/tw/split-image/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
+  <a class="language-link" data-language-nav="true" href="/ja/split-image/" hreflang="ja" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
+  <a class="language-link" data-language-nav="true" href="/es/split-image/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
+</nav>
+    <nav class="footer-tools footer-tools--standalone" aria-label="ツール" data-i18n-aria-label="nav.tools">
+    <a href="/ja/" data-i18n="tool.collage_maker">コラージュ作成</a>
+    <a href="/ja/tools/squarecrop/" data-i18n="tool.square_crop">正方形クロップ</a>
+    <a href="/ja/tools/roundedcorners/" data-i18n="tool.rounded_corners">角丸ツール</a>
+    <a href="/ja/tools/square/" data-i18n="tool.square_image">正方形画像</a>
+    <a href="/ja/tools/blurredframe/" data-i18n="tool.blurred_frame">ぼかしフレーム</a>
+    <a href="/ja/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">アスペクト比計算</a>
+            </nav>
+<script>window.MC_SPLIT_I18N = { ready: '準備完了：{n} タイル', working: 'タイルを生成中…', done: '完了：{n} タイル', error: '有効な画像を選んでください。' };</script>
+<script src="/assets/js/split-image.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>
