@@ -5,6 +5,7 @@
 ## Collage maker
 - [Collage Maker](https://www.mecollage.top/): 6 aspect ratios, custom grids, filters, text and stickers; up to 20 photos.
 - [Free Collage Maker](https://www.mecollage.top/free-collage-maker/): free photo collage without signup or watermark.
+- [Freeform Collage](https://www.mecollage.top/freeform-collage/): drag photos anywhere, overlap, split into pieces and export.
 - [Combine Images](https://www.mecollage.top/combine-images/): put photos side by side, stack them into one long image, or build a grid; localized examples for zh/ja/es.
 - [Split Image](https://www.mecollage.top/split-image/): cut one image into 2×2, 3×3 or strips and download every tile as a ZIP.
 - [Batch Compress](https://www.mecollage.top/batch-compress/): resize a set, cap each file at a KB target and download one ZIP.

@@ -125,6 +125,7 @@ const EN_TOPIC_KEPT_BASES = [
   '/birthday-collage-maker/',
   '/christmas-collage-maker/',
   '/free-collage-maker/',
+  '/freeform-collage/',
   '/how-to-make-a-collage/',
   '/instagram-story-collage/',
   '/square-collage/',

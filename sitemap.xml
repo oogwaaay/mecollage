@@ -1030,4 +1030,12 @@
     <xhtml:link rel="alternate" hreflang="ko" href="https://www.mecollage.top/ko/batch-compress/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/batch-compress/" />
   </url>
+  <url>
+    <loc>https://www.mecollage.top/freeform-collage/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+  </url>
 </urlset>

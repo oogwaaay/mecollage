@@ -1,8 +1,8 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-17T08:05:06.559Z",
-  "gitHead": "d56d9541755849b559229a25ee1cce20f4934e8a",
+  "generatedAt": "2026-11-17T08:35:43.772Z",
+  "gitHead": "7dcb117ee471adc0960c843aabf326ba70f5a9b9",
   "tokenHash": "a8fbd0cee9e0",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
@@ -10,9 +10,9 @@
     "colors": 330,
     "fontSizes": 18,
     "radii": 155,
-    "relativeFontSizes": 479,
-    "inlineStyleAttrs": 1648,
-    "styleBlocks": 140,
+    "relativeFontSizes": 497,
+    "inlineStyleAttrs": 1650,
+    "styleBlocks": 141,
     "jsColors": 0
   },
   "counts": {
@@ -65,7 +65,16 @@
       "colors": 0,
       "fontSizes": 0,
       "radii": 0,
-      "relativeFontSizes": 0,
+      "relativeFontSizes": 8,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/css/freeform-collage.css": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 4,
       "inlineStyleAttrs": 0,
       "styleBlocks": 0,
       "jsColors": 0
@@ -143,6 +152,15 @@
       "jsColors": 0
     },
     "assets/js/editor-persistence.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/freeform-collage.js": {
       "colors": 0,
       "fontSizes": 0,
       "radii": 0,
@@ -535,6 +553,15 @@
       "radii": 1,
       "relativeFontSizes": 7,
       "inlineStyleAttrs": 14,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "freeform-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 2,
       "styleBlocks": 1,
       "jsColors": 0
     },

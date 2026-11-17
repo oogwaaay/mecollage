@@ -101,6 +101,7 @@ const GROUP_TITLES = {
   socialmedia: '/social-media-image-sizes/（Social Media Image Sizes）',
   split: '/split-image/（Split Image）',
   batch: '/batch-compress/（Batch Compress）',
+  freeform: '/freeform-collage/（Freeform Collage）',
   coverage: '覆盖范围与人工确认项',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
@@ -2640,6 +2641,29 @@ async function runBatchGroup() {
   });
 }
 
+async function runFreeformGroup() {
+  await runCase(page, {
+    id: 'FF-01',
+    group: 'freeform',
+    page: '/freeform-collage/',
+    name: '自由摆放：上传 / 3×3 拆分 / 导出入口',
+    async fn(ctx) {
+      await gotoPage('/freeform-collage/');
+      await page.setFiles('#ffFile', [FIXTURES.landscape]);
+      await page.waitFor("document.querySelectorAll('.ff-item').length === 1", { timeoutMs: 10000 });
+      ctx.check('上传后出现 1 张自由摆放图片', true);
+      const before = await page.eval('__fa.cap.anchors');
+      await page.eval("document.getElementById('ffSplit3').click(); 1");
+      await page.waitFor("document.querySelectorAll('.ff-item').length === 9", { timeoutMs: 10000 });
+      ctx.check('3×3 拆分为 9 张', true);
+      await page.eval("document.getElementById('ffExport').click(); 1");
+      await page.waitFor("__fa.cap.anchors > " + before, { timeoutMs: 8000 });
+      ctx.check('导出触发下载锚点', true);
+      await ctx.screenshot('freeform-tool');
+    },
+  });
+}
+
 async function runCoverageGroup() {
   await runCase(page, {
     id: 'ENV-01',
@@ -2892,6 +2916,7 @@ async function main() {
   await runSocialMediaSizesLocalesGroup();
   await runSplitGroup();
   await runBatchGroup();
+  await runFreeformGroup();
   await runCoverageGroup();
 
   // 5) 汇总与报告
