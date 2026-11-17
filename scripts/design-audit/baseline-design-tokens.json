@@ -1,18 +1,18 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-06T06:46:47.604Z",
-  "gitHead": "5ad5adfe8b6fbd98bf9a3228ef179f01442a0880",
-  "tokenHash": "3db11395ede1",
+  "generatedAt": "2026-11-17T07:10:10.106Z",
+  "gitHead": "2dfed3b6b401f8c012cdf272c8ec8188ab1a0186",
+  "tokenHash": "a8fbd0cee9e0",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
   "totals": {
-    "colors": 334,
+    "colors": 330,
     "fontSizes": 18,
-    "radii": 151,
-    "relativeFontSizes": 361,
-    "inlineStyleAttrs": 1553,
-    "styleBlocks": 95,
+    "radii": 155,
+    "relativeFontSizes": 393,
+    "inlineStyleAttrs": 1573,
+    "styleBlocks": 126,
     "jsColors": 0
   },
   "counts": {
@@ -34,7 +34,25 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "assets/css/christmas-mode.css": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
     "assets/css/components.css": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 2,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/css/editor-extras.css": {
       "colors": 0,
       "fontSizes": 0,
       "radii": 0,
@@ -62,6 +80,33 @@
       "jsColors": 0
     },
     "assets/js/blog-search.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/christmas-mode.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/contact-form.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/editor-extras.js": {
       "colors": 0,
       "fontSizes": 0,
       "radii": 0,
@@ -197,11 +242,11 @@
       "jsColors": 0
     },
     "christmas-collage-maker.html": {
-      "colors": 4,
+      "colors": 0,
       "fontSizes": 0,
-      "radii": 1,
-      "relativeFontSizes": 5,
-      "inlineStyleAttrs": 10,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -212,6 +257,15 @@
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 0,
       "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "combine-images.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 7,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
       "jsColors": 0
     },
     "contact.html": {
@@ -246,6 +300,15 @@
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/combine-images.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 7,
       "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
@@ -304,6 +367,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "es/social-media-image-sizes.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "es/square-collage.html": {
       "colors": 1,
       "fontSizes": 0,
@@ -322,13 +394,22 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "es/tools/aspectratiocalculator/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "es/tools/blurredframe/index.html": {
       "colors": 2,
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 24,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "es/tools/roundedcorners/index.html": {
@@ -337,7 +418,7 @@
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "es/tools/square/index.html": {
@@ -346,7 +427,7 @@
       "radii": 1,
       "relativeFontSizes": 5,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "es/tools/squarecrop/index.html": {
@@ -355,7 +436,7 @@
       "radii": 1,
       "relativeFontSizes": 1,
       "inlineStyleAttrs": 19,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "es/vertical-collage.html": {
@@ -439,6 +520,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "ja/combine-images.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 7,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "ja/contact.html": {
       "colors": 0,
       "fontSizes": 0,
@@ -493,6 +583,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "ja/social-media-image-sizes.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "ja/square-collage.html": {
       "colors": 1,
       "fontSizes": 0,
@@ -511,13 +610,22 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "ja/tools/aspectratiocalculator/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "ja/tools/blurredframe/index.html": {
       "colors": 2,
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 24,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "ja/tools/roundedcorners/index.html": {
@@ -526,7 +634,7 @@
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "ja/tools/square/index.html": {
@@ -535,7 +643,7 @@
       "radii": 1,
       "relativeFontSizes": 5,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "ja/tools/squarecrop/index.html": {
@@ -544,7 +652,7 @@
       "radii": 1,
       "relativeFontSizes": 1,
       "inlineStyleAttrs": 19,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "ja/vertical-collage.html": {
@@ -571,6 +679,15 @@
       "radii": 0,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 15,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "public/tools/aspectratiocalculator/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -607,6 +724,15 @@
       "radii": 1,
       "relativeFontSizes": 10,
       "inlineStyleAttrs": 46,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "social-media-image-sizes.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -651,6 +777,15 @@
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 3,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "tw/combine-images.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 7,
       "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
@@ -709,6 +844,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "tw/social-media-image-sizes.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "tw/square-collage.html": {
       "colors": 1,
       "fontSizes": 0,
@@ -727,13 +871,22 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "tw/tools/aspectratiocalculator/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "tw/tools/blurredframe/index.html": {
       "colors": 2,
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 24,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "tw/tools/roundedcorners/index.html": {
@@ -742,7 +895,7 @@
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "tw/tools/square/index.html": {
@@ -751,7 +904,7 @@
       "radii": 1,
       "relativeFontSizes": 5,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "tw/tools/squarecrop/index.html": {
@@ -760,7 +913,7 @@
       "radii": 1,
       "relativeFontSizes": 1,
       "inlineStyleAttrs": 19,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "tw/vertical-collage.html": {
@@ -826,6 +979,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "zh/combine-images.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 1,
+      "relativeFontSizes": 7,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "zh/contact.html": {
       "colors": 0,
       "fontSizes": 0,
@@ -880,6 +1042,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "zh/social-media-image-sizes.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "zh/square-collage.html": {
       "colors": 1,
       "fontSizes": 0,
@@ -898,13 +1069,22 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "zh/tools/aspectratiocalculator/index.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "zh/tools/blurredframe/index.html": {
       "colors": 2,
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 24,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "zh/tools/roundedcorners/index.html": {
@@ -913,7 +1093,7 @@
       "radii": 1,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "zh/tools/square/index.html": {
@@ -922,7 +1102,7 @@
       "radii": 1,
       "relativeFontSizes": 5,
       "inlineStyleAttrs": 26,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "zh/tools/squarecrop/index.html": {
@@ -931,7 +1111,7 @@
       "radii": 1,
       "relativeFontSizes": 1,
       "inlineStyleAttrs": 19,
-      "styleBlocks": 1,
+      "styleBlocks": 2,
       "jsColors": 0
     },
     "zh/vertical-collage.html": {

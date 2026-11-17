@@ -113,6 +113,7 @@ const CORE_BASES = [
   '/tools/blurredframe/',
   '/tools/aspectratiocalculator/',
   '/social-media-image-sizes/',
+  '/combine-images/',
 ];
 
 /** Phase D：保留索引的 7 个英文专题页（square-collage 已恢复；vertical-collage 仍 301） */
@@ -2300,7 +2301,7 @@ async function main() {
       ctx.measure('chrome', meta.chrome);
       ctx.measure('server', meta.server);
       ctx.measure('blockedUrls', BLOCKED_URLS);
-      ctx.check('非 404 页面 = 104（72 可索引 + 32 noindex）', meta.inventoryCount === 104, { actual: meta.inventoryCount });
+      ctx.check('非 404 页面 = 可索引期望 + noindex 期望', meta.inventoryCount === expectedSitemapSet.size + expectedNoindexSet.size, { actual: { inventory: meta.inventoryCount, expected: expectedSitemapSet.size + expectedNoindexSet.size } });
       ctx.check(`可索引页面 = ${expectedSitemapSet.size}（Phase D sitemap 期望）`, indexableSet.size === expectedSitemapSet.size, {
         actual: { indexable: indexableSet.size, expected: expectedSitemapSet.size },
       });

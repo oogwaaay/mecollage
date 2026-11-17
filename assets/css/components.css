@@ -2565,3 +2565,24 @@ body .mc-contact-direct a:hover {
     width: 100%;
   }
 }
+
+/* 竞品对标：combine-images 内链卡（只用 token，避免内联漂移） */
+.combine-guide-card {
+  display: block;
+  padding: 30px;
+  background: var(--mc-color-brand-haze);
+  border: 1px solid var(--mc-color-brand-tint-strong);
+  border-radius: var(--mc-radius-lg);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.combine-guide-card h3 {
+  font-size: 1.3em;
+  margin-bottom: 10px;
+  color: var(--mc-color-brand);
+  text-shadow: var(--mc-text-shadow-heading);
+}
+.combine-guide-card p {
+  color: var(--mc-text-body);
+  font-size: 0.95em;
+}
