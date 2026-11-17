@@ -1063,6 +1063,24 @@ async function runIndexGroup() {
       }
     },
   });
+
+  await runCase(page, {
+    id: 'IDX-31',
+    group: 'index',
+    page: '/',
+    name: '示例图片：一键加入 4 张并同步计数',
+    async fn(ctx) {
+      await gotoPage('/');
+      await page.waitFor("document.getElementById('mcSampleBtn')", { timeoutMs: 8000 });
+      await page.eval("document.getElementById('mcSampleBtn').click(); 1");
+      await page.waitFor("window.mecollage.images.length === 4", { timeoutMs: 15000 });
+      const counter = await page.eval("document.getElementById('photoCounter').textContent");
+      ctx.check('计数器 4 / 20', /4\s*\/\s*20/.test(counter), { actual: counter });
+      const uploadHidden = await page.eval("document.getElementById('uploadScreen').style.display === 'none' || document.getElementById('uploadScreen').hidden");
+      ctx.check('上传界面已隐藏', uploadHidden === true, { actual: uploadHidden });
+      await ctx.screenshot('sample-images');
+    },
+  });
 }
 
 // ---------------------------------------------------------------------------

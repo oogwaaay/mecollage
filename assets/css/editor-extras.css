@@ -95,6 +95,19 @@
 .mc-trash-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .mc-trash-actions button { min-height: 40px; padding: 8px 14px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: 0.85em; cursor: pointer; }
 .mc-trash-actions .mc-trash-empty { color: var(--mc-color-danger); }
+.mc-export-box { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--mc-border-subtle); display: grid; gap: 8px; }
+.mc-export-box h3 { margin: 0 0 2px; color: var(--mc-text-primary); font-size: var(--mc-font-size-label); }
+.mc-export-box label { display: grid; gap: 4px; color: var(--mc-text-body); font-size: var(--mc-font-size-caption); }
+.mc-export-box select, .mc-export-box input[type="range"] { min-height: var(--mc-tap-target-min); padding: 6px 8px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-sm); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; }
+.mc-export-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mc-export-actions button { min-height: var(--mc-tap-target-min); padding: 8px 14px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: var(--mc-font-size-caption); cursor: pointer; }
+.mc-export-note { margin: 0; color: var(--mc-text-body); font-size: var(--mc-font-size-xs); line-height: 1.5; }
+.mc-sample-row { display: flex; justify-content: center; margin-top: 12px; }
+.mc-sample-btn { min-height: var(--mc-tap-target-min); padding: 10px 18px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: var(--mc-font-size-label); cursor: pointer; }
+.mc-sample-btn:hover { border-color: var(--mc-color-brand); }
+.mc-sample-btn[disabled] { opacity: 0.6; cursor: wait; }
+
+
 @media (max-width: 640px) {
   .mc-trash-fab { left: 12px; bottom: 96px; }
   .mc-trash-panel { left: 12px; bottom: 148px; width: calc(100vw - 24px); }

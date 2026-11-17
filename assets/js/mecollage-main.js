@@ -201,6 +201,7 @@ class MeCollagePro {
     // R0 交互状态（2026-11-06）
     this.isExporting = false; // 导出中：防连点 + 按钮 aria-busy
     this._unsavedChanges = false; // 未导出改动：beforeunload 保护
+    this.exportOptions = { format: 'png', quality: 0.92, scale: 2, copy: false }; // 导出选项（editor-export.js 写入）
     this._libPromises = {}; // ensureLibs() 动态加载缓存（失败清除，允许重试）
     this._touchReorder = null; // 触控拖拽排序的进行中状态
 
@@ -2369,7 +2370,8 @@ class MeCollagePro {
       const outWidth = usesXmasExport ? this.exportTarget.width : gridRect.width;
       const outHeight = usesXmasExport ? this.exportTarget.height : gridRect.height;
       const outputScale = outWidth / gridRect.width;
-      const exportFormat = this.isChristmasMode ? this.exportFormat : 'png';
+      const opts = this.exportOptions || {};
+      const exportFormat = this.isChristmasMode ? this.exportFormat : (opts.format || 'png');
       const exportBackground = this.isChristmasMode ? this._getChristmasCanvasColor() : '#ffffff';
 
       // 只捕获确定尺寸的离屏容器，避免 padding/border-box 导致裁切与比例错误
@@ -2415,7 +2417,7 @@ class MeCollagePro {
       // 其余导出参数（白底 / scale 2 / useCORS / allowTaint / foreignObjectRendering）保持不变。
       const renderedCanvas = await html2canvas(wrapper, {
         backgroundColor: exportBackground,
-        scale: usesXmasExport ? 1 : 2,
+        scale: usesXmasExport ? 1 : (opts.scale || 2),
         useCORS: true,
         allowTaint: true,
         logging: false,
@@ -2426,11 +2428,24 @@ class MeCollagePro {
       cleanup();
 
       const isJpeg = exportFormat === 'jpg';
-      const dataUrl = renderedCanvas.toDataURL(isJpeg ? 'image/jpeg' : 'image/png', isJpeg ? 0.92 : 1.0);
-      const link = document.createElement('a');
-      link.download = `mecollage-${Date.now()}.${isJpeg ? 'jpg' : 'png'}`;
-      link.href = dataUrl;
-      link.click();
+      const isWebp = exportFormat === 'webp';
+      const mime = isJpeg ? 'image/jpeg' : isWebp ? 'image/webp' : 'image/png';
+      const quality = typeof opts.quality === 'number' ? opts.quality : 0.92;
+      const dataUrl = renderedCanvas.toDataURL(mime, quality);
+      if (opts.copy && navigator.clipboard && window.ClipboardItem) {
+        renderedCanvas.toBlob(function (blob) {
+          if (!blob) return;
+          navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(function () {
+            mcToast(mcI18n('toast.copied', {}, 'Copied to clipboard'), { type: 'success', duration: 3200 });
+          }).catch(function () {});
+        }, 'image/png');
+        opts.copy = false;
+      } else {
+        const link = document.createElement('a');
+        link.download = `mecollage-${Date.now()}.${isWebp ? 'webp' : isJpeg ? 'jpg' : 'png'}`;
+        link.href = dataUrl;
+        link.click();
+      }
 
       // R0：成功后解除未保存保护 + 反馈尺寸与文件大小
       this._unsavedChanges = false;

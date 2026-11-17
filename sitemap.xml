@@ -1036,6 +1036,58 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/zh/freeform-collage/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/tw/freeform-collage/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/ja/freeform-collage/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+  </url>
+  <url>
+    <loc>https://www.mecollage.top/es/freeform-collage/</loc>
+    <lastmod>2026-11-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
   </url>
 </urlset>

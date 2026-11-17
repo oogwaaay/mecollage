@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Collage libre: arrastra las fotos a cualquier posición, superpón y redimensiona, divide en 2×2 o 3×3 y exporta PNG, JPG o WebP. Sin subir archivos." />
+    <meta name="keywords" content="collage libre, collage sin cuadricula, colocar fotos libremente, superponer fotos, dividir imagen" />
+    <meta property="og:title" content="Collage libre – Coloca las fotos donde quieras" />
+    <meta property="og:description" content="Coloca, superpón, redimensiona y divide fotos; exporta en varios formatos." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/es/freeform-collage/" />
+    <title>Collage libre – Coloca las fotos donde quieras | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/es/freeform-collage/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/es-free-collage-maker.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Collage libre – Coloca las fotos donde quieras - MeCollage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/freeform-collage.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1020px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 780px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+        .faq-item { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .faq-question { font-size: 1.05em; margin-bottom: 6px; }
+        .faq-item p { line-height: 1.7; }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .ff-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+        .ff-row input[type="color"] { width: 44px; height: var(--mc-tap-target-min); border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-sm); background: var(--mc-surface-4); padding: 2px; }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/es/freeform-collage/#webpage","url":"https://www.mecollage.top/es/freeform-collage/","name":"Collage libre","description":"Collage libre: arrastra las fotos a cualquier posición, superpón y redimensiona, divide en 2×2 o 3×3 y exporta PNG, JPG o WebP. Sin subir archivos.","inLanguage":"es"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Inicio","item":"https://www.mecollage.top/es/"},{"@type":"ListItem","position":2,"name":"Collage libre","item":"https://www.mecollage.top/es/freeform-collage/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/es/freeform-collage/#faq","mainEntity":[{"@type":"Question","name":"¿En qué se diferencia de una cuadrícula?","acceptedAnswer":{"@type":"Answer","text":"La cuadrícula fija las fotos en celdas iguales; aquí cada foto conserva posición, tamaño y orden de apilado."}},{"@type":"Question","name":"¿Puedo superponer fotos?","acceptedAnswer":{"@type":"Answer","text":"Sí. Haz clic para traer al frente, arrastra y redimensiona desde la esquina inferior derecha."}},{"@type":"Question","name":"¿Puedo dividir una foto en piezas?","acceptedAnswer":{"@type":"Answer","text":"Sí. Selecciona la foto y usa Dividir 2×2 o 3×3; se sustituye por piezas que puedes separar."}},{"@type":"Question","name":"¿Se suben mis fotos?","acceptedAnswer":{"@type":"Answer","text":"No. Se procesan y exportan en tu navegador; el lienzo se queda en tu dispositivo."}},{"@type":"Question","name":"¿Qué formatos puedo exportar?","acceptedAnswer":{"@type":"Answer","text":"PNG con transparencia, JPG o WebP al doble del tamaño del lienzo; también puedes copiar el PNG."}}]}]}</script>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>Collage libre</h1>
+        <p class="subtitle">Arrastra las fotos a cualquier posición, superpón, redimensiona y divide.</p>
+        <section class="ff-tool" id="ffTool" aria-label="Lienzo de collage libre">
+            <div class="ff-drop" id="ffDrop">
+                <input type="file" id="ffFile" accept="image/*" multiple hidden>
+                <button type="button" id="ffPick"><i class="fas fa-upload"></i> Elegir imágenes</button>
+                <p>PNG, JPG o WebP · se procesa en tu navegador, sin subir archivos</p>
+            </div>
+            <div class="ff-workspace" id="ffWorkspace" hidden>
+                <div class="ff-board-wrap"><div class="ff-board" id="ffBoard"></div></div>
+                <div class="ff-controls">
+                    <div class="ff-presets" id="ffPresets" role="group" aria-label="Tamaño del lienzo">
+                        <button type="button" data-w="1080" data-h="1080" aria-pressed="true">Instagram 1:1</button>
+                        <button type="button" data-w="1080" data-h="1350" aria-pressed="false">Instagram 4:5</button>
+                        <button type="button" data-w="1080" data-h="1920" aria-pressed="false">TikTok 9:16</button>
+                        <button type="button" data-w="1080" data-h="1080" aria-pressed="false">WhatsApp 1:1</button>
+                        <button type="button" data-w="2480" data-h="3508" aria-pressed="false">A4</button>
+                        <button type="button" data-w="1500" data-h="500" aria-pressed="false">Cabecera X</button>
+                    </div>
+                    <div class="ff-row">
+                        <label>Lienzo <input id="ffW" type="number" value="1080" min="200" max="8000" inputmode="numeric"> × <input id="ffH" type="number" value="1080" min="200" max="8000" inputmode="numeric"> px</label>
+                        <label>Fondo <input id="ffBg" type="color" value="#ffffff"></label>
+                    </div>
+                    <div class="ff-row">
+                        <label>Formato <select id="ffFormat"><option value="image/png">PNG</option><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label>
+                        <label>Calidad <input id="ffQuality" type="range" min="40" max="100" value="92"></label>
+                    </div>
+                    <div class="ff-actions">
+                        <button type="button" id="ffSplit2"><i class="fas fa-table-cells"></i> Dividir 2×2</button>
+                        <button type="button" id="ffSplit3"><i class="fas fa-table-cells"></i> Dividir 3×3</button>
+                        <button type="button" id="ffExport"><i class="fas fa-download"></i> Descargar</button>
+                        <button type="button" id="ffCopy"><i class="fas fa-copy"></i> Copiar</button>
+                    </div>
+                    <p class="ff-status" id="ffStatus" role="status"></p>
+                </div>
+            </div>
+        </section>
+
+        <p class="intro">Una cuadrícula va bien cuando todo debe alinearse. Este lienzo es para lo demás: una foto que rompe la fila, un recorte con aire de pegatina, un collage con espacio en blanco. Arrastra, suelta, redimensiona desde la esquina y exporta al doble de resolución.</p>
+        <div class="features">
+            <div class="feature"><i class="fas fa-up-down-left-right"></i><h3>Cualquier posición</h3><p>Arrastra sin que nada se ajuste a una celda.</p></div>
+            <div class="feature"><i class="fas fa-layer-group"></i><h3>Superponer</h3><p>Haz clic para traer al frente y solapa bordes.</p></div>
+            <div class="feature"><i class="fas fa-scissors"></i><h3>Dividir y reordenar</h3><p>Corta en 2×2 o 3×3 y separa las piezas.</p></div>
+        </div>
+        <h2>Collage libre en 4 pasos</h2>
+        <div class="steps">
+            <div class="step"><h3>1. Añade fotos</h3><p>Selecciona varias o arrástralas al lienzo.</p></div>
+            <div class="step"><h3>2. Colócalas</h3><p>Arrastra, redimensiona desde la esquina y haz clic para traer al frente.</p></div>
+            <div class="step"><h3>3. Elige el lienzo</h3><p>Instagram, Story, YouTube, WhatsApp, A4 o un tamaño propio.</p></div>
+            <div class="step"><h3>4. Exporta</h3><p>Descarga PNG, JPG o WebP, o copia el PNG al portapapeles.</p></div>
+        </div>
+        <p class="links">¿Prefieres alineación estricta? Usa <a href="/es/combine-images/">combinar imágenes</a>. ¿Necesitas 9 piezas? Usa <a href="/es/split-image/">dividir imagen</a>.</p>
+        <h2 id="faq-heading">Preguntas frecuentes</h2>
+        <div class="faq">
+            <div class="faq-item"><h3 class="faq-question">¿En qué se diferencia de una cuadrícula?</h3><p>La cuadrícula fija las fotos en celdas iguales; aquí cada foto conserva posición, tamaño y orden de apilado.</p></div>
+            <div class="faq-item"><h3 class="faq-question">¿Puedo superponer fotos?</h3><p>Sí. Haz clic para traer al frente, arrastra y redimensiona desde la esquina inferior derecha.</p></div>
+            <div class="faq-item"><h3 class="faq-question">¿Puedo dividir una foto en piezas?</h3><p>Sí. Selecciona la foto y usa Dividir 2×2 o 3×3; se sustituye por piezas que puedes separar.</p></div>
+            <div class="faq-item"><h3 class="faq-question">¿Se suben mis fotos?</h3><p>No. Se procesan y exportan en tu navegador; el lienzo se queda en tu dispositivo.</p></div>
+            <div class="faq-item"><h3 class="faq-question">¿Qué formatos puedo exportar?</h3><p>PNG con transparencia, JPG o WebP al doble del tamaño del lienzo; también puedes copiar el PNG.</p></div>
+        </div>
+    </div>
+<nav class="language-links" aria-label="Versiones de idioma" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
+  <a class="language-link" data-language-nav="true" href="/freeform-collage/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
+  <a class="language-link" data-language-nav="true" href="/zh/freeform-collage/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
+  <a class="language-link" data-language-nav="true" href="/tw/freeform-collage/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
+  <a class="language-link" data-language-nav="true" href="/ja/freeform-collage/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
+  <a class="language-link" data-language-nav="true" href="/es/freeform-collage/" hreflang="es" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
+</nav>
+    <nav class="footer-tools footer-tools--standalone" aria-label="Herramientas" data-i18n-aria-label="nav.tools">
+    <a href="/es/" data-i18n="tool.collage_maker">Creador de collages</a>
+    <a href="/es/tools/squarecrop/" data-i18n="tool.square_crop">Recorte cuadrado</a>
+    <a href="/es/tools/roundedcorners/" data-i18n="tool.rounded_corners">Esquinas redondeadas</a>
+    <a href="/es/tools/square/" data-i18n="tool.square_image">Imagen cuadrada</a>
+    <a href="/es/tools/blurredframe/" data-i18n="tool.blurred_frame">Marco difuminado</a>
+    <a href="/es/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Calculadora de proporción</a>
+            </nav>
+<script>window.MC_FF_I18N = {"size":"Lienzo {w} × {h} px","splitDone":"Dividido en {n} piezas","selectFirst":"Selecciona una foto primero.","addFirst":"Añade al menos una foto.","done":"Exportado.","copied":"Copiado al portapapeles.","noClipboard":"El portapapeles no está disponible.","error":"La exportación falló."};</script>
+<script src="/assets/js/freeform-collage.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>

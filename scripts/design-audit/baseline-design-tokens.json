@@ -1,8 +1,8 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-17T08:35:43.772Z",
-  "gitHead": "7dcb117ee471adc0960c843aabf326ba70f5a9b9",
+  "generatedAt": "2026-11-17T08:49:37.494Z",
+  "gitHead": "0e0f13a7a5cd12d5879c5f7e26a7caa1125613f9",
   "tokenHash": "a8fbd0cee9e0",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
@@ -10,9 +10,9 @@
     "colors": 330,
     "fontSizes": 18,
     "radii": 155,
-    "relativeFontSizes": 497,
-    "inlineStyleAttrs": 1650,
-    "styleBlocks": 141,
+    "relativeFontSizes": 521,
+    "inlineStyleAttrs": 1678,
+    "styleBlocks": 145,
     "jsColors": 0
   },
   "counts": {
@@ -412,6 +412,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "es/freeform-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "es/how-to-make-a-collage.html": {
       "colors": 0,
       "fontSizes": 0,
@@ -561,7 +570,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 2,
+      "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -652,6 +661,15 @@
       "radii": 1,
       "relativeFontSizes": 4,
       "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/freeform-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -979,6 +997,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "tw/freeform-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "tw/how-to-make-a-collage.html": {
       "colors": 0,
       "fontSizes": 0,
@@ -1192,6 +1219,15 @@
       "radii": 1,
       "relativeFontSizes": 4,
       "inlineStyleAttrs": 8,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/freeform-collage.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
     },

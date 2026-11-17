@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="自由配置コラージュ：写真をキャンバスの好きな位置にドラッグし、重ねて拡大縮小、2×2・3×3に分割してPNG/JPG/WebPで保存。アップロード不要。" />
+    <meta name="keywords" content="自由配置 コラージュ, 写真 自由 配置, コラージュ 重ねる, 画像 分割" />
+    <meta property="og:title" content="自由配置コラージュ – 写真を好きな位置に" />
+    <meta property="og:description" content="写真を自由に置き、重ね、分割して書き出せます。ブラウザ内処理。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/ja/freeform-collage/" />
+    <title>自由配置コラージュ – 写真を好きな位置に | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/ja-free-collage-maker.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="自由配置コラージュ – 写真を好きな位置に - MeCollage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/freeform-collage.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1020px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 780px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+        .faq-item { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .faq-question { font-size: 1.05em; margin-bottom: 6px; }
+        .faq-item p { line-height: 1.7; }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .ff-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+        .ff-row input[type="color"] { width: 44px; height: var(--mc-tap-target-min); border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-sm); background: var(--mc-surface-4); padding: 2px; }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/ja/freeform-collage/#webpage","url":"https://www.mecollage.top/ja/freeform-collage/","name":"自由配置コラージュ","description":"自由配置コラージュ：写真をキャンバスの好きな位置にドラッグし、重ねて拡大縮小、2×2・3×3に分割してPNG/JPG/WebPで保存。アップロード不要。","inLanguage":"ja"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://www.mecollage.top/ja/"},{"@type":"ListItem","position":2,"name":"自由配置コラージュ","item":"https://www.mecollage.top/ja/freeform-collage/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/ja/freeform-collage/#faq","mainEntity":[{"@type":"Question","name":"グリッドとの違いは？","acceptedAnswer":{"@type":"Answer","text":"グリッドは等しいセルに固定します。自由配置は写真ごとに位置・サイズ・重なり順を保てます。"}},{"@type":"Question","name":"写真は重ねられますか？","acceptedAnswer":{"@type":"Answer","text":"はい。クリックで前面にし、ドラッグで移動、右下のハンドルで拡大縮小できます。"}},{"@type":"Question","name":"1枚を分割できますか？","acceptedAnswer":{"@type":"Answer","text":"はい。選択して「2×2に分割」「3×3に分割」を押すと、動かせるピースに変わります。"}},{"@type":"Question","name":"画像はアップロードされますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。ブラウザ内で読み込み・配置・書き出しを行い、ボードは端末に残ります。"}},{"@type":"Question","name":"書き出し形式は？","acceptedAnswer":{"@type":"Answer","text":"PNG（透過可）、JPG、WebP。ボードの2倍解像度で、PNGはクリップボードにもコピーできます。"}}]}]}</script>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>自由配置コラージュ</h1>
+        <p class="subtitle">写真を好きな位置にドラッグ。重ねて、拡大縮小して、分割して保存。</p>
+        <section class="ff-tool" id="ffTool" aria-label="自由配置コラージュのキャンバス">
+            <div class="ff-drop" id="ffDrop">
+                <input type="file" id="ffFile" accept="image/*" multiple hidden>
+                <button type="button" id="ffPick"><i class="fas fa-upload"></i> 画像を選択</button>
+                <p>PNG・JPG・WebP対応 · ブラウザ内で処理、アップロードなし</p>
+            </div>
+            <div class="ff-workspace" id="ffWorkspace" hidden>
+                <div class="ff-board-wrap"><div class="ff-board" id="ffBoard"></div></div>
+                <div class="ff-controls">
+                    <div class="ff-presets" id="ffPresets" role="group" aria-label="ボードサイズ">
+                        <button type="button" data-w="1080" data-h="1080" aria-pressed="true">Instagram 1:1</button>
+                        <button type="button" data-w="1080" data-h="1920" aria-pressed="false">ストーリーズ 9:16</button>
+                        <button type="button" data-w="1280" data-h="720" aria-pressed="false">YouTube</button>
+                        <button type="button" data-w="354" data-h="472" aria-pressed="false">履歴書 30×40</button>
+                        <button type="button" data-w="2480" data-h="3508" aria-pressed="false">A4</button>
+                        <button type="button" data-w="1500" data-h="500" aria-pressed="false">X ヘッダー</button>
+                    </div>
+                    <div class="ff-row">
+                        <label>ボード <input id="ffW" type="number" value="1080" min="200" max="8000" inputmode="numeric"> × <input id="ffH" type="number" value="1080" min="200" max="8000" inputmode="numeric"> px</label>
+                        <label>背景 <input id="ffBg" type="color" value="#ffffff"></label>
+                    </div>
+                    <div class="ff-row">
+                        <label>形式 <select id="ffFormat"><option value="image/png">PNG</option><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label>
+                        <label>画質 <input id="ffQuality" type="range" min="40" max="100" value="92"></label>
+                    </div>
+                    <div class="ff-actions">
+                        <button type="button" id="ffSplit2"><i class="fas fa-table-cells"></i> 2×2に分割</button>
+                        <button type="button" id="ffSplit3"><i class="fas fa-table-cells"></i> 3×3に分割</button>
+                        <button type="button" id="ffExport"><i class="fas fa-download"></i> ダウンロード</button>
+                        <button type="button" id="ffCopy"><i class="fas fa-copy"></i> コピー</button>
+                    </div>
+                    <p class="ff-status" id="ffStatus" role="status"></p>
+                </div>
+            </div>
+        </section>
+
+        <p class="intro">グリッドは整列させたいときのため。このボードはそれ以外のためです。列からはみ出す写真、切り抜き風の1枚、余白を残したコラージュ。ドラッグして置き、角から拡大縮小し、重ねて、2倍解像度で書き出します。</p>
+        <div class="features">
+            <div class="feature"><i class="fas fa-up-down-left-right"></i><h3>自由な位置</h3><p>セルに吸着せず、置きたい場所に置けます。</p></div>
+            <div class="feature"><i class="fas fa-layer-group"></i><h3>重ねる</h3><p>クリックで前面に。端を重ねて奥行きを作れます。</p></div>
+            <div class="feature"><i class="fas fa-scissors"></i><h3>分割して並べ直す</h3><p>2×2・3×3に分割し、ピースを離して動かせます。</p></div>
+        </div>
+        <h2>自由配置コラージュの4ステップ</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 写真を追加</h3><p>複数選択するか、ファイルをドロップします。</p></div>
+            <div class="step"><h3>2. 自由に配置</h3><p>ドラッグで移動、角で拡大縮小、クリックで前面へ。</p></div>
+            <div class="step"><h3>3. ボードサイズを選ぶ</h3><p>Instagram、ストーリーズ、YouTube、履歴書、A4、カスタム。</p></div>
+            <div class="step"><h3>4. 書き出し</h3><p>PNG・JPG・WebPで保存、またはPNGをクリップボードへ。</p></div>
+        </div>
+        <p class="links">きっちり揃えたいなら <a href="/ja/combine-images/">画像を結合</a>。9枚のタイルが必要なら <a href="/ja/split-image/">画像を分割</a>。</p>
+        <h2 id="faq-heading">自由配置のよくある質問</h2>
+        <div class="faq">
+            <div class="faq-item"><h3 class="faq-question">グリッドとの違いは？</h3><p>グリッドは等しいセルに固定します。自由配置は写真ごとに位置・サイズ・重なり順を保てます。</p></div>
+            <div class="faq-item"><h3 class="faq-question">写真は重ねられますか？</h3><p>はい。クリックで前面にし、ドラッグで移動、右下のハンドルで拡大縮小できます。</p></div>
+            <div class="faq-item"><h3 class="faq-question">1枚を分割できますか？</h3><p>はい。選択して「2×2に分割」「3×3に分割」を押すと、動かせるピースに変わります。</p></div>
+            <div class="faq-item"><h3 class="faq-question">画像はアップロードされますか？</h3><p>いいえ。ブラウザ内で読み込み・配置・書き出しを行い、ボードは端末に残ります。</p></div>
+            <div class="faq-item"><h3 class="faq-question">書き出し形式は？</h3><p>PNG（透過可）、JPG、WebP。ボードの2倍解像度で、PNGはクリップボードにもコピーできます。</p></div>
+        </div>
+    </div>
+<nav class="language-links" aria-label="言語版" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
+  <a class="language-link" data-language-nav="true" href="/freeform-collage/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
+  <a class="language-link" data-language-nav="true" href="/zh/freeform-collage/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
+  <a class="language-link" data-language-nav="true" href="/tw/freeform-collage/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
+  <a class="language-link" data-language-nav="true" href="/ja/freeform-collage/" hreflang="ja" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
+  <a class="language-link" data-language-nav="true" href="/es/freeform-collage/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
+</nav>
+    <nav class="footer-tools footer-tools--standalone" aria-label="ツール" data-i18n-aria-label="nav.tools">
+    <a href="/ja/" data-i18n="tool.collage_maker">コラージュ作成</a>
+    <a href="/ja/tools/squarecrop/" data-i18n="tool.square_crop">正方形クロップ</a>
+    <a href="/ja/tools/roundedcorners/" data-i18n="tool.rounded_corners">角丸ツール</a>
+    <a href="/ja/tools/square/" data-i18n="tool.square_image">正方形画像</a>
+    <a href="/ja/tools/blurredframe/" data-i18n="tool.blurred_frame">ぼかしフレーム</a>
+    <a href="/ja/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">アスペクト比計算</a>
+            </nav>
+<script>window.MC_FF_I18N = {"size":"ボード {w} × {h} px","splitDone":"{n}ピースに分割しました","selectFirst":"先に画像を選んでください。","addFirst":"画像を1枚以上追加してください。","done":"書き出しました。","copied":"クリップボードにコピーしました。","noClipboard":"このブラウザではクリップボードを使えません。","error":"書き出しに失敗しました。"};</script>
+<script src="/assets/js/freeform-collage.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>

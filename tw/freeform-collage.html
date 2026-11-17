@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="自由擺放拼圖：把照片拖到畫布任意位置，疊放、縮放、拆成九宮格切片，匯出 PNG/JPG/WebP。不上傳、免註冊。" />
+    <meta name="keywords" content="自由擺放拼圖, 自由拼圖, 照片疊放, 拼圖畫布, 九宮格切圖" />
+    <meta property="og:title" content="自由擺放拼圖 – 照片想放哪就放哪" />
+    <meta property="og:description" content="照片任意擺放、疊放、縮放，拆成切片，匯出多格式。瀏覽器內完成。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/tw/freeform-collage/" />
+    <title>自由擺放拼圖 – 照片想放哪就放哪 | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/freeform-collage/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/freeform-collage/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/freeform-collage/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/freeform-collage/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/freeform-collage/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/freeform-collage/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/tw-free-collage-maker.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="自由擺放拼圖 – 照片想放哪就放哪 - MeCollage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/freeform-collage.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 1020px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 780px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+        .faq-item { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .faq-question { font-size: 1.05em; margin-bottom: 6px; }
+        .faq-item p { line-height: 1.7; }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .ff-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+        .ff-row input[type="color"] { width: 44px; height: var(--mc-tap-target-min); border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-sm); background: var(--mc-surface-4); padding: 2px; }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/tw/freeform-collage/#webpage","url":"https://www.mecollage.top/tw/freeform-collage/","name":"自由擺放拼圖","description":"自由擺放拼圖：把照片拖到畫布任意位置，疊放、縮放、拆成九宮格切片，匯出 PNG/JPG/WebP。不上傳、免註冊。","inLanguage":"zh-TW"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首頁","item":"https://www.mecollage.top/tw/"},{"@type":"ListItem","position":2,"name":"自由擺放拼圖","item":"https://www.mecollage.top/tw/freeform-collage/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/tw/freeform-collage/#faq","mainEntity":[{"@type":"Question","name":"自由擺放和宮格拼圖有什麼差別？","acceptedAnswer":{"@type":"Answer","text":"宮格把照片鎖在等大的格子裡；自由擺放讓每張圖保留自己的位置、大小和層級，可以重疊，也可以故意留白。"}},{"@type":"Question","name":"照片可以重疊嗎？","acceptedAnswer":{"@type":"Answer","text":"可以。點擊照片置頂，拖到任意位置，從右下角手柄縮放。"}},{"@type":"Question","name":"能把一張圖切成幾塊嗎？","acceptedAnswer":{"@type":"Answer","text":"可以。選取圖片後點「切成 2×2」或「切成 3×3」，原圖會變成可以分別拖動的切片。"}},{"@type":"Question","name":"圖片會被上傳嗎？","acceptedAnswer":{"@type":"Answer","text":"不會。圖片在瀏覽器裡讀取、排版和匯出，畫布只留在你的裝置上。"}},{"@type":"Question","name":"可以匯出什麼格式？","acceptedAnswer":{"@type":"Answer","text":"PNG（支援透明）、JPG 或 WebP，以畫板 2 倍解析度匯出；也可以複製 PNG 到剪貼簿。"}}]}]}</script>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>自由擺放拼圖</h1>
+        <p class="subtitle">把照片拖到任意位置，疊放、縮放、拆成切片，再匯出。</p>
+        <section class="ff-tool" id="ffTool" aria-label="自由擺放拼圖畫布">
+            <div class="ff-drop" id="ffDrop">
+                <input type="file" id="ffFile" accept="image/*" multiple hidden>
+                <button type="button" id="ffPick"><i class="fas fa-upload"></i> 選擇圖片</button>
+                <p>支援 PNG、JPG、WebP · 瀏覽器內處理，不上傳</p>
+            </div>
+            <div class="ff-workspace" id="ffWorkspace" hidden>
+                <div class="ff-board-wrap"><div class="ff-board" id="ffBoard"></div></div>
+                <div class="ff-controls">
+                    <div class="ff-presets" id="ffPresets" role="group" aria-label="畫板尺寸">
+                        <button type="button" data-w="1080" data-h="1440" aria-pressed="true">小紅書 3:4</button>
+                        <button type="button" data-w="1080" data-h="1080" aria-pressed="false">IG 1:1</button>
+                        <button type="button" data-w="1080" data-h="1920" aria-pressed="false">限時動態 9:16</button>
+                        <button type="button" data-w="1000" data-h="1000" aria-pressed="false">蝦皮 1:1</button>
+                        <button type="button" data-w="2480" data-h="3508" aria-pressed="false">A4</button>
+                        <button type="button" data-w="1500" data-h="500" aria-pressed="false">X 標頭</button>
+                    </div>
+                    <div class="ff-row">
+                        <label>畫板 <input id="ffW" type="number" value="1080" min="200" max="8000" inputmode="numeric"> × <input id="ffH" type="number" value="1080" min="200" max="8000" inputmode="numeric"> px</label>
+                        <label>背景 <input id="ffBg" type="color" value="#ffffff"></label>
+                    </div>
+                    <div class="ff-row">
+                        <label>格式 <select id="ffFormat"><option value="image/png">PNG</option><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label>
+                        <label>品質 <input id="ffQuality" type="range" min="40" max="100" value="92"></label>
+                    </div>
+                    <div class="ff-actions">
+                        <button type="button" id="ffSplit2"><i class="fas fa-table-cells"></i> 切成 2×2</button>
+                        <button type="button" id="ffSplit3"><i class="fas fa-table-cells"></i> 切成 3×3</button>
+                        <button type="button" id="ffExport"><i class="fas fa-download"></i> 下載</button>
+                        <button type="button" id="ffCopy"><i class="fas fa-copy"></i> 複製</button>
+                    </div>
+                    <p class="ff-status" id="ffStatus" role="status"></p>
+                </div>
+            </div>
+        </section>
+
+        <p class="intro">宮格適合整齊排列，這塊畫布適合其餘情況：一張圖需要破一下版式、一個貼紙式的去背圖、一張留白的拼圖。拖進來，放到任意位置，從角上縮放，疊出層次，最後以 2 倍解析度匯出。</p>
+        <div class="features">
+            <div class="feature"><i class="fas fa-up-down-left-right"></i><h3>任意位置</h3><p>拖到哪就放哪，不會被格子吸住。</p></div>
+            <div class="feature"><i class="fas fa-layer-group"></i><h3>疊放</h3><p>點一下置頂，邊緣可以重疊，做出層次。</p></div>
+            <div class="feature"><i class="fas fa-scissors"></i><h3>拆開重排</h3><p>一張圖切成 2×2 或 3×3，再把切片拖開。</p></div>
+        </div>
+        <h2>自由拼圖 4 步</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 加入照片</h3><p>一次選多張，或把檔案拖進畫布。</p></div>
+            <div class="step"><h3>2. 自由擺放</h3><p>拖動位置，從角上縮放，點擊置頂。</p></div>
+            <div class="step"><h3>3. 選畫板尺寸</h3><p>小紅書、IG、限時動態、蝦皮、A4，或自訂。</p></div>
+            <div class="step"><h3>4. 匯出</h3><p>下載 PNG/JPG/WebP，或複製到剪貼簿。</p></div>
+        </div>
+        <p class="links">想要嚴格對齊？用 <a href="/tw/combine-images/">線上圖片拼接</a>。需要 9 張獨立切片？用 <a href="/tw/split-image/">圖片分割</a>。</p>
+        <h2 id="faq-heading">自由擺放常見問題</h2>
+        <div class="faq">
+            <div class="faq-item"><h3 class="faq-question">自由擺放和宮格拼圖有什麼差別？</h3><p>宮格把照片鎖在等大的格子裡；自由擺放讓每張圖保留自己的位置、大小和層級，可以重疊，也可以故意留白。</p></div>
+            <div class="faq-item"><h3 class="faq-question">照片可以重疊嗎？</h3><p>可以。點擊照片置頂，拖到任意位置，從右下角手柄縮放。</p></div>
+            <div class="faq-item"><h3 class="faq-question">能把一張圖切成幾塊嗎？</h3><p>可以。選取圖片後點「切成 2×2」或「切成 3×3」，原圖會變成可以分別拖動的切片。</p></div>
+            <div class="faq-item"><h3 class="faq-question">圖片會被上傳嗎？</h3><p>不會。圖片在瀏覽器裡讀取、排版和匯出，畫布只留在你的裝置上。</p></div>
+            <div class="faq-item"><h3 class="faq-question">可以匯出什麼格式？</h3><p>PNG（支援透明）、JPG 或 WebP，以畫板 2 倍解析度匯出；也可以複製 PNG 到剪貼簿。</p></div>
+        </div>
+    </div>
+<nav class="language-links" aria-label="語言版本" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
+  <a class="language-link" data-language-nav="true" href="/freeform-collage/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
+  <a class="language-link" data-language-nav="true" href="/zh/freeform-collage/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
+  <a class="language-link" data-language-nav="true" href="/tw/freeform-collage/" hreflang="zh-TW" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
+  <a class="language-link" data-language-nav="true" href="/ja/freeform-collage/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
+  <a class="language-link" data-language-nav="true" href="/es/freeform-collage/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
+</nav>
+    <nav class="footer-tools footer-tools--standalone" aria-label="工具" data-i18n-aria-label="nav.tools">
+    <a href="/tw/" data-i18n="tool.collage_maker">拼圖製作</a>
+    <a href="/tw/tools/squarecrop/" data-i18n="tool.square_crop">方形裁切</a>
+    <a href="/tw/tools/roundedcorners/" data-i18n="tool.rounded_corners">圓角工具</a>
+    <a href="/tw/tools/square/" data-i18n="tool.square_image">方形圖片</a>
+    <a href="/tw/tools/blurredframe/" data-i18n="tool.blurred_frame">模糊邊框</a>
+    <a href="/tw/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">長寬比計算器</a>
+            </nav>
+<script>window.MC_FF_I18N = {"size":"畫板 {w} × {h} px","splitDone":"已拆成 {n} 塊","selectFirst":"請先選取一張圖片。","addFirst":"請至少加入一張圖片。","done":"已匯出。","copied":"已複製到剪貼簿。","noClipboard":"目前瀏覽器不支援剪貼簿。","error":"匯出失敗。"};</script>
+<script src="/assets/js/freeform-collage.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>
