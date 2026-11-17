@@ -1032,6 +1032,36 @@ async function runIndexGroup() {
       await ctx.screenshot('index-context-menu');
     },
   });
+
+  await runCase(page, {
+    id: 'IDX-30',
+    group: 'index',
+    page: '/',
+    name: '30 天回收站：徽标 / 面板 / 剩余天数 / 单张恢复',
+    async fn(ctx) {
+      const initId = await page.addInitScript('window.__mcEnablePersistence = true;');
+      try {
+        await gotoPage('/');
+        await uploadImages([FIXTURES.landscape], { expectCount: 1 });
+        await page.eval('window.mecollage.removeImage(0); 1');
+        await page.waitFor("document.getElementById('mcTrashBtn') && !document.getElementById('mcTrashBtn').hidden", { timeoutMs: 10000 });
+        const badge = await page.eval("document.querySelector('.mc-trash-count').textContent");
+        ctx.check('回收站徽标 = 1', String(badge).trim() === '1', { actual: badge });
+        await page.eval("document.getElementById('mcTrashBtn').click(); 1");
+        await page.waitFor("!document.getElementById('mcTrashPanel').hidden", { timeoutMs: 5000 });
+        const panel = await page.eval("({ items: document.querySelectorAll('.mc-trash-item').length, days: (document.querySelector('.mc-trash-days') || {}).textContent || '' })");
+        ctx.check('面板有 1 个项目', panel.items === 1, { actual: panel });
+        ctx.check('显示剩余天数', /\d/.test(panel.days), { actual: panel.days });
+        await page.eval("document.querySelector('.mc-trash-restore').click(); 1");
+        await page.waitFor("window.mecollage.images.length === 1", { timeoutMs: 5000 });
+        await page.waitFor("document.getElementById('mcTrashBtn').hidden", { timeoutMs: 5000 });
+        ctx.check('单张恢复后图片回到画布且入口隐藏', true);
+        await ctx.screenshot('index-trash-panel');
+      } finally {
+        await page.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: initId }).catch(() => {});
+      }
+    },
+  });
 }
 
 // ---------------------------------------------------------------------------

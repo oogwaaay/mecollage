@@ -27,3 +27,76 @@
   background: var(--mc-surface-2);
 }
 .mc-ctx-menu__item--danger { color: var(--mc-color-danger); }
+
+/* 回收站：入口徽标 + 面板（对标 pimg 的 30 天面板） */
+.mc-trash-fab {
+  position: fixed;
+  left: 16px;
+  bottom: 92px;
+  z-index: 1150;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--mc-border-subtle);
+  border-radius: 50%;
+  background: var(--mc-surface-4);
+  color: var(--mc-text-primary);
+  box-shadow: var(--mc-shadow-lg);
+  backdrop-filter: blur(var(--mc-blur-lg));
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+.mc-trash-fab[hidden] { display: none !important; }
+.mc-trash-count {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: var(--mc-radius-pill);
+  background: var(--mc-color-danger);
+  color: var(--mc-text-primary);
+  font-size: var(--mc-font-size-xs);
+  line-height: 18px;
+  text-align: center;
+}
+.mc-trash-count[hidden] { display: none !important; }
+.mc-trash-panel {
+  position: fixed;
+  left: 16px;
+  bottom: 146px;
+  z-index: 1160;
+  width: 330px;
+  max-width: calc(100vw - 24px);
+  max-height: 62vh;
+  overflow: auto;
+  padding: 14px;
+  border: 1px solid var(--mc-border-subtle);
+  border-radius: var(--mc-radius-lg);
+  background: var(--mc-surface-4);
+  box-shadow: var(--mc-shadow-lg);
+  backdrop-filter: blur(var(--mc-blur-xl));
+}
+.mc-trash-panel[hidden] { display: none !important; }
+.mc-trash-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; color: var(--mc-text-primary); }
+.mc-trash-head strong { font-size: 1em; }
+.mc-trash-total { color: var(--mc-text-body); font-size: 0.85em; }
+.mc-trash-close { margin-left: auto; width: 32px; height: 32px; border: 0; border-radius: var(--mc-radius-sm); background: transparent; color: var(--mc-text-body); font-size: 1.2em; cursor: pointer; }
+.mc-trash-note { color: var(--mc-text-body); font-size: 0.85em; line-height: 1.5; margin-bottom: 10px; }
+.mc-trash-list { list-style: none; display: grid; gap: 8px; margin: 0 0 10px; padding: 0; }
+.mc-trash-item { display: grid; grid-template-columns: 64px 1fr auto; gap: 10px; align-items: center; padding: 8px; background: var(--mc-surface-2); border-radius: var(--mc-radius-sm); }
+.mc-trash-item img { width: 64px; height: 48px; object-fit: cover; border-radius: var(--mc-radius-sm); background: var(--mc-surface-3); }
+.mc-trash-meta { display: grid; gap: 3px; min-width: 0; }
+.mc-trash-name { color: var(--mc-text-body); font-size: 0.78em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mc-trash-days { color: var(--mc-text-primary); font-size: 0.82em; }
+.mc-trash-restore { min-height: 36px; padding: 6px 10px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: 0.82em; cursor: pointer; }
+.mc-trash-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.mc-trash-actions button { min-height: 40px; padding: 8px 14px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: 0.85em; cursor: pointer; }
+.mc-trash-actions .mc-trash-empty { color: var(--mc-color-danger); }
+@media (max-width: 640px) {
+  .mc-trash-fab { left: 12px; bottom: 96px; }
+  .mc-trash-panel { left: 12px; bottom: 148px; width: calc(100vw - 24px); }
+}
+
