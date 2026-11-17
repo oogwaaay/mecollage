@@ -100,6 +100,7 @@ const GROUP_TITLES = {
   aspectratio: '/tools/aspectratiocalculator/（Aspect Ratio Calculator）',
   socialmedia: '/social-media-image-sizes/（Social Media Image Sizes）',
   split: '/split-image/（Split Image）',
+  batch: '/batch-compress/（Batch Compress）',
   coverage: '覆盖范围与人工确认项',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
@@ -2588,6 +2589,27 @@ async function runSplitGroup() {
   });
 }
 
+async function runBatchGroup() {
+  await runCase(page, {
+    id: 'BAT-01',
+    group: 'batch',
+    page: '/batch-compress/',
+    name: '批量压缩：多选 / 目标 KB / ZIP 就绪',
+    async fn(ctx) {
+      await gotoPage('/batch-compress/');
+      await page.setFiles('#batchFile', [FIXTURES.landscape, FIXTURES.portrait]);
+      await page.waitFor("document.getElementById('batchWorkspace') && !document.getElementById('batchWorkspace').hidden", { timeoutMs: 10000 });
+      await page.eval("document.getElementById('batchWidth').value='320'; document.getElementById('batchKb').value='40'; document.getElementById('batchProcess').click(); 1");
+      await page.waitFor("document.getElementById('batchStatus').textContent.indexOf('Done') === 0", { timeoutMs: 25000 });
+      const state = await page.eval("({ status: document.getElementById('batchStatus').textContent, items: [...document.querySelectorAll('#batchResults li')].map((li) => li.textContent), enabled: !document.getElementById('batchDownload').disabled })");
+      ctx.check('两张图都有结果', state.items.length === 2, { actual: state.items });
+      ctx.check('结果含压缩前后大小', state.items.every((text) => /→/.test(text)), { actual: state.items });
+      ctx.check('ZIP 按钮可用', state.enabled === true, { actual: state.enabled });
+      await ctx.screenshot('batch-compress');
+    },
+  });
+}
+
 async function runCoverageGroup() {
   await runCase(page, {
     id: 'ENV-01',
@@ -2839,6 +2861,7 @@ async function main() {
   await runSocialMediaSizesGroup();
   await runSocialMediaSizesLocalesGroup();
   await runSplitGroup();
+  await runBatchGroup();
   await runCoverageGroup();
 
   // 5) 汇总与报告

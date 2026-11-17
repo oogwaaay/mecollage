@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="批次壓縮圖片：一次處理一批、壓到指定 KB 以內、打包下載 ZIP。適合蝦皮商品圖、報名證件照和部落格配圖，不上傳、免註冊。" />
+    <meta name="keywords" content="批次壓縮圖片, 圖片壓縮, 批次縮圖, 壓到200kb, 圖片打包下載" />
+    <meta property="og:title" content="批次壓縮圖片 – 免費線上批次縮圖" />
+    <meta property="og:description" content="一次壓縮一批圖片，控制最大 KB，打包下載 ZIP。瀏覽器內完成。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/tw/batch-compress/" />
+    <title>批次壓縮圖片 – 免費線上批次縮圖 | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/tw/batch-compress/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/batch-compress/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/batch-compress/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/batch-compress/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/batch-compress/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/batch-compress/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/batch-compress/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/tw-free-collage-maker.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="批次壓縮圖片 – 免費線上批次縮圖 - MeCollage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/batch-compress.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 760px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+        .faq-item { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .faq-question { font-size: 1.05em; margin-bottom: 6px; }
+        .faq-item p { line-height: 1.7; color: var(--mc-text-body); }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .batch-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/tw/batch-compress/#webpage","url":"https://www.mecollage.top/tw/batch-compress/","name":"批次壓縮圖片","description":"批次壓縮圖片：一次處理一批、壓到指定 KB 以內、打包下載 ZIP。適合蝦皮商品圖、報名證件照和部落格配圖，不上傳、免註冊。","inLanguage":"zh-TW"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首頁","item":"https://www.mecollage.top/tw/"},{"@type":"ListItem","position":2,"name":"批次壓縮","item":"https://www.mecollage.top/tw/batch-compress/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/tw/batch-compress/#faq","mainEntity":[{"@type":"Question","name":"怎麼一次壓縮多張圖片？","acceptedAnswer":{"@type":"Answer","text":"一次選多張圖片，設定最大寬度和可選的 KB 上限，點「開始壓縮」，完成後下載 ZIP。"}},{"@type":"Question","name":"能壓到指定 KB 以內嗎？","acceptedAnswer":{"@type":"Answer","text":"可以。填入目標 KB 後，工具會為每張圖自動搜尋放得下的最高畫質。"}},{"@type":"Question","name":"圖片會被上傳嗎？","acceptedAnswer":{"@type":"Answer","text":"不會。圖片在瀏覽器裡解碼、縮放和重新編碼，ZIP 也在本機產生。"}},{"@type":"Question","name":"可以匯出什麼格式？","acceptedAnswer":{"@type":"Answer","text":"JPG 或 WebP；選 WebP 時透明背景會保留。"}},{"@type":"Question","name":"有數量限制嗎？","acceptedAnswer":{"@type":"Answer","text":"沒有固定上限，但圖片會逐張在瀏覽器處理；建議一次 20–50 張。"}}]}]}</script>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>批次壓縮圖片</h1>
+        <p class="subtitle">一次處理一批圖片，壓到指定大小，打包下載。</p>
+
+        <section class="batch-tool" id="batchTool" aria-label="批次壓縮工具">
+            <div class="batch-drop" id="batchDrop">
+                <input type="file" id="batchFile" accept="image/*" multiple hidden>
+                <button type="button" id="batchPick"><i class="fas fa-upload"></i> 選擇圖片</button>
+                <p>支援 PNG、JPG、WebP · 在瀏覽器裡處理，不上傳</p>
+            </div>
+            <div class="batch-workspace" id="batchWorkspace" hidden>
+                <div class="batch-options">
+                    <label>最大寬度（像素）<input id="batchWidth" type="number" value="1920" min="200" max="8000" inputmode="numeric"></label>
+                    <label>目標大小（KB，選填）<input id="batchKb" type="number" value="200" min="10" max="5000" inputmode="numeric"></label>
+                    <label>格式<select id="batchFormat"><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label>
+                </div>
+                <div class="batch-actions">
+                    <button type="button" class="batch-btn" id="batchProcess"><i class="fas fa-compress"></i> 開始壓縮</button>
+                    <button type="button" class="batch-btn" id="batchDownload" disabled><i class="fas fa-download"></i> 下載 ZIP</button>
+                </div>
+                <ul class="batch-results" id="batchResults"></ul>
+                <p class="batch-status" id="batchStatus" role="status"></p>
+            </div>
+        </section>
+
+        <p class="intro">蝦皮 40 張商品圖、報名系統限制 200KB、部落格圖片太大載入慢——一張張壓是最花時間的部分。把整批圖片加進來，設定最大寬度和可選的 KB 上限，處理後打包成一個 ZIP。圖片不會離開你的瀏覽器。</p>
+
+        <div class="features">
+            <div class="feature"><i class="fas fa-layer-group"></i><h3>一次處理</h3><p>所有圖片套用同一套尺寸與畫質規則。</p></div>
+            <div class="feature"><i class="fas fa-weight-hanging"></i><h3>目標 KB</h3><p>填入大小上限，工具會自動找放得下的最高畫質。</p></div>
+            <div class="feature"><i class="fas fa-file-zipper"></i><h3>一個 ZIP</h3><p>處理結果依原檔名打包，一次下載。</p></div>
+        </div>
+
+        <h2>批次壓縮只要 3 步</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 加入圖片</h3><p>一次選多張，或把一批圖片拖進工具。</p></div>
+            <div class="step"><h3>2. 設定限制</h3><p>選最大寬度、可選 KB 上限，以及 JPG 或 WebP。</p></div>
+            <div class="step"><h3>3. 壓縮並下載</h3><p>每張圖顯示壓縮前後大小，最後下載 ZIP。</p></div>
+        </div>
+
+        <p class="links">想把一張圖切成九宮格？用 <a href="/tw/split-image/">圖片分割</a>。壓縮完想拼在一起，用 <a href="/tw/combine-images/">線上圖片拼接</a>。</p>
+
+        <h2 id="faq-heading">批次壓縮常見問題</h2>
+        <div class="faq">
+            <div class="faq-item"><h3 class="faq-question">怎麼一次壓縮多張圖片？</h3><p>一次選多張圖片，設定最大寬度和可選的 KB 上限，點「開始壓縮」，完成後下載 ZIP。</p></div>
+            <div class="faq-item"><h3 class="faq-question">能壓到指定 KB 以內嗎？</h3><p>可以。填入目標 KB 後，工具會為每張圖自動搜尋放得下的最高畫質。</p></div>
+            <div class="faq-item"><h3 class="faq-question">圖片會被上傳嗎？</h3><p>不會。圖片在瀏覽器裡解碼、縮放和重新編碼，ZIP 也在本機產生。</p></div>
+            <div class="faq-item"><h3 class="faq-question">可以匯出什麼格式？</h3><p>JPG 或 WebP；選 WebP 時透明背景會保留。</p></div>
+            <div class="faq-item"><h3 class="faq-question">有數量限制嗎？</h3><p>沒有固定上限，但圖片會逐張在瀏覽器處理；建議一次 20–50 張。</p></div>
+        </div>
+    </div>
+
+<nav class="language-links" aria-label="語言版本" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
+  <a class="language-link" data-language-nav="true" href="/batch-compress/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
+  <a class="language-link" data-language-nav="true" href="/zh/batch-compress/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
+  <a class="language-link" data-language-nav="true" href="/tw/batch-compress/" hreflang="zh-TW" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
+  <a class="language-link" data-language-nav="true" href="/ja/batch-compress/" hreflang="ja" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
+  <a class="language-link" data-language-nav="true" href="/es/batch-compress/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
+</nav>
+    <nav class="footer-tools footer-tools--standalone" aria-label="工具" data-i18n-aria-label="nav.tools">
+    <a href="/tw/" data-i18n="tool.collage_maker">拼圖製作</a>
+    <a href="/tw/tools/squarecrop/" data-i18n="tool.square_crop">方形裁切</a>
+    <a href="/tw/tools/roundedcorners/" data-i18n="tool.rounded_corners">圓角工具</a>
+    <a href="/tw/tools/square/" data-i18n="tool.square_image">方形圖片</a>
+    <a href="/tw/tools/blurredframe/" data-i18n="tool.blurred_frame">模糊邊框</a>
+    <a href="/tw/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">長寬比計算器</a>
+            </nav>
+<script>window.MC_BATCH_I18N = { ready: '已加入 {n} 張圖片', working: '處理中…', done: '完成：{n} 個檔案', saved: 'ZIP 已儲存：{n} 個檔案', failed: '處理失敗', error: '請至少選擇一張圖片。' };</script>
+<script src="/assets/js/batch-compress.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>

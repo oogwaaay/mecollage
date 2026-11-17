@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="複数の画像を一度に縮小し、最大KBに収めてZIPでダウンロード。アップロード不要・無料・登録なし。" />
+    <meta name="keywords" content="画像 一括 圧縮, 画像 まとめて 縮小, 200kb 以下, 画像 圧縮 ツール" />
+    <meta property="og:title" content="画像を一括圧縮 – 無料オンライン圧縮ツール" />
+    <meta property="og:description" content="複数画像をまとめて縮小し、最大KBに収めてZIPで保存。ブラウザ内処理。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.mecollage.top/ja/batch-compress/" />
+    <title>画像を一括圧縮 – 無料オンライン圧縮ツール | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/ja/batch-compress/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/batch-compress/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/batch-compress/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/batch-compress/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/batch-compress/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/batch-compress/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/batch-compress/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/ja-free-collage-maker.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="画像を一括圧縮 – 無料オンライン圧縮ツール - MeCollage" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/batch-compress.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 760px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 18px; }
+        .faq-item { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .faq-question { font-size: 1.05em; margin-bottom: 6px; }
+        .faq-item p { line-height: 1.7; color: var(--mc-text-body); }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .batch-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+    </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/ja/batch-compress/#webpage","url":"https://www.mecollage.top/ja/batch-compress/","name":"画像を一括圧縮","description":"複数の画像を一度に縮小し、最大KBに収めてZIPでダウンロード。アップロード不要・無料・登録なし。","inLanguage":"ja"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"ホーム","item":"https://www.mecollage.top/ja/"},{"@type":"ListItem","position":2,"name":"一括圧縮","item":"https://www.mecollage.top/ja/batch-compress/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/ja/batch-compress/#faq","mainEntity":[{"@type":"Question","name":"複数の画像を一度に圧縮するには？","acceptedAnswer":{"@type":"Answer","text":"複数選択し、最大幅と任意のKB上限を入れて「圧縮する」を押し、最後にZIPをダウンロードします。"}},{"@type":"Question","name":"指定したKB以下にできますか？","acceptedAnswer":{"@type":"Answer","text":"できます。目標KBを入れると、各画像で収まる範囲の最高画質を自動で探します。"}},{"@type":"Question","name":"画像はアップロードされますか？","acceptedAnswer":{"@type":"Answer","text":"いいえ。ブラウザ内でデコード・縮小・再エンコードし、ZIPも端末内で作ります。"}},{"@type":"Question","name":"書き出し形式は？","acceptedAnswer":{"@type":"Answer","text":"JPGまたはWebP。WebPなら透過も保持されます。"}},{"@type":"Question","name":"枚数に制限はありますか？","acceptedAnswer":{"@type":"Answer","text":"固定の上限はありませんが、1枚ずつ処理します。まず20〜50枚が目安です。"}}]}]}</script>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>画像を一括圧縮</h1>
+        <p class="subtitle">複数の画像をまとめて縮小し、最大KBに収めてZIPで保存。</p>
+
+        <section class="batch-tool" id="batchTool" aria-label="一括圧縮ツール">
+            <div class="batch-drop" id="batchDrop">
+                <input type="file" id="batchFile" accept="image/*" multiple hidden>
+                <button type="button" id="batchPick"><i class="fas fa-upload"></i> 画像を選択</button>
+                <p>PNG・JPG・WebP対応 · ブラウザ内で処理、アップロードなし</p>
+            </div>
+            <div class="batch-workspace" id="batchWorkspace" hidden>
+                <div class="batch-options">
+                    <label>最大幅（px）<input id="batchWidth" type="number" value="1920" min="200" max="8000" inputmode="numeric"></label>
+                    <label>目標サイズ（KB・任意）<input id="batchKb" type="number" value="200" min="10" max="5000" inputmode="numeric"></label>
+                    <label>形式<select id="batchFormat"><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label>
+                </div>
+                <div class="batch-actions">
+                    <button type="button" class="batch-btn" id="batchProcess"><i class="fas fa-compress"></i> 圧縮する</button>
+                    <button type="button" class="batch-btn" id="batchDownload" disabled><i class="fas fa-download"></i> ZIPをダウンロード</button>
+                </div>
+                <ul class="batch-results" id="batchResults"></ul>
+                <p class="batch-status" id="batchStatus" role="status"></p>
+            </div>
+        </section>
+
+        <p class="intro">商品画像40枚、提出先の上限200KB、ブログの画像が重い——1枚ずつ圧縮するのが一番面倒な部分です。まとめて追加し、最大幅とKB上限を決めて処理すれば、結果を1つのZIPで受け取れます。画像はブラウザの外に出ません。</p>
+
+        <div class="features">
+            <div class="feature"><i class="fas fa-layer-group"></i><h3>一度に処理</h3><p>すべての画像に同じサイズ・画質ルールを適用。</p></div>
+            <div class="feature"><i class="fas fa-weight-hanging"></i><h3>目標KB</h3><p>上限を入れると、収まる範囲で最高画質を自動で探します。</p></div>
+            <div class="feature"><i class="fas fa-file-zipper"></i><h3>1つのZIP</h3><p>元のファイル名でまとめてダウンロード。</p></div>
+        </div>
+
+        <h2>一括圧縮は3ステップ</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 画像を追加</h3><p>複数選択するか、画像の入ったフォルダをドロップします。</p></div>
+            <div class="step"><h3>2. 上限を設定</h3><p>最大幅、任意のKB上限、JPGかWebPを選びます。</p></div>
+            <div class="step"><h3>3. 圧縮して保存</h3><p>前後のサイズを確認してZIPをダウンロード。</p></div>
+        </div>
+
+        <p class="links">1枚をグリッドに分けるなら <a href="/ja/split-image/">画像を分割</a>。圧縮した画像を並べるなら <a href="/ja/combine-images/">画像を結合</a>。</p>
+
+        <h2 id="faq-heading">一括圧縮のよくある質問</h2>
+        <div class="faq">
+            <div class="faq-item"><h3 class="faq-question">複数の画像を一度に圧縮するには？</h3><p>複数選択し、最大幅と任意のKB上限を入れて「圧縮する」を押し、最後にZIPをダウンロードします。</p></div>
+            <div class="faq-item"><h3 class="faq-question">指定したKB以下にできますか？</h3><p>できます。目標KBを入れると、各画像で収まる範囲の最高画質を自動で探します。</p></div>
+            <div class="faq-item"><h3 class="faq-question">画像はアップロードされますか？</h3><p>いいえ。ブラウザ内でデコード・縮小・再エンコードし、ZIPも端末内で作ります。</p></div>
+            <div class="faq-item"><h3 class="faq-question">書き出し形式は？</h3><p>JPGまたはWebP。WebPなら透過も保持されます。</p></div>
+            <div class="faq-item"><h3 class="faq-question">枚数に制限はありますか？</h3><p>固定の上限はありませんが、1枚ずつ処理します。まず20〜50枚が目安です。</p></div>
+        </div>
+    </div>
+
+<nav class="language-links" aria-label="言語版" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
+  <a class="language-link" data-language-nav="true" href="/batch-compress/" hreflang="en" style="color:inherit;opacity:.8;text-decoration:none;">English</a>
+  <a class="language-link" data-language-nav="true" href="/zh/batch-compress/" hreflang="zh-CN" style="color:inherit;opacity:.8;text-decoration:none;">简体中文</a>
+  <a class="language-link" data-language-nav="true" href="/tw/batch-compress/" hreflang="zh-TW" style="color:inherit;opacity:.8;text-decoration:none;">繁體中文</a>
+  <a class="language-link" data-language-nav="true" href="/ja/batch-compress/" hreflang="ja" aria-current="page" style="color:inherit;opacity:.8;text-decoration:none;">日本語</a>
+  <a class="language-link" data-language-nav="true" href="/es/batch-compress/" hreflang="es" style="color:inherit;opacity:.8;text-decoration:none;">Español</a>
+</nav>
+    <nav class="footer-tools footer-tools--standalone" aria-label="ツール" data-i18n-aria-label="nav.tools">
+    <a href="/ja/" data-i18n="tool.collage_maker">コラージュ作成</a>
+    <a href="/ja/tools/squarecrop/" data-i18n="tool.square_crop">正方形クロップ</a>
+    <a href="/ja/tools/roundedcorners/" data-i18n="tool.rounded_corners">角丸ツール</a>
+    <a href="/ja/tools/square/" data-i18n="tool.square_image">正方形画像</a>
+    <a href="/ja/tools/blurredframe/" data-i18n="tool.blurred_frame">ぼかしフレーム</a>
+    <a href="/ja/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">アスペクト比計算</a>
+            </nav>
+<script>window.MC_BATCH_I18N = { ready: '{n} 枚を追加しました', working: '処理中…', done: '完了：{n} ファイル', saved: 'ZIPを保存しました：{n} ファイル', failed: '失敗しました', error: '画像を1枚以上選んでください。' };</script>
+<script src="/assets/js/batch-compress.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-17T07:26:04.717Z",
-  "gitHead": "bca826b3e7f15b1c9ae955839481f2346792fdb7",
+  "generatedAt": "2026-11-17T07:30:46.436Z",
+  "gitHead": "2aba39c72159129792aed860adba9d762fb3bec8",
   "tokenHash": "a8fbd0cee9e0",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
@@ -10,9 +10,9 @@
     "colors": 330,
     "fontSizes": 18,
     "radii": 155,
-    "relativeFontSizes": 424,
-    "inlineStyleAttrs": 1603,
-    "styleBlocks": 131,
+    "relativeFontSizes": 457,
+    "inlineStyleAttrs": 1633,
+    "styleBlocks": 136,
     "jsColors": 0
   },
   "counts": {
@@ -32,6 +32,15 @@
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 11,
       "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "assets/css/batch-compress.css": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 3,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
       "jsColors": 0
     },
     "assets/css/christmas-mode.css": {
@@ -84,6 +93,15 @@
       "fontSizes": 13,
       "radii": 28,
       "relativeFontSizes": 1,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/batch-compress.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
       "inlineStyleAttrs": 0,
       "styleBlocks": 0,
       "jsColors": 0
@@ -167,6 +185,15 @@
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 0,
       "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "batch-compress.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
       "jsColors": 0
     },
     "birthday-collage-maker.html": {
@@ -301,6 +328,15 @@
       "radii": 0,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "es/batch-compress.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -526,6 +562,15 @@
       "radii": 0,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ja/batch-compress.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -808,6 +853,15 @@
       "styleBlocks": 1,
       "jsColors": 0
     },
+    "tw/batch-compress.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
     "tw/birthday-collage-maker.html": {
       "colors": 1,
       "fontSizes": 0,
@@ -1012,6 +1066,15 @@
       "radii": 0,
       "relativeFontSizes": 0,
       "inlineStyleAttrs": 11,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "zh/batch-compress.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 6,
       "styleBlocks": 1,
       "jsColors": 0
     },

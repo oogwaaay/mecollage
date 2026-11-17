@@ -115,6 +115,7 @@ const CORE_BASES = [
   '/social-media-image-sizes/',
   '/combine-images/',
   '/split-image/',
+  '/batch-compress/',
 ];
 
 /** Phase D：保留索引的 7 个英文专题页（square-collage 已恢复；vertical-collage 仍 301） */

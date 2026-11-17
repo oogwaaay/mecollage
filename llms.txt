@@ -7,6 +7,7 @@
 - [Free Collage Maker](https://www.mecollage.top/free-collage-maker/): free photo collage without signup or watermark.
 - [Combine Images](https://www.mecollage.top/combine-images/): put photos side by side, stack them into one long image, or build a grid; localized examples for zh/ja/es.
 - [Split Image](https://www.mecollage.top/split-image/): cut one image into 2×2, 3×3 or strips and download every tile as a ZIP.
+- [Batch Compress](https://www.mecollage.top/batch-compress/): resize a set, cap each file at a KB target and download one ZIP.
 - [Square Collage](https://www.mecollage.top/square-collage/): 1:1 square collages for feeds and profiles.
 - [Vertical Collage](https://www.mecollage.top/vertical-collage/): 9:16 and tall collages for stories and long screenshots.
 - [Instagram Story Collage](https://www.mecollage.top/instagram-story-collage/): story-size collage layout.
