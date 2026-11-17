@@ -591,3 +591,32 @@
     }, 250);
   }
 })();
+
+/* Editor handoff: batch results -> editor via localStorage (?handoff=1) */
+(function () {
+  if (!/[?&]handoff=1/.test(location.search)) return;
+  var raw;
+  try { raw = JSON.parse(localStorage.getItem('mc_handoff_v1') || '[]'); } catch (e) { return; }
+  localStorage.removeItem('mc_handoff_v1');
+  if (!raw.length) return;
+  function apply() {
+    var app = window.mecollage;
+    if (!app || !Array.isArray(app.images) || typeof app.renderCollage !== 'function') return false;
+    raw.slice(0, 20).forEach(function (item) {
+      if (app.images.length >= 20) return;
+      app.images.push({ file: null, url: item.url, width: item.w, height: item.h, filter: 'none' });
+    });
+    app.renderCollage();
+    if (typeof app.showCollageCanvas === 'function') app.showCollageCanvas();
+    if (typeof app.updateImageCount === 'function') app.updateImageCount();
+    if (typeof app.markDirty === 'function') app.markDirty();
+    return true;
+  }
+  if (!apply()) {
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      if (apply() || tries > 40) clearInterval(timer);
+    }, 250);
+  }
+})();

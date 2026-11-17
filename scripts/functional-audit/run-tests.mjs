@@ -2661,6 +2661,27 @@ async function runBatchGroup() {
       await ctx.screenshot('batch-compress');
     },
   });
+
+  await runCase(page, {
+    id: 'BAT-02',
+    group: 'batch',
+    page: '/batch-compress/',
+    name: '批量配方链：裁剪 + 旋转 + 文件名模板 + 单张入口',
+    async fn(ctx) {
+      await gotoPage('/batch-compress/');
+      await page.setFiles('#batchFile', [FIXTURES.landscape]);
+      await page.waitFor("document.getElementById('batchStepList')", { timeoutMs: 8000 });
+      await page.eval("(() => { const s = document.getElementById('batchStepType'); s.value = 'crop1x1'; document.getElementById('batchStepAdd').click(); s.value = 'rotate90'; document.getElementById('batchStepAdd').click(); document.getElementById('batchPattern').value = '{name}-{w}x{h}'; return 1; })()");
+      const stepCount = await page.eval("document.querySelectorAll('.batch-step-item').length");
+      ctx.check('步骤链 = 2 步', stepCount === 2, { actual: stepCount });
+      await page.eval("document.getElementById('batchProcess').click(); 1");
+      await page.waitFor("document.querySelector('#batchResults .batch-result')", { timeoutMs: 25000 });
+      const result = await page.eval("({ name: (document.querySelector('.batch-result-meta strong') || {}).textContent || '', dl: Boolean(document.querySelector('.batch-result-download')), push: Boolean(document.querySelector('.batch-result-push')) })");
+      ctx.check('文件名模板生效', /landscape-800x600-600x600\.jpg$/.test(result.name), { actual: result.name });
+      ctx.check('单张下载 + 放回画布入口', result.dl === true && result.push === true, { actual: result });
+      await ctx.screenshot('batch-recipe');
+    },
+  });
 }
 
 async function runFreeformGroup() {

@@ -21,26 +21,107 @@
   var files = [];
   var outputs = [];
   var busy = false;
-  var pre = null;
-  ensurePreOptions();
-  function ensurePreOptions() {
-    if (pre) return pre;
+  var steps = [];
+  var stepUi = null;
+  var patternInput = null;
+  var customRecipes = [];
+  var STEP_TYPES = [
+    ['crop1x1', '1:1'], ['crop4x5', '4:5'], ['crop9x16', '9:16'], ['crop16x9', '16:9'],
+    ['rotate90', '↻ 90°'], ['rotate180', '↻ 180°'], ['rotate270', '↻ 270°'],
+    ['flipH', '⇄'], ['flipV', '⇅'], ['border20', '▣ 20'], ['border40', '▣ 40']
+  ];
+  function t(key, fallback) { return T[key] || fallback; }
+  function ensureStepsUi() {
+    if (stepUi) return stepUi;
     var host = root.querySelector('.batch-options');
     if (!host) return null;
-    var row = document.createElement('div');
-    row.className = 'batch-row';
-    row.innerHTML = '<label><input type="checkbox" id="batchRotate"> 90°</label>' +
-      '<label><input type="checkbox" id="batchFlip"> ⇄</label>' +
-      '<label><input type="checkbox" id="batchCrop"> 1:1</label>' +
-      '<label><input type="checkbox" id="batchBorder"> 20px</label>';
-    host.appendChild(row);
-    pre = {
-      rotate: row.querySelector('#batchRotate'),
-      flip: row.querySelector('#batchFlip'),
-      crop: row.querySelector('#batchCrop'),
-      border: row.querySelector('#batchBorder')
-    };
-    return pre;
+    var wrap = document.createElement('div');
+    wrap.className = 'batch-steps';
+    wrap.innerHTML = '<div class="batch-steps-head"><strong>' + t('steps', 'Steps') + '</strong>' +
+      '<select id="batchStepType">' + STEP_TYPES.map(function (s) { return '<option value="' + s[0] + '">' + s[1] + '</option>'; }).join('') + '</select>' +
+      '<button type="button" id="batchStepAdd">' + t('addStep', 'Add step') + '</button></div>' +
+      '<ol id="batchStepList" class="batch-step-list"></ol>' +
+      '<div class="batch-recipes"><strong>' + t('recipes', 'Recipes') + '</strong><div id="batchRecipeChips" class="batch-recipe-chips"></div>' +
+      '<div class="batch-recipe-save"><input id="batchRecipeName" placeholder="' + t('recipePlaceholder', 'Recipe name') + '"><button type="button" id="batchRecipeSave">' + t('saveRecipe', 'Save') + '</button></div></div>' +
+      '<div class="batch-pattern"><label>' + t('filename', 'Filename') + ' <input id="batchPattern" value="{name}-{n}" spellcheck="false"></label></div>';
+    host.appendChild(wrap);
+    patternInput = wrap.querySelector('#batchPattern');
+    wrap.querySelector('#batchStepAdd').addEventListener('click', function () {
+      var sel = wrap.querySelector('#batchStepType');
+      if (sel && sel.value) { steps.push(sel.value); renderSteps(); }
+    });
+    wrap.querySelector('#batchRecipeSave').addEventListener('click', saveRecipe);
+    try { customRecipes = JSON.parse(localStorage.getItem('mc_batch_recipes_v1') || '[]'); } catch (e) { customRecipes = []; }
+    renderRecipes();
+    stepUi = wrap;
+    renderSteps();
+    return stepUi;
+  }
+  function stepLabel(type) {
+    for (var i = 0; i < STEP_TYPES.length; i++) if (STEP_TYPES[i][0] === type) return STEP_TYPES[i][1];
+    return type;
+  }
+  function renderSteps() {
+    if (!stepUi) return;
+    var list = stepUi.querySelector('#batchStepList');
+    list.innerHTML = '';
+    steps.forEach(function (type, index) {
+      var li = document.createElement('li');
+      li.className = 'batch-step-item';
+      li.innerHTML = '<span>' + stepLabel(type) + '</span><span class="batch-step-actions">' +
+        '<button type="button" data-move="-1" aria-label="' + t('moveUp', 'Move up') + '">↑</button>' +
+        '<button type="button" data-move="1" aria-label="' + t('moveDown', 'Move down') + '">↓</button>' +
+        '<button type="button" data-remove="1" aria-label="' + t('remove', 'Remove') + '">×</button></span>';
+      li.querySelectorAll('[data-move]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var dir = Number(btn.getAttribute('data-move'));
+          var next = index + dir;
+          if (next < 0 || next >= steps.length) return;
+          var tmp = steps[index]; steps[index] = steps[next]; steps[next] = tmp;
+          renderSteps();
+        });
+      });
+      li.querySelector('[data-remove]').addEventListener('click', function () { steps.splice(index, 1); renderSteps(); });
+      list.appendChild(li);
+    });
+  }
+  function recipeList() {
+    var builtin = [
+      { name: t('recipeSquare', 'Instagram square'), steps: ['crop1x1', 'border20'], width: 1080, kb: 200, format: 'image/jpeg' },
+      { name: t('recipeStory', 'Story 9:16'), steps: ['crop9x16'], width: 1080, kb: 300, format: 'image/jpeg' },
+      { name: t('recipeUnder', 'Under 200 KB'), steps: [], width: 1600, kb: 200, format: 'image/jpeg' },
+      { name: t('recipeBorder', 'White border'), steps: ['border20'], width: 1600, kb: 0, format: 'image/png' }
+    ];
+    return builtin.concat(customRecipes);
+  }
+  function applyRecipe(recipe) {
+    steps = (recipe.steps || []).slice();
+    if (recipe.width && widthInput) widthInput.value = String(recipe.width);
+    if (typeof recipe.kb === 'number' && kbInput) kbInput.value = recipe.kb ? String(recipe.kb) : '';
+    if (recipe.format && formatSelect) formatSelect.value = recipe.format;
+    renderSteps();
+  }
+  function renderRecipes() {
+    if (!stepUi) return;
+    var chips = stepUi.querySelector('#batchRecipeChips');
+    chips.innerHTML = '';
+    recipeList().forEach(function (recipe) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'batch-recipe-chip';
+      btn.textContent = recipe.name;
+      btn.addEventListener('click', function () { applyRecipe(recipe); });
+      chips.appendChild(btn);
+    });
+  }
+  function saveRecipe() {
+    var nameEl = stepUi && stepUi.querySelector('#batchRecipeName');
+    var name = nameEl && nameEl.value.trim();
+    if (!name) return;
+    customRecipes.push({ name: name, steps: steps.slice(), width: Number(widthInput.value) || 1920, kb: Number(kbInput.value) || 0, format: formatSelect.value });
+    try { localStorage.setItem('mc_batch_recipes_v1', JSON.stringify(customRecipes)); } catch (e) {}
+    nameEl.value = '';
+    renderRecipes();
   }
   function imageToCanvas(img) {
     var c = document.createElement('canvas');
@@ -48,41 +129,70 @@
     c.getContext('2d').drawImage(img, 0, 0);
     return c;
   }
-  function preprocess(img) {
-    var opts = ensurePreOptions();
-    var c = imageToCanvas(img);
-    if (opts && opts.crop.checked) {
-      var side = Math.min(c.width, c.height);
-      var cropped = document.createElement('canvas');
-      cropped.width = side; cropped.height = side;
-      cropped.getContext('2d').drawImage(c, (c.width - side) / 2, (c.height - side) / 2, side, side, 0, 0, side, side);
-      c = cropped;
+  function cropRatio(c, ratio) {
+    var w = c.width, h = c.height;
+    var nextW = w, nextH = h;
+    if (w / h > ratio) nextW = Math.round(h * ratio); else nextH = Math.round(w / ratio);
+    var out = document.createElement('canvas');
+    out.width = nextW; out.height = nextH;
+    out.getContext('2d').drawImage(c, (w - nextW) / 2, (h - nextH) / 2, nextW, nextH, 0, 0, nextW, nextH);
+    return out;
+  }
+  function applyStep(c, type) {
+    if (type === 'crop1x1') return cropRatio(c, 1);
+    if (type === 'crop4x5') return cropRatio(c, 4 / 5);
+    if (type === 'crop9x16') return cropRatio(c, 9 / 16);
+    if (type === 'crop16x9') return cropRatio(c, 16 / 9);
+    var out = document.createElement('canvas');
+    var ctx;
+    if (type === 'rotate90' || type === 'rotate270') {
+      out.width = c.height; out.height = c.width;
+      ctx = out.getContext('2d');
+      ctx.translate(out.width / 2, out.height / 2);
+      ctx.rotate(type === 'rotate90' ? Math.PI / 2 : -Math.PI / 2);
+      ctx.drawImage(c, -c.width / 2, -c.height / 2);
+      return out;
     }
-    if (opts && opts.rotate.checked) {
-      var rot = document.createElement('canvas');
-      rot.width = c.height; rot.height = c.width;
-      var rctx = rot.getContext('2d');
-      rctx.translate(rot.width, 0); rctx.rotate(Math.PI / 2);
-      rctx.drawImage(c, 0, 0);
-      c = rot;
+    if (type === 'rotate180') {
+      out.width = c.width; out.height = c.height;
+      ctx = out.getContext('2d');
+      ctx.translate(out.width, out.height); ctx.rotate(Math.PI);
+      ctx.drawImage(c, 0, 0);
+      return out;
     }
-    if (opts && opts.flip.checked) {
-      var fl = document.createElement('canvas');
-      fl.width = c.width; fl.height = c.height;
-      var fctx = fl.getContext('2d');
-      fctx.translate(fl.width, 0); fctx.scale(-1, 1);
-      fctx.drawImage(c, 0, 0);
-      c = fl;
+    if (type === 'flipH' || type === 'flipV') {
+      out.width = c.width; out.height = c.height;
+      ctx = out.getContext('2d');
+      if (type === 'flipH') { ctx.translate(out.width, 0); ctx.scale(-1, 1); }
+      else { ctx.translate(0, out.height); ctx.scale(1, -1); }
+      ctx.drawImage(c, 0, 0);
+      return out;
     }
-    if (opts && opts.border.checked) {
-      var bd = document.createElement('canvas');
-      bd.width = c.width + 40; bd.height = c.height + 40;
-      var bctx = bd.getContext('2d');
-      bctx.fillStyle = 'white'; bctx.fillRect(0, 0, bd.width, bd.height);
-      bctx.drawImage(c, 20, 20);
-      c = bd;
+    if (type === 'border20' || type === 'border40') {
+      var b = type === 'border20' ? 20 : 40;
+      out.width = c.width + b * 2; out.height = c.height + b * 2;
+      ctx = out.getContext('2d');
+      ctx.fillStyle = 'white'; ctx.fillRect(0, 0, out.width, out.height);
+      ctx.drawImage(c, b, b);
+      return out;
     }
     return c;
+  }
+  function preprocess(img) {
+    var c = imageToCanvas(img);
+    steps.forEach(function (type) { c = applyStep(c, type); });
+    return c;
+  }
+  function buildName(original, index, w, h, ext) {
+    var base = original.replace(/\.[^.]+$/, '');
+    var pattern = (patternInput && patternInput.value.trim()) || '{name}-{n}';
+    var name = pattern.replace(/\{name\}/g, base)
+      .replace(/\{n\}/g, String(index + 1).padStart(2, '0'))
+      .replace(/\{w\}/g, String(w)).replace(/\{h\}/g, String(h))
+      .replace(/\{format\}/g, ext.replace('.', ''));
+    name = name.replace(/[\\/:*?"<>|]/g, '-').replace(/\s+/g, ' ').trim();
+    if (!new RegExp('\\.' + ext.slice(1) + '$', 'i').test(name)) name += ext;
+    return name;
   }
 
   function say(text) { if (statusEl) statusEl.textContent = text; }
@@ -203,11 +313,25 @@
       resultsEl.appendChild(item);
       try {
         var img = await loadImage(file);
-        var blob = await encode(preprocess(img), maxWidth, targetKb, type);
+        var stepCanvas = preprocess(img);
+        var blob = await encode(stepCanvas, maxWidth, targetKb, type);
         if (!blob) throw new Error('encode');
-        var name = file.name.replace(/\.[^.]+$/, '') + ext;
-        outputs.push({ name: name, data: new Uint8Array(await blob.arrayBuffer()) });
-        item.textContent = file.name + ' — ' + kb(file.size) + ' KB → ' + kb(blob.size) + ' KB';
+        var scale = Math.min(1, maxWidth / stepCanvas.width);
+        var outW = Math.max(1, Math.round(stepCanvas.width * scale));
+        var outH = Math.max(1, Math.round(stepCanvas.height * scale));
+        var name = buildName(file.name, i, outW, outH, ext);
+        var data = new Uint8Array(await blob.arrayBuffer());
+        var outUrl = URL.createObjectURL(blob);
+        var out = { name: name, data: data, url: outUrl, w: outW, h: outH, before: file.size, after: blob.size };
+        outputs.push(out);
+        item.className = 'batch-result';
+        item.innerHTML = '<img class="batch-result-thumb" alt="" src="' + outUrl + '">' +
+          '<div class="batch-result-meta"><strong>' + name + '</strong><span>' + kb(file.size) + ' KB → ' + kb(blob.size) + ' KB</span></div>' +
+          '<a class="batch-result-download" download="' + name + '" href="' + outUrl + '">' + t('downloadOne', 'Download') + '</a>' +
+          '<button type="button" class="batch-result-push">' + t('putCanvas', 'Put on canvas') + '</button>';
+        (function (output) {
+          item.querySelector('.batch-result-push').addEventListener('click', function () { pushToEditor([output]); });
+        })(out);
       } catch (e) {
         item.textContent = file.name + ' — ' + (T.failed || 'failed');
       }
@@ -229,6 +353,47 @@
     setTimeout(function () { URL.revokeObjectURL(link.href); }, 1500);
     say((T.saved || 'ZIP saved: {n} files').replace('{n}', String(outputs.length)));
   }
+  function pushToEditor(items) {
+    if (!items || !items.length) return;
+    var data = [];
+    var pending = items.length;
+    function done() {
+      if (--pending > 0) return;
+      try {
+        localStorage.setItem('mc_handoff_v1', JSON.stringify(data.slice(0, 20)));
+      } catch (e) {
+        say(t('handoffFail', 'These images are too large to hand off. Try a smaller width or target KB.'));
+        return;
+      }
+      var lang = (document.documentElement.lang || 'en').toLowerCase();
+      var prefix = lang.indexOf('zh-tw') === 0 || lang.indexOf('zh-hant') === 0 ? 'tw/' : lang.indexOf('zh') === 0 ? 'zh/' : lang.indexOf('ja') === 0 ? 'ja/' : lang.indexOf('es') === 0 ? 'es/' : '';
+      window.open('/' + prefix + '?handoff=1', '_blank');
+      say(t('handoffDone', 'Opened the editor with these images.'));
+    }
+    items.forEach(function (output) {
+      fetch(output.url).then(function (res) { return res.blob(); }).then(function (blob) {
+        return new Promise(function (resolve) {
+          var reader = new FileReader();
+          reader.onload = function () { data.push({ url: reader.result, w: output.w, h: output.h }); resolve(); };
+          reader.onerror = function () { resolve(); };
+          reader.readAsDataURL(blob);
+        });
+      }).then(done, done);
+    });
+  }
+  function ensurePushAll() {
+    if (document.getElementById('batchPushAll') || !downloadBtn || !downloadBtn.parentNode) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'batchPushAll';
+    btn.className = 'batch-push-all';
+    btn.textContent = t('putAllCanvas', 'Put all on canvas');
+    btn.addEventListener('click', function () { pushToEditor(outputs); });
+    downloadBtn.parentNode.insertBefore(btn, downloadBtn.nextSibling);
+  }
+  ensureStepsUi();
+  ensurePushAll();
+
   if (pick && input) pick.addEventListener('click', function () { input.click(); });
   if (input) input.addEventListener('change', function (e) { addFiles(e.target.files); });
   if (drop) {
