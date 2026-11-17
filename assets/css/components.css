@@ -2586,3 +2586,22 @@ body .mc-contact-direct a:hover {
   color: var(--mc-text-body);
   font-size: 0.95em;
 }
+
+/* 本地化截图（combine 页） */
+.localized-shot {
+  margin: 28px auto;
+  max-width: 608px;
+}
+.localized-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--mc-border-subtle);
+  border-radius: var(--mc-radius-lg);
+}
+.localized-shot figcaption {
+  margin-top: 8px;
+  color: var(--mc-text-body);
+  font-size: 0.9em;
+  text-align: center;
+}
