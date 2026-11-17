@@ -639,3 +639,81 @@
     };
   };
 })();
+
+/* Start over: clear the autosaved project and return to upload */
+(function () {
+  var labels = {
+    en: ['Start over', 'Click again to clear'],
+    zh: ['重新开始', '再点一次清空'],
+    tw: ['重新開始', '再點一次清空'],
+    ja: ['最初から', 'もう一度で消去'],
+    es: ['Empezar de nuevo', 'Otra vez para borrar']
+  };
+  function langKey() {
+    var l = (document.documentElement.lang || 'en').toLowerCase();
+    if (l.indexOf('zh-tw') === 0 || l.indexOf('zh-hant') === 0) return 'tw';
+    if (l.indexOf('zh') === 0) return 'zh';
+    if (l.indexOf('ja') === 0) return 'ja';
+    if (l.indexOf('es') === 0) return 'es';
+    return 'en';
+  }
+  var L = labels[langKey()];
+  function clearState(done) {
+    var req = indexedDB.open('mecollage-editor', 2);
+    req.onupgradeneeded = function () {
+      var db = req.result;
+      if (!db.objectStoreNames.contains('state')) db.createObjectStore('state');
+      if (!db.objectStoreNames.contains('trash')) db.createObjectStore('trash', { keyPath: 'id', autoIncrement: true });
+      if (!db.objectStoreNames.contains('recipes')) db.createObjectStore('recipes');
+      if (!db.objectStoreNames.contains('handoff')) db.createObjectStore('handoff');
+    };
+    req.onsuccess = function () {
+      var db = req.result;
+      if (!db.objectStoreNames.contains('state')) return done();
+      var tx = db.transaction('state', 'readwrite');
+      tx.objectStore('state').delete('current');
+      tx.oncomplete = done;
+      tx.onerror = done;
+      tx.onabort = done;
+    };
+    req.onerror = done;
+  }
+  function boot() {
+    var canvas = document.getElementById('collageCanvas');
+    if (!canvas || document.getElementById('mcNewProject')) return false;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'mcNewProject';
+    btn.className = 'mc-new-project';
+    btn.textContent = L[0];
+    canvas.appendChild(btn);
+    var armed = false;
+    var timer = null;
+    function disarm() {
+      armed = false;
+      clearTimeout(timer);
+      btn.textContent = L[0];
+      btn.classList.remove('is-armed');
+    }
+    btn.addEventListener('click', function () {
+      if (!armed) {
+        armed = true;
+        btn.textContent = L[1];
+        btn.classList.add('is-armed');
+        timer = setTimeout(disarm, 3200);
+        return;
+      }
+      clearTimeout(timer);
+      btn.disabled = true;
+      clearState(function () { location.reload(); });
+    });
+    return true;
+  }
+  if (!boot()) {
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      if (boot() || tries > 40) clearInterval(timer);
+    }, 250);
+  }
+})();

@@ -1078,6 +1078,14 @@ async function runIndexGroup() {
       ctx.check('计数器 4 / 20', /4\s*\/\s*20/.test(counter), { actual: counter });
       const uploadHidden = await page.eval("document.getElementById('uploadScreen').style.display === 'none' || document.getElementById('uploadScreen').hidden");
       ctx.check('上传界面已隐藏', uploadHidden === true, { actual: uploadHidden });
+      await page.eval("document.getElementById('mcNewProject').click(); 1");
+      await sleep(250);
+      const armedText = await page.eval("document.getElementById('mcNewProject').textContent");
+      ctx.check('Start over 需要二次确认', armedText !== 'Start over', { actual: armedText });
+      await page.eval("document.getElementById('mcNewProject').click(); 1");
+      await page.waitFor("window.mecollage.images.length === 0", { timeoutMs: 10000 });
+      const uploadDisplay = await page.eval("getComputedStyle(document.getElementById('uploadScreen')).display");
+      ctx.check('清空后回到上传界面', uploadDisplay !== 'none', { actual: uploadDisplay });
       await ctx.screenshot('sample-images');
     },
   });

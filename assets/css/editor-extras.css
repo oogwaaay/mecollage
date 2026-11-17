@@ -101,6 +101,9 @@
 .mc-export-box select, .mc-export-box input[type="range"] { min-height: var(--mc-tap-target-min); padding: 6px 8px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-sm); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; }
 .mc-export-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .mc-export-actions button { min-height: var(--mc-tap-target-min); padding: 8px 14px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: var(--mc-font-size-caption); cursor: pointer; }
+.mc-new-project { position: absolute; top: 12px; right: 12px; z-index: 6; min-height: var(--mc-tap-target-min); padding: 8px 14px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: var(--mc-font-size-caption); cursor: pointer; backdrop-filter: blur(var(--mc-blur-lg)); }
+.mc-new-project.is-armed { border-color: var(--mc-color-danger); color: var(--mc-color-danger); }
+.mc-new-project[disabled] { opacity: 0.6; cursor: wait; }
 .mc-export-note { margin: 0; color: var(--mc-text-body); font-size: var(--mc-font-size-xs); line-height: 1.5; }
 .mc-sample-row { display: flex; justify-content: center; margin-top: 12px; }
 .mc-sample-btn { min-height: var(--mc-tap-target-min); padding: 10px 18px; border: 1px solid var(--mc-border-subtle); border-radius: var(--mc-radius-pill); background: var(--mc-surface-4); color: var(--mc-text-primary); font: inherit; font-size: var(--mc-font-size-label); cursor: pointer; }
