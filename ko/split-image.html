@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="이미지를 2×2, 3×3, 가로·세로 2등분으로 자르고 모든 타일을 ZIP으로 다운로드하세요. 업로드 없이 브라우저에서 처리합니다." />
+    <meta property="og:title" content="이미지 분할 – 무료 그리드 분할 도구" />
+    <meta property="og:description" content="이미지를 2×2, 3×3, 가로·세로 2등분으로 나누고 ZIP으로 저장하세요." />
+    <meta property="og:url" content="https://www.mecollage.top/ko/split-image/" />
+    <title>이미지 분할 – 무료 그리드 분할 도구 | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/ko/split-image/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/ko-free-collage-maker.jpg" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/split-image.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 760px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .split-label { font-weight: 600; color: var(--mc-text-primary); }
+        .split-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+        .pilot-note { text-align: center; color: var(--mc-text-body); font-size: 0.9em; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>이미지 분할</h1>
+        <p class="subtitle">한 장의 사진을 2×2, 3×3 또는 긴 조각으로 나누고 모든 타일을 저장하세요.</p>
+
+        <section class="split-tool" id="splitTool" aria-label="이미지 분할 도구">
+            <div class="split-drop" id="splitDrop">
+                <input type="file" id="splitFile" accept="image/*" hidden>
+                <button type="button" id="splitPick"><i class="fas fa-upload"></i> 이미지 선택</button>
+                <p>PNG, JPG, WebP · 브라우저에서 처리하며 업로드하지 않습니다</p>
+            </div>
+            <div class="split-workspace" id="splitWorkspace" hidden>
+                <div class="split-preview-wrap">
+                    <canvas id="splitPreview"></canvas>
+                    <div class="split-grid" id="splitGrid" aria-hidden="true"></div>
+                </div>
+                <div class="split-controls">
+                    <span class="split-label">분할 방식</span>
+                    <div class="split-modes" role="group" aria-label="분할 방식">
+                        <button type="button" data-mode="2x1" aria-pressed="false">가로 2분할</button>
+                        <button type="button" data-mode="1x2" aria-pressed="false">세로 2분할</button>
+                        <button type="button" data-mode="2x2" aria-pressed="true">2×2</button>
+                        <button type="button" data-mode="3x3" aria-pressed="false">3×3</button>
+                    </div>
+                    <p class="split-status" id="splitStatus" role="status"></p>
+                    <button type="button" class="split-download" id="splitDownload"><i class="fas fa-download"></i> ZIP 다운로드</button>
+                </div>
+            </div>
+        </section>
+
+        <p class="intro">인스타그램 그리드, 캐러셀, 인쇄용 분할에 쓰세요. 한 장씩 자르는 대신 한 번에 나누고, 미리보기의 선이 실제 절단 위치가 되며, 모든 타일이 하나의 ZIP으로 저장됩니다. 이미지는 기기 밖으로 나가지 않습니다.</p>
+
+        <div class="features">
+            <div class="feature"><i class="fas fa-table-cells"></i><h3>그리드</h3><p>3×3은 9장, 2×2는 4장 세트로.</p></div>
+            <div class="feature"><i class="fas fa-images"></i><h3>캐러셀 / 조각</h3><p>가로 2분할·세로 2분할로 스토리와 인쇄에도.</p></div>
+            <div class="feature"><i class="fas fa-lock"></i><h3>업로드 없음</h3><p>canvas가 기기 안에서 픽셀을 자릅니다.</p></div>
+        </div>
+
+        <h2>이미지 분할 3단계</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 이미지 추가</h3><p>파일을 끌어다 놓거나 기기에서 선택하세요.</p></div>
+            <div class="step"><h3>2. 분할 방식 선택</h3><p>가로 2분할, 세로 2분할, 2×2, 3×3 중에서 고릅니다.</p></div>
+            <div class="step"><h3>3. ZIP 다운로드</h3><p>각 타일을 원본 해상도의 PNG로 저장하고 ZIP으로 묶습니다.</p></div>
+        </div>
+
+        <p class="links">English version: <a href="/split-image/">Split Image</a>. 타일을 다시 합치려면 <a href="/combine-images/">Combine Images</a>.</p>
+        <p class="pilot-note">한국어 페이지는 파일럿이며 검색에는 노출되지 않습니다.</p>
+    </div>
+
+    <nav class="footer-tools footer-tools--standalone" aria-label="Tools" data-i18n-aria-label="nav.tools">
+    <a href="/" data-i18n="tool.collage_maker">Collage Maker</a>
+    <a href="/tools/squarecrop/" data-i18n="tool.square_crop">Square Crop</a>
+    <a href="/tools/roundedcorners/" data-i18n="tool.rounded_corners">Rounded Corners</a>
+    <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
+    <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
+    <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+            </nav>
+<script>window.MC_SPLIT_I18N = { ready: '준비됨: {n}개 타일', working: '타일 생성 중…', done: '완료: {n}개 타일', error: '올바른 이미지를 선택하세요.' };</script>
+<script src="/assets/js/split-image.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>

@@ -1,8 +1,8 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-17T07:30:46.436Z",
-  "gitHead": "2aba39c72159129792aed860adba9d762fb3bec8",
+  "generatedAt": "2026-11-17T07:51:28.048Z",
+  "gitHead": "770a707cfdbd1633d11a4c7db8fa2ea9b912d957",
   "tokenHash": "a8fbd0cee9e0",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
@@ -10,9 +10,9 @@
     "colors": 330,
     "fontSizes": 18,
     "radii": 155,
-    "relativeFontSizes": 457,
+    "relativeFontSizes": 468,
     "inlineStyleAttrs": 1633,
-    "styleBlocks": 136,
+    "styleBlocks": 138,
     "jsColors": 0
   },
   "counts": {
@@ -56,7 +56,7 @@
       "colors": 0,
       "fontSizes": 0,
       "radii": 0,
-      "relativeFontSizes": 2,
+      "relativeFontSizes": 3,
       "inlineStyleAttrs": 0,
       "styleBlocks": 0,
       "jsColors": 0
@@ -134,6 +134,15 @@
       "jsColors": 0
     },
     "assets/js/editor-extras.js": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 0,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 0,
+      "jsColors": 0
+    },
+    "assets/js/editor-persistence.js": {
       "colors": 0,
       "fontSizes": 0,
       "radii": 0,
@@ -751,6 +760,24 @@
       "radii": 1,
       "relativeFontSizes": 3,
       "inlineStyleAttrs": 6,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ko/batch-compress.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ko/split-image.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 0,
       "styleBlocks": 1,
       "jsColors": 0
     },

@@ -251,7 +251,8 @@ const navRoleFails = [];
       // Phase AR（2026-11-06）：五语言 Aspect Ratio Calculator 上线，footer-tools 统一为 6 个工具。
       const expectedFooterLinks = 6;
       if (links !== expectedFooterLinks) navRoleFails.push({ file: f, rule: `footer-tools 链接数 ${links} != ${expectedFooterLinks}` });
-      const hasPrefix = prefix ? m[0].includes(`href="/${prefix}/`) : !m[0].includes('href="/zh/');
+      // ko pilot：韩语页面暂无本地化工具页，允许 footer 指向英文工具（noindex pilot）
+      const hasPrefix = prefix === 'ko' ? true : (prefix ? m[0].includes(`href="/${prefix}/`) : !m[0].includes('href="/zh/'));
       if (!hasPrefix) navRoleFails.push({ file: f, rule: 'footer-tools 链接前缀与页面语言不一致' });
     }
   }

@@ -60,7 +60,8 @@ const LANGUAGES = [
   { key: 'ja', prefix: 'ja', sitemapLang: 'ja', htmlLang: ['ja', 'ja-JP'], i18nKey: 'ja' },
   { key: 'es', prefix: 'es', sitemapLang: 'es', htmlLang: ['es', 'es-ES', 'es-419'], i18nKey: 'es' },
 ];
-const LANGUAGE_BY_KEY = Object.fromEntries(LANGUAGES.map((lang) => [lang.key, lang]));
+const KO_PILOT_LANG = { key: 'ko', prefix: 'ko', sitemapLang: 'ko', htmlLang: ['ko'], i18nKey: 'ko' };
+const LANGUAGE_BY_KEY = Object.fromEntries([...LANGUAGES, KO_PILOT_LANG].map((lang) => [lang.key, lang]));
 const LANG_KEYS = LANGUAGES.map((lang) => lang.key);
 
 /** 渲染检查页：5 个首页 + 5 工具页 × 5 语言 = 30 */
@@ -256,7 +257,7 @@ function urlForFile(relPath) {
 
 /** URL 所属语言 key */
 function languageOf(url) {
-  const match = /^\/(zh|tw|ja|es)(?:\/|$)/.exec(url);
+  const match = /^\/(zh|tw|ja|es|ko)(?:\/|$)/.exec(url);
   return match ? match[1] : 'en';
 }
 
@@ -573,6 +574,8 @@ function buildExpectedSitemapSet(inventoryMap) {
 /** Phase C 期望 noindex 集合：8 个本地化专题 × 4 语言 = 32 */
 function buildExpectedNoindexSet() {
   const set = new Set();
+  set.add('/ko/split-image/');
+  set.add('/ko/batch-compress/');
   for (const base of LOCALIZED_NOINDEX_TOPIC_BASES) {
     for (const langKey of LOCALIZED_NOINDEX_LANGS) {
       set.add(langUrl(langKey, base));

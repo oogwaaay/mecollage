@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="여러 이미지를 한 번에 줄이고, 최대 KB에 맞춰 ZIP으로 다운로드하세요. 업로드 없이 브라우저에서 처리합니다." />
+    <meta property="og:title" content="이미지 일괄 압축 – 무료 온라인 압축 도구" />
+    <meta property="og:description" content="여러 이미지를 한 번에 압축하고 ZIP으로 저장하세요. 브라우저 안에서 처리." />
+    <meta property="og:url" content="https://www.mecollage.top/ko/batch-compress/" />
+    <title>이미지 일괄 압축 – 무료 온라인 압축 도구 | MeCollage</title>
+    <link rel="canonical" href="https://www.mecollage.top/ko/batch-compress/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/ko-free-collage-maker.jpg" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <link rel="stylesheet" href="/assets/css/batch-compress.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .intro { color: var(--mc-text-body); line-height: 1.8; text-align: center; max-width: 760px; margin: 28px auto; }
+        h2 { text-align: center; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin: 56px 0 24px; font-size: 1.8em; }
+        h3 { color: var(--mc-text-primary); margin-bottom: 8px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .feature { padding: 26px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-align: center; }
+        .feature i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .steps { max-width: 720px; margin: 0 auto; display: grid; gap: 18px; }
+        .step { padding: 20px 24px; background: var(--mc-surface-2); border-radius: var(--mc-radius-md); }
+        .step p { margin-top: 4px; line-height: 1.7; }
+        .links { text-align: center; line-height: 2; }
+        .links a { color: var(--mc-color-brand); }
+        .batch-drop button { min-height: var(--mc-tap-target-min); padding: 12px 22px; border: 0; border-radius: var(--mc-radius-pill); background: var(--mc-color-brand); color: var(--mc-text-primary); font: inherit; font-weight: 600; cursor: pointer; }
+        .pilot-note { text-align: center; color: var(--mc-text-body); font-size: 0.9em; margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>이미지 일괄 압축</h1>
+        <p class="subtitle">여러 이미지를 한 번에 줄이고, 최대 KB에 맞춰 ZIP으로 저장하세요.</p>
+
+        <section class="batch-tool" id="batchTool" aria-label="일괄 압축 도구">
+            <div class="batch-drop" id="batchDrop">
+                <input type="file" id="batchFile" accept="image/*" multiple hidden>
+                <button type="button" id="batchPick"><i class="fas fa-upload"></i> 이미지 선택</button>
+                <p>PNG, JPG, WebP · 브라우저에서 처리하며 업로드하지 않습니다</p>
+            </div>
+            <div class="batch-workspace" id="batchWorkspace" hidden>
+                <div class="batch-options">
+                    <label>최대 너비(px)<input id="batchWidth" type="number" value="1920" min="200" max="8000" inputmode="numeric"></label>
+                    <label>목표 크기(KB, 선택)<input id="batchKb" type="number" value="200" min="10" max="5000" inputmode="numeric"></label>
+                    <label>형식<select id="batchFormat"><option value="image/jpeg">JPG</option><option value="image/webp">WebP</option></select></label>
+                </div>
+                <div class="batch-actions">
+                    <button type="button" class="batch-btn" id="batchProcess"><i class="fas fa-compress"></i> 압축</button>
+                    <button type="button" class="batch-btn" id="batchDownload" disabled><i class="fas fa-download"></i> ZIP 다운로드</button>
+                </div>
+                <ul class="batch-results" id="batchResults"></ul>
+                <p class="batch-status" id="batchStatus" role="status"></p>
+            </div>
+        </section>
+
+        <p class="intro">상품 사진 40장, 200KB 업로드 제한, 느린 블로그 이미지 — 한 장씩 압축하는 일이 가장 번거롭습니다. 한 묶음을 넣고 최대 너비와 KB 상한을 정하면 모든 결과를 ZIP 하나로 받을 수 있습니다. 이미지는 브라우저 밖으로 나가지 않습니다.</p>
+
+        <div class="features">
+            <div class="feature"><i class="fas fa-layer-group"></i><h3>한 번에</h3><p>모든 이미지에 같은 크기·품질 규칙을 적용합니다.</p></div>
+            <div class="feature"><i class="fas fa-weight-hanging"></i><h3>목표 KB</h3><p>상한을 넣으면 그 안에 들어가는 최고 품질을 자동으로 찾습니다.</p></div>
+            <div class="feature"><i class="fas fa-file-zipper"></i><h3>ZIP 하나</h3><p>원본 파일명으로 묶어 한 번에 다운로드합니다.</p></div>
+        </div>
+
+        <h2>일괄 압축 3단계</h2>
+        <div class="steps">
+            <div class="step"><h3>1. 이미지 추가</h3><p>여러 장을 선택하거나 폴더를 끌어다 놓으세요.</p></div>
+            <div class="step"><h3>2. 제한 설정</h3><p>최대 너비, 선택적 KB 상한, JPG 또는 WebP를 고릅니다.</p></div>
+            <div class="step"><h3>3. 압축 및 다운로드</h3><p>전후 크기를 확인하고 ZIP을 내려받습니다.</p></div>
+        </div>
+
+        <p class="links">English version: <a href="/batch-compress/">Batch Compress</a>. 이미지를 자르려면 <a href="/split-image/">Split Image</a>.</p>
+        <p class="pilot-note">한국어 페이지는 파일럿이며 검색에는 노출되지 않습니다.</p>
+    </div>
+
+    <nav class="footer-tools footer-tools--standalone" aria-label="Tools" data-i18n-aria-label="nav.tools">
+    <a href="/" data-i18n="tool.collage_maker">Collage Maker</a>
+    <a href="/tools/squarecrop/" data-i18n="tool.square_crop">Square Crop</a>
+    <a href="/tools/roundedcorners/" data-i18n="tool.rounded_corners">Rounded Corners</a>
+    <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
+    <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
+    <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+            </nav>
+<script>window.MC_BATCH_I18N = { ready: '{n}장 준비됨', working: '처리 중…', done: '완료: {n}개 파일', saved: 'ZIP 저장됨: {n}개 파일', failed: '실패', error: '이미지를 하나 이상 선택하세요.' };</script>
+<script src="/assets/js/batch-compress.js" defer></script>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>
