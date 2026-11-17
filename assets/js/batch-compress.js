@@ -21,6 +21,69 @@
   var files = [];
   var outputs = [];
   var busy = false;
+  var pre = null;
+  ensurePreOptions();
+  function ensurePreOptions() {
+    if (pre) return pre;
+    var host = root.querySelector('.batch-options');
+    if (!host) return null;
+    var row = document.createElement('div');
+    row.className = 'batch-row';
+    row.innerHTML = '<label><input type="checkbox" id="batchRotate"> 90°</label>' +
+      '<label><input type="checkbox" id="batchFlip"> ⇄</label>' +
+      '<label><input type="checkbox" id="batchCrop"> 1:1</label>' +
+      '<label><input type="checkbox" id="batchBorder"> 20px</label>';
+    host.appendChild(row);
+    pre = {
+      rotate: row.querySelector('#batchRotate'),
+      flip: row.querySelector('#batchFlip'),
+      crop: row.querySelector('#batchCrop'),
+      border: row.querySelector('#batchBorder')
+    };
+    return pre;
+  }
+  function imageToCanvas(img) {
+    var c = document.createElement('canvas');
+    c.width = img.naturalWidth; c.height = img.naturalHeight;
+    c.getContext('2d').drawImage(img, 0, 0);
+    return c;
+  }
+  function preprocess(img) {
+    var opts = ensurePreOptions();
+    var c = imageToCanvas(img);
+    if (opts && opts.crop.checked) {
+      var side = Math.min(c.width, c.height);
+      var cropped = document.createElement('canvas');
+      cropped.width = side; cropped.height = side;
+      cropped.getContext('2d').drawImage(c, (c.width - side) / 2, (c.height - side) / 2, side, side, 0, 0, side, side);
+      c = cropped;
+    }
+    if (opts && opts.rotate.checked) {
+      var rot = document.createElement('canvas');
+      rot.width = c.height; rot.height = c.width;
+      var rctx = rot.getContext('2d');
+      rctx.translate(rot.width, 0); rctx.rotate(Math.PI / 2);
+      rctx.drawImage(c, 0, 0);
+      c = rot;
+    }
+    if (opts && opts.flip.checked) {
+      var fl = document.createElement('canvas');
+      fl.width = c.width; fl.height = c.height;
+      var fctx = fl.getContext('2d');
+      fctx.translate(fl.width, 0); fctx.scale(-1, 1);
+      fctx.drawImage(c, 0, 0);
+      c = fl;
+    }
+    if (opts && opts.border.checked) {
+      var bd = document.createElement('canvas');
+      bd.width = c.width + 40; bd.height = c.height + 40;
+      var bctx = bd.getContext('2d');
+      bctx.fillStyle = 'white'; bctx.fillRect(0, 0, bd.width, bd.height);
+      bctx.drawImage(c, 20, 20);
+      c = bd;
+    }
+    return c;
+  }
 
   function say(text) { if (statusEl) statusEl.textContent = text; }
   function kb(bytes) { return Math.max(1, Math.round(bytes / 1024)); }
@@ -40,14 +103,14 @@
       img.src = url;
     });
   }
-  function encode(img, maxWidth, targetKb, type) {
-    var scale = Math.min(1, maxWidth / img.naturalWidth);
+  function encode(srcCanvas, maxWidth, targetKb, type) {
+    var scale = Math.min(1, maxWidth / srcCanvas.width);
     var canvas = document.createElement('canvas');
-    canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
-    canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+    canvas.width = Math.max(1, Math.round(srcCanvas.width * scale));
+    canvas.height = Math.max(1, Math.round(srcCanvas.height * scale));
     var ctx = canvas.getContext('2d');
     if (type === 'image/jpeg') { ctx.fillStyle = 'white'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(srcCanvas, 0, 0, canvas.width, canvas.height);
     var quality = 0.86;
     var best = null;
     function attempt(q) {
@@ -140,7 +203,7 @@
       resultsEl.appendChild(item);
       try {
         var img = await loadImage(file);
-        var blob = await encode(img, maxWidth, targetKb, type);
+        var blob = await encode(preprocess(img), maxWidth, targetKb, type);
         if (!blob) throw new Error('encode');
         var name = file.name.replace(/\.[^.]+$/, '') + ext;
         outputs.push({ name: name, data: new Uint8Array(await blob.arrayBuffer()) });

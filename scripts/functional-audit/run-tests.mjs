@@ -2633,6 +2633,10 @@ async function runSplitGroup() {
       const second = await page.eval("({ status: document.getElementById('splitStatus').textContent, cols: getComputedStyle(document.getElementById('splitGrid')).getPropertyValue('--cols') })");
       ctx.check('3×3 = 9 张', /9/.test(second.status), { actual: second.status });
       ctx.check('网格列数为 3', second.cols.trim() === '3', { actual: second.cols });
+      await page.eval("document.querySelector('[data-mode=\"3x1\"]').click(); 1");
+      await sleep(200);
+      const threeAcross = await page.eval("document.getElementById('splitStatus').textContent");
+      ctx.check('3 across = 3 张', /3/.test(threeAcross), { actual: threeAcross });
       await ctx.screenshot('split-tool');
     },
   });

@@ -15,6 +15,17 @@
   var grid = document.getElementById('splitGrid');
   var statusEl = document.getElementById('splitStatus');
   var downloadBtn = document.getElementById('splitDownload');
+  var modesWrap = root.querySelector('.split-modes');
+  if (modesWrap && !modesWrap.querySelector('[data-mode="3x1"]')) {
+    [['3x1', T.threeAcross || '3 across'], ['1x3', T.threeDown || '3 down']].forEach(function (pair) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('data-mode', pair[0]);
+      b.setAttribute('aria-pressed', 'false');
+      b.textContent = pair[1];
+      modesWrap.appendChild(b);
+    });
+  }
   var modeBtns = Array.prototype.slice.call(root.querySelectorAll('[data-mode]'));
   var source = null;
   var mode = '2x2';
@@ -24,6 +35,8 @@
   function modeSize(m) {
     if (m === '2x1') return { cols: 2, rows: 1 };
     if (m === '1x2') return { cols: 1, rows: 2 };
+    if (m === '3x1') return { cols: 3, rows: 1 };
+    if (m === '1x3') return { cols: 1, rows: 3 };
     if (m === '3x3') return { cols: 3, rows: 3 };
     return { cols: 2, rows: 2 };
   }
