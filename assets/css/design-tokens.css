@@ -184,7 +184,7 @@
   /* -------------------------------------------------------------------------
    * 字体（Typography）
    * ---------------------------------------------------------------------- */
-  --mc-font-sans: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  --mc-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --mc-font-weight-regular: 400;
   --mc-font-weight-medium: 500;
@@ -405,6 +405,17 @@
   --mc-toast-radius: var(--mc-radius-sm);
   --mc-toast-max-width: min(92vw, 420px);
   --mc-mobile-nav-height: 56px;     /* 移动端顶栏高度 */
+}
+
+/* 按文字系统切换字体栈（对标 pimg.app：拉丁用系统 UI 字体，CJK 用各自平台字体） */
+html:lang(zh-CN) {
+  --mc-font-sans: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', system-ui, sans-serif;
+}
+html:lang(zh-TW), html:lang(zh-Hant) {
+  --mc-font-sans: 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', system-ui, sans-serif;
+}
+html:lang(ja) {
+  --mc-font-sans: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, 'Noto Sans JP', system-ui, sans-serif;
 }
 
 /* 尊重系统减少动效偏好：仅把过渡/动画时长降到 0，不改布局与颜色 */

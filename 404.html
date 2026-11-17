@@ -65,18 +65,18 @@
     <main>
         <a class="brand" href="/">MeCollage</a>
         <div class="code" aria-hidden="true">404</div>
-        <h1>Page not found</h1>
-        <p>The page you requested doesn’t exist, was moved, or was removed. It may be an old link from another site — nothing is broken on your side.</p>
+        <h1 id="errTitle">Page not found</h1>
+        <p id="errBody">The page you requested doesn’t exist, was moved, or was removed. It may be an old link from another site — nothing is broken on your side.</p>
 
         <div class="links">
-            <a class="primary" href="/">Go to homepage</a>
-            <a href="/blog/">Read the blog</a>
-            <a href="/contact/">Contact support</a>
+            <a class="primary" id="errHome" href="/">Go to homepage</a>
+            <a id="errBlog" href="/blog/">Read the blog</a>
+            <a id="errContact" href="/contact/">Contact support</a>
         </div>
 
         <section aria-labelledby="tools-heading">
-            <h2 id="tools-heading">Free collage tools</h2>
-            <div class="chips">
+            <h2 id="tools-heading"><span id="errToolsHeading">Free collage tools</span></h2>
+            <div class="chips" id="errTools">
                 <a href="/tools/square/">Square image</a>
                 <a href="/tools/squarecrop/">Crop to square</a>
                 <a href="/tools/roundedcorners/">Rounded corners</a>
@@ -88,7 +88,7 @@
         </section>
 
         <section aria-labelledby="lang-heading">
-            <h2 id="lang-heading">Choose your language</h2>
+            <h2 id="lang-heading"><span id="errLangHeading">Choose your language</span></h2>
             <div class="chips">
                 <a href="/">English</a>
                 <a href="/zh/">简体中文</a>
@@ -98,7 +98,42 @@
             </div>
         </section>
 
-        <p class="hint">If you followed a link from a tutorial or search result, the page may have been renamed.</p>
+        <p class="hint" id="errHint">If you followed a link from a tutorial or search result, the page may have been renamed.</p>
     </main>
+<script>
+(function () {
+  var seg = (location.pathname.split('/')[1] || '').toLowerCase();
+  var lang = /^(zh|tw|ja|es)$/.test(seg) ? seg : '';
+  if (!lang) return;
+  var T = {
+    zh: { lang: 'zh-CN', title: '页面未找到 - MeCollage', desc: '你访问的页面不存在或已被移动。浏览 MeCollage 的免费拼图工具、教程和博客。', h1: '页面未找到', body: '你访问的页面不存在、已移动或已删除。可能是其他网站的旧链接，你这边没有出问题。', home: '返回首页', blog: '阅读博客', contact: '联系我们', tools: '免费拼图工具', langTitle: '选择语言', hint: '如果你是从教程或搜索结果点进来的，页面可能已经改名。', chips: [['/tools/square/', '方形图片'], ['/tools/squarecrop/', '裁剪成方形'], ['/tools/roundedcorners/', '圆角'], ['/tools/blurredframe/', '模糊边框'], ['/free-collage-maker/', '拼图工具'], ['/instagram-story-collage/', 'Instagram 快拍'], ['/tools/aspectratiocalculator/', '宽高比计算器']] },
+    tw: { lang: 'zh-TW', title: '頁面找不到 - MeCollage', desc: '你造訪的頁面不存在或已被移動。瀏覽 MeCollage 的免費拼圖工具、教學和部落格。', h1: '頁面找不到', body: '你造訪的頁面不存在、已移動或已刪除。可能是其他網站的舊連結，你這邊沒有問題。', home: '返回首頁', blog: '閱讀部落格', contact: '聯絡我們', tools: '免費拼圖工具', langTitle: '選擇語言', hint: '如果你是從教學或搜尋結果點進來的，頁面可能已經改名。', chips: [['/tools/square/', '方形圖片'], ['/tools/squarecrop/', '裁剪成方形'], ['/tools/roundedcorners/', '圓角'], ['/tools/blurredframe/', '模糊邊框'], ['/free-collage-maker/', '拼圖工具'], ['/instagram-story-collage/', 'Instagram 限時動態'], ['/tools/aspectratiocalculator/', '長寬比計算器']] },
+    ja: { lang: 'ja', title: 'ページが見つかりません - MeCollage', desc: 'お探しのページは存在しないか、移動しました。MeCollage の無料コラージュツール、ガイド、ブログをご覧ください。', h1: 'ページが見つかりません', body: 'お探しのページは存在しないか、移動・削除されました。他のサイトの古いリンクかもしれません。あなたの側に問題はありません。', home: 'ホームへ', blog: 'ブログを読む', contact: 'お問い合わせ', tools: '無料コラージュツール', langTitle: '言語を選択', hint: 'チュートリアルや検索結果から来た場合、ページ名が変わった可能性があります。', chips: [['/tools/square/', '正方形画像'], ['/tools/squarecrop/', '正方形にトリミング'], ['/tools/roundedcorners/', '角丸'], ['/tools/blurredframe/', 'ぼかしフレーム'], ['/free-collage-maker/', 'コラージュ作成'], ['/instagram-story-collage/', 'Instagram ストーリー'], ['/tools/aspectratiocalculator/', 'アスペクト比計算']] },
+    es: { lang: 'es', title: 'Página no encontrada - MeCollage', desc: 'La página que buscas no existe o se ha movido. Explora las herramientas gratuitas de collage, guías y blog de MeCollage.', h1: 'Página no encontrada', body: 'La página que solicitaste no existe, se movió o se eliminó. Puede ser un enlace antiguo de otro sitio; no hay nada roto de tu lado.', home: 'Ir al inicio', blog: 'Leer el blog', contact: 'Contactar soporte', tools: 'Herramientas de collage gratis', langTitle: 'Elige tu idioma', hint: 'Si llegaste desde un tutorial o un resultado de búsqueda, puede que la página haya cambiado de nombre.', chips: [['/tools/square/', 'Imagen cuadrada'], ['/tools/squarecrop/', 'Recortar a cuadrado'], ['/tools/roundedcorners/', 'Esquinas redondeadas'], ['/tools/blurredframe/', 'Marco difuminado'], ['/free-collage-maker/', 'Creador de collages'], ['/instagram-story-collage/', 'Historia de Instagram'], ['/tools/aspectratiocalculator/', 'Calculadora de proporción']] }
+  }[lang];
+  document.documentElement.lang = T.lang;
+  document.title = T.title;
+  var md = document.querySelector('meta[name="description"]');
+  if (md) md.setAttribute('content', T.desc);
+  function set(id, text, href) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (text) el.textContent = text;
+    if (href) el.setAttribute('href', href);
+  }
+  set('errTitle', T.h1);
+  set('errBody', T.body);
+  set('errHome', T.home, '/' + lang + '/');
+  set('errBlog', T.blog, '/blog/');
+  set('errContact', T.contact, '/' + lang + '/contact/');
+  set('errToolsHeading', T.tools);
+  set('errLangHeading', T.langTitle);
+  set('errHint', T.hint);
+  var tools = document.getElementById('errTools');
+  if (tools) {
+    tools.innerHTML = T.chips.map(function (c) { return '<a href="/' + lang + c[0] + '">' + c[1] + '</a>'; }).join('');
+  }
+})();
+</script>
 </body>
 </html>
