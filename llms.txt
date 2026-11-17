@@ -35,6 +35,12 @@
 - [Social Media Collage Guide](https://www.mecollage.top/blog/social-media-collage-guide/)
 - [AI-Powered Enhancements](https://www.mecollage.top/blog/ai-powered-enhancements/)
 
+## Korean (ko)
+- [한국어 도구 모음](https://www.mecollage.top/ko/)
+- [사진 합치기](https://www.mecollage.top/ko/combine-images/)
+- [이미지 분할](https://www.mecollage.top/ko/split-image/)
+- [이미지 일괄 압축](https://www.mecollage.top/ko/batch-compress/)
+
 ## Languages
 - [English](https://www.mecollage.top/)
 - [简体中文](https://www.mecollage.top/zh/)

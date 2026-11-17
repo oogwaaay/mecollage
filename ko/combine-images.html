@@ -3,12 +3,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex, follow" />
     <meta name="description" content="사진을 가로·세로로 합치거나 바둑판으로 배치하고 PNG·JPG·WebP로 저장하세요. 업로드 없이 브라우저에서 처리합니다." />
     <meta property="og:title" content="사진 합치기 – 무료 온라인 사진 합치기" />
     <meta property="og:url" content="https://www.mecollage.top/ko/combine-images/" />
     <title>사진 합치기 – 무료 온라인 사진 합치기 | MeCollage</title>
     <link rel="canonical" href="https://www.mecollage.top/ko/combine-images/" />
+    <link rel="alternate" hreflang="en" href="https://www.mecollage.top/combine-images/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://www.mecollage.top/zh/combine-images/" />
+    <link rel="alternate" hreflang="zh-TW" href="https://www.mecollage.top/tw/combine-images/" />
+    <link rel="alternate" hreflang="ja" href="https://www.mecollage.top/ja/combine-images/" />
+    <link rel="alternate" hreflang="es" href="https://www.mecollage.top/es/combine-images/" />
+    <link rel="alternate" hreflang="ko" href="https://www.mecollage.top/ko/combine-images/" />
+    <link rel="alternate" hreflang="x-default" href="https://www.mecollage.top/combine-images/" />
     <meta property="og:image" content="https://www.mecollage.top/assets/images/og/ko-free-collage-maker.jpg" />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -40,6 +46,7 @@
         .links a { color: var(--mc-color-brand); }
         .pilot-note { text-align: center; color: var(--mc-text-body); font-size: 0.9em; margin-top: 12px; }
     </style>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.mecollage.top/ko/combine-images/#webpage","url":"https://www.mecollage.top/ko/combine-images/","name":"사진 합치기 – 무료 온라인 사진 합치기 | MeCollage","inLanguage":"ko"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"홈","item":"https://www.mecollage.top/ko/"},{"@type":"ListItem","position":2,"name":"사진 합치기","item":"https://www.mecollage.top/ko/combine-images/"}]},{"@type":"FAQPage","@id":"https://www.mecollage.top/ko/combine-images/#faq","mainEntity":[{"@type":"Question","name":"두 장의 사진을 한 장으로 만들려면?","acceptedAnswer":{"@type":"Answer","text":"사진 두 장을 캔버스에 추가하고 선택한 뒤 가로 또는 세로 배치를 고르면 됩니다. 미리보기에 최종 크기가 표시됩니다."}},{"@type":"Question","name":"사진이 업로드되나요?","acceptedAnswer":{"@type":"Answer","text":"아니요. 사진은 브라우저 안에서 열리고 배치되고 저장됩니다. MeCollage 서버로 전송되지 않습니다."}},{"@type":"Question","name":"한 번에 몇 장까지 합칠 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"한 콜라주에 최대 20장입니다. 더 길게 만들려면 나눠서 합친 뒤 다시 합치세요."}},{"@type":"Question","name":"어떤 형식으로 저장할 수 있나요?","acceptedAnswer":{"@type":"Answer","text":"PNG, JPG, WebP로 내보낼 수 있습니다."}},{"@type":"Question","name":"무료인가요?","acceptedAnswer":{"@type":"Answer","text":"무료이며 회원가입과 워터마크가 없습니다."}}]}]}</script>
 </head>
 <body>
     <div class="ghibli-background"></div>
@@ -73,15 +80,14 @@
 
         <h2 id="faq-heading">자주 묻는 질문</h2>
         <div class="faq">
-            <div class="faq-item"><h3>두 장의 사진을 한 장으로 만들려면?</h3><p>사진 두 장을 캔버스에 추가하고 선택한 뒤 가로 또는 세로 배치를 고르면 됩니다. 미리보기에 최종 크기가 표시됩니다.</p></div>
-            <div class="faq-item"><h3>사진이 업로드되나요?</h3><p>아니요. 사진은 브라우저 안에서 열리고 배치되고 저장됩니다. MeCollage 서버로 전송되지 않습니다.</p></div>
-            <div class="faq-item"><h3>한 번에 몇 장까지 합칠 수 있나요?</h3><p>한 콜라주에 최대 20장입니다. 더 길게 만들려면 나눠서 합친 뒤 다시 합치세요.</p></div>
-            <div class="faq-item"><h3>어떤 형식으로 저장할 수 있나요?</h3><p>PNG, JPG, WebP로 내보낼 수 있습니다.</p></div>
-            <div class="faq-item"><h3>무료인가요?</h3><p>무료이며 회원가입과 워터마크가 없습니다.</p></div>
+            <div class="faq-item"><h3 class="faq-question">두 장의 사진을 한 장으로 만들려면?</h3><p>사진 두 장을 캔버스에 추가하고 선택한 뒤 가로 또는 세로 배치를 고르면 됩니다. 미리보기에 최종 크기가 표시됩니다.</p></div>
+            <div class="faq-item"><h3 class="faq-question">사진이 업로드되나요?</h3><p>아니요. 사진은 브라우저 안에서 열리고 배치되고 저장됩니다. MeCollage 서버로 전송되지 않습니다.</p></div>
+            <div class="faq-item"><h3 class="faq-question">한 번에 몇 장까지 합칠 수 있나요?</h3><p>한 콜라주에 최대 20장입니다. 더 길게 만들려면 나눠서 합친 뒤 다시 합치세요.</p></div>
+            <div class="faq-item"><h3 class="faq-question">어떤 형식으로 저장할 수 있나요?</h3><p>PNG, JPG, WebP로 내보낼 수 있습니다.</p></div>
+            <div class="faq-item"><h3 class="faq-question">무료인가요?</h3><p>무료이며 회원가입과 워터마크가 없습니다.</p></div>
         </div>
 
         <p class="links">이미지를 자르려면 <a href="/ko/split-image/">이미지 분할</a>, 용량을 줄이려면 <a href="/ko/batch-compress/">이미지 일괄 압축</a>. <a href="/ko/">한국어 도구 모음</a>.</p>
-        <p class="pilot-note">한국어 페이지는 파일럿이며 검색에는 노출되지 않습니다. 편집기 UI는 영어입니다.</p>
     </div>
 
     <nav class="footer-tools footer-tools--standalone" aria-label="Tools" data-i18n-aria-label="nav.tools">

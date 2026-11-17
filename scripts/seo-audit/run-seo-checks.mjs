@@ -120,6 +120,7 @@ const CORE_BASES = [
 ];
 
 /** Phase D：保留索引的 7 个英文专题页（square-collage 已恢复；vertical-collage 仍 301） */
+const KO_INDEXABLE_BASES = ['/combine-images/', '/split-image/', '/batch-compress/'];
 const EN_TOPIC_KEPT_BASES = [
   '/birthday-collage-maker/',
   '/christmas-collage-maker/',
@@ -542,6 +543,7 @@ function expectedHreflangMapFor(url) {
     const candidate = langUrl(lang.key, base);
     if (indexableSet.has(candidate)) map.set(lang.sitemapLang, candidate);
   }
+  if (KO_INDEXABLE_BASES.includes(base) && indexableSet.has('/ko' + base)) map.set('ko', '/ko' + base);
   return map;
 }
 
@@ -568,6 +570,7 @@ function buildExpectedSitemapSet(inventoryMap) {
     if (url === '/blog/' || /^\/blog\/[^/]+\/$/.test(url)) set.add(url);
   }
   for (const base of EN_TOPIC_KEPT_BASES) if (inventoryMap.has(base)) set.add(base);
+  for (const base of KO_INDEXABLE_BASES) if (inventoryMap.has('/ko' + base)) set.add('/ko' + base);
   return set;
 }
 
@@ -575,9 +578,6 @@ function buildExpectedSitemapSet(inventoryMap) {
 function buildExpectedNoindexSet() {
   const set = new Set();
   set.add('/ko/');
-  set.add('/ko/combine-images/');
-  set.add('/ko/split-image/');
-  set.add('/ko/batch-compress/');
   for (const base of LOCALIZED_NOINDEX_TOPIC_BASES) {
     for (const langKey of LOCALIZED_NOINDEX_LANGS) {
       set.add(langUrl(langKey, base));
@@ -1169,7 +1169,7 @@ async function runSitemapChecks() {
             problems.push({ url, problem: `${code} 目标 ${target} 不在 sitemap` });
             continue;
           }
-          const targetLang = LANGUAGES.find((lang) => lang.sitemapLang === code)?.key;
+          const targetLang = [...LANGUAGES, KO_PILOT_LANG].find((lang) => lang.sitemapLang === code)?.key;
           if (!targetLang) problems.push({ url, problem: `非法 hreflang 代码 ${code}` });
           const sourceLang = languageOf(url);
           const back = alternatesByUrl.get(target).get(LANGUAGE_BY_KEY[sourceLang].sitemapLang);
