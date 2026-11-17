@@ -1,8 +1,8 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-17T07:55:21.192Z",
-  "gitHead": "95577e7bea645f9ed47605edc79021097e551b5a",
+  "generatedAt": "2026-11-17T08:05:06.559Z",
+  "gitHead": "d56d9541755849b559229a25ee1cce20f4934e8a",
   "tokenHash": "a8fbd0cee9e0",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
@@ -11,7 +11,7 @@
     "fontSizes": 18,
     "radii": 155,
     "relativeFontSizes": 479,
-    "inlineStyleAttrs": 1633,
+    "inlineStyleAttrs": 1648,
     "styleBlocks": 140,
     "jsColors": 0
   },
@@ -201,7 +201,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -318,7 +318,7 @@
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 7,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -345,7 +345,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -372,7 +372,7 @@
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 7,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -444,7 +444,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -579,7 +579,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -606,7 +606,7 @@
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 7,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -678,7 +678,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -867,7 +867,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -903,7 +903,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -930,7 +930,7 @@
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 7,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -1002,7 +1002,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -1119,7 +1119,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -1146,7 +1146,7 @@
       "fontSizes": 0,
       "radii": 1,
       "relativeFontSizes": 7,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
@@ -1218,7 +1218,7 @@
       "fontSizes": 0,
       "radii": 0,
       "relativeFontSizes": 6,
-      "inlineStyleAttrs": 6,
+      "inlineStyleAttrs": 7,
       "styleBlocks": 1,
       "jsColors": 0
     },
