@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="MeCollage 한국어 도구: 사진 합치기, 이미지 분할, 이미지 일괄 압축. 모두 브라우저에서 처리하며 업로드하지 않습니다." />
+    <meta property="og:title" content="MeCollage 한국어 – 무료 이미지 도구" />
+    <meta property="og:url" content="https://www.mecollage.top/ko/" />
+    <title>MeCollage 한국어 – 무료 이미지 도구</title>
+    <link rel="canonical" href="https://www.mecollage.top/ko/" />
+    <meta property="og:image" content="https://www.mecollage.top/assets/images/og/ko-free-collage-maker.jpg" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/assets/pages-C2UaL6ML.css">
+    <link rel="stylesheet" href="/assets/css/design-tokens.css">
+    <link rel="stylesheet" href="/assets/css/components.css">
+    <style>
+        .ghibli-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--mc-font-sans); background-color: transparent; color: var(--mc-text-body); min-height: 100vh; padding: 40px 20px; }
+        .container { max-width: 960px; margin: 0 auto; background: var(--mc-surface-4); backdrop-filter: blur(var(--mc-blur-xl)); border-radius: var(--mc-radius-xl); padding: 60px; box-shadow: 0 20px 60px var(--mc-surface-2); }
+        h1 { font-size: 2.5em; color: var(--mc-color-brand); text-shadow: var(--mc-text-shadow-heading); margin-bottom: 16px; text-align: center; }
+        .subtitle { text-align: center; color: var(--mc-text-body); font-size: 1.2em; margin-bottom: 28px; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 24px; margin: 32px 0; }
+        .card { display: block; padding: 28px; background: var(--mc-surface-2); border-radius: var(--mc-radius-tag); text-decoration: none; color: inherit; }
+        .card i { font-size: 1.8em; color: var(--mc-color-brand); margin-bottom: 12px; }
+        .card h2 { font-size: 1.2em; color: var(--mc-text-primary); margin-bottom: 6px; }
+        .card p { color: var(--mc-text-body); font-size: 0.95em; line-height: 1.6; }
+        .note { text-align: center; color: var(--mc-text-body); line-height: 1.8; margin-top: 28px; }
+        .note a { color: var(--mc-color-brand); }
+    </style>
+</head>
+<body>
+    <div class="ghibli-background"></div>
+    <div class="container">
+        <h1>MeCollage 한국어</h1>
+        <p class="subtitle">사진 합치기, 이미지 분할, 일괄 압축을 한곳에서.</p>
+        <div class="cards">
+            <a class="card" href="/ko/combine-images/"><i class="fas fa-images"></i><h2>사진 합치기</h2><p>사진을 가로·세로로 합치거나 바둑판으로 배치합니다.</p></a>
+            <a class="card" href="/ko/split-image/"><i class="fas fa-table-cells"></i><h2>이미지 분할</h2><p>2×2, 3×3 또는 긴 조각으로 나누고 ZIP으로 저장합니다.</p></a>
+            <a class="card" href="/ko/batch-compress/"><i class="fas fa-file-zipper"></i><h2>이미지 일괄 압축</h2><p>여러 이미지를 목표 KB에 맞춰 한 번에 압축합니다.</p></a>
+        </div>
+        <p class="note">모든 처리는 브라우저에서 이루어지며 사진은 업로드되지 않습니다.<br>English editor: <a href="/">Collage Maker</a>.</p>
+    </div>
+
+    <nav class="footer-tools footer-tools--standalone" aria-label="Tools" data-i18n-aria-label="nav.tools">
+    <a href="/" data-i18n="tool.collage_maker">Collage Maker</a>
+    <a href="/tools/squarecrop/" data-i18n="tool.square_crop">Square Crop</a>
+    <a href="/tools/roundedcorners/" data-i18n="tool.rounded_corners">Rounded Corners</a>
+    <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
+    <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
+    <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+            </nav>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+(function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
+</script>
+</body>
+</html>

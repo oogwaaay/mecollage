@@ -574,6 +574,8 @@ function buildExpectedSitemapSet(inventoryMap) {
 /** Phase C 期望 noindex 集合：8 个本地化专题 × 4 语言 = 32 */
 function buildExpectedNoindexSet() {
   const set = new Set();
+  set.add('/ko/');
+  set.add('/ko/combine-images/');
   set.add('/ko/split-image/');
   set.add('/ko/batch-compress/');
   for (const base of LOCALIZED_NOINDEX_TOPIC_BASES) {

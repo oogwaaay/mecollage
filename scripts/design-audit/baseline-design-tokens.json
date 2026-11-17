@@ -1,8 +1,8 @@
 {
   "tool": "design-token-audit",
   "version": "1.1.0",
-  "generatedAt": "2026-11-17T07:51:28.048Z",
-  "gitHead": "770a707cfdbd1633d11a4c7db8fa2ea9b912d957",
+  "generatedAt": "2026-11-17T07:55:21.192Z",
+  "gitHead": "95577e7bea645f9ed47605edc79021097e551b5a",
   "tokenHash": "a8fbd0cee9e0",
   "tokenCount": 273,
   "note": "存量设计债务基线：记录当前 token 外硬编码数量。新增违规会判 FAIL；存量不判错。修改需人工复核。",
@@ -10,9 +10,9 @@
     "colors": 330,
     "fontSizes": 18,
     "radii": 155,
-    "relativeFontSizes": 468,
+    "relativeFontSizes": 479,
     "inlineStyleAttrs": 1633,
-    "styleBlocks": 138,
+    "styleBlocks": 140,
     "jsColors": 0
   },
   "counts": {
@@ -764,6 +764,24 @@
       "jsColors": 0
     },
     "ko/batch-compress.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 5,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ko/combine-images.html": {
+      "colors": 0,
+      "fontSizes": 0,
+      "radii": 0,
+      "relativeFontSizes": 6,
+      "inlineStyleAttrs": 0,
+      "styleBlocks": 1,
+      "jsColors": 0
+    },
+    "ko/index.html": {
       "colors": 0,
       "fontSizes": 0,
       "radii": 0,
