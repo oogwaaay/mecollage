@@ -21,6 +21,33 @@
   var files = [];
   var outputs = [];
   var busy = false;
+  var DB_NAME = 'mecollage-editor';
+  var DB_VERSION = 2;
+  function openDB() {
+    return new Promise(function (resolve, reject) {
+      var req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = function () {
+        var db = req.result;
+        if (!db.objectStoreNames.contains('state')) db.createObjectStore('state');
+        if (!db.objectStoreNames.contains('trash')) db.createObjectStore('trash', { keyPath: 'id', autoIncrement: true });
+        if (!db.objectStoreNames.contains('recipes')) db.createObjectStore('recipes');
+        if (!db.objectStoreNames.contains('handoff')) db.createObjectStore('handoff');
+      };
+      req.onsuccess = function () { resolve(req.result); };
+      req.onerror = function () { reject(req.error); };
+    });
+  }
+  function withStore(store, mode, run) {
+    return openDB().then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(store, mode);
+        var req = run(tx.objectStore(store));
+        tx.oncomplete = function () { resolve(req ? req.result : undefined); };
+        tx.onerror = function () { reject(tx.error); };
+        tx.onabort = function () { reject(tx.error); };
+      });
+    });
+  }
   var steps = [];
   var stepUi = null;
   var patternInput = null;
@@ -51,9 +78,8 @@
       if (sel && sel.value) { steps.push(sel.value); renderSteps(); }
     });
     wrap.querySelector('#batchRecipeSave').addEventListener('click', saveRecipe);
-    try { customRecipes = JSON.parse(localStorage.getItem('mc_batch_recipes_v1') || '[]'); } catch (e) { customRecipes = []; }
-    renderRecipes();
     stepUi = wrap;
+    loadRecipeState();
     renderSteps();
     return stepUi;
   }
@@ -84,6 +110,7 @@
       li.querySelector('[data-remove]').addEventListener('click', function () { steps.splice(index, 1); renderSteps(); });
       list.appendChild(li);
     });
+    saveChain();
   }
   function recipeList() {
     var builtin = [
@@ -119,7 +146,8 @@
     var name = nameEl && nameEl.value.trim();
     if (!name) return;
     customRecipes.push({ name: name, steps: steps.slice(), width: Number(widthInput.value) || 1920, kb: Number(kbInput.value) || 0, format: formatSelect.value });
-    try { localStorage.setItem('mc_batch_recipes_v1', JSON.stringify(customRecipes)); } catch (e) {}
+    saveRecipes();
+    saveChain();
     nameEl.value = '';
     renderRecipes();
   }
@@ -322,7 +350,7 @@
         var name = buildName(file.name, i, outW, outH, ext);
         var data = new Uint8Array(await blob.arrayBuffer());
         var outUrl = URL.createObjectURL(blob);
-        var out = { name: name, data: data, url: outUrl, w: outW, h: outH, before: file.size, after: blob.size };
+        var out = { name: name, data: data, url: outUrl, blob: blob, w: outW, h: outH, before: file.size, after: blob.size };
         outputs.push(out);
         item.className = 'batch-result';
         item.innerHTML = '<img class="batch-result-thumb" alt="" src="' + outUrl + '">' +
@@ -355,31 +383,64 @@
   }
   function pushToEditor(items) {
     if (!items || !items.length) return;
-    var data = [];
-    var pending = items.length;
-    function done() {
-      if (--pending > 0) return;
-      try {
-        localStorage.setItem('mc_handoff_v1', JSON.stringify(data.slice(0, 20)));
-      } catch (e) {
-        say(t('handoffFail', 'These images are too large to hand off. Try a smaller width or target KB.'));
-        return;
-      }
+    var payload = items.slice(0, 20).map(function (output) {
+      return { blob: output.blob, w: output.w, h: output.h, name: output.name };
+    }).filter(function (item) { return !!item.blob; });
+    if (!payload.length) {
+      say(t('handoffFail', 'These images are too large to hand off. Try a smaller width or target KB.'));
+      return;
+    }
+    withStore('handoff', 'readwrite', function (s) {
+      return s.put({ items: payload, at: Date.now() }, 'queue');
+    }).then(function () {
       var lang = (document.documentElement.lang || 'en').toLowerCase();
       var prefix = lang.indexOf('zh-tw') === 0 || lang.indexOf('zh-hant') === 0 ? 'tw/' : lang.indexOf('zh') === 0 ? 'zh/' : lang.indexOf('ja') === 0 ? 'ja/' : lang.indexOf('es') === 0 ? 'es/' : '';
       window.open('/' + prefix + '?handoff=1', '_blank');
       say(t('handoffDone', 'Opened the editor with these images.'));
-    }
-    items.forEach(function (output) {
-      fetch(output.url).then(function (res) { return res.blob(); }).then(function (blob) {
-        return new Promise(function (resolve) {
-          var reader = new FileReader();
-          reader.onload = function () { data.push({ url: reader.result, w: output.w, h: output.h }); resolve(); };
-          reader.onerror = function () { resolve(); };
-          reader.readAsDataURL(blob);
-        });
-      }).then(done, done);
+    }).catch(function () {
+      say(t('handoffFail', 'These images are too large to hand off. Try a smaller width or target KB.'));
     });
+  }
+  function saveRecipes() {
+    withStore('recipes', 'readwrite', function (s) { return s.put(customRecipes, 'custom'); }).catch(function () {});
+  }
+  var chainTimer = null;
+  function saveChain() {
+    clearTimeout(chainTimer);
+    chainTimer = setTimeout(function () {
+      withStore('recipes', 'readwrite', function (s) {
+        return s.put({ steps: steps.slice(), width: Number(widthInput.value) || 1920, kb: Number(kbInput.value) || 0, format: formatSelect.value, pattern: patternInput ? patternInput.value : '{name}-{n}' }, 'chain');
+      }).catch(function () {});
+    }, 300);
+  }
+  function loadRecipeState() {
+    openDB().then(function (db) {
+      var tx = db.transaction('recipes', 'readonly');
+      var store = tx.objectStore('recipes');
+      var customReq = store.get('custom');
+      var chainReq = store.get('chain');
+      tx.oncomplete = function () {
+        var custom = customReq.result;
+        if (Array.isArray(custom) && custom.length) {
+          customRecipes = custom;
+        } else {
+          try {
+            var legacy = JSON.parse(localStorage.getItem('mc_batch_recipes_v1') || '[]');
+            if (Array.isArray(legacy) && legacy.length) { customRecipes = legacy; saveRecipes(); }
+          } catch (e) {}
+        }
+        renderRecipes();
+        var chain = chainReq.result;
+        if (chain && Array.isArray(chain.steps)) {
+          steps = chain.steps.slice();
+          if (chain.width && widthInput) widthInput.value = String(chain.width);
+          if (typeof chain.kb === 'number' && kbInput) kbInput.value = chain.kb ? String(chain.kb) : '';
+          if (chain.format && formatSelect) formatSelect.value = chain.format;
+          if (chain.pattern && patternInput) patternInput.value = chain.pattern;
+          renderSteps();
+        }
+      };
+    }).catch(function () {});
   }
   function ensurePushAll() {
     if (document.getElementById('batchPushAll') || !downloadBtn || !downloadBtn.parentNode) return;
@@ -393,6 +454,8 @@
   }
   ensureStepsUi();
   ensurePushAll();
+  [patternInput, widthInput, kbInput, formatSelect].forEach(function (el) { if (el) el.addEventListener('change', saveChain); });
+  if (patternInput) patternInput.addEventListener('input', saveChain);
 
   if (pick && input) pick.addEventListener('click', function () { input.click(); });
   if (input) input.addEventListener('change', function (e) { addFiles(e.target.files); });

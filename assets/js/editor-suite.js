@@ -158,7 +158,7 @@
   if (location.hash === '#christmas') return;
 
   var DB_NAME = 'mecollage-editor';
-  var DB_VERSION = 1;
+  var DB_VERSION = 2;
   var DAY = 86400000;
   var app = null;
   var saveTimer = null;
@@ -194,6 +194,8 @@
         var db = req.result;
         if (!db.objectStoreNames.contains('state')) db.createObjectStore('state');
         if (!db.objectStoreNames.contains('trash')) db.createObjectStore('trash', { keyPath: 'id', autoIncrement: true });
+        if (!db.objectStoreNames.contains('recipes')) db.createObjectStore('recipes');
+        if (!db.objectStoreNames.contains('handoff')) db.createObjectStore('handoff');
       };
       req.onsuccess = function () { resolve(req.result); };
       req.onerror = function () { reject(req.error); };
@@ -592,19 +594,17 @@
   }
 })();
 
-/* Editor handoff: batch results -> editor via localStorage (?handoff=1) */
+/* Editor handoff: batch results -> editor via IndexedDB (?handoff=1) */
 (function () {
   if (!/[?&]handoff=1/.test(location.search)) return;
-  var raw;
-  try { raw = JSON.parse(localStorage.getItem('mc_handoff_v1') || '[]'); } catch (e) { return; }
-  localStorage.removeItem('mc_handoff_v1');
-  if (!raw.length) return;
-  function apply() {
+  function apply(items) {
     var app = window.mecollage;
     if (!app || !Array.isArray(app.images) || typeof app.renderCollage !== 'function') return false;
-    raw.slice(0, 20).forEach(function (item) {
+    items.slice(0, 20).forEach(function (item) {
       if (app.images.length >= 20) return;
-      app.images.push({ file: null, url: item.url, width: item.w, height: item.h, filter: 'none' });
+      if (!item || !item.blob) return;
+      var url = URL.createObjectURL(item.blob);
+      app.images.push({ file: null, url: url, width: item.w, height: item.h, filter: 'none' });
     });
     app.renderCollage();
     if (typeof app.showCollageCanvas === 'function') app.showCollageCanvas();
@@ -612,11 +612,30 @@
     if (typeof app.markDirty === 'function') app.markDirty();
     return true;
   }
-  if (!apply()) {
-    var tries = 0;
-    var timer = setInterval(function () {
-      tries += 1;
-      if (apply() || tries > 40) clearInterval(timer);
-    }, 250);
-  }
+  var req = indexedDB.open('mecollage-editor', 2);
+  req.onupgradeneeded = function () {
+    var db = req.result;
+    if (!db.objectStoreNames.contains('state')) db.createObjectStore('state');
+    if (!db.objectStoreNames.contains('trash')) db.createObjectStore('trash', { keyPath: 'id', autoIncrement: true });
+    if (!db.objectStoreNames.contains('recipes')) db.createObjectStore('recipes');
+    if (!db.objectStoreNames.contains('handoff')) db.createObjectStore('handoff');
+  };
+  req.onsuccess = function () {
+    var db = req.result;
+    var getReq = db.transaction('handoff', 'readonly').objectStore('handoff').get('queue');
+    getReq.onsuccess = function () {
+      var payload = getReq.result;
+      if (!payload || !Array.isArray(payload.items) || !payload.items.length) return;
+      var tries = 0;
+      var timer = setInterval(function () {
+        tries += 1;
+        if (apply(payload.items)) {
+          clearInterval(timer);
+          db.transaction('handoff', 'readwrite').objectStore('handoff').delete('queue');
+        } else if (tries > 40) {
+          clearInterval(timer);
+        }
+      }, 250);
+    };
+  };
 })();
