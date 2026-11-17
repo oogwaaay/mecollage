@@ -21,11 +21,11 @@
   var emptyArmed = false;
   var emptyTimer = null;
   var labels = {
-    en: { saved: 'Project saved in this browser.', restored: 'Your last project was restored.', trashed: 'Moved to trash. Kept for 30 days.', undo: 'Undo', trash: 'Trash', count: '{n} pictures', note: 'Deleted pictures wait here for 30 days, only in this browser.', days: '{n} days left', restore: 'Restore', restoreAll: 'Restore all', empty: 'Empty trash', emptyConfirm: 'Confirm empty', emptied: 'Trash emptied.', close: 'Close' },
-    zh: { saved: '项目已保存在这个浏览器里。', restored: '已恢复上次的项目。', trashed: '已移入回收站，保留 30 天。', undo: '撤销', trash: '回收站', count: '{n} 张图片', note: '删除的图片会在这里保留 30 天，只存在这个浏览器里。', days: '剩余 {n} 天', restore: '恢复', restoreAll: '全部恢复', empty: '清空回收站', emptyConfirm: '确认清空', emptied: '回收站已清空。', close: '关闭' },
-    tw: { saved: '專案已保存在這個瀏覽器裡。', restored: '已恢復上次的專案。', trashed: '已移入回收桶，保留 30 天。', undo: '復原', trash: '回收桶', count: '{n} 張圖片', note: '刪除的圖片會在這裡保留 30 天，只存在這個瀏覽器裡。', days: '剩 {n} 天', restore: '復原', restoreAll: '全部復原', empty: '清空回收桶', emptyConfirm: '確認清空', emptied: '回收桶已清空。', close: '關閉' },
-    ja: { saved: 'このブラウザに保存しました。', restored: '前回のプロジェクトを復元しました。', trashed: 'ゴミ箱に移動しました（30日間保存）。', undo: '元に戻す', trash: 'ゴミ箱', count: '{n} 枚', note: '削除した画像はこのブラウザに 30 日間保存されます。', days: '残り {n} 日', restore: '復元', restoreAll: 'すべて復元', empty: 'ゴミ箱を空にする', emptyConfirm: '空にする', emptied: 'ゴミ箱を空にしました。', close: '閉じる' },
-    es: { saved: 'Proyecto guardado en este navegador.', restored: 'Se ha restaurado tu último proyecto.', trashed: 'Movido a la papelera. Se conserva 30 días.', undo: 'Deshacer', trash: 'Papelera', count: '{n} fotos', note: 'Las fotos eliminadas se guardan aquí 30 días, solo en este navegador.', days: 'Quedan {n} días', restore: 'Restaurar', restoreAll: 'Restaurar todo', empty: 'Vaciar papelera', emptyConfirm: 'Confirmar', emptied: 'Papelera vacía.', close: 'Cerrar' }
+    en: { saved: 'Project saved in this browser.', restored: 'Your last project was restored.', trashed: 'Moved to trash. Kept for 30 days.', undo: 'Undo', trash: 'Trash', count: '{n} pictures', countOne: '1 picture', note: 'Deleted pictures wait here for 30 days, only in this browser.', days: '{n} days left', restore: 'Restore', restoreAll: 'Restore all', empty: 'Empty trash', emptyConfirm: 'Confirm empty', emptied: 'Trash emptied.', close: 'Close' },
+    zh: { saved: '项目已保存在这个浏览器里。', restored: '已恢复上次的项目。', trashed: '已移入回收站，保留 30 天。', undo: '撤销', trash: '回收站', count: '{n} 张图片', countOne: '1 张图片', note: '删除的图片会在这里保留 30 天，只存在这个浏览器里。', days: '剩余 {n} 天', restore: '恢复', restoreAll: '全部恢复', empty: '清空回收站', emptyConfirm: '确认清空', emptied: '回收站已清空。', close: '关闭' },
+    tw: { saved: '專案已保存在這個瀏覽器裡。', restored: '已恢復上次的專案。', trashed: '已移入回收桶，保留 30 天。', undo: '復原', trash: '回收桶', count: '{n} 張圖片', countOne: '1 張圖片', note: '刪除的圖片會在這裡保留 30 天，只存在這個瀏覽器裡。', days: '剩 {n} 天', restore: '復原', restoreAll: '全部復原', empty: '清空回收桶', emptyConfirm: '確認清空', emptied: '回收桶已清空。', close: '關閉' },
+    ja: { saved: 'このブラウザに保存しました。', restored: '前回のプロジェクトを復元しました。', trashed: 'ゴミ箱に移動しました（30日間保存）。', undo: '元に戻す', trash: 'ゴミ箱', count: '{n} 枚', countOne: '1 枚', note: '削除した画像はこのブラウザに 30 日間保存されます。', days: '残り {n} 日', restore: '復元', restoreAll: 'すべて復元', empty: 'ゴミ箱を空にする', emptyConfirm: '空にする', emptied: 'ゴミ箱を空にしました。', close: '閉じる' },
+    es: { saved: 'Proyecto guardado en este navegador.', restored: 'Se ha restaurado tu último proyecto.', trashed: 'Movido a la papelera. Se conserva 30 días.', undo: 'Deshacer', trash: 'Papelera', count: '{n} fotos', countOne: '1 foto', note: 'Las fotos eliminadas se guardan aquí 30 días, solo en este navegador.', days: 'Quedan {n} días', restore: 'Restaurar', restoreAll: 'Restaurar todo', empty: 'Vaciar papelera', emptyConfirm: 'Confirmar', emptied: 'Papelera vacía.', close: 'Cerrar' }
   };
   function langKey() {
     var l = (document.documentElement.lang || 'en').toLowerCase();
@@ -179,7 +179,7 @@
       ui.btn.hidden = false;
       ui.count.hidden = false;
       ui.count.textContent = String(trashRows.length);
-      ui.total.textContent = L.count.replace('{n}', String(trashRows.length));
+      ui.total.textContent = trashRows.length === 1 ? L.countOne : L.count.replace('{n}', String(trashRows.length));
       renderList();
     }).catch(function () {});
   }
