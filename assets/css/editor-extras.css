@@ -1,0 +1,29 @@
+/* 编辑器右键菜单（对标 pimg：图片操作入口；仅 token 值） */
+.mc-ctx-menu {
+  position: fixed;
+  z-index: 1200;
+  min-width: 200px;
+  padding: 6px;
+  background: var(--mc-surface-4);
+  border: 1px solid var(--mc-border-subtle);
+  border-radius: var(--mc-radius-md);
+  box-shadow: var(--mc-shadow-lg);
+  backdrop-filter: blur(var(--mc-blur-lg));
+}
+.mc-ctx-menu__item {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: var(--mc-radius-sm);
+  background: transparent;
+  color: var(--mc-text-primary);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mc-ctx-menu__item:hover,
+.mc-ctx-menu__item:focus-visible {
+  background: var(--mc-surface-2);
+}
+.mc-ctx-menu__item--danger { color: var(--mc-color-danger); }

@@ -990,6 +990,46 @@ async function runIndexGroup() {
       await ctx.screenshot('index-export-composition');
     },
   });
+
+  await runCase(page, {
+    id: 'IDX-29',
+    group: 'index',
+    page: '/',
+    name: '图片右键菜单：复制 / 删除 / 分享布局入口（对标 pimg 右键操作）',
+    async fn(ctx) {
+      await gotoPage('/');
+      await uploadImages([FIXTURES.landscape], { expectCount: 1 });
+      const menu = await page.eval(`(() => {
+        const el = document.querySelector('#collageGrid .image-outer-container:not(.add-image-outer-container)');
+        if (!el) return null;
+        const r = el.getBoundingClientRect();
+        el.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: r.left + 20, clientY: r.top + 20 }));
+        const m = document.getElementById('mcEditorMenu');
+        return m ? [...m.querySelectorAll('button')].map((b) => b.textContent.trim()) : null;
+      })()`);
+      ctx.check('右键菜单出现且含 4 项', Array.isArray(menu) && menu.length === 4, { actual: menu });
+      ctx.check('菜单含复制/下载/分享/删除', Array.isArray(menu) && ['Duplicate', 'Download image', 'Copy layout link (no photos)', 'Delete'].every((label) => menu.includes(label)), { actual: menu });
+      const afterDup = await page.eval(`(() => {
+        const b = document.querySelectorAll('#mcEditorMenu button')[0];
+        if (!b) return -1;
+        b.click();
+        return window.mecollage.images.length;
+      })()`);
+      ctx.check('复制后图片数为 2', afterDup === 2, { actual: afterDup });
+      const afterDel = await page.eval(`(() => {
+        const el = document.querySelector('#collageGrid .image-outer-container:not(.add-image-outer-container)');
+        if (!el) return -1;
+        const r = el.getBoundingClientRect();
+        el.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, cancelable: true, clientX: r.left + 20, clientY: r.top + 20 }));
+        const bs = document.querySelectorAll('#mcEditorMenu button');
+        if (!bs.length) return -1;
+        bs[bs.length - 1].click();
+        return window.mecollage.images.length;
+      })()`);
+      ctx.check('删除后图片数为 1', afterDel === 1, { actual: afterDel });
+      await ctx.screenshot('index-context-menu');
+    },
+  });
 }
 
 // ---------------------------------------------------------------------------
