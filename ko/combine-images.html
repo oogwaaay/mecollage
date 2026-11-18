@@ -53,6 +53,22 @@
     <div class="container">
         <h1>사진 합치기</h1>
         <p class="subtitle">사진을 가로·세로로 합치거나 바둑판으로 배치하세요.</p>
+        <nav class="tool-nav" aria-label="도구">
+            <div class="tool-nav-container">
+                <a href="/ko/" class="tool-nav-link"><i class="fas fa-home"></i> <span>콜라주 만들기</span></a>
+                <a href="/ko/combine-images/" class="tool-nav-link active"><i class="fas fa-object-group"></i> <span>사진 합치기</span></a>
+                <a href="/ko/split-image/" class="tool-nav-link"><i class="fas fa-scissors"></i> <span>이미지 분할</span></a>
+                <a href="/ko/batch-compress/" class="tool-nav-link"><i class="fas fa-compress"></i> <span>이미지 일괄 압축</span></a>
+                <a href="/freeform-collage/" class="tool-nav-link"><i class="fas fa-arrows-up-down-left-right"></i> <span>자유 콜라주</span></a>
+                    <span class="tool-nav-break" aria-hidden="true"></span>
+                <a href="/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span>정사각형 자르기</span></a>
+                <a href="/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span>둥근 모서리</span></a>
+                <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span>정사각형 이미지</span></a>
+                <a href="/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span>블러 프레임</span></a>
+                <a href="/tools/aspectratiocalculator/" class="tool-nav-link"><i class="fas fa-expand"></i> <span>화면 비율</span></a>
+            </div>
+        </nav>
+
         <p class="intro">여러 장의 사진을 한 장으로. 사진을 끌어다 놓고 가로, 세로, 바둑판 중에서 고르면 됩니다. 인스타그램 게시물, 카카오톡 공유, 스마트스토어 상품 이미지에 쓰기 좋고, 모든 처리는 브라우저에서 이루어져 사진이 업로드되지 않습니다.</p>
         <a class="cta" href="/">사진 합치기 시작</a>
 
@@ -97,7 +113,12 @@
     <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
     <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
     <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+    <a href="/ko/combine-images/">사진 합치기</a>
+    <a href="/ko/split-image/">이미지 분할</a>
+    <a href="/ko/batch-compress/">이미지 일괄 압축</a>
+    <a href="/freeform-collage/">자유 콜라주</a>
             </nav>
+<script src="/assets/js/tool-nav-scroll.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

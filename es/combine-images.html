@@ -60,6 +60,22 @@
     <div class="container">
         <h1>Combinar imágenes online</h1>
         <p class="subtitle">Pon fotos lado a lado, apílalas en una imagen larga o crea una cuadrícula.</p>
+        <nav class="tool-nav" aria-label="Herramientas">
+            <div class="tool-nav-container">
+                <a href="/es/" class="tool-nav-link"><i class="fas fa-home"></i> <span>Creador de collages</span></a>
+                <a href="/es/combine-images/" class="tool-nav-link active"><i class="fas fa-object-group"></i> <span>Combinar imágenes</span></a>
+                <a href="/es/split-image/" class="tool-nav-link"><i class="fas fa-scissors"></i> <span>Dividir imagen</span></a>
+                <a href="/es/batch-compress/" class="tool-nav-link"><i class="fas fa-compress"></i> <span>Comprimir imágenes en lote</span></a>
+                <a href="/es/freeform-collage/" class="tool-nav-link"><i class="fas fa-arrows-up-down-left-right"></i> <span>Collage libre</span></a>
+                    <span class="tool-nav-break" aria-hidden="true"></span>
+                <a href="/es/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span>Recorte cuadrado</span></a>
+                <a href="/es/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span>Esquinas redondeadas</span></a>
+                <a href="/es/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span>Imagen cuadrada</span></a>
+                <a href="/es/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span>Marco difuminado</span></a>
+                <a href="/es/tools/aspectratiocalculator/" class="tool-nav-link"><i class="fas fa-expand"></i> <span>Proporción</span></a>
+            </div>
+        </nav>
+
         <p class="intro">Una imagen con varias fotos, sin abrir un editor. Une un antes y un después, convierte capturas de chat en una imagen larga, monta una cuadrícula de productos o prepara una publicación 1:1 para Instagram. Todo ocurre en tu navegador: sin subir archivos, sin registro y sin marca de agua.</p>
         <figure class="localized-shot">
             <img src="/assets/images/localized/editor-es.png" width="608" height="470" loading="lazy" decoding="async" alt="El editor de MeCollage en español con cuatro fotos lado a lado">
@@ -122,8 +138,13 @@
     <a href="/es/tools/square/" data-i18n="tool.square_image">Imagen cuadrada</a>
     <a href="/es/tools/blurredframe/" data-i18n="tool.blurred_frame">Marco difuminado</a>
     <a href="/es/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Calculadora de proporción</a>
+    <a href="/es/combine-images/">Combinar imágenes</a>
+    <a href="/es/split-image/">Dividir imagen</a>
+    <a href="/es/batch-compress/">Comprimir imágenes en lote</a>
+    <a href="/es/freeform-collage/">Collage libre</a>
             </nav>
 <script src="/assets/js/combine-start.js" defer></script>
+<script src="/assets/js/tool-nav-scroll.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

@@ -2727,11 +2727,15 @@ async function runToolsNavGroup() {
       const home = await page.eval("({ hrefs: [...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname), breaks: document.querySelectorAll('.tool-nav-break').length, h: Math.round(document.querySelector('.tool-nav-container').getBoundingClientRect().height) })");
       const expected = ['/combine-images/', '/split-image/', '/batch-compress/', '/freeform-collage/'];
       ctx.check('首页 tool-nav 含 4 个新工具', expected.every((href) => home.hrefs.includes(href)), { actual: home.hrefs });
+      const homeFooter = await page.eval("[...document.querySelectorAll('.footer-tools a')].map((a) => new URL(a.href, location.origin).pathname)");
+      ctx.check('首页 footer-tools 10 条且含新工具', homeFooter.length === 10 && expected.every((href) => homeFooter.includes(href)), { actual: homeFooter });
       ctx.check('首页 tool-nav 分组 break = 1', home.breaks === 1, { actual: home.breaks });
       ctx.check('桌面 nav 两行内（≤120px）', home.h <= 120, { actual: home.h });
       await gotoPage('/tools/squarecrop/');
       const tool = await page.eval("[...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname)");
       ctx.check('工具页 tool-nav 含 4 个新工具', expected.every((href) => tool.includes(href)), { actual: tool });
+      const toolFooter = await page.eval("document.querySelectorAll('.footer-tools a').length");
+      ctx.check('工具页 footer-tools 10 条', toolFooter === 10, { actual: toolFooter });
       await gotoPage('/zh/');
       const zh = await page.eval("[...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname)");
       const zhExpected = ['/zh/combine-images/', '/zh/split-image/', '/zh/batch-compress/', '/zh/freeform-collage/'];
@@ -2757,6 +2761,23 @@ async function runToolsNavGroup() {
       await gotoPage('/?combine=1');
       const hint = await page.eval("(() => { const h = document.getElementById('mcCombineHint'); return h ? h.textContent.trim() : ''; })()");
       ctx.check('?combine=1 显示拼接提示', /Combine mode/i.test(hint), { actual: hint });
+    },
+  });
+
+  await runCase(page, {
+    id: 'NAV-03',
+    group: 'toolsnav',
+    page: '/split-image/',
+    name: '新工具页自带 .tool-nav（当前工具 active，本地化路径）',
+    async fn(ctx) {
+      await gotoPage('/split-image/');
+      const np = await page.eval("({ links: [...document.querySelectorAll('.tool-nav a')].length, active: ((document.querySelector('.tool-nav-link.active') || {}).textContent || '').trim(), foot: document.querySelectorAll('.footer-tools a').length })");
+      ctx.check('split 页 .tool-nav 10 条', np.links === 10, { actual: np.links });
+      ctx.check('当前工具 active = Split Image', np.active === 'Split Image', { actual: np.active });
+      ctx.check('split 页 footer-tools 10 条', np.foot === 10, { actual: np.foot });
+      await gotoPage('/zh/combine-images/');
+      const zhNew = await page.eval("[...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname)");
+      ctx.check('[zh] combine 页 nav 本地化', zhNew.includes('/zh/combine-images/') && zhNew.includes('/zh/tools/square/'), { actual: zhNew });
     },
   });
 }

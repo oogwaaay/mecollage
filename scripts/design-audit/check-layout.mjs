@@ -204,7 +204,7 @@ add({
 //     - tool-nav 里不得再有 Home（fa-home / data-i18n=nav.home）
 //     - about/contact 内容页不得有 tool-nav
 //     - 首页不得有 home-tool-entry 重复工具卡
-//     - 有 <footer> 的页面必须有 footer-tools 且恰好 5 个链接
+//     - 有 <footer> 的页面必须有 footer-tools 且恰好 10 个链接（2026-11-18 四工具扩容）
 // ---------------------------------------------------------------------------
 const navRoleFails = [];
 {
@@ -248,8 +248,8 @@ const navRoleFails = [];
     if (!m) navRoleFails.push({ file: f, rule: '缺少 footer-tools（所有页面都必须有工具入口/内链）' });
     else {
       const links = (m[0].match(/<a\s/g) || []).length;
-      // Phase AR（2026-11-06）：五语言 Aspect Ratio Calculator 上线，footer-tools 统一为 6 个工具。
-      const expectedFooterLinks = 6;
+      // Phase AR（2026-11-06）：Aspect Ratio 上线后 6 条；Phase Tools Nav（2026-11-18）四工具扩容为 10 条。
+      const expectedFooterLinks = 10;
       if (links !== expectedFooterLinks) navRoleFails.push({ file: f, rule: `footer-tools 链接数 ${links} != ${expectedFooterLinks}` });
       // ko pilot：韩语页面暂无本地化工具页，允许 footer 指向英文工具（noindex pilot）
       const hasPrefix = prefix === 'ko' ? true : (prefix ? m[0].includes(`href="/${prefix}/`) : !m[0].includes('href="/zh/'));

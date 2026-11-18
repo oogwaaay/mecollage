@@ -60,6 +60,22 @@
     <div class="container">
         <h1>自由擺放拼圖</h1>
         <p class="subtitle">把照片拖到任意位置，疊放、縮放、拆成切片，再匯出。</p>
+        <nav class="tool-nav" aria-label="工具">
+            <div class="tool-nav-container">
+                <a href="/tw/" class="tool-nav-link"><i class="fas fa-home"></i> <span>拼圖製作</span></a>
+                <a href="/tw/combine-images/" class="tool-nav-link"><i class="fas fa-object-group"></i> <span>線上圖片拼接</span></a>
+                <a href="/tw/split-image/" class="tool-nav-link"><i class="fas fa-scissors"></i> <span>線上圖片分割</span></a>
+                <a href="/tw/batch-compress/" class="tool-nav-link"><i class="fas fa-compress"></i> <span>批次壓縮圖片</span></a>
+                <a href="/tw/freeform-collage/" class="tool-nav-link active"><i class="fas fa-arrows-up-down-left-right"></i> <span>自由擺放拼圖</span></a>
+                    <span class="tool-nav-break" aria-hidden="true"></span>
+                <a href="/tw/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span>方形裁剪</span></a>
+                <a href="/tw/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span>圓角工具</span></a>
+                <a href="/tw/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span>方形圖片</span></a>
+                <a href="/tw/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span>模糊邊框</span></a>
+                <a href="/tw/tools/aspectratiocalculator/" class="tool-nav-link"><i class="fas fa-expand"></i> <span>寬高比</span></a>
+            </div>
+        </nav>
+
         <section class="ff-tool" id="ffTool" aria-label="自由擺放拼圖畫布">
             <div class="ff-drop" id="ffDrop">
                 <input type="file" id="ffFile" accept="image/*" multiple hidden>
@@ -134,9 +150,14 @@
     <a href="/tw/tools/square/" data-i18n="tool.square_image">方形圖片</a>
     <a href="/tw/tools/blurredframe/" data-i18n="tool.blurred_frame">模糊邊框</a>
     <a href="/tw/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">長寬比計算器</a>
+    <a href="/tw/combine-images/">線上圖片拼接</a>
+    <a href="/tw/split-image/">線上圖片分割</a>
+    <a href="/tw/batch-compress/">批次壓縮圖片</a>
+    <a href="/tw/freeform-collage/">自由擺放拼圖</a>
             </nav>
 <script>window.MC_FF_I18N = {"size":"畫板 {w} × {h} px","splitDone":"已拆成 {n} 塊","selectFirst":"請先選取一張圖片。","addFirst":"請至少加入一張圖片。","done":"已匯出。","copied":"已複製到剪貼簿。","noClipboard":"目前瀏覽器不支援剪貼簿。","error":"匯出失敗。"};</script>
 <script src="/assets/js/freeform-collage.js" defer></script>
+<script src="/assets/js/tool-nav-scroll.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

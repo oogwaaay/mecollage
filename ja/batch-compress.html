@@ -60,6 +60,22 @@
     <div class="container">
         <h1>画像を一括圧縮</h1>
         <p class="subtitle">複数の画像をまとめて縮小し、最大KBに収めてZIPで保存。</p>
+        <nav class="tool-nav" aria-label="ツール">
+            <div class="tool-nav-container">
+                <a href="/ja/" class="tool-nav-link"><i class="fas fa-home"></i> <span>コラージュ作成</span></a>
+                <a href="/ja/combine-images/" class="tool-nav-link"><i class="fas fa-object-group"></i> <span>画像を結合</span></a>
+                <a href="/ja/split-image/" class="tool-nav-link"><i class="fas fa-scissors"></i> <span>画像を分割</span></a>
+                <a href="/ja/batch-compress/" class="tool-nav-link active"><i class="fas fa-compress"></i> <span>画像を一括圧縮</span></a>
+                <a href="/ja/freeform-collage/" class="tool-nav-link"><i class="fas fa-arrows-up-down-left-right"></i> <span>自由配置コラージュ</span></a>
+                    <span class="tool-nav-break" aria-hidden="true"></span>
+                <a href="/ja/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span>正方形に切り抜き</span></a>
+                <a href="/ja/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span>角丸</span></a>
+                <a href="/ja/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span>正方形画像</span></a>
+                <a href="/ja/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span>ぼかしフレーム</span></a>
+                <a href="/ja/tools/aspectratiocalculator/" class="tool-nav-link"><i class="fas fa-expand"></i> <span>アスペクト比</span></a>
+            </div>
+        </nav>
+
 
         <section class="batch-tool" id="batchTool" aria-label="一括圧縮ツール">
             <div class="batch-drop" id="batchDrop">
@@ -125,9 +141,14 @@
     <a href="/ja/tools/square/" data-i18n="tool.square_image">正方形画像</a>
     <a href="/ja/tools/blurredframe/" data-i18n="tool.blurred_frame">ぼかしフレーム</a>
     <a href="/ja/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">アスペクト比計算</a>
+    <a href="/ja/combine-images/">画像を結合</a>
+    <a href="/ja/split-image/">画像を分割</a>
+    <a href="/ja/batch-compress/">画像を一括圧縮</a>
+    <a href="/ja/freeform-collage/">自由配置コラージュ</a>
             </nav>
 <script>window.MC_BATCH_I18N = { ready: '{n} 枚を追加しました', working: '処理中…', done: '完了：{n} ファイル', saved: 'ZIPを保存しました：{n} ファイル', failed: '失敗しました', error: '画像を1枚以上選んでください。' };</script>
 <script src="/assets/js/batch-compress.js" defer></script>
+<script src="/assets/js/tool-nav-scroll.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

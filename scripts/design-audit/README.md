@@ -44,7 +44,7 @@ node scripts/design-audit/check-layout.mjs --json audit/design-migration/verify/
 | A | 横向溢出 | `documentElement.scrollWidth - innerWidth ≤ 1px`（每种宽度 × 每个页面） | 溢出会让固定壁纸露出深色兜底（L-34） |
 | B | 固定壁纸层 | 非 404 页：`.ghibli-background` 存在、`position: fixed`、rect 覆盖视口、`background-image` 含 `wallImage` | `404.html` 是独立实底主题，豁免 |
 | C | 触控目标 | 独立控件（button/`.toolbar-btn`/`.lang-selector-toggle`/`.nav-link`/`.tool-nav-link`/`.remove-btn`/`.mode-btn`/`.download-btn`/select/range 等）≥ 44×44 | 默认 **WARN**；`--strict-touch` 升级 FAIL；正文行内 `<a>` 不算 |
-| F | 导航角色分离（静态） | ① `.tool-nav` 不含 Home；② about/contact 无 `.tool-nav`；③ 首页无 `.home-tool-entry`；④ **所有页面必须有 `.footer-tools`**（footer 内或 `.footer-tools--standalone`），5 链接 + 语言前缀正确；⑤ 全局 nav 含 Contact 且不含具体工具；⑥ GitHub 入口纯图标（`.github-link__icon` + `aria-label`，不得带文字） | 迁移脚本：`scripts/design-system/nav-role-separation.mjs` / `nav-global-cleanup.mjs` / `footer-tools-standalone.mjs` / `github-icon-link.mjs`（L-40）；类名检测用前缀 `class="footer-tools` |
+| F | 导航角色分离（静态） | ① `.tool-nav` 不含 Home；② about/contact 无 `.tool-nav`；③ 首页无 `.home-tool-entry`；④ **所有页面必须有 `.footer-tools`**（footer 内或 `.footer-tools--standalone`），10 链接 + 语言前缀正确（2026-11-18 四工具扩容）；⑤ 全局 nav 含 Contact 且不含具体工具；⑥ GitHub 入口纯图标（`.github-link__icon` + `aria-label`，不得带文字） | 迁移脚本：`scripts/design-system/nav-role-separation.mjs` / `nav-global-cleanup.mjs` / `footer-tools-standalone.mjs` / `github-icon-link.mjs`（L-40）；类名检测用前缀 `class="footer-tools` |
 | D | 反馈方式 | `assets/js/*.js` 中**不得**出现 `alert()` 调用（注释除外） | 产品反馈用 `window.mcUI.toast`（L-32） |
 | E | 首屏资源 | 初始 HTML（`index.html`、`*/index.html`）不得静态 `<script>` 引入 `onnxruntime` / `face-api` | AI 大库应在用户点击时 `ensureLibs()` 懒加载（ADR-0007 D5） |
 

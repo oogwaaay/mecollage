@@ -60,6 +60,22 @@
     <div class="container">
         <h1>Batch Compress Images</h1>
         <p class="subtitle">Compress a whole set, cap each file at a maximum KB, and download one ZIP.</p>
+        <nav class="tool-nav" aria-label="Tools">
+            <div class="tool-nav-container">
+                <a href="/" class="tool-nav-link"><i class="fas fa-home"></i> <span>Collage Maker</span></a>
+                <a href="/combine-images/" class="tool-nav-link"><i class="fas fa-object-group"></i> <span>Combine Images</span></a>
+                <a href="/split-image/" class="tool-nav-link"><i class="fas fa-scissors"></i> <span>Split Image</span></a>
+                <a href="/batch-compress/" class="tool-nav-link active"><i class="fas fa-compress"></i> <span>Batch Compress</span></a>
+                <a href="/freeform-collage/" class="tool-nav-link"><i class="fas fa-arrows-up-down-left-right"></i> <span>Freeform Collage</span></a>
+                    <span class="tool-nav-break" aria-hidden="true"></span>
+                <a href="/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span>Square Crop</span></a>
+                <a href="/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span>Rounded Corners</span></a>
+                <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span>Square Image</span></a>
+                <a href="/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span>Blurred Frame</span></a>
+                <a href="/tools/aspectratiocalculator/" class="tool-nav-link"><i class="fas fa-expand"></i> <span>Aspect Ratio</span></a>
+            </div>
+        </nav>
+
 
         <section class="batch-tool" id="batchTool" aria-label="Batch compress tool">
             <div class="batch-drop" id="batchDrop">
@@ -126,9 +142,14 @@
     <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
     <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
     <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+    <a href="/combine-images/">Combine Images</a>
+    <a href="/split-image/">Split Image</a>
+    <a href="/batch-compress/">Batch Compress</a>
+    <a href="/freeform-collage/">Freeform Collage</a>
             </nav>
 <script>window.MC_BATCH_I18N = { ready: '{n} images ready', working: 'processing…', done: 'Done: {n} files', saved: 'ZIP saved: {n} files', failed: 'failed', error: 'Choose at least one image.' };</script>
 <script src="/assets/js/batch-compress.js" defer></script>
+<script src="/assets/js/tool-nav-scroll.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

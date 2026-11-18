@@ -51,6 +51,22 @@
     <div class="container">
         <h1>이미지 일괄 압축</h1>
         <p class="subtitle">여러 이미지를 한 번에 줄이고, 최대 KB에 맞춰 ZIP으로 저장하세요.</p>
+        <nav class="tool-nav" aria-label="도구">
+            <div class="tool-nav-container">
+                <a href="/ko/" class="tool-nav-link"><i class="fas fa-home"></i> <span>콜라주 만들기</span></a>
+                <a href="/ko/combine-images/" class="tool-nav-link"><i class="fas fa-object-group"></i> <span>사진 합치기</span></a>
+                <a href="/ko/split-image/" class="tool-nav-link"><i class="fas fa-scissors"></i> <span>이미지 분할</span></a>
+                <a href="/ko/batch-compress/" class="tool-nav-link active"><i class="fas fa-compress"></i> <span>이미지 일괄 압축</span></a>
+                <a href="/freeform-collage/" class="tool-nav-link"><i class="fas fa-arrows-up-down-left-right"></i> <span>자유 콜라주</span></a>
+                    <span class="tool-nav-break" aria-hidden="true"></span>
+                <a href="/tools/squarecrop/" class="tool-nav-link"><i class="fas fa-crop-square"></i> <span>정사각형 자르기</span></a>
+                <a href="/tools/roundedcorners/" class="tool-nav-link"><i class="fas fa-border-radius"></i> <span>둥근 모서리</span></a>
+                <a href="/tools/square/" class="tool-nav-link"><i class="fas fa-square"></i> <span>정사각형 이미지</span></a>
+                <a href="/tools/blurredframe/" class="tool-nav-link"><i class="fas fa-image"></i> <span>블러 프레임</span></a>
+                <a href="/tools/aspectratiocalculator/" class="tool-nav-link"><i class="fas fa-expand"></i> <span>화면 비율</span></a>
+            </div>
+        </nav>
+
 
         <section class="batch-tool" id="batchTool" aria-label="일괄 압축 도구">
             <div class="batch-drop" id="batchDrop">
@@ -99,9 +115,14 @@
     <a href="/tools/square/" data-i18n="tool.square_image">Square Image</a>
     <a href="/tools/blurredframe/" data-i18n="tool.blurred_frame">Blurred Frame</a>
     <a href="/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Aspect Ratio Calculator</a>
+    <a href="/ko/combine-images/">사진 합치기</a>
+    <a href="/ko/split-image/">이미지 분할</a>
+    <a href="/ko/batch-compress/">이미지 일괄 압축</a>
+    <a href="/freeform-collage/">자유 콜라주</a>
             </nav>
 <script>window.MC_BATCH_I18N = { ready: '{n}장 준비됨', working: '처리 중…', done: '완료: {n}개 파일', saved: 'ZIP 저장됨: {n}개 파일', failed: '실패', error: '이미지를 하나 이상 선택하세요.' };</script>
 <script src="/assets/js/batch-compress.js" defer></script>
+<script src="/assets/js/tool-nav-scroll.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();
