@@ -64,7 +64,7 @@
         <figure class="localized-shot">
             <img src="/assets/images/localized/editor-zh.png" width="608" height="470" loading="lazy" decoding="async" alt="中文界面的 MeCollage 编辑器，四张照片横向拼接">
         </figure>
-        <a href="/zh/" class="cta-button"><i class="fas fa-plus"></i> 开始拼接</a>
+        <a href="/zh/?combine=1" class="cta-button" data-combine-start><i class="fas fa-plus"></i> 开始拼接</a>
 
         <div class="features">
             <div class="feature"><i class="fas fa-arrows-left-right"></i><h3>横向拼接</h3><p>高度自动对齐，拼出的横图上下边缘平直。</p></div>
@@ -104,7 +104,7 @@
             <div class="faq-item"><h3 class="faq-question">MeCollage 免费吗？</h3><p>免费。拼接、裁剪、滤镜、文字和导出都不收费，无需注册，也没有水印。</p></div>
         </div>
 
-        <a href="/zh/" class="cta-button"><i class="fas fa-plus"></i> 开始拼图</a>
+        <a href="/zh/?combine=1" class="cta-button" data-combine-start><i class="fas fa-plus"></i> 开始拼图</a>
     </div>
 
 <nav class="language-links" aria-label="语言版本" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
@@ -123,6 +123,7 @@
     <a href="/zh/tools/blurredframe/" data-i18n="tool.blurred_frame">模糊边框</a>
     <a href="/zh/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">宽高比计算器</a>
             </nav>
+<script src="/assets/js/combine-start.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

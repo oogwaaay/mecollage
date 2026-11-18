@@ -64,7 +64,7 @@
         <figure class="localized-shot">
             <img src="/assets/images/localized/editor-es.png" width="608" height="470" loading="lazy" decoding="async" alt="El editor de MeCollage en español con cuatro fotos lado a lado">
         </figure>
-        <a href="/es/" class="cta-button"><i class="fas fa-plus"></i> Combinar imágenes</a>
+        <a href="/es/?combine=1" class="cta-button" data-combine-start><i class="fas fa-plus"></i> Combinar imágenes</a>
 
         <div class="features">
             <div class="feature"><i class="fas fa-arrows-left-right"></i><h3>Lado a lado</h3><p>Las alturas se igualan para que la tira tenga bordes rectos.</p></div>
@@ -104,7 +104,7 @@
             <div class="faq-item"><h3 class="faq-question">¿MeCollage es gratis?</h3><p>Sí. Combinar, recortar, filtros, texto y exportación son gratis, sin registro y sin marca de agua.</p></div>
         </div>
 
-        <a href="/es/" class="cta-button"><i class="fas fa-plus"></i> Empezar a combinar</a>
+        <a href="/es/?combine=1" class="cta-button" data-combine-start><i class="fas fa-plus"></i> Empezar a combinar</a>
     </div>
 
 <nav class="language-links" aria-label="Versiones de idioma" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
@@ -123,6 +123,7 @@
     <a href="/es/tools/blurredframe/" data-i18n="tool.blurred_frame">Marco difuminado</a>
     <a href="/es/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">Calculadora de proporción</a>
             </nav>
+<script src="/assets/js/combine-start.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

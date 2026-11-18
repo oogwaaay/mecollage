@@ -102,6 +102,7 @@ const GROUP_TITLES = {
   split: '/split-image/（Split Image）',
   batch: '/batch-compress/（Batch Compress）',
   freeform: '/freeform-collage/（Freeform Collage）',
+  toolsnav: '工具入口（.tool-nav / Combine CTA）',
   coverage: '覆盖范围与人工确认项',
 };
 const GROUP_ORDER = Object.keys(GROUP_TITLES);
@@ -2715,6 +2716,51 @@ async function runFreeformGroup() {
   });
 }
 
+async function runToolsNavGroup() {
+  await runCase(page, {
+    id: 'NAV-01',
+    group: 'toolsnav',
+    page: '/',
+    name: '四个新工具进入 .tool-nav（首页 / 工具页 / 本地化）',
+    async fn(ctx) {
+      await gotoPage('/');
+      const home = await page.eval("({ hrefs: [...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname), breaks: document.querySelectorAll('.tool-nav-break').length, h: Math.round(document.querySelector('.tool-nav-container').getBoundingClientRect().height) })");
+      const expected = ['/combine-images/', '/split-image/', '/batch-compress/', '/freeform-collage/'];
+      ctx.check('首页 tool-nav 含 4 个新工具', expected.every((href) => home.hrefs.includes(href)), { actual: home.hrefs });
+      ctx.check('首页 tool-nav 分组 break = 1', home.breaks === 1, { actual: home.breaks });
+      ctx.check('桌面 nav 两行内（≤120px）', home.h <= 120, { actual: home.h });
+      await gotoPage('/tools/squarecrop/');
+      const tool = await page.eval("[...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname)");
+      ctx.check('工具页 tool-nav 含 4 个新工具', expected.every((href) => tool.includes(href)), { actual: tool });
+      await gotoPage('/zh/');
+      const zh = await page.eval("[...document.querySelectorAll('.tool-nav a')].map((a) => new URL(a.href, location.origin).pathname)");
+      const zhExpected = ['/zh/combine-images/', '/zh/split-image/', '/zh/batch-compress/', '/zh/freeform-collage/'];
+      ctx.check('[zh] tool-nav 用本地化路径', zhExpected.every((href) => zh.includes(href)), { actual: zh });
+    },
+  });
+
+  await runCase(page, {
+    id: 'NAV-02',
+    group: 'toolsnav',
+    page: '/combine-images/',
+    name: 'Combine CTA：?combine=1 回退 + 选图 handoff 到编辑器',
+    async fn(ctx) {
+      await gotoPage('/combine-images/');
+      const cta = await page.eval("(() => { const a = [...document.querySelectorAll('.cta-button')]; return { hrefs: a.map((x) => x.getAttribute('href')), start: a.filter((x) => x.hasAttribute('data-combine-start')).length, input: !!document.getElementById('combineFiles') }; })()");
+      ctx.check('两个 CTA 都带 ?combine=1 + data-combine-start', cta.hrefs.length === 2 && cta.hrefs.every((h) => h === '/?combine=1') && cta.start === 2, { actual: cta });
+      ctx.check('隐藏文件输入存在', cta.input === true, { actual: cta.input });
+      await page.setFiles('#combineFiles', [FIXTURES.landscape, FIXTURES.portrait]);
+      await page.waitFor("location.search.indexOf('handoff=1') !== -1", { timeoutMs: 20000 });
+      await page.waitFor("window.mecollage && window.mecollage.images && window.mecollage.images.length === 2", { timeoutMs: 20000 });
+      ctx.check('选图后进入编辑器且带 2 张图', true);
+      await ctx.screenshot('combine-handoff');
+      await gotoPage('/?combine=1');
+      const hint = await page.eval("(() => { const h = document.getElementById('mcCombineHint'); return h ? h.textContent.trim() : ''; })()");
+      ctx.check('?combine=1 显示拼接提示', /Combine mode/i.test(hint), { actual: hint });
+    },
+  });
+}
+
 async function runCoverageGroup() {
   await runCase(page, {
     id: 'ENV-01',
@@ -2968,6 +3014,7 @@ async function main() {
   await runSplitGroup();
   await runBatchGroup();
   await runFreeformGroup();
+  await runToolsNavGroup();
   await runCoverageGroup();
 
   // 5) 汇总与报告

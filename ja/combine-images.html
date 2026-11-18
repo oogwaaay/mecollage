@@ -64,7 +64,7 @@
         <figure class="localized-shot">
             <img src="/assets/images/localized/editor-ja.png" width="608" height="470" loading="lazy" decoding="async" alt="日本語インターフェースの MeCollage エディター。4枚の写真を横に並べたところ">
         </figure>
-        <a href="/ja/" class="cta-button"><i class="fas fa-plus"></i> 画像を結合する</a>
+        <a href="/ja/?combine=1" class="cta-button" data-combine-start><i class="fas fa-plus"></i> 画像を結合する</a>
 
         <div class="features">
             <div class="feature"><i class="fas fa-arrows-left-right"></i><h3>横に並べる</h3><p>高さが自動で揃うので、上下のフチがまっすぐになります。</p></div>
@@ -104,7 +104,7 @@
             <div class="faq-item"><h3 class="faq-question">MeCollageは無料ですか？</h3><p>無料です。結合・トリミング・フィルター・文字・書き出しはすべて無料で、登録も透かしもありません。</p></div>
         </div>
 
-        <a href="/ja/" class="cta-button"><i class="fas fa-plus"></i> 結合をはじめる</a>
+        <a href="/ja/?combine=1" class="cta-button" data-combine-start><i class="fas fa-plus"></i> 結合をはじめる</a>
     </div>
 
 <nav class="language-links" aria-label="言語版" style="max-width:1200px;margin:24px auto;padding:0 20px 32px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;font-size: var(--mc-font-size-label);">
@@ -123,6 +123,7 @@
     <a href="/ja/tools/blurredframe/" data-i18n="tool.blurred_frame">ぼかしフレーム</a>
     <a href="/ja/tools/aspectratiocalculator/" data-i18n="tool.aspect_ratio_calculator">アスペクト比計算</a>
             </nav>
+<script src="/assets/js/combine-start.js" defer></script>
 <script src="/assets/js/ui.js" defer></script>
 <script>
 (function(){const init=()=>{const webP=new Image();webP.onload=webP.onerror=function(){const isSupported=webP.height===2;if(isSupported)document.documentElement.classList.add('webp-supported');const bg=document.querySelector('.ghibli-background');if(bg){const isWebP=document.documentElement.classList.contains('webp-supported');bg.style.backgroundImage=isWebP?'url(/wallImage.webp)':'url(/wallImage.png)';}};webP.src='data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';};if('requestIdleCallback' in window)window.requestIdleCallback(init);else window.addEventListener('load',init,{once:true});})();

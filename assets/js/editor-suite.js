@@ -717,3 +717,53 @@
     }, 250);
   }
 })();
+
+/* Combine intent: a Combine Images CTA lands on the editor (?combine=1) and
+ * points at the upload area instead of the bare marketing homepage. */
+(function () {
+  if (!/[?&]combine=1/.test(location.search)) return;
+  var text = {
+    en: 'Combine mode: add 2 or more photos and they will be combined into one image.',
+    zh: '拼接模式：添加 2 张或更多照片，即可合成一张图片。',
+    tw: '拼接模式：加入 2 張或更多照片，即可合成一張圖片。',
+    ja: '結合モード：2 枚以上の写真を追加すると、1 枚の画像にまとまります。',
+    es: 'Modo combinar: añade 2 o más fotos y se unirán en una sola imagen.',
+    ko: '합치기 모드: 사진 2장 이상을 추가하면 한 장으로 합쳐집니다.'
+  };
+  function langKey() {
+    var l = (document.documentElement.lang || 'en').toLowerCase();
+    if (l.indexOf('zh-tw') === 0 || l.indexOf('zh-hant') === 0) return 'tw';
+    if (l.indexOf('zh') === 0) return 'zh';
+    if (l.indexOf('ja') === 0) return 'ja';
+    if (l.indexOf('es') === 0) return 'es';
+    if (l.indexOf('ko') === 0) return 'ko';
+    return 'en';
+  }
+  function show() {
+    var upload = document.getElementById('uploadArea');
+    if (!upload) return false;
+    var message = text[langKey()] || text.en;
+    if (upload.offsetParent === null) {
+      if (!window.__mcCombineHintShown) {
+        window.__mcCombineHintShown = true;
+        if (window.mcUI && typeof window.mcUI.toast === 'function') window.mcUI.toast(message, { type: 'info' });
+      }
+      return true;
+    }
+    if (!document.getElementById('mcCombineHint')) {
+      var host = document.getElementById('uploadContainer') || upload.parentNode;
+      var hint = document.createElement('p');
+      hint.id = 'mcCombineHint';
+      hint.className = 'mc-combine-hint';
+      hint.textContent = message;
+      host.insertBefore(hint, host.firstChild);
+      try { upload.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch (err) { upload.scrollIntoView(); }
+    }
+    return true;
+  }
+  var tries = 0;
+  var timer = setInterval(function () {
+    tries += 1;
+    if (show() || tries > 40) clearInterval(timer);
+  }, 250);
+})();
